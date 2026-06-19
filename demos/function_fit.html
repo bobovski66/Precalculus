@@ -83,10 +83,10 @@
     font-weight: 700;
   }
   #currentFormula {
-    font-family: Cambria Math, STIX Two Math, Georgia, serif;
     font-size: clamp(1.05rem, 2.2vw, 1.45rem);
     color: #111827;
     overflow-wrap: anywhere;
+    min-height: 2.2rem;
   }
   .panel {
     padding: 16px;
@@ -234,13 +234,23 @@
     canvas { height: 58vh; }
   }
 </style>
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
 </head>
 <body>
 <header>
   <h1>Precalculus Function Fit Lab</h1>
   <p class="subtitle">
     A hidden transformed parent function makes the data. Pick a parent function and tune
-    <span class="math">y = A·f(b(x − h)) + k</span> until your curve fits the point cloud.
+    \(y = A f(b(x-h))+k\) until your curve fits the point cloud.
   </p>
 </header>
 
@@ -249,13 +259,13 @@
     <canvas id="plot"></canvas>
     <div class="formula-card">
       <div class="formula-label">Current model</div>
-      <div id="currentFormula">y = f(x)</div>
+      <div id="currentFormula">\(y=f(x)\)</div>
     </div>
   </section>
 
   <aside class="card panel">
     <div>
-      <label for="family">Parent function <span class="math">f(x)</span></label>
+      <label for="family">Parent function \(f(x)\)</label>
       <select id="family"></select>
     </div>
 
@@ -509,48 +519,77 @@ function updateLabels() {
 }
 
 
-function signedNumber(v) {
-  const rounded = nice(v);
-  return v < 0 ? `− ${nice(Math.abs(v))}` : `+ ${rounded}`;
+
+function latexNum(v) {
+  const n = Number(nice(v));
+  if (Math.abs(n) < 1e-10) return "0";
+  return String(n);
 }
 
-function innerExpression(p) {
-  const b = nice(p.b);
-  const hAbs = nice(Math.abs(p.h));
-  let shift = "";
-  if (Math.abs(p.h) > 1e-9) shift = p.h > 0 ? ` − ${hAbs}` : ` + ${hAbs}`;
-  return `${b}(x${shift})`;
+function latexSigned(v) {
+  if (Math.abs(v) < 1e-10) return "";
+  return v < 0 ? ` - ${latexNum(Math.abs(v))}` : ` + ${latexNum(v)}`;
+}
+
+function latexInnerExpression(p) {
+  const b = latexNum(p.b);
+  const hPart = Math.abs(p.h) < 1e-10 ? "x" : (p.h > 0 ? `x-${latexNum(p.h)}` : `x+${latexNum(Math.abs(p.h))}`);
+  if (Math.abs(p.b - 1) < 1e-10) return hPart;
+  if (Math.abs(p.b + 1) < 1e-10) return `-\left(${hPart}\right)`;
+  return `${b}\left(${hPart}\right)`;
+}
+
+function transformedFormulaLatex(fam, p) {
+  const u = latexInnerExpression(p);
+  let body;
+  if (fam.id === "linear") body = `\left(${u}\right)`;
+  else if (fam.id === "quadratic") body = `\left(${u}\right)^2`;
+  else if (fam.id === "cubic") body = `\left(${u}\right)^3`;
+  else if (fam.id === "absolute") body = `\left|${u}\right|`;
+  else if (fam.id === "sqrt") body = `\sqrt{${u}}`;
+  else if (fam.id === "cuberoot") body = `\sqrt[3]{${u}}`;
+  else if (fam.id === "reciprocal") body = `\frac{1}{${u}}`;
+  else if (fam.id === "reciprocal2") body = `\frac{1}{\left(${u}\right)^2}`;
+  else if (fam.id === "exponential") body = `e^{${u}}`;
+  else if (fam.id === "log") body = `\ln\left(${u}\right)`;
+  else if (fam.id === "sine") body = `\sin\left(${u}\right)`;
+  else if (fam.id === "cosine") body = `\cos\left(${u}\right)`;
+  else if (fam.id === "tangent") body = `\tan\left(${u}\right)`;
+  else if (fam.id === "arctan") body = `\arctan\left(${u}\right)`;
+  else body = `f\left(${u}\right)`;
+
+  let front;
+  if (Math.abs(p.A - 1) < 1e-10) front = body;
+  else if (Math.abs(p.A + 1) < 1e-10) front = `-${body}`;
+  else front = `${latexNum(p.A)}${body}`;
+
+  return `y = ${front}${latexSigned(p.k)}`;
 }
 
 function transformedFormulaText(fam, p) {
-  const inside = innerExpression(p);
-  let body;
-  if (fam.id === "linear") body = `(${inside})`;
-  else if (fam.id === "quadratic") body = `(${inside})²`;
-  else if (fam.id === "cubic") body = `(${inside})³`;
-  else if (fam.id === "absolute") body = `|${inside}|`;
-  else if (fam.id === "sqrt") body = `√(${inside})`;
-  else if (fam.id === "cuberoot") body = `∛(${inside})`;
-  else if (fam.id === "reciprocal") body = `1/(${inside})`;
-  else if (fam.id === "reciprocal2") body = `1/(${inside})²`;
-  else if (fam.id === "exponential") body = `e^(${inside})`;
-  else if (fam.id === "log") body = `ln(${inside})`;
-  else if (fam.id === "sine") body = `sin(${inside})`;
-  else if (fam.id === "cosine") body = `cos(${inside})`;
-  else if (fam.id === "tangent") body = `tan(${inside})`;
-  else if (fam.id === "arctan") body = `arctan(${inside})`;
-  else body = `${fam.formula.replace("x", inside)}`;
-
-  const A = nice(p.A);
-  let formula = `y = ${A}·${body}`;
-  if (Math.abs(p.k) > 1e-9) formula += ` ${signedNumber(p.k)}`;
-  return formula;
+  return transformedFormulaLatex(fam, p)
+    .replaceAll("\left", "")
+    .replaceAll("\right", "")
+    .replaceAll("\frac{1}{", "1/(")
+    .replaceAll("\sqrt[3]{", "∛(")
+    .replaceAll("\sqrt{", "√(")
+    .replaceAll("\ln", "ln")
+    .replaceAll("\sin", "sin")
+    .replaceAll("\cos", "cos")
+    .replaceAll("\tan", "tan")
+    .replaceAll("\arctan", "arctan")
+    .replaceAll("{", "(")
+    .replaceAll("}", ")");
 }
 
 function updateFormula() {
   const fam = getFamily(familySelect.value);
   const p = currentParams();
-  document.getElementById("currentFormula").textContent = transformedFormulaText(fam, p);
+  const el = document.getElementById("currentFormula");
+  el.innerHTML = `\(${transformedFormulaLatex(fam, p)}\)`;
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([el]).catch(() => {});
+  }
 }
 
 function updateMetric() {
@@ -579,10 +618,14 @@ function updateMetric() {
 
   document.getElementById("answer").innerHTML =
     `Hidden family: ${target.fam.name}<br>` +
-    `Hidden model: ${transformedFormulaText(target.fam, target.p)}<br>` +
+    `Hidden model: \(${transformedFormulaLatex(target.fam, target.p)}\)<br>` +
     `A=${nice(target.p.A)}, b=${nice(target.p.b)}, h=${nice(target.p.h)}, k=${nice(target.p.k)}<br>` +
     `Noise floor RMSE ≈ ${nice(targetNoiseFloor())}<br>` +
     `Your RMSE ≈ ${Number.isFinite(r) ? nice(r) : "invalid domain"}`;
+  const ans = document.getElementById("answer");
+  if (ans.style.display === "block" && window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([ans]).catch(() => {});
+  }
 }
 
 function resizeCanvas() {
@@ -699,6 +742,12 @@ function drawResiduals(fam,p) {
   }
 }
 
+function typesetStaticMath() {
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise(document.body ? [document.body] : []).catch(() => {});
+  }
+}
+
 function update() {
   if (!target) return;
   resizeCanvas();
@@ -734,6 +783,7 @@ document.getElementById("toggleAnswer").addEventListener("click", () => {
 window.addEventListener("resize", update);
 
 generateData();
+window.addEventListener("load", () => setTimeout(typesetStaticMath, 150));
 </script>
 </body>
 </html>
