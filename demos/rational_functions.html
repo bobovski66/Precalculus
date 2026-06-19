@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Rational Function Zeros and Asymptotes Lab v3 Nicer Examples</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root {
+    --bg: #f7f7fb;
+    --card: #ffffff;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --good: #10b981;
+    --bad: #ef4444;
+    --warn: #f59e0b;
+    --grid: #e5e7eb;
+    --asym: #dc2626;
+    --zero: #2563eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 18px 22px 8px;
+  }
+  h1 {
+    margin: 0 0 6px;
+    font-size: clamp(1.35rem, 3vw, 2.1rem);
+  }
+  main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 12px 22px 28px;
+    display: grid;
+    grid-template-columns: minmax(360px, 1fr) 410px;
+    gap: 18px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15,23,42,.06);
+  }
+  .plot-card { padding: 14px; }
+  canvas {
+    width: 100%;
+    height: min(60vh, 620px);
+    min-height: 405px;
+    border-radius: 12px;
+    background: white;
+    display: block;
+    border: 1px solid #eef2f7;
+  }
+  .plot-tools {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .plot-tools button {
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #d1d5db;
+    font-weight: 750;
+  }
+  .plot-tools .hint {
+    color: var(--muted);
+    font-size: .85rem;
+    margin-left: 2px;
+  }
+  .formula-stack {
+    margin-top: 12px;
+    display: grid;
+    gap: 10px;
+  }
+  .formula-card {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+  }
+  .formula-label {
+    color: var(--muted);
+    font-size: .86rem;
+    margin-bottom: 5px;
+    font-weight: 750;
+  }
+  .formula {
+    font-size: clamp(1.0rem, 2vw, 1.35rem);
+    color: #111827;
+    min-height: 2.2rem;
+    overflow-wrap: anywhere;
+  }
+  .panel {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  label {
+    font-size: .9rem;
+    color: #374151;
+    font-weight: 700;
+  }
+  select, button, input[type="number"] { font: inherit; }
+  input[type="number"] {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: white;
+  }
+  .root-grid {
+    display: grid;
+    gap: 9px;
+  }
+  .root-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 8px;
+    align-items: end;
+    padding: 9px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+  }
+  .root-row button {
+    padding: 8px 10px;
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  .section-title {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+  }
+  .badge {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color: var(--muted);
+    font-size:.82rem;
+    font-weight:700;
+  }
+  .dot {
+    width:11px;
+    height:11px;
+    border-radius:50%;
+    display:inline-block;
+  }
+  .dot.zero { background: var(--zero); }
+  .dot.asym { background: var(--asym); }
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  button {
+    border: 0;
+    border-radius: 11px;
+    padding: 10px 12px;
+    cursor: pointer;
+    background: #e5e7eb;
+    color: #111827;
+    font-weight: 750;
+  }
+  button.primary { background: var(--accent); color: white; }
+  button.good { background: var(--good); color: white; }
+  button.ghost { background: white; border: 1px solid #d1d5db; }
+  .metric {
+    border-radius: 14px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+  }
+  .metric strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+  .meter {
+    height: 13px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--bad), var(--warn), var(--good));
+    transition: width .2s;
+  }
+  .status {
+    padding: 11px 12px;
+    border-radius: 12px;
+    font-weight: 850;
+    text-align: center;
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  .status.close {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  .status.win {
+    background: #d1fae5;
+    color: #065f46;
+  }
+  .small {
+    color: var(--muted);
+    font-size: .88rem;
+    line-height: 1.35;
+  }
+  .teacher {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 12px;
+  }
+  .hidden-answer {
+    display: none;
+    background: #f1f5f9;
+    border: 1px dashed #94a3b8;
+    padding: 10px;
+    border-radius: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .9rem;
+    line-height: 1.45;
+  }
+  .toggles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  @media (max-width: 920px) {
+    main { grid-template-columns: 1fr; }
+    canvas { height: 56vh; }
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Rational Function Zeros and Asymptotes Lab</h1>
+</header>
+
+<main>
+  <section class="card plot-card">
+    <canvas id="plot"></canvas>
+
+    <div class="plot-tools">
+      <button id="zoomIn" type="button">Zoom in</button>
+      <button id="zoomOut" type="button">Zoom out</button>
+      <button id="zoomFeatures" type="button">Zoom to features</button>
+      <button id="resetZoom" type="button">Reset view</button>
+      <span class="hint">Mouse wheel zooms at cursor. Drag to pan.</span>
+    </div>
+
+    <div class="formula-stack">
+      <div class="formula-card">
+        <div class="formula-label">Current factored form</div>
+        <div id="factoredFormula" class="formula">\(y=\frac{(x-r_1)\cdots}{(x-a_1)\cdots}\)</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-label">Current expanded form</div>
+        <div id="expandedFormula" class="formula">\(y=\frac{\cdots}{\cdots}\)</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-label">Current degrees and end behavior</div>
+        <div id="degreeDisplay" class="formula">\(0/0\)</div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="card panel">
+    <div>
+      <label for="difficulty">Example style</label>
+      <select id="difficulty">
+        <option value="gentle" selected>Gentle: cleaner classroom examples</option>
+        <option value="standard">Standard: moderate variety</option>
+        <option value="challenge">Challenge: more complicated behavior</option>
+      </select>
+    </div>
+
+    <div>
+      <div class="section-title">
+        <label>Zeros of numerator</label>
+        <span class="badge"><span class="dot zero"></span> zeros</span>
+      </div>
+      <div id="zeroRows" class="root-grid"></div>
+    </div>
+
+    <div>
+      <div class="section-title">
+        <label>Vertical asymptotes</label>
+        <span class="badge"><span class="dot asym"></span> asymptotes</span>
+      </div>
+      <div id="asymRows" class="root-grid"></div>
+    </div>
+
+    <div class="buttons">
+      <button class="ghost" id="addZero">Add zero</button>
+      <button class="ghost" id="addAsym">Add asymptote</button>
+      <button class="ghost" id="resetGuess">Reset guess</button>
+      <button class="primary" id="newData">New rational</button>
+      <button class="good" id="checkFit">Check fit</button>
+    </div>
+
+    <div class="toggles">
+      <label class="small"><input type="checkbox" id="showResiduals"> residuals</label>
+      <label class="small"><input type="checkbox" id="showTarget"> target curve</label>
+    </div>
+
+    <div class="metric">
+      <strong>Fit score: <span id="score">0%</span></strong>
+      <span class="small">Score is based on zeros, vertical asymptotes, multiplicities, and overall fit. Colored marks are targets; gray marks are your guesses.</span>
+      <div class="meter"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <div id="status" class="status">Start fitting.</div>
+
+    <div class="teacher">
+      <button class="ghost" id="toggleAnswer" style="width:100%; margin-bottom:10px;">Teacher key</button>
+      <div id="answer" class="hidden-answer"></div>
+    </div>
+  </aside>
+</main>
+
+<script>
+const canvas = document.getElementById("plot");
+const ctx = canvas.getContext("2d");
+const zeroRows = document.getElementById("zeroRows");
+const asymRows = document.getElementById("asymRows");
+
+let target = null;
+let data = [];
+let view = { xmin:-7, xmax:7, ymin:-10, ymax:10 };
+let homeView = { xmin:-7, xmax:7, ymin:-10, ymax:10 };
+let isDragging = false;
+let dragStart = null;
+let dragStartView = null;
+
+let guessZeros = [];
+let guessAsyms = [];
+
+function rand(a,b){ return a + Math.random()*(b-a); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function normalish(scale=1){
+  return scale*(Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()-3)/3;
+}
+function nice(x) {
+  if (!Number.isFinite(x)) return "0";
+  const ax = Math.abs(x);
+  if (ax >= 100) return x.toFixed(0);
+  if (ax >= 10) return x.toFixed(1);
+  if (ax >= 1) return x.toFixed(2).replace(/\.?0+$/,"");
+  return x.toFixed(3).replace(/\.?0+$/,"");
+}
+function latexNum(x) {
+  const s = nice(x);
+  return s === "-0" ? "0" : s;
+}
+function degreeOf(factors) {
+  return factors.reduce((s,r)=>s+r.mult, 0);
+}
+function simplifyFactors(factors) {
+  const map = new Map();
+  for (const r of factors) {
+    const rr = parseInt(r.root);
+    const mm = parseInt(r.mult);
+    if (!Number.isFinite(rr) || !Number.isFinite(mm) || mm <= 0) continue;
+    map.set(rr, (map.get(rr)||0) + mm);
+  }
+  return [...map.entries()]
+    .map(([root,mult]) => ({root, mult}))
+    .sort((a,b)=>a.root-b.root);
+}
+function noSharedFactors(zeros, asyms) {
+  const a = new Set(zeros.map(z=>z.root));
+  return asyms.every(v => !a.has(v.root));
+}
+function evalProduct(x, factors) {
+  let y = 1;
+  for (const r of factors) {
+    y *= Math.pow(x - r.root, r.mult);
+    if (!Number.isFinite(y) || Math.abs(y)>1e12) return NaN;
+  }
+  return y;
+}
+function evalRational(x, zeros, asyms) {
+  const den = evalProduct(x, asyms);
+  if (!Number.isFinite(den) || Math.abs(den) < 1e-7) return NaN;
+  const num = evalProduct(x, zeros);
+  const y = num / den;
+  if (!Number.isFinite(y) || Math.abs(y)>1e8) return NaN;
+  return y;
+}
+function polyMultiply(p, q) {
+  const out = Array(p.length + q.length - 1).fill(0);
+  for (let i=0;i<p.length;i++) {
+    for (let j=0;j<q.length;j++) out[i+j] += p[i]*q[j];
+  }
+  return out;
+}
+function coefficientsFromFactors(factors) {
+  let coeff = [1];
+  for (const r of factors) {
+    for (let m=0;m<r.mult;m++) {
+      coeff = polyMultiply(coeff, [-r.root, 1]);
+    }
+  }
+  return coeff;
+}
+
+function separatedFromAll(root, used, minSep) {
+  return used.every(u => Math.abs(root-u) >= minSep);
+}
+
+function randomFactors(targetDegree, pool, alreadyUsed=[], options={}) {
+  const minSep = options.minSep ?? 2;
+  const maxMult = options.maxMult ?? 2;
+  const repeatedChance = options.repeatedChance ?? 0.25;
+
+  let roots = [];
+  let used = [...alreadyUsed];
+  let remaining = targetDegree;
+
+  while (remaining > 0) {
+    const available = pool.filter(r => !used.includes(r) && separatedFromAll(r, used, minSep));
+    if (!available.length) break;
+
+    const root = choice(available);
+    used.push(root);
+
+    let mult = 1;
+    if (remaining >= 2 && maxMult >= 2 && Math.random() < repeatedChance) mult = 2;
+    if (remaining >= 3 && maxMult >= 3 && Math.random() < repeatedChance*0.35) mult = 3;
+    mult = Math.min(mult, remaining, maxMult);
+
+    roots.push({root, mult});
+    remaining -= mult;
+  }
+
+  // If we undershoot because separation was too strict, add multiplicity to existing factors.
+  while (remaining > 0 && roots.length > 0) {
+    const candidates = roots.filter(r => r.mult < maxMult);
+    if (!candidates.length) break;
+    choice(candidates).mult += 1;
+    remaining--;
+  }
+
+  return simplifyFactors(roots);
+}
+
+function difficultySettings() {
+  const level = document.getElementById("difficulty")?.value || "gentle";
+  if (level === "challenge") {
+    return {
+      patterns: [
+        {n:1,d:1}, {n:2,d:1}, {n:1,d:2}, {n:2,d:2},
+        {n:3,d:2}, {n:2,d:3}, {n:3,d:3}
+      ],
+      minSep: 1,
+      maxMult: 3,
+      repeatedChance: 0.45,
+      yLimit: 45,
+      avoidAsym: 0.10,
+      noiseBase: 0.06,
+      noiseSlope: 0.010
+    };
+  }
+  if (level === "standard") {
+    return {
+      patterns: [
+        {n:1,d:1}, {n:1,d:2}, {n:2,d:1}, {n:2,d:2},
+        {n:2,d:3}, {n:3,d:2}
+      ],
+      minSep: 2,
+      maxMult: 2,
+      repeatedChance: 0.32,
+      yLimit: 32,
+      avoidAsym: 0.14,
+      noiseBase: 0.045,
+      noiseSlope: 0.007
+    };
+  }
+  return {
+    // Gentle mode: mostly one or two zeros/asymptotes, separated, low multiplicity.
+    // These are much better for first exposure.
+    patterns: [
+      {n:1,d:1}, {n:1,d:1}, {n:1,d:2}, {n:2,d:1},
+      {n:2,d:2}
+    ],
+    minSep: 2,
+    maxMult: 2,
+    repeatedChance: 0.22,
+    yLimit: 24,
+    avoidAsym: 0.20,
+    noiseBase: 0.025,
+    noiseSlope: 0.004
+  };
+}
+
+function randomTarget() {
+  const settings = difficultySettings();
+  const pat = choice(settings.patterns);
+  const possible = [-5,-4,-3,-2,-1,0,1,2,3,4,5];
+
+  let zeros, asyms, tries = 0;
+  do {
+    tries++;
+    const center = choice([-2,-1,0,1,2]);
+    const pool = possible.filter(r => Math.abs(r-center)<=5);
+
+    zeros = randomFactors(pat.n, pool, [], settings);
+    asyms = randomFactors(pat.d, pool, zeros.map(z=>z.root), settings);
+  } while (
+    (!zeros.length || !asyms.length || !noSharedFactors(zeros,asyms) ||
+     degreeOf(zeros) !== pat.n || degreeOf(asyms) !== pat.d)
+    && tries < 120
+  );
+
+  return { zeros:simplifyFactors(zeros), asyms:simplifyFactors(asyms) };
+}
+
+function generateData() {
+  let attempts = 0;
+  const settings = difficultySettings();
+
+  do {
+    attempts++;
+    target = randomTarget();
+    data = [];
+
+    const features = [...target.zeros.map(z=>z.root), ...target.asyms.map(a=>a.root)];
+    const fmin = Math.min(...features);
+    const fmax = Math.max(...features);
+    const xlo = Math.max(-7, fmin - 2.5);
+    const xhi = Math.min(7, fmax + 2.5);
+
+    const xs = [];
+    for (let i=0;i<145;i++) {
+      const x = xlo + (xhi-xlo)*i/144;
+      if (target.asyms.some(a => Math.abs(x-a.root) < settings.avoidAsym)) continue;
+      xs.push(x);
+    }
+
+    for (const x of xs) {
+      const y0 = evalRational(x, target.zeros, target.asyms);
+      if (!Number.isFinite(y0) || Math.abs(y0)>settings.yLimit) continue;
+      const noise = normalish(settings.noiseBase + settings.noiseSlope*Math.min(12,Math.abs(y0)));
+      const y = y0 + noise;
+      if (Number.isFinite(y) && Math.abs(y)<settings.yLimit*1.05) data.push({x,y,y0});
+    }
+  } while (data.length < 62 && attempts < 140);
+
+  setView();
+  resetGuess();
+  update();
+}
+
+function setView() {
+  const xs = data.map(d=>d.x), ys=data.map(d=>d.y);
+  const xmin = Math.min(...xs), xmax = Math.max(...xs);
+  const ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const yPad = Math.max(2.0, (ymax-ymin)*0.14);
+  const xPad = Math.max(0.5, (xmax-xmin)*0.06);
+  view = { xmin:xmin-xPad, xmax:xmax+xPad, ymin:ymin-yPad, ymax:ymax+yPad };
+  if (view.ymin > 0) view.ymin = -1;
+  if (view.ymax < 0) view.ymax = 1;
+  homeView = {...view};
+}
+
+function addFactorRow(kind, root=0, mult=1) {
+  const arr = kind === "zero" ? guessZeros : guessAsyms;
+  arr.push({root, mult});
+  renderRows();
+  update();
+}
+
+function renderRows() {
+  renderFactorRows(zeroRows, guessZeros, "zero");
+  renderFactorRows(asymRows, guessAsyms, "asym");
+}
+function renderFactorRows(container, arr, kind) {
+  container.innerHTML = "";
+  arr.forEach((r, idx) => {
+    const row = document.createElement("div");
+    row.className = "root-row";
+
+    const rootBox = document.createElement("div");
+    const rootLab = document.createElement("label");
+    rootLab.textContent = kind === "zero" ? "Zero" : "Asymptote";
+    const rootInput = document.createElement("input");
+    rootInput.type = "number";
+    rootInput.step = "1";
+    rootInput.min = "-8";
+    rootInput.max = "8";
+    rootInput.value = r.root;
+    rootInput.addEventListener("input", () => {
+      arr[idx].root = parseInt(rootInput.value || "0");
+      update();
+    });
+    rootBox.append(rootLab, rootInput);
+
+    const multBox = document.createElement("div");
+    const multLab = document.createElement("label");
+    multLab.textContent = "Multiplicity";
+    const multInput = document.createElement("input");
+    multInput.type = "number";
+    multInput.step = "1";
+    multInput.min = "1";
+    multInput.max = "5";
+    multInput.value = r.mult;
+    multInput.addEventListener("input", () => {
+      arr[idx].mult = Math.max(1, Math.min(5, parseInt(multInput.value || "1")));
+      update();
+    });
+    multBox.append(multLab, multInput);
+
+    const del = document.createElement("button");
+    del.textContent = "×";
+    del.title = "Remove";
+    del.addEventListener("click", () => {
+      arr.splice(idx,1);
+      renderRows();
+      update();
+    });
+
+    row.append(rootBox, multBox, del);
+    container.appendChild(row);
+  });
+}
+function resetGuess() {
+  guessZeros = [{root:0, mult:1}];
+  guessAsyms = [{root:1, mult:1}];
+  renderRows();
+  update();
+}
+function getGuessZeros() { return simplifyFactors(guessZeros); }
+function getGuessAsyms() { return simplifyFactors(guessAsyms); }
+
+function rmseFor(zeros, asyms) {
+  let s=0, n=0, bad=0;
+  for (const d of data) {
+    if (asyms.some(a => Math.abs(d.x - a.root) < 0.07)) {
+      bad++;
+      continue;
+    }
+    const yhat = evalRational(d.x, zeros, asyms);
+    if (!Number.isFinite(yhat) || Math.abs(yhat)>1e6) return Infinity;
+    s += (yhat-d.y)*(yhat-d.y);
+    n++;
+  }
+  if (n < data.length*0.65) return Infinity;
+  return Math.sqrt(s/n) + bad*0.05;
+}
+function targetNoiseFloor() {
+  let s=0;
+  for (const d of data) s += (d.y-d.y0)*(d.y-d.y0);
+  return Math.sqrt(s/data.length);
+}
+function factorMismatchPenalty(guess, targ, weightMissing, weightMult, weightExtra) {
+  const gm = new Map(guess.map(r => [r.root, r.mult]));
+  const tm = new Map(targ.map(r => [r.root, r.mult]));
+  let penalty = 0;
+  for (const [r,m] of tm.entries()) {
+    if (!gm.has(r)) penalty += weightMissing;
+    else penalty += weightMult * Math.abs(gm.get(r)-m);
+  }
+  for (const [r,m] of gm.entries()) {
+    if (!tm.has(r)) penalty += weightExtra;
+  }
+  return penalty;
+}
+function exactFactorsMatch(guess, targ) {
+  const g = simplifyFactors(guess), t = simplifyFactors(targ);
+  if (g.length !== t.length) return false;
+  for (let i=0;i<g.length;i++) {
+    if (g[i].root !== t[i].root || g[i].mult !== t[i].mult) return false;
+  }
+  return true;
+}
+function scoreFor(zeros, asyms) {
+  const r = rmseFor(zeros, asyms);
+  if (!Number.isFinite(r)) return 0;
+  const floor = targetNoiseFloor();
+  const rmseScale = Math.max(1.0, 11*floor);
+  const rmseScore = 100 * Math.exp(-Math.max(0, r-floor)/rmseScale);
+
+  const pZeros = factorMismatchPenalty(zeros, target.zeros, 18, 8, 12);
+  const pAsyms = factorMismatchPenalty(asyms, target.asyms, 24, 9, 18);
+  let score = rmseScore - pZeros - pAsyms;
+
+  if (exactFactorsMatch(zeros,target.zeros) && exactFactorsMatch(asyms,target.asyms)) {
+    score = Math.max(score, 90);
+  }
+  return Math.max(0, Math.min(100, score));
+}
+
+function chooseStep(span) {
+  const raw = span / 8;
+  const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+  const m = raw / pow;
+  if (m < 1.5) return pow;
+  if (m < 3.5) return 2*pow;
+  if (m < 7.5) return 5*pow;
+  return 10*pow;
+}
+function formatTick(v) {
+  if (Math.abs(v) < 1e-9) return "0";
+  if (Math.abs(v) >= 10) return v.toFixed(0);
+  return Number(v.toFixed(1)).toString();
+}
+function resizeCanvas() {
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = Math.round(rect.width * ratio);
+  canvas.height = Math.round(rect.height * ratio);
+  ctx.setTransform(ratio,0,0,ratio,0,0);
+}
+function X(x) {
+  const rect = canvas.getBoundingClientRect();
+  return (x-view.xmin)/(view.xmax-view.xmin)*rect.width;
+}
+function Y(y) {
+  const rect = canvas.getBoundingClientRect();
+  return rect.height - (y-view.ymin)/(view.ymax-view.ymin)*rect.height;
+}
+function canvasPointToWorld(clientX, clientY) {
+  const rect = canvas.getBoundingClientRect();
+  const px = clientX - rect.left;
+  const py = clientY - rect.top;
+  const x = view.xmin + (px / rect.width) * (view.xmax - view.xmin);
+  const y = view.ymax - (py / rect.height) * (view.ymax - view.ymin);
+  return {x, y, px, py, width:rect.width, height:rect.height};
+}
+function zoomAt(worldX, worldY, factor) {
+  const xSpan = view.xmax - view.xmin;
+  const ySpan = view.ymax - view.ymin;
+  const newXSpan = xSpan * factor;
+  const newYSpan = ySpan * factor;
+  const xRatio = (worldX - view.xmin) / xSpan;
+  const yRatio = (worldY - view.ymin) / ySpan;
+  view = {
+    xmin: worldX - xRatio * newXSpan,
+    xmax: worldX + (1 - xRatio) * newXSpan,
+    ymin: worldY - yRatio * newYSpan,
+    ymax: worldY + (1 - yRatio) * newYSpan
+  };
+  update();
+}
+function zoomCenter(factor) {
+  const cx = (view.xmin + view.xmax) / 2;
+  const cy = (view.ymin + view.ymax) / 2;
+  zoomAt(cx, cy, factor);
+}
+function resetZoomView() {
+  view = {...homeView};
+  update();
+}
+function zoomToFeaturesView() {
+  const features = [...target.zeros.map(z=>z.root), ...target.asyms.map(a=>a.root)];
+  if (!features.length) return;
+  const xmin = Math.min(...features) - 1.3;
+  const xmax = Math.max(...features) + 1.3;
+  let ys = [];
+  for (let i=0;i<320;i++) {
+    const x = xmin + (xmax-xmin)*i/319;
+    if (target.asyms.some(a => Math.abs(x-a.root)<0.08)) continue;
+    const yt = evalRational(x, target.zeros, target.asyms);
+    const yg = evalRational(x, getGuessZeros(), getGuessAsyms());
+    if (Number.isFinite(yt) && Math.abs(yt)<60) ys.push(yt);
+    if (Number.isFinite(yg) && Math.abs(yg)<60) ys.push(yg);
+  }
+  if (!ys.length) return;
+  let ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const yPad = Math.max(1.0, (ymax-ymin)*0.20);
+  ymin -= yPad; ymax += yPad;
+  if (ymin > 0) ymin = -0.8;
+  if (ymax < 0) ymax = 0.8;
+  view = {xmin, xmax, ymin, ymax};
+  update();
+}
+
+function drawGrid() {
+  const rect = canvas.getBoundingClientRect();
+  ctx.clearRect(0,0,rect.width,rect.height);
+  ctx.fillStyle = "white";
+  ctx.fillRect(0,0,rect.width,rect.height);
+
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#e5e7eb";
+  ctx.fillStyle = "#6b7280";
+  ctx.font = "12px system-ui";
+
+  const xStep = chooseStep(view.xmax-view.xmin);
+  const yStep = chooseStep(view.ymax-view.ymin);
+  for (let x=Math.ceil(view.xmin/xStep)*xStep; x<=view.xmax; x+=xStep) {
+    ctx.beginPath(); ctx.moveTo(X(x),0); ctx.lineTo(X(x),rect.height); ctx.stroke();
+    if (Math.abs(x)>1e-9 && Y(0)>10 && Y(0)<rect.height-10) ctx.fillText(formatTick(x), X(x)+3, Y(0)-4);
+  }
+  for (let y=Math.ceil(view.ymin/yStep)*yStep; y<=view.ymax; y+=yStep) {
+    ctx.beginPath(); ctx.moveTo(0,Y(y)); ctx.lineTo(rect.width,Y(y)); ctx.stroke();
+    if (Math.abs(y)>1e-9 && X(0)>10 && X(0)<rect.width-10) ctx.fillText(formatTick(y), X(0)+4, Y(y)-3);
+  }
+
+  ctx.strokeStyle = "#111827";
+  ctx.lineWidth = 1.5;
+  if (view.ymin < 0 && view.ymax > 0) {
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(rect.width,Y(0)); ctx.stroke();
+  }
+  if (view.xmin < 0 && view.xmax > 0) {
+    ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),rect.height); ctx.stroke();
+  }
+}
+
+function drawRationalCurve(zeros, asyms, style) {
+  const rect = canvas.getBoundingClientRect();
+  ctx.strokeStyle = style.stroke;
+  ctx.lineWidth = style.width;
+  ctx.setLineDash(style.dash || []);
+  let drawing=false;
+  ctx.beginPath();
+  const steps=1600;
+  let lastY = null;
+  for (let i=0;i<=steps;i++) {
+    const x = view.xmin + (view.xmax-view.xmin)*i/steps;
+    const nearAsym = asyms.some(a => Math.abs(x-a.root) < (view.xmax-view.xmin)/steps*2.5);
+    const y = nearAsym ? NaN : evalRational(x, zeros, asyms);
+    const px = X(x), py = Y(y);
+    const ok = Number.isFinite(y) && py > -400 && py < rect.height+400 && (lastY === null || Math.abs(y-lastY) < (view.ymax-view.ymin)*2.5);
+    if (ok) {
+      if (!drawing) { ctx.moveTo(px,py); drawing=true; }
+      else ctx.lineTo(px,py);
+      lastY = y;
+    } else {
+      if (drawing) { ctx.stroke(); ctx.beginPath(); drawing=false; }
+      lastY = null;
+    }
+  }
+  if (drawing) ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawPoints() {
+  ctx.fillStyle = "#111827";
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 1.5;
+  for (const d of data) {
+    ctx.beginPath();
+    ctx.arc(X(d.x),Y(d.y),3.2,0,Math.PI*2);
+    ctx.fill();
+    ctx.stroke();
+  }
+}
+function drawResiduals(zeros,asyms) {
+  if (!document.getElementById("showResiduals").checked) return;
+  ctx.strokeStyle = "rgba(239,68,68,.55)";
+  ctx.lineWidth = 1.1;
+  for (const d of data) {
+    const yhat = evalRational(d.x, zeros, asyms);
+    if (!Number.isFinite(yhat) || Math.abs(yhat)>1e4) continue;
+    ctx.beginPath();
+    ctx.moveTo(X(d.x),Y(d.y));
+    ctx.lineTo(X(d.x),Y(yhat));
+    ctx.stroke();
+  }
+}
+function factorColor(i, kind) {
+  const zeros = ["#2563eb", "#0ea5e9", "#4f46e5", "#0891b2"];
+  const asyms = ["#dc2626", "#e11d48", "#f97316", "#b91c1c"];
+  return (kind === "zero" ? zeros : asyms)[i % 4];
+}
+function drawGuides() {
+  const axisY = Y(0);
+  const rect = canvas.getBoundingClientRect();
+
+  target.asyms.forEach((a,i) => {
+    const px = X(a.root);
+    if (px < -20 || px > rect.width+20) return;
+
+    // target vertical asymptote: strong red dashed line
+    ctx.beginPath();
+    ctx.strokeStyle = factorColor(i,"asym");
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([8,6]);
+    ctx.moveTo(px,0);
+    ctx.lineTo(px,rect.height);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = factorColor(i,"asym");
+    ctx.font = "bold 12px system-ui";
+    ctx.fillText(`target x=${a.root}`, px+5, 18);
+  });
+
+  target.zeros.forEach((z,i) => {
+    const px = X(z.root);
+    if (px < -10 || px > rect.width+10) return;
+
+    // target zero: filled blue dot on x-axis
+    ctx.beginPath();
+    ctx.arc(px, axisY, 8.5, 0, Math.PI*2);
+    ctx.fillStyle = factorColor(i,"zero");
+    ctx.fill();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = "white";
+    ctx.stroke();
+
+    ctx.fillStyle = factorColor(i,"zero");
+    ctx.font = "bold 12px system-ui";
+    ctx.fillText(`target ${z.root}`, px - 12, axisY + 24);
+  });
+}
+
+function drawStudentMarkers() {
+  const axisY = Y(0);
+  const rect = canvas.getBoundingClientRect();
+
+  getGuessAsyms().forEach((a,i) => {
+    const px = X(a.root);
+    if (px < -20 || px > rect.width+20) return;
+
+    // student asymptote guess: gray dotted line, visually distinct from target
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(17,24,39,.65)";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([2,5]);
+    ctx.moveTo(px,0);
+    ctx.lineTo(px,rect.height);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = "rgba(17,24,39,.85)";
+    ctx.font = "12px system-ui";
+    ctx.fillText(`guess x=${a.root}, m=${a.mult}`, px+6, rect.height-12);
+  });
+
+  getGuessZeros().forEach((z,i) => {
+    const px = X(z.root);
+    if (px < -10 || px > rect.width+10) return;
+
+    // student zero guess: open ring above x-axis
+    ctx.beginPath();
+    ctx.arc(px, axisY - 16, 7, 0, Math.PI*2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = "rgba(17,24,39,.80)";
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(17,24,39,.85)";
+    ctx.font = "12px system-ui";
+    ctx.fillText(`guess m=${z.mult}`, px+9, axisY-18);
+  });
+}
+
+function latexFactor(root, mult) {
+  let base;
+  if (root === 0) base = "x";
+  else if (root > 0) base = `(x-${root})`;
+  else base = `(x+${Math.abs(root)})`;
+  return mult === 1 ? base : `${base}^{${mult}}`;
+}
+function factoredLatex(zeros, asyms) {
+  const num = simplifyFactors(zeros).map(r=>latexFactor(r.root,r.mult)).join("") || "1";
+  const den = simplifyFactors(asyms).map(r=>latexFactor(r.root,r.mult)).join("") || "1";
+  return `y=\\frac{${num}}{${den}}`;
+}
+function polyLatexFromCoeff(coeff) {
+  let terms = [];
+  for (let i=coeff.length-1; i>=0; i--) {
+    const c = coeff[i];
+    if (Math.abs(c) < 1e-9) continue;
+    const sign = c < 0 ? "-" : "+";
+    const absC = Math.abs(c);
+    let coef = "";
+    if (i === 0) coef = latexNum(absC);
+    else if (Math.abs(absC-1) < 1e-10) coef = "";
+    else coef = latexNum(absC);
+    let power = i === 0 ? "" : i === 1 ? "x" : `x^{${i}}`;
+    terms.push({sign, text:`${coef}${power}`});
+  }
+  if (!terms.length) return "0";
+  let out = "";
+  terms.forEach((t,idx) => {
+    if (idx === 0) out += (t.sign === "-" ? "-" : "") + t.text;
+    else out += ` ${t.sign} ${t.text}`;
+  });
+  return out;
+}
+function expandedLatex(zeros, asyms) {
+  const num = polyLatexFromCoeff(coefficientsFromFactors(simplifyFactors(zeros)));
+  const den = polyLatexFromCoeff(coefficientsFromFactors(simplifyFactors(asyms)));
+  return `y=\\frac{${num}}{${den}}`;
+}
+function endBehaviorLatex(zeros, asyms) {
+  const n = degreeOf(zeros);
+  const d = degreeOf(asyms);
+  if (n < d) return `\\deg N=${n},\\ \\deg D=${d},\\ y\\to 0`;
+  if (n === d) return `\\deg N=${n},\\ \\deg D=${d},\\ y\\to 1`;
+  if (n === d+1) return `\\deg N=${n},\\ \\deg D=${d},\\ \\text{slant behavior}`;
+  return `\\deg N=${n},\\ \\deg D=${d},\\ \\text{polynomial end behavior}`;
+}
+function updateFormulas() {
+  const zeros = getGuessZeros();
+  const asyms = getGuessAsyms();
+  const fact = document.getElementById("factoredFormula");
+  const exp = document.getElementById("expandedFormula");
+  const deg = document.getElementById("degreeDisplay");
+  fact.innerHTML = `\\(${factoredLatex(zeros,asyms)}\\)`;
+  exp.innerHTML = `\\(${expandedLatex(zeros,asyms)}\\)`;
+  deg.innerHTML = `\\(${endBehaviorLatex(zeros,asyms)}\\)`;
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([fact,exp,deg]).catch(() => {});
+  }
+}
+
+function factorDifferenceMessage(guess, target, label) {
+  const g = new Map(simplifyFactors(guess).map(r => [r.root, r.mult]));
+  const t = new Map(simplifyFactors(target).map(r => [r.root, r.mult]));
+  const missing = [];
+  const extra = [];
+  const wrongMult = [];
+
+  for (const [r,m] of t.entries()) {
+    if (!g.has(r)) missing.push(r);
+    else if (g.get(r) !== m) wrongMult.push(`${r}`);
+  }
+  for (const [r,m] of g.entries()) {
+    if (!t.has(r)) extra.push(r);
+  }
+
+  let parts = [];
+  if (missing.length) parts.push(`missing ${label}: ${missing.join(", ")}`);
+  if (extra.length) parts.push(`extra ${label}: ${extra.join(", ")}`);
+  if (wrongMult.length) parts.push(`check multiplicity at ${wrongMult.join(", ")}`);
+  return parts.join("; ");
+}
+
+function updateMetric() {
+  const zeros = getGuessZeros();
+  const asyms = getGuessAsyms();
+  const rmse = rmseFor(zeros,asyms);
+  const score = scoreFor(zeros,asyms);
+  document.getElementById("score").textContent = Math.round(score) + "%";
+  document.getElementById("fill").style.width = score + "%";
+
+  const zMatch = exactFactorsMatch(zeros,target.zeros);
+  const aMatch = exactFactorsMatch(asyms,target.asyms);
+  const status = document.getElementById("status");
+  const noise = targetNoiseFloor();
+  const achieved = zMatch && aMatch && Number.isFinite(rmse) && rmse <= Math.max(0.55, 9*noise);
+  const close = score >= 65;
+
+  status.className = "status" + (achieved ? " win" : close ? " close" : "");
+  if (achieved) status.textContent = "Zeros, asymptotes, and multiplicities match. Excellent.";
+  else if (zMatch && !aMatch) {
+    const msg = factorDifferenceMessage(asyms, target.asyms, "asymptote");
+    status.textContent = msg ? `Zeros match — ${msg}.` : "Zeros match — check vertical asymptotes.";
+  }
+  else if (!zMatch && aMatch) {
+    const msg = factorDifferenceMessage(zeros, target.zeros, "zero");
+    status.textContent = msg ? `Asymptotes match — ${msg}.` : "Asymptotes match — check zeros.";
+  }
+  else if (close) status.textContent = "Curve is close, but check features.";
+  else status.textContent = "Look for zeros, vertical asymptotes, and branch behavior.";
+
+  const ans = document.getElementById("answer");
+  ans.innerHTML =
+    `Hidden factored: \\(${factoredLatex(target.zeros,target.asyms)}\\)<br>` +
+    `Hidden expanded: \\(${expandedLatex(target.zeros,target.asyms)}\\)<br>` +
+    `Hidden end behavior: \\(${endBehaviorLatex(target.zeros,target.asyms)}\\)<br>` +
+    `Zeros: ${target.zeros.map(r => `${r.root} with multiplicity ${r.mult}`).join(", ")}<br>` +
+    `Vertical asymptotes: ${target.asyms.map(r => `x=${r.root} with multiplicity ${r.mult}`).join(", ")}<br>` +
+    `Guess asymptote check: ${factorDifferenceMessage(asyms, target.asyms, "asymptote") || "matches"}<br>` +
+    `Guess zero check: ${factorDifferenceMessage(zeros, target.zeros, "zero") || "matches"}<br>` +
+    `Noise floor RMSE ≈ ${nice(noise)}<br>` +
+    `Your RMSE ≈ ${Number.isFinite(rmse) ? nice(rmse) : "invalid"}`;
+  if (ans.style.display === "block" && window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([ans]).catch(() => {});
+  }
+}
+function update() {
+  if (!target) return;
+  resizeCanvas();
+  const zeros = getGuessZeros();
+  const asyms = getGuessAsyms();
+  drawGrid();
+  if (document.getElementById("showTarget").checked) {
+    drawRationalCurve(target.zeros,target.asyms,{stroke:"rgba(16,185,129,.75)", width:3, dash:[7,6]});
+  }
+  drawResiduals(zeros,asyms);
+  drawRationalCurve(zeros,asyms,{stroke:"#2563eb", width:3});
+  drawPoints();
+  drawGuides();
+  drawStudentMarkers();
+  updateFormulas();
+  updateMetric();
+}
+
+document.getElementById("difficulty").addEventListener("change", generateData);
+document.getElementById("addZero").addEventListener("click", () => addFactorRow("zero",0,1));
+document.getElementById("addAsym").addEventListener("click", () => addFactorRow("asym",1,1));
+document.getElementById("resetGuess").addEventListener("click", resetGuess);
+document.getElementById("newData").addEventListener("click", generateData);
+document.getElementById("checkFit").addEventListener("click", updateMetric);
+document.getElementById("showResiduals").addEventListener("change", update);
+document.getElementById("showTarget").addEventListener("change", update);
+document.getElementById("toggleAnswer").addEventListener("click", () => {
+  const el = document.getElementById("answer");
+  el.style.display = el.style.display === "block" ? "none" : "block";
+  updateMetric();
+});
+window.addEventListener("resize", update);
+
+document.getElementById("zoomIn").addEventListener("click", () => zoomCenter(0.62));
+document.getElementById("zoomOut").addEventListener("click", () => zoomCenter(1.62));
+document.getElementById("zoomFeatures").addEventListener("click", zoomToFeaturesView);
+document.getElementById("resetZoom").addEventListener("click", resetZoomView);
+
+canvas.addEventListener("wheel", (ev) => {
+  ev.preventDefault();
+  const w = canvasPointToWorld(ev.clientX, ev.clientY);
+  const factor = ev.deltaY < 0 ? 0.82 : 1.22;
+  zoomAt(w.x, w.y, factor);
+}, {passive:false});
+
+canvas.addEventListener("mousedown", (ev) => {
+  isDragging = true;
+  dragStart = {x: ev.clientX, y: ev.clientY};
+  dragStartView = {...view};
+  canvas.style.cursor = "grabbing";
+});
+window.addEventListener("mousemove", (ev) => {
+  if (!isDragging || !dragStart || !dragStartView) return;
+  const rect = canvas.getBoundingClientRect();
+  const dx = ev.clientX - dragStart.x;
+  const dy = ev.clientY - dragStart.y;
+  const xSpan = dragStartView.xmax - dragStartView.xmin;
+  const ySpan = dragStartView.ymax - dragStartView.ymin;
+  const shiftX = -dx / rect.width * xSpan;
+  const shiftY = dy / rect.height * ySpan;
+  view = {
+    xmin: dragStartView.xmin + shiftX,
+    xmax: dragStartView.xmax + shiftX,
+    ymin: dragStartView.ymin + shiftY,
+    ymax: dragStartView.ymax + shiftY
+  };
+  update();
+});
+window.addEventListener("mouseup", () => {
+  isDragging = false;
+  dragStart = null;
+  dragStartView = null;
+  canvas.style.cursor = "default";
+});
+
+generateData();
+window.addEventListener("load", () => {
+  if (window.MathJax && MathJax.typesetPromise) {
+    setTimeout(() => MathJax.typesetPromise([document.body]).catch(() => {}), 150);
+  }
+});
+</script>
+</body>
+</html>
