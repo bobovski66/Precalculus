@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Precalculus Function Fit Lab v2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  :root {
+    --bg: #f7f7fb;
+    --card: #ffffff;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --accent2: #10b981;
+    --bad: #ef4444;
+    --warn: #f59e0b;
+    --grid: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    padding: 18px 22px 8px;
+    max-width: 1220px;
+    margin: 0 auto;
+  }
+  h1 {
+    margin: 0 0 6px;
+    font-size: clamp(1.35rem, 3vw, 2.1rem);
+  }
+  .subtitle {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .math {
+    font-family: Cambria Math, STIX Two Math, Georgia, serif;
+    color: #111827;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  main {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 12px 22px 28px;
+    display: grid;
+    grid-template-columns: minmax(340px, 1fr) 360px;
+    gap: 18px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15,23,42,.06);
+  }
+  .plot-card {
+    padding: 14px;
+  }
+  canvas {
+    width: 100%;
+    height: min(62vh, 650px);
+    min-height: 400px;
+    border-radius: 12px;
+    background: white;
+    display: block;
+    border: 1px solid #eef2f7;
+  }
+  .formula-card {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+  }
+  .formula-label {
+    color: var(--muted);
+    font-size: .86rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  #currentFormula {
+    font-family: Cambria Math, STIX Two Math, Georgia, serif;
+    font-size: clamp(1.05rem, 2.2vw, 1.45rem);
+    color: #111827;
+    overflow-wrap: anywhere;
+  }
+  .panel {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  label {
+    font-size: .9rem;
+    color: #374151;
+    font-weight: 650;
+  }
+  select, button, input[type="number"] {
+    font: inherit;
+  }
+  select, input[type="number"] {
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: white;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+  .slider-group {
+    display: grid;
+    gap: 6px;
+    padding: 10px;
+    border-radius: 12px;
+    background: #f9fafb;
+    border: 1px solid #eef2f7;
+  }
+  .slider-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .slider-head code {
+    font-size: .9rem;
+    background: #eef2ff;
+    padding: 2px 6px;
+    border-radius: 7px;
+    color: #1d4ed8;
+  }
+  input[type="range"] {
+    width: 100%;
+  }
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  button {
+    border: 0;
+    border-radius: 11px;
+    padding: 10px 12px;
+    cursor: pointer;
+    background: #e5e7eb;
+    color: #111827;
+    font-weight: 700;
+  }
+  button.primary {
+    background: var(--accent);
+    color: white;
+  }
+  button.good {
+    background: var(--accent2);
+    color: white;
+  }
+  button.ghost {
+    background: white;
+    border: 1px solid #d1d5db;
+  }
+  .metric {
+    border-radius: 14px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+  }
+  .metric strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+  .meter {
+    height: 13px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--bad), var(--warn), var(--accent2));
+    transition: width .2s;
+  }
+  .status {
+    padding: 11px 12px;
+    border-radius: 12px;
+    font-weight: 800;
+    text-align: center;
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  .status.close {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  .status.win {
+    background: #d1fae5;
+    color: #065f46;
+  }
+  .small {
+    color: var(--muted);
+    font-size: .88rem;
+    line-height: 1.35;
+  }
+  .teacher {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 12px;
+  }
+  .hidden-answer {
+    display: none;
+    background: #f1f5f9;
+    border: 1px dashed #94a3b8;
+    padding: 10px;
+    border-radius: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .9rem;
+    line-height: 1.45;
+  }
+  .toggles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    canvas { height: 58vh; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Precalculus Function Fit Lab</h1>
+  <p class="subtitle">
+    A hidden transformed parent function makes the data. Pick a parent function and tune
+    <span class="math">y = A·f(b(x − h)) + k</span> until your curve fits the point cloud.
+  </p>
+</header>
+
+<main>
+  <section class="card plot-card">
+    <canvas id="plot"></canvas>
+    <div class="formula-card">
+      <div class="formula-label">Current model</div>
+      <div id="currentFormula">y = f(x)</div>
+    </div>
+  </section>
+
+  <aside class="card panel">
+    <div>
+      <label for="family">Parent function <span class="math">f(x)</span></label>
+      <select id="family"></select>
+    </div>
+
+    <label class="small">
+      <input type="checkbox" id="noTrigMode">
+      No trigonometry mode
+    </label>
+
+    <div class="slider-group">
+      <div class="slider-head"><label for="A">Vertical scale \(A\)</label><code id="Aval"></code></div>
+      <input id="A" type="range" min="-5" max="5" step="0.05" value="1">
+    </div>
+    <div class="slider-group">
+      <div class="slider-head"><label for="b">Horizontal scale \(b\)</label><code id="bval"></code></div>
+      <input id="b" type="range" min="-5" max="5" step="0.05" value="1">
+    </div>
+    <div class="slider-group">
+      <div class="slider-head"><label for="h">Horizontal shift \(h\)</label><code id="hval"></code></div>
+      <input id="h" type="range" min="-8" max="8" step="0.05" value="0">
+    </div>
+    <div class="slider-group">
+      <div class="slider-head"><label for="k">Vertical shift \(k\)</label><code id="kval"></code></div>
+      <input id="k" type="range" min="-8" max="8" step="0.05" value="0">
+    </div>
+
+    <div class="metric">
+      <strong>Fit score: <span id="score">0%</span></strong>
+      <span class="small">Score is based on the root mean squared error between your curve and the noisy data.</span>
+      <div class="meter"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <div id="status" class="status">Start fitting.</div>
+
+    <div class="buttons">
+      <button class="primary" id="newData">New cloud</button>
+      <button class="ghost" id="resetGuess">Reset guess</button>
+      <button class="good" id="checkFit">Check fit</button>
+      <button class="ghost" id="toggleAnswer">Teacher key</button>
+    </div>
+
+    <div class="toggles">
+      <label class="small"><input type="checkbox" id="showResiduals"> residuals</label>
+      <label class="small"><input type="checkbox" id="showTarget"> target curve</label>
+    </div>
+
+    <div class="teacher">
+      <p class="small">
+        Class use: have students identify the parent-function family first, then tune shifts, stretches,
+        reflections, and, when trig mode is on, period/frequency. The hidden answer is intentionally approximate
+        because the point cloud includes noise.
+      </p>
+      <div id="answer" class="hidden-answer"></div>
+    </div>
+  </aside>
+</main>
+
+<script>
+const families = [
+  { id:"linear", name:"Linear: f(x)=x", formula:"x", f:t=>t, domain:t=>true, xmin:-8, xmax:8 },
+  { id:"quadratic", name:"Quadratic: f(x)=x²", formula:"x²", f:t=>t*t, domain:t=>true, xmin:-6, xmax:6 },
+  { id:"cubic", name:"Cubic: f(x)=x³", formula:"x³", f:t=>t*t*t, domain:t=>true, xmin:-4, xmax:4 },
+  { id:"absolute", name:"Absolute value: f(x)=|x|", formula:"|x|", f:t=>Math.abs(t), domain:t=>true, xmin:-7, xmax:7 },
+  { id:"sqrt", name:"Square root: f(x)=√x", formula:"√x", f:t=>Math.sqrt(t), domain:t=>t>=0, xmin:-2, xmax:10 },
+  { id:"cuberoot", name:"Cube root: f(x)=∛x", formula:"∛x", f:t=>Math.sign(t)*Math.pow(Math.abs(t),1/3), domain:t=>true, xmin:-8, xmax:8 },
+  { id:"reciprocal", name:"Reciprocal: f(x)=1/x", formula:"1/x", f:t=>1/t, domain:t=>Math.abs(t)>0.08, xmin:-8, xmax:8, avoidZero:true },
+  { id:"reciprocal2", name:"Squared reciprocal: f(x)=1/x²", formula:"1/x²", f:t=>1/(t*t), domain:t=>Math.abs(t)>0.12, xmin:-8, xmax:8, avoidZero:true },
+  { id:"exponential", name:"Exponential: f(x)=eˣ", formula:"eˣ", f:t=>Math.exp(t), domain:t=>t<4.2, xmin:-5, xmax:5 },
+  { id:"log", name:"Logarithmic: f(x)=ln(x)", formula:"ln(x)", f:t=>Math.log(t), domain:t=>t>0.08, xmin:-1, xmax:10 },
+  { id:"sine", name:"Sine: f(x)=sin(x)", formula:"sin(x)", trig:true, f:t=>Math.sin(t), domain:t=>true, xmin:-8, xmax:8 },
+  { id:"cosine", name:"Cosine: f(x)=cos(x)", formula:"cos(x)", trig:true, f:t=>Math.cos(t), domain:t=>true, xmin:-8, xmax:8 },
+  { id:"tangent", name:"Tangent: f(x)=tan(x)", formula:"tan(x)", trig:true, f:t=>Math.tan(t), domain:t=>Math.abs(Math.cos(t))>0.18 && Math.abs(Math.tan(t))<8, xmin:-5, xmax:5 },
+  { id:"arctan", name:"Arctangent: f(x)=arctan(x)", formula:"arctan(x)", trig:true, f:t=>Math.atan(t), domain:t=>true, xmin:-8, xmax:8 }
+];
+
+function activeFamilies() {
+  const noTrig = document.getElementById("noTrigMode")?.checked;
+  return noTrig ? families.filter(f => !f.trig) : families;
+}
+
+function populateFamilySelect() {
+  const current = familySelect.value;
+  familySelect.innerHTML = "";
+  for (const fam of activeFamilies()) {
+    const opt = document.createElement("option");
+    opt.value = fam.id;
+    opt.textContent = fam.name;
+    familySelect.appendChild(opt);
+  }
+  if (activeFamilies().some(f => f.id === current)) familySelect.value = current;
+  else familySelect.value = activeFamilies()[0].id;
+}
+
+const familySelect = document.getElementById("family");
+populateFamilySelect();
+
+const sliders = ["A","b","h","k"].map(id => document.getElementById(id));
+const canvas = document.getElementById("plot");
+const ctx = canvas.getContext("2d");
+
+let target = null;
+let data = [];
+let view = { xmin:-10, xmax:10, ymin:-10, ymax:10 };
+
+function rand(a,b){ return a + Math.random()*(b-a); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function normalish(scale=1){
+  return scale*(Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()-3)/3;
+}
+
+function getFamily(id){ return families.find(f=>f.id===id); }
+
+function transformY(fam, x, p) {
+  const t = p.b * (x - p.h);
+  if (!fam.domain(t)) return NaN;
+  const y = p.A * fam.f(t) + p.k;
+  if (!Number.isFinite(y) || Math.abs(y)>1e4) return NaN;
+  return y;
+}
+
+function makeTarget() {
+  const fam = choice(activeFamilies());
+  let p = {};
+  if (["sine","cosine"].includes(fam.id)) {
+    p.A = choice([-1,1]) * rand(1.1, 3.2);
+    p.b = choice([-1,1]) * rand(0.45, 1.6);
+    p.h = rand(-3, 3);
+    p.k = rand(-2.5, 2.5);
+  } else if (fam.id === "tangent") {
+    p.A = choice([-1,1]) * rand(0.35, 1.1);
+    p.b = choice([-1,1]) * rand(0.45, 1.05);
+    p.h = rand(-2, 2);
+    p.k = rand(-1.5, 1.5);
+  } else if (["exponential","reciprocal","reciprocal2"].includes(fam.id)) {
+    p.A = choice([-1,1]) * rand(0.6, 2.2);
+    p.b = choice([-1,1]) * rand(0.45, 1.35);
+    p.h = rand(-2, 2);
+    p.k = rand(-3, 3);
+  } else if (["sqrt","log"].includes(fam.id)) {
+    p.A = choice([-1,1]) * rand(0.9, 2.7);
+    p.b = choice([-1,1]) * rand(0.5, 1.4);
+    p.h = rand(-3, 3);
+    p.k = rand(-3, 3);
+  } else if (fam.id === "cubic") {
+    p.A = choice([-1,1]) * rand(0.08, 0.35);
+    p.b = choice([-1,1]) * rand(0.55, 1.35);
+    p.h = rand(-2.5, 2.5);
+    p.k = rand(-3, 3);
+  } else if (fam.id === "quadratic") {
+    p.A = choice([-1,1]) * rand(0.18, 0.8);
+    p.b = choice([-1,1]) * rand(0.65, 1.4);
+    p.h = rand(-3, 3);
+    p.k = rand(-4, 4);
+  } else {
+    p.A = choice([-1,1]) * rand(0.7, 3.2);
+    p.b = choice([-1,1]) * rand(0.6, 1.6);
+    p.h = rand(-3, 3);
+    p.k = rand(-3.5, 3.5);
+  }
+  if (Math.abs(p.b) < 0.2) p.b = 1;
+  return { fam, p };
+}
+
+function generateData() {
+  target = makeTarget();
+  data = [];
+  const N = 54;
+  let attempts = 0;
+  const xlo = -8.5, xhi = 8.5;
+  while (data.length < N && attempts < 4000) {
+    attempts++;
+    const x = rand(xlo, xhi);
+    const y0 = transformY(target.fam, x, target.p);
+    if (!Number.isFinite(y0) || Math.abs(y0)>9.5) continue;
+    const noise = normalish(0.32 + 0.035*Math.abs(y0));
+    const y = y0 + noise;
+    if (Number.isFinite(y) && Math.abs(y)<10) data.push({x,y,y0});
+  }
+  if (data.length < 25) {
+    generateData();
+    return;
+  }
+  setView();
+  resetGuess();
+  update();
+}
+
+function setView() {
+  const xs = data.map(d=>d.x), ys=data.map(d=>d.y);
+  let xmin=Math.min(...xs), xmax=Math.max(...xs), ymin=Math.min(...ys), ymax=Math.max(...ys);
+  const xpad = Math.max(1.5, (xmax-xmin)*0.12);
+  const ypad = Math.max(1.5, (ymax-ymin)*0.18);
+  view = { xmin:xmin-xpad, xmax:xmax+xpad, ymin:ymin-ypad, ymax:ymax+ypad };
+}
+
+function currentParams() {
+  return {
+    A: parseFloat(document.getElementById("A").value),
+    b: parseFloat(document.getElementById("b").value),
+    h: parseFloat(document.getElementById("h").value),
+    k: parseFloat(document.getElementById("k").value)
+  };
+}
+
+function resetGuess() {
+  document.getElementById("A").value = "1";
+  document.getElementById("b").value = "1";
+  document.getElementById("h").value = "0";
+  document.getElementById("k").value = "0";
+  familySelect.value = "linear";
+  update();
+}
+
+function rmseFor(fam, p) {
+  let s = 0, n = 0, invalid = 0;
+  for (const d of data) {
+    const yhat = transformY(fam, d.x, p);
+    if (!Number.isFinite(yhat)) { invalid++; continue; }
+    s += (yhat-d.y)*(yhat-d.y);
+    n++;
+  }
+  if (n < Math.max(8, data.length*0.65)) return Infinity;
+  return Math.sqrt(s/n) + invalid*0.15;
+}
+
+function targetNoiseFloor() {
+  let s=0;
+  for (const d of data) s += (d.y-d.y0)*(d.y-d.y0);
+  return Math.sqrt(s/data.length);
+}
+
+function scoreFromRmse(rmse) {
+  if (!Number.isFinite(rmse)) return 0;
+  const floor = targetNoiseFloor();
+  const scale = Math.max(1.2, floor*5.2);
+  return Math.max(0, Math.min(100, 100 * Math.exp(-Math.max(0, rmse-floor)/scale)));
+}
+
+function nice(x) {
+  const ax = Math.abs(x);
+  if (ax >= 10) return x.toFixed(1);
+  if (ax >= 1) return x.toFixed(2);
+  return x.toFixed(3);
+}
+
+function updateLabels() {
+  const p = currentParams();
+  document.getElementById("Aval").textContent = nice(p.A);
+  document.getElementById("bval").textContent = nice(p.b);
+  document.getElementById("hval").textContent = nice(p.h);
+  document.getElementById("kval").textContent = nice(p.k);
+}
+
+
+function signedNumber(v) {
+  const rounded = nice(v);
+  return v < 0 ? `− ${nice(Math.abs(v))}` : `+ ${rounded}`;
+}
+
+function innerExpression(p) {
+  const b = nice(p.b);
+  const hAbs = nice(Math.abs(p.h));
+  let shift = "";
+  if (Math.abs(p.h) > 1e-9) shift = p.h > 0 ? ` − ${hAbs}` : ` + ${hAbs}`;
+  return `${b}(x${shift})`;
+}
+
+function transformedFormulaText(fam, p) {
+  const inside = innerExpression(p);
+  let body;
+  if (fam.id === "linear") body = `(${inside})`;
+  else if (fam.id === "quadratic") body = `(${inside})²`;
+  else if (fam.id === "cubic") body = `(${inside})³`;
+  else if (fam.id === "absolute") body = `|${inside}|`;
+  else if (fam.id === "sqrt") body = `√(${inside})`;
+  else if (fam.id === "cuberoot") body = `∛(${inside})`;
+  else if (fam.id === "reciprocal") body = `1/(${inside})`;
+  else if (fam.id === "reciprocal2") body = `1/(${inside})²`;
+  else if (fam.id === "exponential") body = `e^(${inside})`;
+  else if (fam.id === "log") body = `ln(${inside})`;
+  else if (fam.id === "sine") body = `sin(${inside})`;
+  else if (fam.id === "cosine") body = `cos(${inside})`;
+  else if (fam.id === "tangent") body = `tan(${inside})`;
+  else if (fam.id === "arctan") body = `arctan(${inside})`;
+  else body = `${fam.formula.replace("x", inside)}`;
+
+  const A = nice(p.A);
+  let formula = `y = ${A}·${body}`;
+  if (Math.abs(p.k) > 1e-9) formula += ` ${signedNumber(p.k)}`;
+  return formula;
+}
+
+function updateFormula() {
+  const fam = getFamily(familySelect.value);
+  const p = currentParams();
+  document.getElementById("currentFormula").textContent = transformedFormulaText(fam, p);
+}
+
+function updateMetric() {
+  const fam = getFamily(familySelect.value);
+  const p = currentParams();
+  const r = rmseFor(fam,p);
+  const score = scoreFromRmse(r);
+  document.getElementById("score").textContent = Math.round(score) + "%";
+  document.getElementById("fill").style.width = score + "%";
+  const status = document.getElementById("status");
+
+  const sameFamily = fam.id === target.fam.id;
+  const achieved = score >= 92 && sameFamily;
+  const close = score >= 78;
+
+  status.className = "status" + (achieved ? " win" : close ? " close" : "");
+  if (achieved) {
+    status.textContent = "Best fit achieved. Nice!";
+  } else if (close && sameFamily) {
+    status.textContent = "Very close — tune the parameters.";
+  } else if (close && !sameFamily) {
+    status.textContent = "Numerically close, but wrong parent family.";
+  } else {
+    status.textContent = "Keep fitting.";
+  }
+
+  document.getElementById("answer").innerHTML =
+    `Hidden family: ${target.fam.name}<br>` +
+    `Hidden model: ${transformedFormulaText(target.fam, target.p)}<br>` +
+    `A=${nice(target.p.A)}, b=${nice(target.p.b)}, h=${nice(target.p.h)}, k=${nice(target.p.k)}<br>` +
+    `Noise floor RMSE ≈ ${nice(targetNoiseFloor())}<br>` +
+    `Your RMSE ≈ ${Number.isFinite(r) ? nice(r) : "invalid domain"}`;
+}
+
+function resizeCanvas() {
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = Math.round(rect.width * ratio);
+  canvas.height = Math.round(rect.height * ratio);
+  ctx.setTransform(ratio,0,0,ratio,0,0);
+}
+
+function X(x) {
+  const rect = canvas.getBoundingClientRect();
+  return (x-view.xmin)/(view.xmax-view.xmin)*rect.width;
+}
+function Y(y) {
+  const rect = canvas.getBoundingClientRect();
+  return rect.height - (y-view.ymin)/(view.ymax-view.ymin)*rect.height;
+}
+
+function drawGrid() {
+  const rect = canvas.getBoundingClientRect();
+  ctx.clearRect(0,0,rect.width,rect.height);
+  ctx.fillStyle = "white";
+  ctx.fillRect(0,0,rect.width,rect.height);
+
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#e5e7eb";
+  ctx.fillStyle = "#6b7280";
+  ctx.font = "12px system-ui";
+
+  const xStep = chooseStep(view.xmax-view.xmin);
+  const yStep = chooseStep(view.ymax-view.ymin);
+  for (let x = Math.ceil(view.xmin/xStep)*xStep; x <= view.xmax; x += xStep) {
+    ctx.beginPath(); ctx.moveTo(X(x),0); ctx.lineTo(X(x),rect.height); ctx.stroke();
+    if (Math.abs(x)>1e-9) ctx.fillText(formatTick(x), X(x)+3, Y(0)-4);
+  }
+  for (let y = Math.ceil(view.ymin/yStep)*yStep; y <= view.ymax; y += yStep) {
+    ctx.beginPath(); ctx.moveTo(0,Y(y)); ctx.lineTo(rect.width,Y(y)); ctx.stroke();
+    if (Math.abs(y)>1e-9) ctx.fillText(formatTick(y), X(0)+4, Y(y)-3);
+  }
+
+  ctx.strokeStyle = "#111827";
+  ctx.lineWidth = 1.5;
+  if (view.ymin < 0 && view.ymax > 0) {
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(rect.width,Y(0)); ctx.stroke();
+  }
+  if (view.xmin < 0 && view.xmax > 0) {
+    ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),rect.height); ctx.stroke();
+  }
+}
+
+function chooseStep(span) {
+  const raw = span / 8;
+  const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+  const m = raw / pow;
+  if (m < 1.5) return pow;
+  if (m < 3.5) return 2*pow;
+  if (m < 7.5) return 5*pow;
+  return 10*pow;
+}
+function formatTick(v) {
+  if (Math.abs(v) < 1e-9) return "0";
+  if (Math.abs(v) >= 10) return v.toFixed(0);
+  return Number(v.toFixed(1)).toString();
+}
+
+function drawCurve(fam, p, style) {
+  const rect = canvas.getBoundingClientRect();
+  ctx.strokeStyle = style.stroke;
+  ctx.lineWidth = style.width;
+  ctx.setLineDash(style.dash || []);
+  let drawing = false;
+  ctx.beginPath();
+  const steps = 900;
+  for (let i=0; i<=steps; i++) {
+    const x = view.xmin + (view.xmax-view.xmin)*i/steps;
+    const y = transformY(fam,x,p);
+    const px = X(x), py = Y(y);
+    const ok = Number.isFinite(y) && py > -200 && py < rect.height+200;
+    if (ok) {
+      if (!drawing) { ctx.moveTo(px,py); drawing = true; }
+      else ctx.lineTo(px,py);
+    } else {
+      if (drawing) { ctx.stroke(); ctx.beginPath(); drawing = false; }
+    }
+  }
+  if (drawing) ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawPoints() {
+  ctx.fillStyle = "#111827";
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 1.5;
+  for (const d of data) {
+    ctx.beginPath();
+    ctx.arc(X(d.x), Y(d.y), 4.2, 0, Math.PI*2);
+    ctx.fill();
+    ctx.stroke();
+  }
+}
+
+function drawResiduals(fam,p) {
+  if (!document.getElementById("showResiduals").checked) return;
+  ctx.strokeStyle = "rgba(239,68,68,.55)";
+  ctx.lineWidth = 1.2;
+  for (const d of data) {
+    const yhat = transformY(fam,d.x,p);
+    if (!Number.isFinite(yhat)) continue;
+    ctx.beginPath();
+    ctx.moveTo(X(d.x),Y(d.y));
+    ctx.lineTo(X(d.x),Y(yhat));
+    ctx.stroke();
+  }
+}
+
+function update() {
+  if (!target) return;
+  resizeCanvas();
+  updateLabels();
+  const fam = getFamily(familySelect.value);
+  const p = currentParams();
+  drawGrid();
+  if (document.getElementById("showTarget").checked) {
+    drawCurve(target.fam, target.p, { stroke:"rgba(16,185,129,.72)", width:3, dash:[7,6] });
+  }
+  drawResiduals(fam,p);
+  drawCurve(fam, p, { stroke:"#2563eb", width:3 });
+  drawPoints();
+  updateFormula();
+  updateMetric();
+}
+
+for (const s of sliders) s.addEventListener("input", update);
+familySelect.addEventListener("change", update);
+document.getElementById("noTrigMode").addEventListener("change", () => {
+  populateFamilySelect();
+  generateData();
+});
+document.getElementById("showResiduals").addEventListener("change", update);
+document.getElementById("showTarget").addEventListener("change", update);
+document.getElementById("newData").addEventListener("click", generateData);
+document.getElementById("resetGuess").addEventListener("click", resetGuess);
+document.getElementById("checkFit").addEventListener("click", updateMetric);
+document.getElementById("toggleAnswer").addEventListener("click", () => {
+  const el = document.getElementById("answer");
+  el.style.display = (el.style.display === "block") ? "none" : "block";
+});
+window.addEventListener("resize", update);
+
+generateData();
+</script>
+</body>
+</html>
