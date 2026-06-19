@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Monic Polynomial Roots and Multiplicity Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+  svg: { fontCache: 'global' },
+  startup: { typeset: false }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root {
+    --bg: #f7f7fb;
+    --card: #ffffff;
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --good: #10b981;
+    --bad: #ef4444;
+    --warn: #f59e0b;
+    --grid: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 18px 22px 8px;
+  }
+  h1 {
+    margin: 0 0 6px;
+    font-size: clamp(1.35rem, 3vw, 2.1rem);
+  }
+  .subtitle {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 12px 22px 28px;
+    display: grid;
+    grid-template-columns: minmax(360px, 1fr) 390px;
+    gap: 18px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15,23,42,.06);
+  }
+  .plot-card { padding: 14px; }
+  canvas {
+    width: 100%;
+    height: min(60vh, 620px);
+    min-height: 405px;
+    border-radius: 12px;
+    background: white;
+    display: block;
+    border: 1px solid #eef2f7;
+  }
+  .plot-tools {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .plot-tools button {
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #d1d5db;
+    font-weight: 750;
+  }
+  .plot-tools .hint {
+    color: var(--muted);
+    font-size: .85rem;
+    margin-left: 2px;
+  }
+  .formula-stack {
+    margin-top: 12px;
+    display: grid;
+    gap: 10px;
+  }
+  .formula-card {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+  }
+  .formula-label {
+    color: var(--muted);
+    font-size: .86rem;
+    margin-bottom: 5px;
+    font-weight: 750;
+  }
+  .formula {
+    font-size: clamp(1.0rem, 2vw, 1.35rem);
+    color: #111827;
+    min-height: 2.2rem;
+    overflow-wrap: anywhere;
+  }
+  .panel {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  label {
+    font-size: .9rem;
+    color: #374151;
+    font-weight: 700;
+  }
+  select, button, input[type="number"] {
+    font: inherit;
+  }
+  select, input[type="number"] {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: white;
+  }
+  .control-card {
+    display: grid;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 12px;
+    background: #f9fafb;
+    border: 1px solid #eef2f7;
+  }
+  .slider-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .slider-head code {
+    font-size: .9rem;
+    background: #eef2ff;
+    padding: 2px 6px;
+    border-radius: 7px;
+    color: #1d4ed8;
+  }
+  input[type="range"] { width: 100%; }
+  .root-grid {
+    display: grid;
+    gap: 9px;
+  }
+  .root-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 8px;
+    align-items: end;
+    padding: 9px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+  }
+  .root-row button {
+    padding: 8px 10px;
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  button {
+    border: 0;
+    border-radius: 11px;
+    padding: 10px 12px;
+    cursor: pointer;
+    background: #e5e7eb;
+    color: #111827;
+    font-weight: 750;
+  }
+  button.primary { background: var(--accent); color: white; }
+  button.good { background: var(--good); color: white; }
+  button.ghost { background: white; border: 1px solid #d1d5db; }
+  .metric {
+    border-radius: 14px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+  }
+  .metric strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+  .meter {
+    height: 13px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--bad), var(--warn), var(--good));
+    transition: width .2s;
+  }
+  .status {
+    padding: 11px 12px;
+    border-radius: 12px;
+    font-weight: 850;
+    text-align: center;
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  .status.close {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  .status.win {
+    background: #d1fae5;
+    color: #065f46;
+  }
+  .small {
+    color: var(--muted);
+    font-size: .88rem;
+    line-height: 1.35;
+  }
+  .teacher {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 12px;
+  }
+  .hidden-answer {
+    display: none;
+    background: #f1f5f9;
+    border: 1px dashed #94a3b8;
+    padding: 10px;
+    border-radius: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .9rem;
+    line-height: 1.45;
+  }
+  .toggles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  @media (max-width: 920px) {
+    main { grid-template-columns: 1fr; }
+    canvas { height: 56vh; }
+  }
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Polynomial Roots and Multiplicity Lab</h1>
+  </header>
+
+<main>
+  <section class="card plot-card">
+    <canvas id="plot"></canvas>
+    <div class="plot-tools">
+      <button id="zoomIn" type="button">Zoom in</button>
+      <button id="zoomOut" type="button">Zoom out</button>
+      <button id="zoomRoots" type="button">Zoom to roots</button>
+      <button id="resetZoom" type="button">Reset view</button>
+      <span class="hint">Mouse wheel zooms at cursor. Drag to pan.</span>
+    </div>
+
+    <div class="formula-stack">
+      <div class="formula-card">
+        <div class="formula-label">Current factored form</div>
+        <div id="factoredFormula" class="formula">\(y=(x-r_1)^{m_1}\cdots(x-r_n)^{m_n}\)</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-label">Current expanded form</div>
+        <div id="expandedFormula" class="formula">\(y=\cdots\)</div>
+      </div>
+      <div class="formula-card">
+        <div class="formula-label">Current degree</div>
+        <div id="degreeDisplay" class="formula">\(0\)</div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="card panel">
+    <div>
+      <label>Roots and multiplicities</label>
+      
+      <div id="rootRows" class="root-grid"></div>
+    </div>
+
+    <div class="buttons">
+      <button class="ghost" id="addRoot">Add root</button>
+      <button class="ghost" id="resetGuess">Reset guess</button>
+      <button class="primary" id="newData">New polynomial</button>
+      <button class="good" id="checkFit">Check fit</button>
+    </div>
+
+    <div class="toggles">
+      <label class="small"><input type="checkbox" id="showResiduals"> residuals</label>
+      <label class="small"><input type="checkbox" id="showTarget"> target curve</label>
+    </div>
+
+    <div class="metric">
+      <strong>Fit score: <span id="score">0%</span></strong>
+      <span class="small">Score is based on root locations, multiplicities, and overall fit.</span>
+      <div class="meter"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <div id="status" class="status">Start fitting.</div>
+
+    <div class="teacher">
+            <button class="ghost" id="toggleAnswer" style="width:100%; margin-bottom:10px;">Teacher key</button>
+      <div id="answer" class="hidden-answer"></div>
+    </div>
+  </aside>
+</main>
+
+<script>
+const canvas = document.getElementById("plot");
+const ctx = canvas.getContext("2d");
+const rootRows = document.getElementById("rootRows");
+
+let target = null;
+let data = [];
+let view = { xmin:-7, xmax:7, ymin:-10, ymax:10 };
+let homeView = { xmin:-7, xmax:7, ymin:-10, ymax:10 };
+let isDragging = false;
+let dragStart = null;
+let dragStartView = null;
+let guessRoots = [];
+
+function rand(a,b){ return a + Math.random()*(b-a); }
+function randint(a,b){ return Math.floor(rand(a,b+1)); }
+function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function normalish(scale=1){
+  return scale*(Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()-3)/3;
+}
+function cloneRoots(roots) {
+  return roots.map(r => ({root:r.root, mult:r.mult}));
+}
+function nice(x) {
+  if (!Number.isFinite(x)) return "0";
+  const ax = Math.abs(x);
+  if (ax >= 100) return x.toFixed(0);
+  if (ax >= 10) return x.toFixed(1);
+  if (ax >= 1) return x.toFixed(2).replace(/\.?0+$/,"");
+  return x.toFixed(3).replace(/\.?0+$/,"");
+}
+function latexNum(x) {
+  const s = nice(x);
+  if (s === "-0") return "0";
+  return s;
+}
+
+function evalPolynomial(x, roots, a) {
+  let y = a;
+  for (const r of roots) {
+    y *= Math.pow(x - r.root, r.mult);
+    if (!Number.isFinite(y) || Math.abs(y)>1e8) return NaN;
+  }
+  return y;
+}
+
+function polyMultiply(p, q) {
+  const out = Array(p.length + q.length - 1).fill(0);
+  for (let i=0;i<p.length;i++) {
+    for (let j=0;j<q.length;j++) out[i+j] += p[i]*q[j];
+  }
+  return out;
+}
+
+// coefficients ascending: c0 + c1 x + ... + cn x^n
+function coefficientsFromRoots(roots, a) {
+  let coeff = [a];
+  for (const r of roots) {
+    for (let m=0;m<r.mult;m++) {
+      coeff = polyMultiply(coeff, [-r.root, 1]);
+    }
+  }
+  return coeff;
+}
+
+function degreeOf(roots) {
+  return roots.reduce((s,r)=>s+r.mult, 0);
+}
+
+function simplifyRoots(roots) {
+  const map = new Map();
+  for (const r of roots) {
+    const rr = parseInt(r.root);
+    const mm = parseInt(r.mult);
+    if (!Number.isFinite(rr) || !Number.isFinite(mm) || mm <= 0) continue;
+    map.set(rr, (map.get(rr)||0) + mm);
+  }
+  return [...map.entries()]
+    .map(([root,mult]) => ({root, mult}))
+    .sort((a,b)=>a.root-b.root);
+}
+
+function randomTarget() {
+  // Higher-degree monic polynomials can explode vertically if roots are spread too far apart.
+  // So this generator deliberately favors degree 3-6 while keeping root spread classroom-visible.
+  const targetDegree = choice([3,3,4,4,4,5,5,5,6,6,2]);
+  const possible = [-4,-3,-2,-1,0,1,2,3,4];
+
+  let roots = [];
+  let remaining = targetDegree;
+
+  // Choose a compact interval of possible roots to keep the monic graph readable.
+  const center = choice([-2,-1,0,1,2]);
+  const pool = possible.filter(r => Math.abs(r - center) <= 3);
+  let selected = [];
+
+  while (remaining > 0) {
+    const available = pool.filter(r => !selected.includes(r));
+    if (available.length === 0) break;
+
+    const root = choice(available);
+    selected.push(root);
+
+    let multChoices;
+    if (remaining === 1) multChoices = [1];
+    else if (remaining === 2) multChoices = [1,1,2];
+    else multChoices = [1,1,1,2,2,3];
+
+    let mult = choice(multChoices.filter(m => m <= remaining));
+    roots.push({root, mult});
+    remaining -= mult;
+  }
+
+  // If still short, increase multiplicities rather than lowering the intended degree.
+  while (remaining > 0 && roots.length > 0) {
+    choice(roots).mult += 1;
+    remaining -= 1;
+  }
+
+  roots = simplifyRoots(roots);
+
+  // Force at least one repeated root fairly often in degrees 4+.
+  if (targetDegree >= 4 && Math.random() < 0.70 && !roots.some(r => r.mult >= 2)) {
+    choice(roots).mult += 1;
+  }
+
+  // Trim back to degree 6 if the previous nudge overshot.
+  while (degreeOf(roots) > 6) {
+    const r = roots.find(q => q.mult > 1);
+    if (!r) break;
+    r.mult -= 1;
+  }
+
+  roots = simplifyRoots(roots);
+  roots.sort((a,b)=>a.root-b.root);
+  return { roots, a:1 };
+}
+
+function generateData() {
+  let attempts = 0;
+
+  do {
+    attempts++;
+    target = randomTarget();
+    data = [];
+
+    const degree = degreeOf(target.roots);
+    const rmin = Math.min(...target.roots.map(r => r.root));
+    const rmax = Math.max(...target.roots.map(r => r.root));
+
+    // Adaptive window: enough room to see end behavior, but not so much that monic degree 6 explodes.
+    let pad;
+    if (degree <= 3) pad = 1.9;
+    else if (degree === 4) pad = 1.45;
+    else if (degree === 5) pad = 1.15;
+    else pad = 0.95;
+
+    const xlo = Math.max(-6.5, rmin - pad);
+    const xhi = Math.min(6.5, rmax + pad);
+
+    const xs = [];
+    for (let i=0;i<82;i++) xs.push(xlo + (xhi-xlo)*i/81);
+
+    // Allow higher-degree graphs a larger visible y-window, because monic polynomials naturally grow.
+    const yLimit = degree <= 3 ? 22 : degree === 4 ? 36 : degree === 5 ? 55 : 75;
+
+    for (const x of xs) {
+      const y0 = evalPolynomial(x, target.roots, target.a);
+      if (!Number.isFinite(y0) || Math.abs(y0)>yLimit) continue;
+      const noise = normalish(0.20 + 0.018*Math.abs(y0));
+      const y = y0 + noise;
+      if (Number.isFinite(y) && Math.abs(y)<yLimit*1.05) data.push({x,y,y0});
+    }
+
+    // If data is too sparse, try again. This should now rarely force us down to quadratics.
+  } while (data.length < 48 && attempts < 80);
+
+  setView();
+  resetGuess();
+  update();
+}
+
+function setView() {
+  const xs = data.map(d=>d.x), ys=data.map(d=>d.y);
+  const xmin = Math.min(...xs), xmax = Math.max(...xs);
+  const ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const yPad = Math.max(2.5, (ymax-ymin)*0.16);
+  const xPad = Math.max(0.45, (xmax-xmin)*0.06);
+  view = { xmin:xmin-xPad, xmax:xmax+xPad, ymin:ymin-yPad, ymax:ymax+yPad };
+  if (view.ymin > 0) view.ymin = -1;
+  if (view.ymax < 0) view.ymax = 1;
+  homeView = {...view};
+}
+
+function currentA() {
+  return 1;
+}
+
+function addRootRow(root=0, mult=1) {
+  guessRoots.push({root, mult});
+  renderRootRows();
+  update();
+}
+
+function renderRootRows() {
+  rootRows.innerHTML = "";
+  guessRoots.forEach((r, idx) => {
+    const row = document.createElement("div");
+    row.className = "root-row";
+
+    const rootBox = document.createElement("div");
+    const rootLab = document.createElement("label");
+    rootLab.textContent = "Root";
+    const rootInput = document.createElement("input");
+    rootInput.type = "number";
+    rootInput.step = "1";
+    rootInput.min = "-8";
+    rootInput.max = "8";
+    rootInput.value = r.root;
+    rootInput.addEventListener("input", () => {
+      guessRoots[idx].root = parseInt(rootInput.value || "0");
+      update();
+    });
+    rootBox.append(rootLab, rootInput);
+
+    const multBox = document.createElement("div");
+    const multLab = document.createElement("label");
+    multLab.textContent = "Multiplicity";
+    const multInput = document.createElement("input");
+    multInput.type = "number";
+    multInput.step = "1";
+    multInput.min = "1";
+    multInput.max = "6";
+    multInput.value = r.mult;
+    multInput.addEventListener("input", () => {
+      guessRoots[idx].mult = Math.max(1, Math.min(6, parseInt(multInput.value || "1")));
+      update();
+    });
+    multBox.append(multLab, multInput);
+
+    const del = document.createElement("button");
+    del.textContent = "×";
+    del.title = "Remove root";
+    del.addEventListener("click", () => {
+      guessRoots.splice(idx,1);
+      renderRootRows();
+      update();
+    });
+
+    row.append(rootBox, multBox, del);
+    rootRows.appendChild(row);
+  });
+}
+
+function resetGuess() {
+  guessRoots = [{root:0, mult:1}, {root:1, mult:1}];
+  renderRootRows();
+  update();
+}
+
+function getGuessRoots() {
+  return simplifyRoots(guessRoots);
+}
+
+function rmseFor(roots, a) {
+  let s=0, n=0;
+  for (const d of data) {
+    const yhat = evalPolynomial(d.x, roots, a);
+    if (!Number.isFinite(yhat) || Math.abs(yhat)>1e6) return Infinity;
+    s += (yhat-d.y)*(yhat-d.y);
+    n++;
+  }
+  return Math.sqrt(s/n);
+}
+
+function targetNoiseFloor() {
+  let s=0;
+  for (const d of data) s += (d.y-d.y0)*(d.y-d.y0);
+  return Math.sqrt(s/data.length);
+}
+
+function rootMismatchPenalty(guess, targ) {
+  const gm = new Map(guess.map(r => [r.root, r.mult]));
+  const tm = new Map(targ.map(r => [r.root, r.mult]));
+  let penalty = 0;
+
+  for (const [r,m] of tm.entries()) {
+    if (!gm.has(r)) penalty += 22;
+    else penalty += 9 * Math.abs(gm.get(r)-m);
+  }
+  for (const [r,m] of gm.entries()) {
+    if (!tm.has(r)) penalty += 14;
+  }
+  return penalty;
+}
+
+function exactRootsMatch(guess, targ) {
+  const g = simplifyRoots(guess), t = simplifyRoots(targ);
+  if (g.length !== t.length) return false;
+  for (let i=0;i<g.length;i++) {
+    if (g[i].root !== t[i].root || g[i].mult !== t[i].mult) return false;
+  }
+  return true;
+}
+
+function scoreFor(roots, a) {
+  const r = rmseFor(roots,a);
+  if (!Number.isFinite(r)) return 0;
+
+  const floor = targetNoiseFloor();
+  const match = exactRootsMatch(roots, target.roots);
+
+  // More forgiving curve-fit score. The original version made a small coefficient error
+  // feel like a conceptual failure.
+  const rmseScale = Math.max(2.2, 12*floor);
+  const rmseScore = 100 * Math.exp(-Math.max(0, r-floor)/rmseScale);
+
+  const penalty = rootMismatchPenalty(roots, target.roots);
+
+  // If the roots and multiplicities are exactly right, give a structural floor.
+  // This keeps the activity focused on polynomial behavior, not slider precision.
+  let score = rmseScore - penalty;
+  if (match) score = Math.max(score, 88);
+
+  // Near-perfect visual fit can still reach 100.
+  return Math.max(0, Math.min(100, score));
+}
+
+function chooseStep(span) {
+  const raw = span / 8;
+  const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+  const m = raw / pow;
+  if (m < 1.5) return pow;
+  if (m < 3.5) return 2*pow;
+  if (m < 7.5) return 5*pow;
+  return 10*pow;
+}
+function formatTick(v) {
+  if (Math.abs(v) < 1e-9) return "0";
+  if (Math.abs(v) >= 10) return v.toFixed(0);
+  return Number(v.toFixed(1)).toString();
+}
+function resizeCanvas() {
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = Math.round(rect.width * ratio);
+  canvas.height = Math.round(rect.height * ratio);
+  ctx.setTransform(ratio,0,0,ratio,0,0);
+}
+function X(x) {
+  const rect = canvas.getBoundingClientRect();
+  return (x-view.xmin)/(view.xmax-view.xmin)*rect.width;
+}
+function Y(y) {
+  const rect = canvas.getBoundingClientRect();
+  return rect.height - (y-view.ymin)/(view.ymax-view.ymin)*rect.height;
+}
+
+
+function canvasPointToWorld(clientX, clientY) {
+  const rect = canvas.getBoundingClientRect();
+  const px = clientX - rect.left;
+  const py = clientY - rect.top;
+  const x = view.xmin + (px / rect.width) * (view.xmax - view.xmin);
+  const y = view.ymax - (py / rect.height) * (view.ymax - view.ymin);
+  return {x, y, px, py, width:rect.width, height:rect.height};
+}
+
+function zoomAt(worldX, worldY, factor) {
+  // factor < 1 zooms in; factor > 1 zooms out.
+  const xSpan = view.xmax - view.xmin;
+  const ySpan = view.ymax - view.ymin;
+  const newXSpan = xSpan * factor;
+  const newYSpan = ySpan * factor;
+
+  const xRatio = (worldX - view.xmin) / xSpan;
+  const yRatio = (worldY - view.ymin) / ySpan;
+
+  view = {
+    xmin: worldX - xRatio * newXSpan,
+    xmax: worldX + (1 - xRatio) * newXSpan,
+    ymin: worldY - yRatio * newYSpan,
+    ymax: worldY + (1 - yRatio) * newYSpan
+  };
+  update();
+}
+
+function zoomCenter(factor) {
+  const cx = (view.xmin + view.xmax) / 2;
+  const cy = (view.ymin + view.ymax) / 2;
+  zoomAt(cx, cy, factor);
+}
+
+function resetZoomView() {
+  view = {...homeView};
+  update();
+}
+
+function zoomToRootsView() {
+  const roots = target?.roots || [];
+  if (!roots.length) return;
+  const rmin = Math.min(...roots.map(r => r.root));
+  const rmax = Math.max(...roots.map(r => r.root));
+  const degree = degreeOf(target.roots);
+  const pad = degree >= 5 ? 0.85 : 1.15;
+  const xmin = rmin - pad;
+  const xmax = rmax + pad;
+
+  // Estimate y-range over that root-focused x-window.
+  let ys = [];
+  for (let i=0; i<260; i++) {
+    const x = xmin + (xmax-xmin)*i/259;
+    const yt = evalPolynomial(x, target.roots, target.a);
+    const yg = evalPolynomial(x, getGuessRoots(), 1);
+    if (Number.isFinite(yt)) ys.push(yt);
+    if (Number.isFinite(yg)) ys.push(yg);
+  }
+  if (!ys.length) return;
+  let ymin = Math.min(...ys), ymax = Math.max(...ys);
+  const yPad = Math.max(1.0, (ymax-ymin)*0.24);
+  ymin -= yPad; ymax += yPad;
+  if (ymin > 0) ymin = -0.8;
+  if (ymax < 0) ymax = 0.8;
+  view = {xmin, xmax, ymin, ymax};
+  update();
+}
+
+function drawGrid() {
+  const rect = canvas.getBoundingClientRect();
+  ctx.clearRect(0,0,rect.width,rect.height);
+  ctx.fillStyle = "white";
+  ctx.fillRect(0,0,rect.width,rect.height);
+
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#e5e7eb";
+  ctx.fillStyle = "#6b7280";
+  ctx.font = "12px system-ui";
+
+  const xStep = chooseStep(view.xmax-view.xmin);
+  const yStep = chooseStep(view.ymax-view.ymin);
+  for (let x=Math.ceil(view.xmin/xStep)*xStep; x<=view.xmax; x+=xStep) {
+    ctx.beginPath(); ctx.moveTo(X(x),0); ctx.lineTo(X(x),rect.height); ctx.stroke();
+    if (Math.abs(x)>1e-9 && Y(0)>10 && Y(0)<rect.height-10) ctx.fillText(formatTick(x), X(x)+3, Y(0)-4);
+  }
+  for (let y=Math.ceil(view.ymin/yStep)*yStep; y<=view.ymax; y+=yStep) {
+    ctx.beginPath(); ctx.moveTo(0,Y(y)); ctx.lineTo(rect.width,Y(y)); ctx.stroke();
+    if (Math.abs(y)>1e-9 && X(0)>10 && X(0)<rect.width-10) ctx.fillText(formatTick(y), X(0)+4, Y(y)-3);
+  }
+
+  ctx.strokeStyle = "#111827";
+  ctx.lineWidth = 1.5;
+  if (view.ymin < 0 && view.ymax > 0) {
+    ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(rect.width,Y(0)); ctx.stroke();
+  }
+  if (view.xmin < 0 && view.xmax > 0) {
+    ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),rect.height); ctx.stroke();
+  }
+}
+
+function drawCurve(roots, a, style) {
+  const rect = canvas.getBoundingClientRect();
+  ctx.strokeStyle = style.stroke;
+  ctx.lineWidth = style.width;
+  ctx.setLineDash(style.dash || []);
+  let drawing=false;
+  ctx.beginPath();
+  const steps=1100;
+  for (let i=0;i<=steps;i++) {
+    const x = view.xmin + (view.xmax-view.xmin)*i/steps;
+    const y = evalPolynomial(x, roots, a);
+    const px = X(x), py = Y(y);
+    const ok = Number.isFinite(y) && py > -220 && py < rect.height+220;
+    if (ok) {
+      if (!drawing) { ctx.moveTo(px,py); drawing=true; }
+      else ctx.lineTo(px,py);
+    } else {
+      if (drawing) { ctx.stroke(); ctx.beginPath(); drawing=false; }
+    }
+  }
+  if (drawing) ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawPoints() {
+  ctx.fillStyle = "#111827";
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 1.5;
+  for (const d of data) {
+    ctx.beginPath();
+    ctx.arc(X(d.x),Y(d.y),3.8,0,Math.PI*2);
+    ctx.fill();
+    ctx.stroke();
+  }
+}
+
+function drawResiduals(roots,a) {
+  if (!document.getElementById("showResiduals").checked) return;
+  ctx.strokeStyle = "rgba(239,68,68,.55)";
+  ctx.lineWidth = 1.1;
+  for (const d of data) {
+    const yhat = evalPolynomial(d.x, roots, a);
+    if (!Number.isFinite(yhat)) continue;
+    ctx.beginPath();
+    ctx.moveTo(X(d.x),Y(d.y));
+    ctx.lineTo(X(d.x),Y(yhat));
+    ctx.stroke();
+  }
+}
+
+
+function rootColor(i) {
+  const palette = [
+    "#2563eb", "#dc2626", "#10b981", "#a855f7",
+    "#f59e0b", "#0ea5e9", "#e11d48", "#22c55e"
+  ];
+  return palette[i % palette.length];
+}
+
+function drawTargetRootGuides() {
+  const axisY = Y(0);
+  const width = canvas.getBoundingClientRect().width;
+  target.roots.forEach((r, i) => {
+    const px = X(r.root);
+    if (px < -10 || px > width + 10) return;
+
+    // vertical faint guide
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(107,114,128,.22)";
+    ctx.lineWidth = 1.4;
+    ctx.setLineDash([4,6]);
+    ctx.moveTo(px, 0);
+    ctx.lineTo(px, canvas.getBoundingClientRect().height);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // colored guide dot on x-axis
+    ctx.beginPath();
+    ctx.arc(px, axisY, 8.5, 0, Math.PI*2);
+    ctx.fillStyle = rootColor(i);
+    ctx.fill();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = "white";
+    ctx.stroke();
+
+    // small x-value label
+    ctx.fillStyle = rootColor(i);
+    ctx.font = "bold 12px system-ui";
+    ctx.fillText(`${r.root}`, px - 4, axisY + 24);
+  });
+}
+
+function drawRootMarkers(roots) {
+  const axisY = Y(0);
+  const width = canvas.getBoundingClientRect().width;
+  ctx.font = "12px system-ui";
+
+  roots.forEach((r, i) => {
+    const px = X(r.root);
+    if (px < -10 || px > width + 10) return;
+
+    // student's chosen root marker: outlined ring above the axis
+    ctx.beginPath();
+    ctx.arc(px, axisY - 16, 7, 0, Math.PI*2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = r.mult % 2 === 0 ? "#f59e0b" : "#2563eb";
+    ctx.stroke();
+
+    ctx.fillStyle = "#111827";
+    ctx.fillText(`m=${r.mult}`, px + 9, axisY - 18);
+  });
+}
+
+
+function latexFactor(root, mult) {
+  let base;
+  if (root === 0) base = "x";
+  else if (root > 0) base = `(x-${root})`;
+  else base = `(x+${Math.abs(root)})`;
+  return mult === 1 ? base : `${base}^{${mult}}`;
+}
+
+function factoredLatex(roots, a) {
+  const rs = simplifyRoots(roots);
+  let aPart = "";
+  if (Math.abs(a - 1) < 1e-10) aPart = "";
+  else if (Math.abs(a + 1) < 1e-10) aPart = "-";
+  else aPart = latexNum(a);
+  if (rs.length === 0) return `y=${aPart || latexNum(a)}`;
+  return `y=${aPart}${rs.map(r=>latexFactor(r.root,r.mult)).join("")}`;
+}
+
+function expandedLatex(roots, a) {
+  const coeff = coefficientsFromRoots(simplifyRoots(roots), a);
+  let terms = [];
+  for (let i=coeff.length-1; i>=0; i--) {
+    let c = coeff[i];
+    if (Math.abs(c) < 1e-9) continue;
+    const sign = c < 0 ? "-" : "+";
+    const absC = Math.abs(c);
+    let coef = "";
+    if (i === 0) coef = latexNum(absC);
+    else if (Math.abs(absC-1) < 1e-10) coef = "";
+    else coef = latexNum(absC);
+
+    let power = "";
+    if (i === 0) power = "";
+    else if (i === 1) power = "x";
+    else power = `x^{${i}}`;
+
+    terms.push({sign, text:`${coef}${power}`});
+  }
+  if (terms.length === 0) return "y=0";
+  let out = "y=";
+  terms.forEach((t, idx) => {
+    if (idx === 0) out += (t.sign === "-" ? "-" : "") + t.text;
+    else out += ` ${t.sign} ${t.text}`;
+  });
+  return out;
+}
+
+function updateFormulas() {
+  const roots = getGuessRoots();
+  const a = currentA();
+  const fact = document.getElementById("factoredFormula");
+  const exp = document.getElementById("expandedFormula");
+  fact.innerHTML = `\\(${factoredLatex(roots,a)}\\)`;
+  exp.innerHTML = `\\(${expandedLatex(roots,a)}\\)`;
+  const deg = document.getElementById("degreeDisplay");
+  if (deg) deg.innerHTML = `\(\deg = ${degreeOf(roots)}\)`;
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise(deg ? [fact, exp, deg] : [fact, exp]).catch(() => {});
+  }
+}
+
+function updateMetric() {
+  const roots = getGuessRoots();
+  const a = 1;
+  const rmse = rmseFor(roots,a);
+  const score = scoreFor(roots,a);
+  document.getElementById("score").textContent = Math.round(score) + "%";
+  document.getElementById("fill").style.width = score + "%";
+
+  const match = exactRootsMatch(roots, target.roots);
+  const status = document.getElementById("status");
+  const noise = targetNoiseFloor();
+
+  const tolerantRmseCutoff = Math.max(0.75, 7.5*noise);
+  const achieved = match && Number.isFinite(rmse) && rmse <= tolerantRmseCutoff;
+  const close = score >= 65;
+
+  status.className = "status" + (achieved ? " win" : close ? " close" : "");
+  if (achieved) status.textContent = "Roots and multiplicities match. Excellent.";
+  else if (match) status.textContent = "Roots match — check the multiplicity behavior in the graph.";
+  else if (close) status.textContent = "Curve is close, but check roots/multiplicities.";
+  else status.textContent = "Look at crossings, bounces, and flattening.";
+
+  const ans = document.getElementById("answer");
+  ans.innerHTML =
+    `Hidden factored: \\(${factoredLatex(target.roots,target.a)}\\)<br>` +
+    `Hidden expanded: \\(${expandedLatex(target.roots,target.a)}\\)<br>` +
+    `Degree: ${degreeOf(target.roots)}<br>` +
+    `Roots: ${target.roots.map(r => `${r.root} with multiplicity ${r.mult}`).join(", ")}<br>` +
+    `Noise floor RMSE ≈ ${nice(noise)}<br>` +
+    `Acceptance RMSE cutoff ≈ ${nice(tolerantRmseCutoff)}<br>` +
+    `Your RMSE ≈ ${Number.isFinite(rmse) ? nice(rmse) : "invalid"}`;
+  if (ans.style.display === "block" && window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([ans]).catch(() => {});
+  }
+}
+
+function update() {
+  if (!target) return;
+  resizeCanvas();
+  const roots = getGuessRoots();
+  const a = currentA();
+  drawGrid();
+  if (document.getElementById("showTarget").checked) {
+    drawCurve(target.roots, target.a, {stroke:"rgba(16,185,129,.75)", width:3, dash:[7,6]});
+  }
+  drawResiduals(roots,a);
+  drawCurve(roots,a,{stroke:"#2563eb", width:3});
+  drawPoints();
+  drawTargetRootGuides();
+  drawRootMarkers(roots);
+  updateFormulas();
+  updateMetric();
+}
+
+document.getElementById("addRoot").addEventListener("click", () => addRootRow(0,1));
+document.getElementById("resetGuess").addEventListener("click", resetGuess);
+document.getElementById("newData").addEventListener("click", generateData);
+document.getElementById("checkFit").addEventListener("click", updateMetric);
+document.getElementById("showResiduals").addEventListener("change", update);
+document.getElementById("showTarget").addEventListener("change", update);
+document.getElementById("toggleAnswer").addEventListener("click", () => {
+  const el = document.getElementById("answer");
+  el.style.display = el.style.display === "block" ? "none" : "block";
+  updateMetric();
+});
+window.addEventListener("resize", update);
+
+
+document.getElementById("zoomIn").addEventListener("click", () => zoomCenter(0.62));
+document.getElementById("zoomOut").addEventListener("click", () => zoomCenter(1.62));
+document.getElementById("zoomRoots").addEventListener("click", zoomToRootsView);
+document.getElementById("resetZoom").addEventListener("click", resetZoomView);
+
+canvas.addEventListener("wheel", (ev) => {
+  ev.preventDefault();
+  const w = canvasPointToWorld(ev.clientX, ev.clientY);
+  const factor = ev.deltaY < 0 ? 0.82 : 1.22;
+  zoomAt(w.x, w.y, factor);
+}, {passive:false});
+
+canvas.addEventListener("mousedown", (ev) => {
+  isDragging = true;
+  dragStart = {x: ev.clientX, y: ev.clientY};
+  dragStartView = {...view};
+  canvas.style.cursor = "grabbing";
+});
+
+window.addEventListener("mousemove", (ev) => {
+  if (!isDragging || !dragStart || !dragStartView) return;
+  const rect = canvas.getBoundingClientRect();
+  const dx = ev.clientX - dragStart.x;
+  const dy = ev.clientY - dragStart.y;
+  const xSpan = dragStartView.xmax - dragStartView.xmin;
+  const ySpan = dragStartView.ymax - dragStartView.ymin;
+  const shiftX = -dx / rect.width * xSpan;
+  const shiftY = dy / rect.height * ySpan;
+  view = {
+    xmin: dragStartView.xmin + shiftX,
+    xmax: dragStartView.xmax + shiftX,
+    ymin: dragStartView.ymin + shiftY,
+    ymax: dragStartView.ymax + shiftY
+  };
+  update();
+});
+
+window.addEventListener("mouseup", () => {
+  isDragging = false;
+  dragStart = null;
+  dragStartView = null;
+  canvas.style.cursor = "default";
+});
+
+
+generateData();
+window.addEventListener("load", () => {
+  if (window.MathJax && MathJax.typesetPromise) {
+    setTimeout(() => MathJax.typesetPromise([document.body]).catch(() => {}), 150);
+  }
+});
+</script>
+</body>
+</html>
