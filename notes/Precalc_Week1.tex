@@ -1,0 +1,396 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{0}
+\begin{document}
+
+\chapter{Functions}
+
+A relation is a collection of points. A function is a relation in which each input
+determines a single output, which is precisely the condition that lets you predict.
+Data arrives as a scatter of points, and the work of the subject is to find a
+predictable rule running through it: a function fit to the cloud, reshaped from a
+known curve through $A\,f\!\big(b(x-h)\big)+k$.
+
+\section{Relations as Point Clouds}
+
+Record, for every student in a class, their height and their shoe size. Each
+student becomes a pair of numbers: an input (height) and an output (shoe size).
+Plotted, these pairs form a cloud of dots. The cloud is the raw object of study. It
+carries no formula and no curve; it is the data, exactly as measured.
+
+\begin{definition}{Relation}
+A \emph{relation} is any set of ordered pairs $(x,y)$. The set of all first
+coordinates is the \emph{domain}; the set of all second coordinates is the
+\emph{range}.
+\end{definition}
+
+A relation can be specified by a list, a table, an equation, or a graph. These are
+four ways of naming the same set of pairs. The list
+\[
+\{(1,2),\ (3,5),\ (3,-1),\ (4,0)\}
+\]
+is a relation with domain $\{1,3,4\}$ and range $\{2,5,-1,0\}$. So is the set of all
+$(x,y)$ satisfying $x^2+y^2=1$; that relation is a circle, an infinite set of points
+packed densely enough to read as a curve.
+
+\begin{visual}
+A relation is a cloud of dots suspended above the $x$-axis. The domain is the shadow
+the cloud casts straight down onto the $x$-axis; the range is the shadow it casts
+sideways onto the $y$-axis. Domain and range are the two shadows of the cloud.
+\end{visual}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+  \draw[->] (-0.5,0) -- (6,0) node[right] {$x$};
+  \draw[->] (0,-0.5) -- (0,4.5) node[above] {$y$};
+  % point cloud
+  \foreach \p in {(1,1.2),(1.3,1.8),(1.1,2.4),(2,2.1),(2.4,2.9),(2.1,1.6),
+                  (3,3.1),(3.3,2.6),(3.1,3.6),(4,3.4),(4.4,3.9),(4.1,2.9),
+                  (1.8,1.0),(2.7,2.3),(3.7,3.2),(4.6,3.5)}{
+    \fill[cloudgray] \p circle (2pt);
+  }
+  % domain shadow
+  \draw[pcblue,line width=2pt] (1,-0.15) -- (4.6,-0.15);
+  \node[pcblue] at (5.6,-0.15) {\small domain};
+  % range shadow
+  \draw[pcgreen,line width=2pt] (-0.15,1.0) -- (-0.15,3.9);
+  \node[pcgreen,rotate=90] at (-0.5,2.5) {\small range};
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[reading domain and range from a list]
+For $\{(-2,4),(0,0),(1,1),(2,4)\}$ the domain is $\{-2,0,1,2\}$ and the range is
+$\{0,1,4\}$. The value $4$ appears twice in the range but is listed once; a range
+is a set, so repeats collapse.
+\end{example}
+
+\section{When a Relation Is a Function}
+
+Most clouds are unstructured. A few satisfy a strong condition: each input is paired
+with exactly one output. That condition is what makes prediction possible. Given the
+input, there is one permitted output, so the output can be stated. If two outputs
+share an input, prediction fails, because the input no longer selects a single
+value.
+
+\begin{definition}{Function}
+A \emph{function} is a relation in which each input is paired with exactly one
+output. Equivalently, no two distinct pairs share the same first coordinate.
+\end{definition}
+
+The relation $\{(1,2),(3,5),(3,-1),(4,0)\}$ is not a function: the input $3$ is
+paired with both $5$ and $-1$. Deleting either pair makes it a function. The circle
+$x^2+y^2=1$ is not a function either; the input $x=0$ yields both $y=1$ and $y=-1$.
+
+\begin{keyidea}
+A function assigns to each input exactly one output. The domain is the set of inputs
+for which the assignment is defined; for each such input the output is determined.
+\end{keyidea}
+
+When a function is given by a rule, $f(x)$ denotes the output at input $x$. The
+symbol $f(2)$ means the output of $f$ at input $2$, a single number. It does not mean
+$f$ multiplied by $2$.
+
+\begin{example}[evaluating a function]
+Let $f(x)=x^2-3x+1$. Then
+\[
+f(2)=4-6+1=-1,\qquad f(0)=1,\qquad f(-1)=1+3+1=5.
+\]
+And $f(a+1)=(a+1)^2-3(a+1)+1=a^2-a-1$ after expanding. Evaluating at an expression
+means substituting the entire expression for $x$.
+\end{example}
+
+\begin{pitfall}
+$f(a+b)$ is almost never $f(a)+f(b)$. For $f(x)=x^2$, $f(1+2)=f(3)=9$, while
+$f(1)+f(2)=1+4=5$. The function acts on the entire input at once, not on its parts
+separately.
+\end{pitfall}
+
+\subsection{The Vertical Line Test}
+
+The function property has a graphical reading. ``Each input gives one output'' means
+that above any point on the $x$-axis the graph has at most one point. A vertical line
+is the set of points sharing one $x$-value, which gives the test directly.
+
+\begin{keyidea}
+\emph{Vertical line test.} A graph represents a function if and only if no vertical
+line crosses it more than once.
+\end{keyidea}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  % parabola opening up: a function
+  \begin{scope}
+  \draw[->] (-2.2,0) -- (2.2,0) node[right] {$x$};
+  \draw[->] (0,-0.4) -- (0,3.2) node[above] {$y$};
+  \draw[pcblue,thick,domain=-1.6:1.6,smooth] plot (\x,{\x*\x});
+  \draw[pcred,dashed] (0.8,-0.2) -- (0.8,3.1);
+  \fill[pcred] (0.8,0.64) circle (1.6pt);
+  \node at (0,-1) {\small passes: a function};
+  \end{scope}
+  % sideways parabola: not a function
+  \begin{scope}[xshift=6cm]
+  \draw[->] (-0.4,0) -- (3.4,0) node[right] {$x$};
+  \draw[->] (0,-1.8) -- (0,1.8) node[above] {$y$};
+  \draw[pcblue,thick,domain=-1.6:1.6,smooth] plot ({\x*\x},\x);
+  \draw[pcred,dashed] (1.4,-1.7) -- (1.4,1.7);
+  \fill[pcred] (1.4,1.183) circle (1.6pt);
+  \fill[pcred] (1.4,-1.183) circle (1.6pt);
+  \node at (1.5,-2.6) {\small fails: not a function};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[applying the test]
+The graph of $y=|x|$ is a V opening upward; every vertical line hits it once, so it
+is a function. The graph of $x=y^2$ is a sideways parabola; the vertical line
+$x=1$ hits it at $(1,1)$ and $(1,-1)$, so it is not a function.
+\end{example}
+
+\section{Fitting a Function to a Cloud}
+
+The two ideas now meet. Real data forms a point cloud with noise; it is almost never
+an exact function. A function can nonetheless be laid through the cloud as a
+\emph{model}: a predictable rule that follows the trend closely enough to forecast,
+summarize, and reason about the data.
+
+\begin{keyidea}
+A point cloud is the data. A function fit through it is a \emph{model}. The model is
+not the data; it is the predictable rule chosen to represent the data so that one can
+compute and forecast with it.
+\end{keyidea}
+
+The first decision is the \emph{shape}. A cloud rising in a straight band calls for a
+linear model. A cloud curving upward like a bowl suggests a parabola. A cloud that
+climbs quickly and then levels off suggests a square-root or logarithmic shape. The
+catalog of basic shapes is the library of \emph{parent functions}, and each can be
+reshaped to fit by the four operations that follow.
+
+\demo{A hidden transformed parent function generates a noisy point cloud. Identify
+the parent-function family, then tune $y=A\,f(b(x-h))+k$ until the curve threads the
+cloud. The fit score reports the root-mean-squared error between curve and data; the
+hidden answer is deliberately approximate because the cloud carries
+noise.}{https://bobovski66.github.io/Precalculus/demos/function\_fit.html}
+
+\begin{example}[choosing a shape]
+A cloud trends upward and bends, steep at first and then flatter. A straight line
+undershoots the early rise and overshoots the later leveling. The square-root shape
+$f(x)=\sqrt{x}$ has exactly this profile, fast and then flattening, so $\sqrt{x}$ is
+the parent to start from; the fitting work is sliding and stretching it onto the
+cloud.
+\end{example}
+
+\section{Transformations: Bending One Curve into Another}
+
+Every function in the library can be reshaped by four operations, all captured in a
+single expression. Given a parent function $f$, form
+\[
+g(x)=A\,f\!\big(b(x-h)\big)+k.
+\]
+Each constant controls one geometric action. Fitting reduces to reading a cloud and
+setting these four numbers.
+
+\begin{keyidea}
+\textbf{The four constants of} $\;g(x)=A\,f\!\big(b(x-h)\big)+k$.
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item $k$: vertical shift. Adds to the output, moving the graph up ($k>0$) or
+        down ($k<0$).
+  \item $h$: horizontal shift. Moves the graph right ($h>0$) or left ($h<0$).
+  \item $A$: vertical stretch by factor $|A|$; if $A<0$, also a flip across the
+        $x$-axis.
+  \item $b$: horizontal stretch by factor $1/|b|$; if $b<0$, also a flip across the
+        $y$-axis.
+\end{itemize}
+\end{keyidea}
+
+\subsection{Outside versus inside}
+
+The reliable bookkeeping is the outside/inside rule. Constants applied \emph{outside}
+$f$ ($A$ and $k$) act on the output, so they move the graph \emph{vertically} and
+behave as expected: $+k$ raises it, $A$ scales its height. Constants applied
+\emph{inside} $f$ ($b$ and $h$) act on the input, so they move the graph
+\emph{horizontally} and behave in reverse: $x-h$ shifts \emph{right} by $h$, and
+multiplying the input by $b$ \emph{compresses} by $b$.
+
+\begin{visual}
+Outside changes act on the picture after it is drawn: raise it, scale its height.
+Inside changes act on the input before $f$ receives it, so they warp the horizontal
+axis, and warping the input runs opposite to intuition. The parent produces its
+value at input $0$; the transformed graph reaches that value where $b(x-h)=0$, that
+is, at $x=h$. This is why $x-h$ moves the graph right rather than left.
+\end{visual}
+
+\begin{pitfall}
+The horizontal shift is $x-h$, so $g(x)=f(x-3)$ moves the graph \emph{right} by 3,
+not left. The minus sign is built into the form. Read $f(x+3)$ as $f(x-(-3))$, so
+$h=-3$ and the shift is left by 3.
+\end{pitfall}
+
+\begin{example}[a single vertical shift]
+With parent $f(x)=x^2$, the function $g(x)=x^2+3$ is the parabola lifted up 3
+units. The vertex moves from $(0,0)$ to $(0,3)$; every output gains 3.
+\end{example}
+
+\begin{example}[a single horizontal shift]
+With $f(x)=x^2$, the function $g(x)=(x-2)^2$ slides the parabola right 2 units. The
+vertex moves from $(0,0)$ to $(2,0)$. Check: $g(2)=0$, the old value at the old
+vertex input $0$.
+\end{example}
+
+\begin{example}[stretch and reflect together]
+With $f(x)=x^2$, the function $g(x)=-2x^2$ has $A=-2$: stretch vertically by 2
+(twice as tall) and flip across the $x$-axis (opens downward). The point $(1,1)$ on
+the parent becomes $(1,-2)$.
+\end{example}
+
+\begin{example}[all four at once]
+Let $f(x)=\sqrt{x}$ and
+\[
+g(x)=3\sqrt{2(x-1)}+4.
+\]
+Read off $A=3,\ b=2,\ h=1,\ k=4$. Starting from $\sqrt{x}$: compress horizontally by
+$\tfrac12$, stretch vertically by 3, shift right 1, shift up 4. The parent begins at
+$(0,0)$; the transformed curve begins at $(h,k)=(1,4)$, since the inside is zero at
+$x=1$ and the $+k$ raises the value to $4$.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  \draw[->] (-0.5,0) -- (6,0) node[right] {$x$};
+  \draw[->] (0,-0.5) -- (0,7) node[above] {$y$};
+  \draw[pcblue,thick,domain=0:5.5,smooth] plot (\x,{sqrt(\x)});
+  \node[pcblue] at (5.2,1.9) {\small $f(x)=\sqrt{x}$};
+  \draw[pcred,thick,domain=1:5.5,smooth] plot (\x,{3*sqrt(2*(\x-1))+4});
+  \node[pcred] at (3.6,6.6) {\small $g(x)=3\sqrt{2(x-1)}+4$};
+  \fill[pcred] (1,4) circle (2pt) node[below right] {\small $(1,4)$};
+  \fill[pcblue] (0,0) circle (2pt) node[below right] {\small $(0,0)$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Order of operations on the graph}
+
+When several transformations combine, the correct order mirrors the evaluation of
+$g(x)$ at a number: work from the input outward. Apply the inside first (horizontal:
+the $b$ compression, then the $h$ shift), then the outside (vertical: the $A$
+stretch or reflection, then the $k$ shift). Following one landmark point of the
+parent through each step keeps the order honest.
+
+\begin{example}[tracking a point]
+Take $f(x)=\sqrt{x}$ and the landmark $(4,2)$ on it. Apply
+$g(x)=3\sqrt{2(x-1)}+4$ to that point's coordinates:
+\[
+x:\quad 4 \xrightarrow{\ \div b\ } 2 \xrightarrow{\ +h\ } 3,
+\qquad
+y:\quad 2 \xrightarrow{\ \times A\ } 6 \xrightarrow{\ +k\ } 10.
+\]
+So $(4,2)$ lands at $(3,10)$. Confirm directly: $g(3)=3\sqrt{2\cdot 2}+4
+=3\cdot 2+4=10$. The two routes agree.
+\end{example}
+
+\begin{pitfall}
+The input coordinate transforms by the \emph{inverse} operations in \emph{reverse}
+order: to locate where an $x$ lands, undo the inside. Dividing by $b$ before adding
+$h$ matches the algebra of $b(x-h)$; reversing those two steps misplaces the point.
+\end{pitfall}
+
+\section{The Library of Parent Functions}
+
+Fitting is limited by the shapes one knows. The following parents recur throughout
+the course; their graphs should be memorized well enough to recognize in a cloud.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Name} & \textbf{Rule} & \textbf{Shape in a sentence}\\
+\midrule
+Constant     & $f(x)=c$        & flat horizontal line\\
+Linear       & $f(x)=x$        & straight line through the origin, slope 1\\
+Absolute value & $f(x)=|x|$    & V opening up, corner at origin\\
+Quadratic    & $f(x)=x^2$      & bowl opening up, vertex at origin\\
+Cubic        & $f(x)=x^3$      & S-curve, flat at origin\\
+Square root  & $f(x)=\sqrt{x}$ & half-parabola, fast then flattening\\
+Reciprocal   & $f(x)=1/x$      & two branches, axes as asymptotes\\
+Exponential  & $f(x)=2^x$      & flat then explosive growth\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.62]
+  \begin{scope}
+    \draw[->] (-2.2,0)--(2.2,0); \draw[->] (0,-0.4)--(0,4);
+    \draw[pcblue,thick,domain=-1.9:1.9,smooth] plot (\x,{\x*\x});
+    \node at (0,-1) {\small $x^2$};
+  \end{scope}
+  \begin{scope}[xshift=5cm]
+    \draw[->] (-2.2,0)--(2.2,0); \draw[->] (0,-2)--(0,2);
+    \draw[pcblue,thick,domain=-1.25:1.25,smooth] plot (\x,{\x*\x*\x});
+    \node at (0,-2.6) {\small $x^3$};
+  \end{scope}
+  \begin{scope}[xshift=10cm]
+    \draw[->] (-0.4,0)--(4.2,0); \draw[->] (0,-0.4)--(0,2.4);
+    \draw[pcblue,thick,domain=0:4,smooth] plot (\x,{sqrt(\x)});
+    \node at (2,-1) {\small $\sqrt{x}$};
+  \end{scope}
+  \begin{scope}[xshift=15cm]
+    \draw[->] (-2.2,0)--(2.2,0); \draw[->] (0,-0.4)--(0,3.6);
+    \draw[pcblue,thick,domain=-1.8:1.8,smooth] plot (\x,{2^\x});
+    \node at (0,-1) {\small $2^x$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[matching a cloud to a parent]
+A cloud lies entirely in the first quadrant, rising steeply near zero and then
+bending to a gentle climb. Among the parents, only $\sqrt{x}$ has this steep-then-
+gentle profile beginning at the origin. Start from $\sqrt{x}$ and fit $A,b,h,k$.
+\end{example}
+
+\section{Exercises}
+
+\begin{exercises}
+\item For the relation $\{(-1,3),(0,0),(2,3),(2,-3),(5,1)\}$, state the domain and
+range, and decide whether it is a function. Justify.
+
+\item Decide whether each graph could pass the vertical line test, and say what the
+test is checking: (a) a circle; (b) a downward parabola; (c) the letter ``S'' lying
+on its back; (d) a single steep upward line.
+
+\item Let $f(x)=2x^2-x+3$. Compute $f(0)$, $f(-2)$, and $f(t+1)$, simplifying the
+last completely.
+
+\item Give a relation that is \emph{not} a function, then change exactly one ordered
+pair to make it a function. Explain why your change works.
+
+\item Starting from $f(x)=x^2$, write the rule for the function obtained by shifting
+left 4, stretching vertically by 3, and shifting down 1. Then state the vertex.
+
+\item Describe in words every transformation taking $f(x)=|x|$ to
+$g(x)=-\tfrac12\,|x+2|+5$, in the correct order, and give the coordinates of the
+corner of $g$.
+
+\item The point $(9,3)$ lies on $f(x)=\sqrt{x}$. Find where it lands under
+$g(x)=2\sqrt{x-1}+4$ by tracking the coordinate through each step, then confirm by
+direct substitution.
+
+\item Explain, using the outside/inside rule, why $f(x-3)$ shifts the graph right
+while $f(x)+3$ shifts it up. Why do the two ``$+3$'' moves go in such different
+directions?
+
+\item A point cloud rises in a nearly straight band but with clear scatter. Explain
+the difference between the cloud and a linear function fit through it, and state what
+the word \emph{model} means in this context.
+
+\item For $g(x)=A\,f(b(x-h))+k$, suppose $A<0$ and $b<0$. Describe both reflections
+that occur and name the two axes involved.
+
+\item A cloud opens upward like a bowl with its lowest point near $(2,-3)$. Propose
+a parent function and initial values of $A,b,h,k$ to start a fit, and explain each
+choice.
+
+\item Open the Function Fit Lab. Generate a cloud, identify the parent family, and
+record the four constants you settled on with the resulting fit score. State in one
+sentence which constant was hardest to determine and why.
+\end{exercises}
+
+\end{document}

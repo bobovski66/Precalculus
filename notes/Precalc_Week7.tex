@@ -1,0 +1,247 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{6}
+\begin{document}
+
+\chapter{Logarithms}
+
+A logarithm answers the question the exponential leaves open: given a base $b$ and a
+result $y$, what exponent produces it? That exponent is $\log_b y$. Since the
+exponential $b^{x}$ takes an exponent to a result and the logarithm takes a result
+back to its exponent, the two are inverse functions, and everything about the
+logarithm follows from reading the exponential backward.
+
+\section{The Logarithm as an Inverse}
+
+The exponential $f(x)=b^{x}$ with $b>0$, $b\neq1$ is one-to-one: distinct exponents
+give distinct results. By the inverse machinery, it has an inverse, and that inverse
+is the logarithm base $b$.
+
+\begin{definition}{Logarithm}
+For base $b>0$, $b\neq1$, the \emph{logarithm} $\log_b y$ is the exponent to which $b$
+must be raised to produce $y$:
+\[
+\log_b y = x \quad\text{exactly when}\quad b^{x}=y.
+\]
+\end{definition}
+
+The two statements $b^{x}=y$ and $\log_b y=x$ say the same thing in opposite
+directions. Reading one into the other is the single most useful move in the subject.
+
+\begin{keyidea}
+$\log_b y$ is an exponent: the exponent that turns $b$ into $y$. The exponential and
+logarithm undo each other,
+\[
+b^{\log_b y}=y \qquad\text{and}\qquad \log_b\!\left(b^{x}\right)=x,
+\]
+because each reverses what the other did.
+\end{keyidea}
+
+\begin{example}[evaluating by asking for the exponent]
+$\log_2 8 = 3$, because $2^{3}=8$. $\log_{10}1000=3$, because $10^{3}=1000$.
+$\log_5 1=0$, because $5^{0}=1$. $\log_3\tfrac19=-2$, because $3^{-2}=\tfrac19$. Each
+value is found by asking what exponent on the base yields the argument.
+\end{example}
+
+Because the logarithm is the inverse of the exponential, its graph is the reflection
+of the exponential graph across the line $y=x$, with domain and range swapped. The
+exponential has domain all reals and range $y>0$; the logarithm therefore has domain
+$x>0$ and range all reals. Logarithms of zero and of negatives do not exist, since no
+exponent on a positive base produces them.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  \draw[->] (-3,0)--(4,0) node[right]{\scriptsize $x$};
+  \draw[->] (0,-3)--(0,4) node[above]{\scriptsize $y$};
+  \draw[gray,dashed] (-2.8,-2.8)--(3.8,3.8) node[right]{\scriptsize $y=x$};
+  \draw[pcblue,thick,domain=-2.8:1.35,smooth,samples=80] plot (\x,{2^\x});
+  \node[pcblue] at (1.55,3.6) {\scriptsize $b^{x}$};
+  \draw[pcred,thick,domain=0.13:3.8,smooth,samples=80] plot (\x,{ln(\x)/ln(2)});
+  \node[pcred] at (3.4,1.4) {\scriptsize $\log_b x$};
+  \fill (0,1) circle (1.4pt) node[above left]{\scriptsize $(0,1)$};
+  \fill (1,0) circle (1.4pt) node[below right]{\scriptsize $(1,0)$};
+\end{tikzpicture}
+\end{center}
+
+The exponential passes through $(0,1)$; reflected, the logarithm passes through
+$(1,0)$, recording that $\log_b 1=0$ for every base. The $y$-axis is a vertical
+asymptote of the logarithm, the reflection of the exponential's horizontal asymptote.
+
+\begin{example}[two named bases]
+Base $10$ gives the \emph{common logarithm}, written $\log x$. Base $e$ gives the
+\emph{natural logarithm}, written $\ln x$, the inverse of $e^{x}$ promised in the
+previous chapter: $\ln b$ is the exponent that turns $e$ into $b$. So $\ln e=1$ and
+$\ln 1=0$.
+\end{example}
+
+\demo{In the Function Fit Lab, set the parent function to a logarithm and tune
+$A\,f(b(x-h))+k$ to match a noisy point cloud. The logarithmic shape rises quickly
+near its vertical asymptote and then flattens, the mirror of the exponential's slow
+start and rapid climb; fitting one is reading the inverse relationship in
+data.}{https://bobovski66.github.io/Precalculus/demos/function\_fit.html}
+
+\section{The Laws of Logarithms}
+
+Each exponent rule, read backward through the inverse, becomes a logarithm rule.
+Multiplying powers adds exponents, so a logarithm turns a product into a sum;
+dividing powers subtracts exponents, so a logarithm turns a quotient into a
+difference; raising a power to a power multiplies exponents, so a logarithm turns an
+exponent into a coefficient.
+
+\begin{keyidea}
+\textbf{Laws of logarithms.} For $b>0$, $b\neq1$, and positive $M,N$,
+\[
+\log_b(MN)=\log_b M+\log_b N,\quad
+\log_b\!\frac{M}{N}=\log_b M-\log_b N,\quad
+\log_b\!\left(M^{p}\right)=p\,\log_b M.
+\]
+\end{keyidea}
+
+\begin{visual}
+A logarithm converts the scale of multiplication into the scale of addition. Products
+become sums, quotients become differences, and powers become products. This is why
+logarithms turn the wide range of multiplicative quantities, populations, intensities,
+probabilities, into manageable additive scales.
+\end{visual}
+
+\begin{example}[expanding and combining]
+Expand $\log_b\dfrac{x^{3}y}{z}$:
+\[
+\log_b\frac{x^{3}y}{z}=\log_b x^{3}+\log_b y-\log_b z=3\log_b x+\log_b y-\log_b z.
+\]
+Run backward, $2\log x+\log y$ combines to $\log(x^{2}y)$, collapsing a sum of
+logarithms into the logarithm of a product.
+\end{example}
+
+\begin{pitfall}
+$\log_b(M+N)$ has no expansion; the laws apply to products, quotients, and powers,
+never to sums. In particular $\log_b(M+N)$ is not $\log_b M+\log_b N$. The right-hand
+side equals $\log_b(MN)$, an entirely different quantity.
+\end{pitfall}
+
+\section{Change of Base}
+
+A calculator computes logarithms in base $10$ and base $e$, yet any base is needed in
+practice. The change-of-base formula expresses a logarithm in one base through
+logarithms in another. It follows from the inverse relationship: writing
+$x=\log_b N$ means $b^{x}=N$; taking $\log_c$ of both sides and using the power law
+gives $x\log_c b=\log_c N$.
+
+\begin{keyidea}
+\textbf{Change of base.} For positive bases $b,c\neq1$ and positive $N$,
+\[
+\log_b N=\frac{\log_c N}{\log_c b}.
+\]
+Taking $c=10$ or $c=e$ lets any logarithm be computed from common or natural
+logarithms.
+\end{keyidea}
+
+\begin{example}[computing a base-2 logarithm]
+Find $\log_2 10$. By change of base,
+\[
+\log_2 10=\frac{\ln 10}{\ln 2}=\frac{2.302585}{0.693147}\approx 3.3219.
+\]
+So $2^{3.3219}\approx 10$, which checks: $10$ sits between $2^{3}=8$ and $2^{4}=16$,
+closer to $8$.
+\end{example}
+
+\begin{example}[solving an exponential equation]
+Solve $3^{x}=20$. Take the logarithm of both sides and apply the power law:
+\[
+x\log 3=\log 20,\qquad x=\frac{\log 20}{\log 3}=\frac{1.30103}{0.47712}\approx 2.727.
+\]
+The logarithm extracts the exponent, which is exactly what it was built to do.
+\end{example}
+
+\section{Logarithms and Information}
+
+The logarithm base $2$ measures information. Consider a quantity that can take one of
+$N$ equally likely values, and ask how many yes/no questions are needed to identify
+which value occurred. Each question, answered optimally, halves the number of
+remaining possibilities. Starting from $N$ and halving down to $1$ takes $\log_2 N$
+questions, and that count is the number of \emph{bits} of information the answer
+carries.
+
+\begin{keyidea}
+The information content of selecting one outcome from $N$ equally likely outcomes is
+$\log_2 N$ bits, the number of yes/no questions needed to pin it down. Equivalently,
+an event of probability $p$ carries $\log_2\!\dfrac1p=-\log_2 p$ bits: the rarer the
+event, the more information its occurrence conveys.
+\end{keyidea}
+
+\begin{example}[bits to identify an outcome]
+A fair coin has $N=2$ outcomes, so a flip carries $\log_2 2=1$ bit, a single yes/no
+answer. A byte chooses one of $N=256$ states, carrying $\log_2 256=8$ bits, since
+$2^{8}=256$. Identifying one card from a deck of $52$ needs
+$\log_2 52\approx 5.70$ bits: five questions are not quite enough, six more than
+suffice.
+\end{example}
+
+\begin{example}[information from probability]
+An event of probability $p=\tfrac1{32}$ carries $\log_2 32=5$ bits when it occurs,
+because $-\log_2\tfrac1{32}=\log_2 32=5$. A near-certain event of probability
+$p=0.99$ carries $-\log_2 0.99\approx0.0145$ bits: its occurrence is almost no
+surprise, so it conveys almost no information. Rare events are informative; common
+events are not.
+\end{example}
+
+\begin{visual}
+Information is measured on a logarithmic scale because possibilities multiply while
+information adds. Two independent yes/no choices give $2\times2=4$ outcomes but
+$1+1=2$ bits; ten such choices give $2^{10}=1024$ outcomes and $10$ bits. The
+logarithm is the bridge that turns the multiplying count of possibilities into the
+adding count of bits.
+\end{visual}
+
+\begin{example}[combining independent sources]
+A system has two independent components, one with $8$ states and one with $4$. The
+combined system has $8\times4=32$ states, carrying $\log_2 32=5$ bits. The same total
+comes from adding the parts: $\log_2 8+\log_2 4=3+2=5$. The product law of logarithms
+is precisely the additivity of information across independent sources.
+\end{example}
+
+\section{Exercises}
+
+\begin{exercises}
+\item Evaluate by asking for the exponent: (a) $\log_3 81$; (b) $\log_{10}0.01$;
+(c) $\log_2\tfrac1{16}$; (d) $\log_7 1$; (e) $\ln e^{4}$.
+
+\item Rewrite each exponential statement as a logarithmic one and conversely:
+(a) $5^{3}=125$; (b) $\log_2 32=5$; (c) $e^{0}=1$.
+
+\item Sketch $f(x)=2^{x}$ and $f^{-1}(x)=\log_2 x$ on one set of axes, mark
+$(0,1)$ and $(1,0)$, and identify the asymptote of each.
+
+\item Expand fully: (a) $\log_b(x^{2}yz^{3})$; (b) $\log\dfrac{\sqrt{x}}{y^{4}}$;
+(c) $\ln\dfrac{e^{2}x}{y}$.
+
+\item Combine into a single logarithm: (a) $\log x+3\log y$;
+(b) $2\ln x-\tfrac12\ln y$; (c) $\log_b 6-\log_b 2$.
+
+\item Explain why $\log_b(M+N)$ cannot be expanded by the laws, and state what
+$\log_b M+\log_b N$ does equal.
+
+\item Use change of base to compute, to four decimals: (a) $\log_2 50$;
+(b) $\log_5 100$; (c) $\log_3 7$.
+
+\item Solve for $x$, leaving exact and decimal forms: (a) $2^{x}=15$;
+(b) $5^{x}=2$; (c) $e^{x}=10$.
+
+\item How many bits of information are carried by identifying one outcome from
+(a) $16$ equally likely outcomes; (b) $1000$ equally likely outcomes;
+(c) a single roll of a fair six-sided die? Use change of base where needed.
+
+\item An event has probability $p=\tfrac1{64}$. Find the information in bits its
+occurrence conveys, and explain why a rarer event carries more information than a
+common one.
+
+\item A password is one of $2^{40}$ equally likely strings. State its information
+content in bits, and explain how the product law makes the bits of independent
+characters add.
+
+\item Two independent dice, one fair six-sided and one fair four-sided, are rolled.
+Find the total number of outcomes, the information in bits, and verify that the bits
+of the two dice add to the bits of the combined system.
+\end{exercises}
+
+\end{document}

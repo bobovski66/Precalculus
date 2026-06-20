@@ -1,0 +1,263 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{4}
+\begin{document}
+
+\chapter{Inverses and Radicals}
+
+A function sends each input to one output. Two questions about that sending decide
+whether it can be undone: does every input land on a distinct output, and does every
+possible output get hit? The first is the one-to-one property, the second is onto.
+When both hold the function has an inverse, a second function that runs the arrows
+backward, turning outputs into the inputs that produced them. Radicals are the
+inverses of power functions, and they carry the domain restrictions that the
+backward direction forces.
+
+\section{Domain and Range}
+
+The domain is the set of inputs a function accepts; the range is the set of outputs
+it produces. For a function given by a formula, the domain is every input for which
+the formula is defined, and the range is every value the formula attains as the input
+runs over the domain.
+
+\begin{definition}{Domain and range}
+The \emph{domain} of $f$ is the set of all inputs $x$ for which $f(x)$ is defined.
+The \emph{range} is the set of all outputs $f(x)$ produced as $x$ ranges over the
+domain.
+\end{definition}
+
+Two operations restrict a domain. Division forbids a zero denominator, and an even
+root forbids a negative radicand. Everything else in this course accepts all real
+inputs.
+
+\begin{example}[reading the domain from the formula]
+For $f(x)=\dfrac{1}{x-5}$ the denominator vanishes at $x=5$, so the domain is all
+reals except $5$. For $g(x)=\sqrt{x-3}$ the radicand $x-3$ must be nonnegative, so the
+domain is $x\ge 3$. For $h(x)=x^2+1$ no operation restricts anything, so the domain is
+all reals, while the range is $y\ge 1$ because a square is never negative.
+\end{example}
+
+\begin{pitfall}
+Domain restrictions come from the operations, not from the graph's appearance. An odd
+root such as $\sqrt[3]{x}$ accepts negatives, since a cube root of a negative number
+is a real negative number; only \emph{even} roots restrict the radicand.
+\end{pitfall}
+
+\section{One-to-One and Onto}
+
+Two properties describe how a function distributes its inputs over its outputs.
+
+\begin{definition}{One-to-one and onto}
+A function $f$ is \emph{one-to-one} if distinct inputs always give distinct outputs:
+$x_1\neq x_2$ forces $f(x_1)\neq f(x_2)$. It is \emph{onto} a target set of outputs
+if every value in that set is attained by some input.
+\end{definition}
+
+One-to-one is the property that no output is shared by two inputs. It has a graphical
+test that mirrors the vertical line test for functions.
+
+\begin{keyidea}
+\textbf{Horizontal line test.} A function is one-to-one if and only if no horizontal
+line crosses its graph more than once. A repeated crossing marks two inputs sharing
+one output, which violates the one-to-one property.
+\end{keyidea}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  % one-to-one: a cubic
+  \begin{scope}
+    \draw[->] (-2,0)--(2,0) node[right]{\scriptsize $x$}; \draw[->] (0,-2.2)--(0,2.2);
+    \draw[pcblue,thick,domain=-1.5:1.5,smooth,samples=60] plot (\x,{0.6*\x*\x*\x});
+    \draw[pcred,dashed] (-1.9,0.9)--(1.9,0.9);
+    \fill[pcred] (1.106,0.9) circle (1.6pt);
+    \node at (0,-3) {\scriptsize one-to-one};
+  \end{scope}
+  % not one-to-one: a parabola
+  \begin{scope}[xshift=6cm]
+    \draw[->] (-2,0)--(2,0) node[right]{\scriptsize $x$}; \draw[->] (0,-0.4)--(0,3.4);
+    \draw[pcblue,thick,domain=-1.7:1.7,smooth] plot (\x,{\x*\x});
+    \draw[pcred,dashed] (-1.9,1.4)--(1.9,1.4);
+    \fill[pcred] (1.183,1.4) circle (1.6pt);
+    \fill[pcred] (-1.183,1.4) circle (1.6pt);
+    \node at (0,-1) {\scriptsize not one-to-one};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[applying the horizontal line test]
+The line $f(x)=2x-1$ is one-to-one; every horizontal line meets it once. The
+parabola $f(x)=x^2$ is not; the horizontal line $y=4$ meets it at $x=2$ and $x=-2$,
+two inputs sharing the output $4$. Restricting the parabola to $x\ge0$ removes the
+left half and makes the restricted function one-to-one.
+\end{example}
+
+Whether a function is onto depends on the target set declared for its outputs. The
+squaring function is onto the nonnegative reals (every nonnegative number is a
+square) but not onto all reals (no input squares to a negative number). Choosing the
+target set to be exactly the range makes any function onto by construction.
+
+\section{The Inverse Function}
+
+When $f$ is one-to-one, each output came from exactly one input, so the assignment can
+be reversed: send each output back to the input that produced it. That reverse
+assignment is the inverse function $f^{-1}$.
+
+\begin{definition}{Inverse function}
+If $f$ is one-to-one, its \emph{inverse} $f^{-1}$ is the function satisfying
+\[
+f^{-1}(y)=x \quad\text{exactly when}\quad f(x)=y.
+\]
+Equivalently, $f^{-1}(f(x))=x$ for every $x$ in the domain of $f$, and
+$f(f^{-1}(y))=y$ for every $y$ in the range.
+\end{definition}
+
+\begin{keyidea}
+An inverse undoes the function. Its domain is the range of $f$ and its range is the
+domain of $f$; the two sets trade places, because reversing the arrows swaps inputs
+and outputs. Only a one-to-one function has an inverse, since a shared output would
+have no single input to return to.
+\end{keyidea}
+
+\subsection{Finding an inverse}
+
+Because the inverse swaps the roles of input and output, the algebra is: write
+$y=f(x)$, exchange $x$ and $y$, and solve for $y$. The result is $f^{-1}(x)$.
+
+\begin{example}[finding an inverse]
+Invert $f(x)=2x-1$. Write $y=2x-1$, swap to $x=2y-1$, and solve:
+$y=\dfrac{x+1}{2}$. So $f^{-1}(x)=\dfrac{x+1}{2}$. Check: $f^{-1}(f(x))
+=\dfrac{(2x-1)+1}{2}=x$.
+\end{example}
+
+\begin{visual}
+Swapping $x$ and $y$ reflects the graph across the line $y=x$. The graph of $f^{-1}$
+is the mirror image of the graph of $f$ in that diagonal, because every point
+$(a,b)$ on $f$ becomes the point $(b,a)$ on $f^{-1}$.
+\end{visual}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.75]
+  \draw[->] (-0.5,0)--(5,0) node[right]{\scriptsize $x$};
+  \draw[->] (0,-0.5)--(0,5) node[above]{\scriptsize $y$};
+  \draw[gray,dashed] (-0.4,-0.4)--(4.8,4.8) node[right]{\scriptsize $y=x$};
+  \draw[pcblue,thick,domain=0:2.1,smooth] plot (\x,{\x*\x});
+  \node[pcblue] at (1.7,4.4) {\scriptsize $f(x)=x^2$};
+  \draw[pcred,thick,domain=0:4.4,smooth] plot (\x,{sqrt(\x)});
+  \node[pcred] at (4.4,1.6) {\scriptsize $f^{-1}(x)=\sqrt{x}$};
+\end{tikzpicture}
+\end{center}
+
+\section{Radicals as Inverses of Powers}
+
+A radical is the inverse of a power function. The square root inverts squaring, the
+cube root inverts cubing, and in general $\sqrt[n]{x}$ inverts $x^n$. The parity of
+$n$ controls the domains, exactly as it controlled the behavior of roots and ends in
+the polynomial chapter.
+
+\begin{keyidea}
+\textbf{Radicals and parity.}
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item \emph{$n$ odd.} $x^n$ is one-to-one on all reals, so $\sqrt[n]{x}$ is defined
+        for all reals; negatives are allowed.
+  \item \emph{$n$ even.} $x^n$ is not one-to-one on all reals (it shares outputs
+        across $\pm x$), so it must be restricted to $x\ge0$ before inverting.
+        Its inverse $\sqrt[n]{x}$ then has domain and range $x\ge0$.
+\end{itemize}
+\end{keyidea}
+
+\begin{example}[why the square root needs a restriction]
+The function $x^2$ fails the horizontal line test on all reals. Restricted to
+$x\ge0$ it is one-to-one, and its inverse is $\sqrt{x}$, with domain $x\ge0$ and range
+$y\ge0$. The discarded left half $x\le0$ would have inverted to $-\sqrt{x}$; the two
+halves are the two branches of the sideways parabola, only one of which is a function.
+\end{example}
+
+\begin{example}[an odd root accepts negatives]
+The function $x^3$ is one-to-one on all reals, so $\sqrt[3]{x}$ is defined
+everywhere. For instance $\sqrt[3]{-8}=-2$, since $(-2)^3=-8$. No restriction is
+needed because cubing never repeats an output.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+  % cube root, all reals
+  \begin{scope}
+    \draw[->] (-2.4,0)--(2.4,0) node[right]{\scriptsize $x$};
+    \draw[->] (0,-1.8)--(0,1.8) node[above]{\scriptsize $y$};
+    \draw[pcblue,thick,domain=-1.25:1.25,smooth,samples=80,variable=\t]
+      plot ({\t*\t*\t},{\t});
+    \node at (0,-2.6) {\scriptsize $\sqrt[3]{x}$, all reals};
+  \end{scope}
+  % square root, x>=0
+  \begin{scope}[xshift=7cm]
+    \draw[->] (-0.6,0)--(4,0) node[right]{\scriptsize $x$};
+    \draw[->] (0,-0.6)--(0,2.4) node[above]{\scriptsize $y$};
+    \draw[pcred,thick,domain=0:3.6,smooth,samples=60] plot (\x,{sqrt(\x)});
+    \node at (1.8,-1.2) {\scriptsize $\sqrt{x}$, $x\ge0$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection{Solving equations with radicals}
+
+A radical equation is solved by isolating the radical and raising both sides to the
+matching power. Raising an even root to an even power can introduce a false solution,
+because the squaring step accepts a sign the original equation forbade, so every
+candidate must be checked in the original equation.
+
+\begin{example}[solving and checking]
+Solve $\sqrt{x+5}=x-1$. Square both sides: $x+5=x^2-2x+1$, so $x^2-3x-4=0$, giving
+$(x-4)(x+1)=0$ and candidates $x=4$ and $x=-1$. Check in the original: $x=4$ gives
+$\sqrt{9}=3$ and $4-1=3$, valid. $x=-1$ gives $\sqrt{4}=2$ but $-1-1=-2$; the two
+sides disagree, so $x=-1$ is rejected. The only solution is $x=4$.
+\end{example}
+
+\begin{pitfall}
+Squaring both sides can manufacture solutions the original equation never had,
+because $\sqrt{\,}$ returns the nonnegative root while squaring forgets the sign.
+Always substitute each candidate back into the original radical equation and discard
+any that fail.
+\end{pitfall}
+
+\section{Exercises}
+
+\begin{exercises}
+\item State the domain of each: (a) $\dfrac{x}{x^2-9}$; (b) $\sqrt{2x-6}$;
+(c) $\sqrt[3]{x+1}$; (d) $\dfrac{1}{\sqrt{x-4}}$.
+
+\item Give the range of each, with a reason: (a) $f(x)=x^2-4$; (b) $f(x)=\sqrt{x}+2$;
+(c) $f(x)=-|x|$.
+
+\item Apply the horizontal line test to decide which are one-to-one:
+(a) $f(x)=3x+2$; (b) $f(x)=x^2-1$; (c) $f(x)=x^3$; (d) $f(x)=|x|$.
+
+\item Explain, using the definition, why a function must be one-to-one to have an
+inverse. What goes wrong at a shared output?
+
+\item Find the inverse of each and state its domain: (a) $f(x)=3x-7$;
+(b) $f(x)=\dfrac{x+2}{5}$; (c) $f(x)=x^3+1$.
+
+\item For $f(x)=x^2$ restricted to $x\ge0$, find $f^{-1}$, verify
+$f^{-1}(f(x))=x$ on the restricted domain, and state the domain and range of $f^{-1}$.
+
+\item Explain why $\sqrt[3]{x}$ is defined for all real numbers while $\sqrt{x}$ is
+not, in terms of the parity of the power being inverted.
+
+\item Sketch $f(x)=x^2$ on $x\ge0$ and its inverse on the same axes, and show that
+each is the reflection of the other across $y=x$.
+
+\item Solve and check, discarding any false solutions: (a) $\sqrt{2x+3}=x$;
+(b) $\sqrt{x+7}=x+1$.
+
+\item A function and its inverse meet the line $y=x$. Explain why any intersection of
+$f$ with its inverse must lie on that line, using the reflection picture.
+
+\item The function $f(x)=\sqrt{x-2}+1$ is built from the parent $\sqrt{x}$ by
+transformations. State the domain and range, find the inverse, and confirm the domain
+of the inverse equals the range of $f$.
+
+\item Determine whether $f(x)=\dfrac{1}{x}$ is its own inverse by computing
+$f^{-1}$, and explain the symmetry of its graph in light of the result.
+\end{exercises}
+
+\end{document}

@@ -1,0 +1,331 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{3}
+\begin{document}
+
+\chapter{Rational Functions}
+
+A rational function is a ratio of two polynomials,
+\[
+f(x)=\frac{p(x)}{q(x)},
+\]
+and its graph is governed by the interplay between the two. Where the numerator
+$p$ is zero the function is zero; where the denominator $q$ is zero the function is
+undefined and the graph runs off toward a vertical line. The relative sizes of the
+two degrees decide what happens at the far ends. As with polynomials, the factored
+form of numerator and denominator displays the information that fixes the shape, and
+the leading terms settle the ends.
+
+\section{Zeros and Vertical Asymptotes}
+
+The numerator and denominator each contribute their own roots, and the two kinds
+behave oppositely. A root of the numerator (that is not also a root of the
+denominator) makes the whole fraction zero, so the graph crosses or touches the axis
+there exactly as a polynomial would. A root of the denominator makes the fraction
+undefined; near such a point the denominator is tiny while the numerator is not, so
+the quotient grows without bound. The graph approaches a vertical line called a
+vertical asymptote.
+
+\begin{definition}{Zero and vertical asymptote}
+For $f(x)=p(x)/q(x)$ in lowest terms, a \emph{zero} is an input where $p(x)=0$,
+producing $f(x)=0$. A \emph{vertical asymptote} is a vertical line $x=a$ where
+$q(a)=0$; as $x\to a$ the values of $f$ increase or decrease without bound.
+\end{definition}
+
+\begin{keyidea}
+Numerator roots pull the graph \emph{to} the axis (zeros). Denominator roots push
+the graph \emph{away} along a vertical line (asymptotes). The factored form of
+$p/q$ lists both at once.
+\end{keyidea}
+
+\begin{visual}
+At a numerator root the fraction reads (small)$/$(ordinary), which is small: the
+graph sits near the $x$-axis. At a denominator root the fraction reads
+(ordinary)$/$(small), which is enormous: the graph races up or down beside the
+vertical line $x=a$. The two roots are mirror situations, one driving the value to
+zero, the other to infinity.
+\end{visual}
+
+\begin{example}[locating zeros and asymptotes]
+For
+\[
+f(x)=\frac{(x-2)(x+1)}{(x-3)(x+1)}
+\]
+the numerator is zero at $x=2$ and $x=-1$; the denominator is zero at $x=3$ and
+$x=-1$. The factor $(x+1)$ is common to both, so it cancels: it is neither a true
+zero nor an asymptote, but a single missing point (a hole) at $x=-1$. After
+cancellation the function is $f(x)=\dfrac{x-2}{x-3}$ with a genuine zero at $x=2$ and
+a vertical asymptote at $x=3$.
+\end{example}
+
+\begin{pitfall}
+A factor common to numerator and denominator does not create an asymptote. It
+cancels, leaving a hole, a single point removed from the graph. Always reduce to
+lowest terms before declaring zeros and asymptotes; the leftover denominator roots
+are the asymptotes, the leftover numerator roots are the zeros.
+\end{pitfall}
+
+\subsection{Sign analysis across the features}
+
+Zeros and vertical asymptotes are the only places a rational function in lowest terms
+can change sign, for the same reason as with polynomials: the value can switch sign
+only by passing through zero (a numerator root) or through infinity (a denominator
+root). Marking both kinds on a number line and testing one point per interval gives
+the sign on each interval, just as before.
+
+\begin{example}[sign chart for a rational function]
+Take $f(x)=\dfrac{x-2}{x-3}$. The feature points are the zero $x=2$ and the
+asymptote $x=3$.
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Interval & test $x$ & $x-2$ & $x-3$ & sign of $f$\\
+\midrule
+$(-\infty,2)$ & $0$ & $-$ & $-$ & $+$\\
+$(2,3)$       & $2.5$ & $+$ & $-$ & $-$\\
+$(3,\infty)$  & $4$ & $+$ & $+$ & $+$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The graph is above the axis left of $2$, dips below between $2$ and $3$, and returns
+above the axis past the asymptote at $3$.
+\end{example}
+
+\section{End Behavior: Comparing Degrees}
+
+Far from the origin the leading terms of numerator and denominator dominate all
+others, so the end behavior of $p(x)/q(x)$ matches that of the ratio of leading
+terms. Writing $p(x)=a_m x^m+\cdots$ and $q(x)=b_n x^n+\cdots$, the comparison of the
+degrees $m$ and $n$ decides the outcome.
+
+\begin{keyidea}
+\textbf{End behavior of} $f(x)=\dfrac{a_m x^m+\cdots}{b_n x^n+\cdots}$
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item \emph{$m<n$ (proper, numerator smaller).} The ends approach the horizontal
+        asymptote $y=0$.
+  \item \emph{$m=n$ (equal degrees).} The ends approach the horizontal asymptote
+        $y=\dfrac{a_m}{b_n}$, the ratio of leading coefficients.
+  \item \emph{$m>n$ (improper, numerator larger).} There is no horizontal asymptote.
+        Polynomial long division produces a polynomial part the ends follow; when
+        $m=n+1$ that part is a line, a \emph{slant asymptote}.
+\end{itemize}
+\end{keyidea}
+
+\begin{example}[horizontal asymptote from equal degrees]
+For $f(x)=\dfrac{3x^2-1}{2x^2+x+5}$ the degrees are equal at $2$. The ends approach
+$y=\tfrac{3}{2}$, the ratio of the leading coefficients $3$ and $2$. The lower-degree
+terms affect the middle of the graph but vanish in the comparison at the ends.
+\end{example}
+
+\begin{example}[horizontal asymptote at zero]
+For $f(x)=\dfrac{4x+1}{x^2-9}$ the numerator degree $1$ is below the denominator
+degree $2$, so the ends approach $y=0$. The denominator factors as $(x-3)(x+3)$,
+giving vertical asymptotes at $x=3$ and $x=-3$; the single numerator root
+$x=-\tfrac14$ is the only zero.
+\end{example}
+
+\section{Improper Rational Functions and Long Division}
+
+When the numerator degree is at least the denominator degree, the function is
+\emph{improper}, and the honest description of its ends comes from polynomial long
+division. Dividing $p$ by $q$ rewrites the function as a polynomial quotient plus a
+proper remainder term:
+\[
+\frac{p(x)}{q(x)}=Q(x)+\frac{R(x)}{q(x)},\qquad \deg R<\deg q.
+\]
+Far from the origin the remainder term $R(x)/q(x)$ is proper, so it decays to zero,
+and the graph approaches the polynomial $Q(x)$. The quotient $Q$ is the end-behavior
+curve.
+
+\begin{keyidea}
+For an improper rational function, long division gives
+$f(x)=Q(x)+\dfrac{R(x)}{q(x)}$ with the remainder term proper. The ends of the graph
+hug the quotient $Q(x)$, because the proper part dies off. When $\deg p=\deg q+1$ the
+quotient is a line, and that line is the slant asymptote.
+\end{keyidea}
+
+\begin{example}[a slant asymptote by long division]
+Analyze $f(x)=\dfrac{x^2+x-2}{x-3}$.
+
+The numerator degree $2$ exceeds the denominator degree $1$ by one, so expect a
+slant asymptote. Divide $x^2+x-2$ by $x-3$:
+\[
+\begin{array}{r}
+x+4\phantom{xxxxx}\\
+x-3\,\big)\,\overline{x^2+x-2\phantom{x}}\\
+\underline{x^2-3x\phantom{xxxx}}\\
+4x-2\phantom{x}\\
+\underline{4x-12}\\
+10\phantom{x}
+\end{array}
+\]
+So
+\[
+f(x)=x+4+\frac{10}{x-3}.
+\]
+The remainder term $\dfrac{10}{x-3}$ is proper and decays to zero at the ends, so the
+graph approaches the line $y=x+4$. That line is the slant asymptote. The factored
+numerator $x^2+x-2=(x+2)(x-1)$ gives zeros at $x=-2$ and $x=1$, and the denominator
+gives a vertical asymptote at $x=3$.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[xscale=0.42,yscale=0.30]
+  \draw[->] (-5.6,0)--(12.8,0) node[right] {$x$};
+  \draw[->] (0,-8.6)--(0,18.6) node[above] {$y$};
+  % vertical asymptote x=3
+  \draw[pcpurple,dashed,thick] (3,-8.4) -- (3,18.4);
+  \node[pcpurple] at (4.2,17.6) {\scriptsize $x=3$};
+  % slant asymptote y=x+4
+  \draw[pcgreen,dashed,thick,domain=-5.4:12.6] plot (\x,{\x+4});
+  \node[pcgreen] at (10.8,16.4) {\scriptsize $y=x+4$};
+  % left branch  (x<3)
+  \draw[pcblue,thick,domain=-5.4:2.32,smooth,samples=160]
+    plot (\x,{\x+4+10/(\x-3)});
+  % right branch (x>3)
+  \draw[pcblue,thick,domain=4.0:12.6,smooth,samples=160]
+    plot (\x,{\x+4+10/(\x-3)});
+  % zeros
+  \fill[pcred] (-2,0) circle (3.2pt) node[below left] {\scriptsize $-2$};
+  \fill[pcred] (1,0) circle (3.2pt) node[below right] {\scriptsize $1$};
+\end{tikzpicture}
+\end{center}
+
+\begin{pitfall}
+A slant asymptote appears only when the numerator degree is exactly one more than the
+denominator degree. If it exceeds by two or more, the quotient $Q(x)$ is a parabola
+or higher curve, and the ends follow that curve, not a line. There is no horizontal
+asymptote in any improper case.
+\end{pitfall}
+
+\begin{example}[improper with equal-after-division check]
+For $f(x)=\dfrac{2x^3}{x^2+1}$ the numerator degree exceeds the denominator by one.
+Long division gives
+\[
+\frac{2x^3}{x^2+1}=2x-\frac{2x}{x^2+1},
+\]
+so the slant asymptote is $y=2x$ and the proper remainder $-\dfrac{2x}{x^2+1}$ decays
+at the ends. The only zero is $x=0$, and the denominator $x^2+1$ is never zero, so
+there are no vertical asymptotes.
+\end{example}
+
+\section{Assembling the Graph}
+
+A faithful sketch of a rational function in lowest terms combines four readings, each
+taken from the factored form or the long division.
+
+\begin{keyidea}
+\textbf{Sketching a rational function.}
+\begin{enumerate}\setlength{\itemsep}{2pt}
+  \item \emph{Reduce} to lowest terms; note any holes from cancelled factors.
+  \item \emph{Zeros:} numerator roots, with crossing or touching set by multiplicity.
+  \item \emph{Vertical asymptotes:} denominator roots; the graph escapes to $\pm\infty$
+        beside each.
+  \item \emph{End behavior:} compare degrees for a horizontal asymptote, or divide for
+        a slant or polynomial asymptote.
+  \item Use a sign chart over zeros and asymptotes to keep the curve on the correct
+        side of the axis between features.
+\end{enumerate}
+\end{keyidea}
+
+\begin{example}[a complete analysis]
+Analyze $f(x)=\dfrac{x^2-1}{x^2-4}$.
+
+\emph{Reduce.} Numerator $(x-1)(x+1)$, denominator $(x-2)(x+2)$; no common factors,
+so no holes.
+
+\emph{Zeros.} $x=1$ and $x=-1$, both simple, so the graph crosses there.
+
+\emph{Vertical asymptotes.} $x=2$ and $x=-2$.
+
+\emph{End behavior.} Equal degrees, leading coefficients both $1$, so the horizontal
+asymptote is $y=1$.
+
+\emph{Sign chart.} Feature points $-2,-1,1,2$ split the line into five intervals;
+testing one point in each places the curve above the axis on the outer intervals
+(approaching $y=1$), with the expected escapes beside $x=\pm2$.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[xscale=0.62,yscale=0.34]
+  \draw[->] (-5.4,0)--(5.4,0) node[right] {$x$};
+  \draw[->] (0,-6.4)--(0,6.4) node[above] {$y$};
+  % vertical asymptotes
+  \draw[pcpurple,dashed,thick] (-2,-6.2)--(-2,6.2);
+  \draw[pcpurple,dashed,thick] (2,-6.2)--(2,6.2);
+  \node[pcpurple] at (-2.0,6.9) {\scriptsize $x=-2$};
+  \node[pcpurple] at (2.0,6.9) {\scriptsize $x=2$};
+  % horizontal asymptote y=1
+  \draw[pcgreen,dashed,thick] (-5.3,1)--(5.3,1);
+  \node[pcgreen] at (4.7,1.7) {\scriptsize $y=1$};
+  % outer-left branch  x in [-5,-2.45]  (above HA, rising to +inf)
+  \draw[pcblue,thick,domain=-5:-2.45,smooth,samples=120]
+    plot (\x,{(\x*\x-1)/(\x*\x-4)});
+  % inner-left branch  x in [-1.86,1.86] continuous through the two zeros and the bowl,
+  % but dips to -inf near +-2, so split: [-1.86,-1]...[-1,1]...[1,1.86] is one smooth curve
+  \draw[pcblue,thick,domain=-1.86:1.86,smooth,samples=200]
+    plot (\x,{(\x*\x-1)/(\x*\x-4)});
+  % outer-right branch x in [2.45,5]
+  \draw[pcblue,thick,domain=2.45:5,smooth,samples=120]
+    plot (\x,{(\x*\x-1)/(\x*\x-4)});
+  % zeros
+  \fill[pcred] (-1,0) circle (3pt) node[above left] {\scriptsize $-1$};
+  \fill[pcred] (1,0) circle (3pt) node[above right] {\scriptsize $1$};
+\end{tikzpicture}
+\end{center}
+
+\demo{Build a rational function by placing numerator zeros and vertical asymptotes,
+each with a multiplicity, in factored form, then fit a hidden target. The fit score
+weighs zeros, asymptotes, multiplicities, and overall agreement, and the current
+degree ratio reports the end behavior. Compare how a numerator root drives the curve
+to the axis while a denominator root drives it to a vertical
+line.}{https://bobovski66.github.io/Precalculus/demos/rational\_functions.html}
+
+\section{Exercises}
+
+\begin{exercises}
+\item For $f(x)=\dfrac{(x-4)(x+2)}{(x-1)(x+5)}$, state the zeros and the vertical
+asymptotes, and confirm there are no common factors.
+
+\item Identify the hole, the zeros, and the vertical asymptotes of
+$f(x)=\dfrac{(x-3)(x+2)}{(x+2)(x-5)}$ after reducing to lowest terms.
+
+\item Explain, in terms of (small)$/$(ordinary) versus (ordinary)$/$(small), why a
+numerator root produces a zero while a denominator root produces a vertical
+asymptote.
+
+\item Give the horizontal asymptote, if any, of each:
+(a) $\dfrac{2x+1}{x-7}$; (b) $\dfrac{5x^2-3}{x^2+4}$; (c) $\dfrac{x+6}{x^3-1}$;
+(d) $\dfrac{x^3}{x+2}$.
+
+\item For $f(x)=\dfrac{6x^2+x}{3x^2-12}$, find the horizontal asymptote from the
+leading coefficients, the zeros, and the vertical asymptotes.
+
+\item Use long division to write $f(x)=\dfrac{x^2-5x+6}{x-1}$ in the form
+$Q(x)+\dfrac{R}{x-1}$, and state the slant asymptote.
+
+\item Find the slant asymptote of $f(x)=\dfrac{2x^2+3x-1}{x+2}$ by long division, and
+give the zeros and the vertical asymptote.
+
+\item Explain why an improper rational function never has a horizontal asymptote, and
+state the condition under which its end-behavior curve is a straight line.
+
+\item Build a complete sign chart for $f(x)=\dfrac{x-1}{(x+2)(x-3)}$ over its zeros
+and vertical asymptotes, recording the sign of each factor in each interval.
+
+\item Carry out a full analysis of $f(x)=\dfrac{x^2-4}{x^2-1}$ (reduce, zeros,
+vertical asymptotes, end behavior, sign chart) and sketch a graph consistent with all
+of it.
+
+\item A rational function has zeros at $x=0$ and $x=3$, vertical asymptotes at
+$x=-1$ and $x=2$, and a horizontal asymptote at $y=1$. Construct a factored formula
+meeting all four conditions, and explain how you chose the degrees.
+
+\item Open the Zeros and Asymptotes Lab. Build a rational function with at least two
+vertical asymptotes and one repeated numerator zero, record its factored form, the
+degree ratio, and the fit score against a target, and write one sentence on how the
+end behavior changed when you altered the degree of the numerator.
+\end{exercises}
+
+\end{document}

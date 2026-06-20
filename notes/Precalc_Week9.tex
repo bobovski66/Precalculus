@@ -1,0 +1,296 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{8}
+\begin{document}
+
+\chapter{Systems of Linear Equations}
+
+A single linear equation in two variables describes a line; a pair of them asks
+where two lines meet. A linear equation in three variables describes a plane; a
+system of them asks where several planes meet. The solution set of a linear system
+is the intersection of these flat objects, and that intersection takes one of exactly
+three forms: a single point, nothing at all, or an entire shared line or plane. The
+geometry decides which, and substitution finds the answer.
+
+\section{Two Equations in Two Variables}
+
+Each equation $ax+by=c$ graphs as a line in the plane. A solution of the system is a
+point lying on both lines at once, so the solution set is the intersection of the two
+lines. Two lines in a plane fall into three positions.
+
+\begin{keyidea}
+\textbf{Two lines in the plane.}
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item \emph{Crossing} at one point: a \emph{unique solution}. The lines have
+        different slopes.
+  \item \emph{Parallel} and distinct: \emph{no solution}. Same slope, different
+        intercepts; the lines never meet.
+  \item \emph{Coincident} (the same line): \emph{infinitely many solutions}. Every
+        point of the shared line solves both equations.
+\end{itemize}
+\end{keyidea}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.62]
+  % unique
+  \begin{scope}
+    \draw[->] (-2.2,0)--(2.6,0); \draw[->] (0,-2.2)--(0,2.6);
+    \draw[pcblue,thick] (-2,-1.2)--(2.4,2.0);
+    \draw[pcred,thick] (-2,1.6)--(2.4,-1.7);
+    \fill (0.35,0.55) circle (2.2pt);
+    \node at (0,-3.2) {\scriptsize unique solution};
+  \end{scope}
+  % none
+  \begin{scope}[xshift=6cm]
+    \draw[->] (-2.2,0)--(2.6,0); \draw[->] (0,-2.2)--(0,2.6);
+    \draw[pcblue,thick] (-2.2,-1.0)--(2.4,1.3);
+    \draw[pcred,thick] (-2.2,0.2)--(2.4,2.5);
+    \node at (0,-3.2) {\scriptsize no solution};
+  \end{scope}
+  % infinite
+  \begin{scope}[xshift=12cm]
+    \draw[->] (-2.2,0)--(2.6,0); \draw[->] (0,-2.2)--(0,2.6);
+    \draw[pcblue,thick] (-2.2,-1.1)--(2.4,1.2);
+    \draw[pcred,thick,dashed] (-2.0,-1.0)--(2.2,1.1);
+    \node at (0,-3.2) {\scriptsize infinitely many};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{keyidea}
+A linear system has exactly one of three outcomes: a unique solution, no solution, or
+infinitely many. No linear system has, say, exactly two solutions; flat objects meet
+in a flat object, and the only flat possibilities are a point, the empty set, or a
+whole line or plane.
+\end{keyidea}
+
+\section{Solving by Substitution}
+
+Substitution solves a system by isolating one variable in one equation and replacing
+it in the other, reducing two equations in two unknowns to one equation in one. The
+single equation is solved directly, and the value is fed back to recover the other
+variable.
+
+\begin{example}[a unique solution by substitution]
+Solve
+\[
+\begin{aligned}
+2x+y&=7,\\
+3x-2y&=0.
+\end{aligned}
+\]
+Isolate $y$ in the first: $y=7-2x$. Substitute into the second:
+$3x-2(7-2x)=0$, so $3x-14+4x=0$, giving $7x=14$ and $x=2$. Back-substitute:
+$y=7-2(2)=3$. The unique solution is $(2,3)$, the crossing point of the two lines.
+Check: $2(2)+3=7$ and $3(2)-2(3)=0$.
+\end{example}
+
+\begin{example}[detecting no solution]
+Solve
+\[
+\begin{aligned}
+x-y&=1,\\
+x-y&=4.
+\end{aligned}
+\]
+Substituting $x=y+1$ from the first into the second gives $(y+1)-y=4$, that is
+$1=4$, a false statement. A contradiction signals that the lines are parallel and
+distinct: there is no solution.
+\end{example}
+
+\begin{example}[detecting infinitely many]
+Solve
+\[
+\begin{aligned}
+x+2y&=3,\\
+2x+4y&=6.
+\end{aligned}
+\]
+The second equation is twice the first, so it carries no new information.
+Substituting $x=3-2y$ into the second gives $2(3-2y)+4y=6$, that is $6=6$, always
+true. Every point on $x+2y=3$ solves the system; the solution set is that entire
+line. Writing $y=t$ as a free parameter, the solutions are $(3-2t,\,t)$ for all $t$.
+\end{example}
+
+\begin{keyidea}
+Substitution reveals the outcome through the equation it produces. A determined value
+gives a unique solution; a false statement such as $1=4$ signals no solution; an
+identity such as $6=6$ signals infinitely many, described by a free parameter.
+\end{keyidea}
+
+\section{Three Equations in Three Variables}
+
+A linear equation $ax+by+cz=d$ in three variables graphs as a plane in space. A
+system of three such equations asks for the points common to three planes, and the
+solution set is their intersection. The same three outcomes appear, now staged by
+planes.
+
+\begin{keyidea}
+\textbf{Three planes in space.}
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item \emph{Unique solution:} the three planes meet at a single point, like three
+        walls meeting at a corner.
+  \item \emph{No solution:} the planes have no common point, for instance two
+        parallel planes, or three forming an open triangular prism that never closes.
+  \item \emph{Infinitely many:} the planes share a whole line, or all coincide in a
+        single plane.
+\end{itemize}
+\end{keyidea}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95]
+  % three planes meeting at a corner (unique)
+  \begin{scope}
+    % floor
+    \fill[pcblue!20] (-1.2,-0.6)--(1.6,-0.6)--(1.0,0.5)--(-1.8,0.5)--cycle;
+    % back wall
+    \fill[pcred!20] (-1.2,-0.6)--(-1.8,0.5)--(-1.8,2.1)--(-1.2,1.0)--cycle;
+    % side wall
+    \fill[pcgreen!25] (-1.2,-0.6)--(1.6,-0.6)--(1.6,1.0)--(-1.2,1.0)--cycle;
+    \fill (-1.2,-0.6) circle (1.8pt);
+    \node at (0,-1.4) {\scriptsize unique: a corner};
+  \end{scope}
+  % parallel planes (none)
+  \begin{scope}[xshift=4.7cm]
+    \fill[pcblue!25] (-1.6,0.2)--(1.2,0.2)--(0.6,1.2)--(-2.2,1.2)--cycle;
+    \fill[pcred!25] (-1.6,-0.9)--(1.2,-0.9)--(0.6,0.1)--(-2.2,0.1)--cycle;
+    \node at (-0.5,-1.7) {\scriptsize none: parallel};
+  \end{scope}
+  % common line (infinite)
+  \begin{scope}[xshift=9.4cm]
+    \fill[pcblue!20] (-1.4,-0.8)--(0.2,-1.1)--(0.9,1.0)--(-0.7,1.3)--cycle;
+    \fill[pcgreen!22] (0.2,-1.1)--(1.6,-0.6)--(0.9,1.4)--(-0.5,0.9)--cycle;
+    \draw[pcpurple,very thick] (-0.25,-0.95)--(0.5,1.2);
+    \node at (0,-1.8) {\scriptsize infinite: shared line};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\section{Back-Substitution and Triangular Form}
+
+A three-variable system is easiest to solve when it is in \emph{triangular form}: the
+first equation involves all three variables, the second only two, the third only
+one. The last equation gives one variable immediately; substituting upward (back-
+substitution) recovers the others one at a time.
+
+\begin{keyidea}
+A system is in \emph{triangular form} when each successive equation drops a variable,
+leaving one equation in a single unknown. Solve that equation, then
+\emph{back-substitute} the value upward to peel off the remaining variables in turn.
+\end{keyidea}
+
+\begin{example}[back-substitution in a triangular system]
+Solve
+\[
+\begin{aligned}
+x+2y-z&=3,\\
+y+2z&=4,\\
+3z&=9.
+\end{aligned}
+\]
+The third equation gives $z=3$. Substitute into the second: $y+6=4$, so $y=-2$.
+Substitute both into the first: $x+2(-2)-3=3$, so $x-7=3$ and $x=10$. The unique
+solution is $(10,-2,3)$. Each step uses only values already found, moving upward.
+\end{example}
+
+The work of solving a general system is to reach triangular form by eliminating
+variables. Adding a multiple of one equation to another removes a chosen variable
+without changing the solution set, because the new equation holds exactly when the
+old ones do.
+
+\begin{example}[reducing to triangular form, then back-substituting]
+Solve
+\[
+\begin{aligned}
+x+y+z&=6,\\
+2x-y+z&=3,\\
+x+2y-z&=2.
+\end{aligned}
+\]
+Subtract twice the first from the second: $(2x-y+z)-2(x+y+z)=3-12$, giving
+$-3y-z=-9$. Subtract the first from the third: $y-2z=-4$. The system is now
+\[
+\begin{aligned}
+x+y+z&=6,\\
+-3y-z&=-9,\\
+y-2z&=-4.
+\end{aligned}
+\]
+From the last two, eliminate $y$: multiply the third by $3$ to get $3y-6z=-12$ and
+add to the second, giving $-7z=-21$, so $z=3$. Back-substitute into $y-2z=-4$:
+$y=2$. Then the first gives $x=6-2-3=1$. The solution is $(1,2,3)$. Check in all
+three originals: $1+2+3=6$, $2-2+3=3$, $1+4-3=2$.
+\end{example}
+
+\begin{pitfall}
+Elimination changes the equations but never the solution set, provided each step is
+reversible: adding a multiple of one equation to another, or scaling an equation by a
+nonzero constant. Scaling by zero is not allowed, since it discards an equation and
+can manufacture solutions the original system never had.
+\end{pitfall}
+
+\section{An Application}
+
+\begin{example}[mixing for a target]
+A chemist combines three solutions of $10\%$, $20\%$, and $50\%$ concentration to
+make $1$ liter of $22\%$ solution, using twice as much of the $10\%$ as the $50\%$.
+Let $x,y,z$ be the liters of the $10\%$, $20\%$, $50\%$ solutions. The conditions are
+\[
+\begin{aligned}
+x+y+z&=1 &&\text{(total volume)},\\
+0.10x+0.20y+0.50z&=0.22 &&\text{(total active ingredient)},\\
+x-2z&=0 &&\text{(twice as much }10\%\text{ as }50\%).
+\end{aligned}
+\]
+From the third, $x=2z$. Substituting into the first two and solving the resulting
+two-variable system gives $z=0.2$, $x=0.4$, and $y=0.4$ liters. Three plain-language
+conditions become three linear equations, and their common solution is the recipe.
+\end{example}
+
+\section{Exercises}
+
+\begin{exercises}
+\item Describe the geometry and the number of solutions for each:
+(a) two lines with different slopes; (b) two distinct lines with equal slope;
+(c) one line written two equivalent ways.
+
+\item Solve by substitution: $\begin{aligned}x+y&=5\\ 2x-y&=1\end{aligned}$ and check
+both equations.
+
+\item Solve by substitution and identify the outcome:
+$\begin{aligned}3x-y&=2\\ 6x-2y&=10\end{aligned}$.
+
+\item Solve and identify the outcome:
+$\begin{aligned}x-2y&=4\\ -2x+4y&=-8\end{aligned}$, writing the solution set with a
+free parameter if appropriate.
+
+\item Explain why a linear system can never have exactly two solutions, in terms of
+the geometry of lines and planes.
+
+\item Describe two distinct geometric arrangements of three planes that each yield no
+solution.
+
+\item Solve the triangular system by back-substitution:
+$\begin{aligned}x-y+2z&=5\\ y-z&=1\\ 4z&=8\end{aligned}$.
+
+\item Reduce to triangular form and solve:
+$\begin{aligned}x+y+z&=4\\ 2x+y-z&=3\\ x-2y+3z&=11\end{aligned}$, and check your
+solution.
+
+\item Solve and classify:
+$\begin{aligned}x+y+z&=2\\ 2x+2y+2z&=4\\ x-y+z&=0\end{aligned}$, describing the
+solution set geometrically.
+
+\item A theater sells adult tickets at \$12 and child tickets at \$8. One evening
+$200$ tickets bring in \$2000. Set up and solve a system for the numbers of each
+kind.
+
+\item A shop blends coffee at \$8, \$10, and \$14 per pound into $10$ pounds selling
+at \$11 per pound, using equal amounts of the two cheaper beans. Write and solve the
+system for the three weights.
+
+\item Explain why adding a multiple of one equation to another leaves the solution
+set unchanged, and why scaling an equation by zero is forbidden.
+\end{exercises}
+
+\end{document}

@@ -1,0 +1,441 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{1}
+\begin{document}
+
+\chapter{Lines and Parabolas}
+
+The two simplest non-constant functions are the line and the parabola, and each
+carries a geometric meaning that the algebra alone hides. A line records a fixed
+rate of change: every step to the right raises the output by the same amount, which
+is the statement that the right triangles riding along the line are all similar. A
+parabola records a focusing property: rays arriving parallel to its axis converge to
+a single point.
+
+\section{Lines as Families of Similar Triangles}
+
+Take any two points on a non-vertical line and drop the right triangle between them:
+run horizontally, then rise vertically to meet the line. Choose a different pair of
+points and build the same triangle. The two triangles have the same angles, because
+the line meets every horizontal at one fixed angle, so they are similar. Similar
+triangles have proportional sides, which means the ratio of rise to run is identical
+no matter which pair of points generated it. That common ratio is the slope.
+
+\begin{definition}{Slope}
+For two points $(x_1,y_1)$ and $(x_2,y_2)$ with $x_1\neq x_2$, the \emph{slope} of
+the line through them is
+\[
+m=\frac{y_2-y_1}{x_2-x_1}=\frac{\text{rise}}{\text{run}}.
+\]
+\end{definition}
+
+\begin{visual}
+A line is a family of similar right triangles stacked along it. Each triangle has a
+horizontal leg (the run) and a vertical leg (the rise), and the slope $m$ is the
+fixed ratio rise$/$run shared by all of them. Doubling the run doubles the rise; the
+shape of the triangle never changes, only its size.
+\end{visual}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+  \draw[->] (-0.5,0) -- (6.5,0) node[right] {$x$};
+  \draw[->] (0,-0.5) -- (0,5) node[above] {$y$};
+  \draw[pcblue,thick,domain=-0.3:6.2] plot (\x,{0.6*\x+0.8});
+  \node[pcblue] at (5.6,4.7) {\small $f(x)=mx+b$};
+  % first triangle
+  \draw[pcred,thick] (1,1.4) -- (2,1.4) -- (2,2.0) -- cycle;
+  \node[pcred,below] at (1.5,1.4) {\scriptsize run};
+  \node[pcred,right] at (2,1.7) {\scriptsize rise};
+  % second, larger triangle
+  \draw[pcgreen,thick] (3.5,2.9) -- (5.5,2.9) -- (5.5,4.1) -- cycle;
+  \node[pcgreen,below] at (4.5,2.9) {\scriptsize $2\times$ run};
+  \node[pcgreen,right] at (5.5,3.5) {\scriptsize $2\times$ rise};
+  % intercept
+  \fill[pcblue] (0,0.8) circle (2pt) node[left] {\small $b$};
+\end{tikzpicture}
+\end{center}
+
+The number $b$ enters as the height of the line where it crosses the $y$-axis, the
+output at input $0$. The slope sets the tilt; the intercept sets the height. Together
+they fix the line completely, which is the content of the slope-intercept form.
+
+\begin{keyidea}
+The slope-intercept form of a line is
+\[
+f(x)=mx+b,
+\]
+where $m$ is the common rise-over-run ratio of every similar triangle along the line
+and $b=f(0)$ is the height at which the line crosses the $y$-axis.
+\end{keyidea}
+
+\begin{example}[reading slope and intercept]
+The line $f(x)=\tfrac34 x-2$ has slope $\tfrac34$: every run of $4$ produces a rise
+of $3$. It crosses the $y$-axis at $(0,-2)$. From the intercept, stepping right $4$
+and up $3$ reaches $(4,1)$, a second point on the line.
+\end{example}
+
+\begin{pitfall}
+Slope is rise over run, not run over rise. The line $f(x)=\tfrac34x-2$ climbs $3$ for
+every $4$ across, a gentle rise. Inverting the ratio to $\tfrac43$ describes a
+steeper line and a different function.
+\end{pitfall}
+
+\section{Two Points Determine a Line}
+
+A point cloud of exactly two points (with different $x$-coordinates) determines one
+line and only one. The construction runs in three stages: compute the slope from the
+two points, write the point-slope form, then rearrange to slope-intercept.
+
+The slope comes straight from the definition. With slope and one known point
+$(x_1,y_1)$ in hand, every other point $(x,y)$ on the line must produce that same
+slope against $(x_1,y_1)$:
+\[
+\frac{y-y_1}{x-x_1}=m.
+\]
+Clearing the denominator gives the point-slope form.
+
+\begin{keyidea}
+The point-slope form of the line through $(x_1,y_1)$ with slope $m$ is
+\[
+y-y_1=m(x-x_1).
+\]
+Solving for $y$ converts it to slope-intercept form $y=mx+b$.
+\end{keyidea}
+
+\begin{example}[from two points to $f(x)=mx+b$]
+Find the line through $(2,1)$ and $(6,4)$.
+
+\emph{Slope.} $\displaystyle m=\frac{4-1}{6-2}=\frac{3}{4}.$
+
+\emph{Point-slope.} Using $(2,1)$,
+\[
+y-1=\tfrac34(x-2).
+\]
+
+\emph{Slope-intercept.} Expand and solve for $y$:
+\[
+y=\tfrac34x-\tfrac32+1=\tfrac34x-\tfrac12,
+\qquad\text{so}\qquad f(x)=\tfrac34x-\tfrac12.
+\]
+Both original points check: $f(2)=\tfrac34\cdot2-\tfrac12=\tfrac32-\tfrac12=1$ and
+$f(6)=\tfrac34\cdot6-\tfrac12=\tfrac92-\tfrac12=4$.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  \draw[->] (-0.5,0) -- (7.5,0) node[right] {$x$};
+  \draw[->] (0,-1) -- (0,5.5) node[above] {$y$};
+  \foreach \x in {1,...,7} \draw (\x,0.08)--(\x,-0.08) node[below] {\scriptsize \x};
+  \foreach \y in {1,...,5} \draw (0.08,\y)--(-0.08,\y) node[left] {\scriptsize \y};
+  \draw[pcblue,thick,domain=-0.3:7.3] plot (\x,{0.75*\x-0.5});
+  \fill[pcred] (2,1) circle (2.4pt) node[above left] {\small $(2,1)$};
+  \fill[pcred] (6,4) circle (2.4pt) node[above left] {\small $(6,4)$};
+  % similar triangle between the two points
+  \draw[pcgreen,thick,dashed] (2,1) -- (6,1) -- (6,4);
+  \node[pcgreen,below] at (4,1) {\scriptsize run $=4$};
+  \node[pcgreen,right] at (6,2.5) {\scriptsize rise $=3$};
+\end{tikzpicture}
+\end{center}
+
+\begin{pitfall}
+The slope must use the coordinates in consistent order: the $y$-difference and the
+$x$-difference both run from the same starting point. Subtracting $y_2-y_1$ over
+$x_1-x_2$ flips the sign and tilts the line the wrong way.
+\end{pitfall}
+
+\begin{example}[a horizontal and a vertical case]
+Through $(1,3)$ and $(5,3)$ the slope is $\tfrac{3-3}{5-1}=0$, giving $f(x)=3$, a
+horizontal line. Through $(2,1)$ and $(2,7)$ the run is $5-5=0$; the slope formula
+divides by zero. The relation $x=2$ is a vertical line, which fails the vertical line
+test and so is not a function.
+\end{example}
+
+\section{The Parabola as a Focusing Curve}
+
+A parabola is not merely a bent line. It is the curve defined by a focusing property:
+every ray traveling parallel to its axis reflects off the curve and passes through a
+single point, the focus. This is why headlight reflectors, satellite dishes, and
+solar collectors are built as parabolas; the geometry concentrates parallel incoming
+energy at one point, or, run in reverse, sends energy from the focus out as a
+parallel beam.
+
+\begin{visual}
+Parallel rays strike the inside of a parabola and all bounce to the focus. No other
+curve collects parallel rays to a single point. The algebraic parabola $y=ax^2$ and
+the optical reflector are the same object viewed two ways.
+\end{visual}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+  % parabola y = 0.5 x^2, focus at (0, 0.5)
+  \draw[pcblue,thick,domain=-2.2:2.2,smooth,samples=80] plot (\x,{0.5*\x*\x});
+  \fill[pcred] (0,0.5) circle (2pt) node[right] {\small focus};
+  % incoming parallel rays
+  \foreach \x in {-1.8,-1.2,-0.6,0.6,1.2,1.8}{
+    \draw[pcgreen,-{Stealth[length=2mm]}] (\x,3.2) -- (\x,{0.5*\x*\x+0.03});
+    \draw[pcgreen] ({\x},{0.5*\x*\x}) -- (0,0.5);
+  }
+  \node[pcgreen] at (2.3,3.0) {\scriptsize parallel rays};
+  \draw[dashed] (0,0) -- (0,3.4) node[above] {\scriptsize axis};
+\end{tikzpicture}
+\end{center}
+
+The focusing property has an equivalent point-and-line description, which is the
+formal definition of the parabola.
+
+\begin{definition}{Parabola}
+Fix a point $F$ (the \emph{focus}) and a line $\ell$ not through $F$ (the
+\emph{directrix}). The \emph{parabola} is the set of all points equidistant from $F$
+and $\ell$.
+\end{definition}
+
+So a point and a line determine a parabola through the equidistance condition, just
+as two points determine a line. The vertex sits halfway between focus and directrix,
+and the axis is the perpendicular from the focus to the directrix.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+  \draw[pcblue,thick,domain=-2:2,smooth,samples=80] plot (\x,{0.5*\x*\x});
+  \fill[pcred] (0,0.5) circle (2pt) node[right] {\small $F$};
+  \draw[pcpurple,thick] (-2.3,-0.5) -- (2.3,-0.5) node[right] {\small $\ell$};
+  % a point on the parabola with equal distances
+  \coordinate (P) at (1.4,0.98);
+  \fill[pcgreen] (P) circle (2pt) node[above right] {\small $P$};
+  \draw[pcgreen,dashed] (P) -- (0,0.5) node[midway,above] {\scriptsize $d_1$};
+  \draw[pcgreen,dashed] (P) -- (1.4,-0.5) node[midway,right] {\scriptsize $d_2$};
+  \node at (3.0,0.6) {\scriptsize $d_1=d_2$};
+  \fill (0,0) circle (1.4pt) node[below left] {\scriptsize vertex};
+\end{tikzpicture}
+\end{center}
+
+\section{Three Points Determine a Parabola}
+
+A vertical-axis parabola is the graph of a quadratic function
+\[
+f(x)=ax^2+bx+c,\qquad a\neq 0,
+\]
+which carries three parameters $a$, $b$, $c$. Three points with distinct
+$x$-coordinates impose three conditions, and solving the resulting system fixes the
+three parameters uniquely. So three points determine the quadratic, in the same
+sense that two points determine the line.
+
+\begin{keyidea}
+Two points (distinct $x$) determine a unique line, $f(x)=mx+b$, with two parameters.
+Three points (distinct $x$) determine a unique vertical-axis parabola,
+$f(x)=ax^2+bx+c$, with three parameters. The count of points matches the count of
+parameters.
+\end{keyidea}
+
+\begin{example}[fitting a parabola to three points]
+Find the quadratic through $(0,1)$, $(1,0)$, and $(2,3)$.
+
+Substitute each point into $f(x)=ax^2+bx+c$:
+\[
+\begin{aligned}
+(0,1):&\quad c=1,\\
+(1,0):&\quad a+b+c=0,\\
+(2,3):&\quad 4a+2b+c=3.
+\end{aligned}
+\]
+From the first, $c=1$. The second gives $a+b=-1$. The third gives $4a+2b=2$, i.e.
+$2a+b=1$. Subtracting, $a=2$, then $b=-3$. The quadratic is
+\[
+f(x)=2x^2-3x+1.
+\]
+Check $(2,3)$: $2\cdot4-6+1=3$.
+\end{example}
+
+\begin{pitfall}
+The three points must have distinct $x$-coordinates. Two points sharing an
+$x$-value would force two outputs at one input, violating the function condition,
+and the system would have no solution.
+\end{pitfall}
+
+\section{Three Forms of a Quadratic}
+
+A quadratic function can be written three ways, each exposing different information.
+The forms describe the same parabola; converting among them is routine algebra.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Form} & \textbf{Expression} & \textbf{What it shows at a glance}\\
+\midrule
+Standard      & $f(x)=ax^2+bx+c$        & $y$-intercept $c$; leading behavior $a$\\
+Factored      & $f(x)=a(x-r_1)(x-r_2)$  & the roots (x-intercepts) $r_1,r_2$\\
+Vertex        & $f(x)=a(x-h)^2+k$       & the vertex $(h,k)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+In all three the same $a$ controls the opening: upward for $a>0$, downward for
+$a<0$, and steeper as $|a|$ grows. The vertex form is the transformation form from
+Week 1 with parent $f(x)=x^2$: $h$ shifts horizontally, $k$ shifts vertically, $a$
+scales and possibly reflects.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+  \draw[->] (-3.3,0) -- (3.3,0) node[right] {$x$};
+  \draw[->] (0,-1.3) -- (0,4.5) node[above] {$y$};
+  \draw[pcblue,thick,domain=-2.1:2.1,smooth] plot (\x,{(\x)*(\x)-0});
+  % vertex form parabola: a(x-h)^2+k, shifted
+  \draw[pcred,thick,domain=-0.6:3.0,smooth] plot (\x,{0.8*(\x-1.2)*(\x-1.2)+0.3});
+  \fill[pcred] (1.2,0.3) circle (2.2pt) node[below right] {\scriptsize vertex $(h,k)$};
+  \node[pcblue] at (-2.4,3.7) {\scriptsize $x^2$};
+  \node[pcred] at (3.0,3.5) {\scriptsize $a(x-h)^2+k$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Standard to vertex: completing the square}
+
+Completing the square rewrites $ax^2+bx+c$ as $a(x-h)^2+k$ by reconstructing the
+perfect square hidden in the first two terms. Factor $a$ from the $x$-terms, add and
+subtract the square that completes the bracket, then collect.
+
+\begin{example}[completing the square]
+Convert $f(x)=2x^2-12x+19$ to vertex form.
+
+Factor $2$ from the variable terms:
+\[
+f(x)=2\big(x^2-6x\big)+19.
+\]
+The square completing $x^2-6x$ uses half of $-6$, squared, which is $9$:
+\[
+f(x)=2\big(x^2-6x+9-9\big)+19=2\big((x-3)^2-9\big)+19.
+\]
+Distribute and collect:
+\[
+f(x)=2(x-3)^2-18+19=2(x-3)^2+1.
+\]
+The vertex is $(3,1)$ and the parabola opens upward, stretched by $2$.
+\end{example}
+
+The vertex coordinates can also be read off a formula that completing the square
+produces in general:
+\[
+h=-\frac{b}{2a},\qquad k=f(h).
+\]
+
+\begin{example}[vertex by formula]
+For $f(x)=2x^2-12x+19$, $h=-\tfrac{-12}{2\cdot2}=3$ and $k=f(3)=18-36+19=1$. The
+vertex is $(3,1)$, agreeing with the completed-square result.
+\end{example}
+
+\subsection{Standard to factored: the roots}
+
+The factored form exposes the $x$-intercepts, the inputs where $f(x)=0$. They come
+from factoring directly when possible, or from the quadratic formula in general:
+\[
+r_{1,2}=\frac{-b\pm\sqrt{b^2-4ac}}{2a}.
+\]
+The quantity under the root, $b^2-4ac$, is the \emph{discriminant}. It records how
+many real roots exist: two when positive, one (a doubled root at the vertex) when
+zero, none when negative.
+
+\begin{example}[standard to factored]
+Factor $f(x)=x^2-x-6$. Two numbers multiplying to $-6$ and adding to $-1$ are $-3$
+and $2$, so
+\[
+f(x)=(x-3)(x+2),
+\]
+with roots $r_1=3$ and $r_2=-2$. The discriminant is $(-1)^2-4(1)(-6)=25>0$,
+confirming two real roots.
+\end{example}
+
+\begin{example}[roots by the quadratic formula]
+For $f(x)=2x^2-3x+1$, the discriminant is $9-8=1$, so
+\[
+r=\frac{3\pm1}{4}=1\ \text{or}\ \tfrac12.
+\]
+The factored form is $f(x)=2(x-1)\!\left(x-\tfrac12\right)$. Expanding recovers
+$2x^2-3x+1$.
+\end{example}
+
+\subsection{Relations among the parameters}
+
+The three forms share structure, and a few relations connect their parameters
+directly.
+
+\begin{keyidea}
+For $f(x)=ax^2+bx+c=a(x-r_1)(x-r_2)=a(x-h)^2+k$:
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item the vertex sits at $h=-\dfrac{b}{2a}$, midway between the roots:
+        $h=\dfrac{r_1+r_2}{2}$;
+  \item the product of the roots is $r_1r_2=\dfrac{c}{a}$ and their sum is
+        $r_1+r_2=-\dfrac{b}{a}$;
+  \item the $y$-intercept is $c=f(0)=a\,r_1r_2=a h^2+k$.
+\end{itemize}
+\end{keyidea}
+
+\begin{example}[reading the vertex from the roots]
+The parabola $f(x)=(x-3)(x+2)$ has roots $3$ and $-2$. Their midpoint is
+$h=\tfrac{3+(-2)}{2}=\tfrac12$, so the axis of symmetry is $x=\tfrac12$ and the
+vertex lies there. Then $k=f\!\left(\tfrac12\right)=\left(\tfrac12-3\right)
+\left(\tfrac12+2\right)=\left(-\tfrac52\right)\!\left(\tfrac52\right)=-\tfrac{25}{4}$.
+The vertex is $\left(\tfrac12,-\tfrac{25}{4}\right)$.
+\end{example}
+
+\begin{visual}
+A parabola is symmetric about the vertical line through its vertex. The two roots sit
+at equal distances on either side of that axis, so their midpoint is the vertex's
+$x$-coordinate. Reading the vertex from the roots is just averaging.
+\end{visual}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  \draw[->] (-3.3,0) -- (4.3,0) node[right] {$x$};
+  \draw[->] (0,-2.2) -- (0,3.2) node[above] {$y$};
+  \draw[pcblue,thick,domain=-2.7:3.7,smooth,samples=80]
+    plot (\x,{0.5*(\x-3)*(\x+2)});
+  \fill[pcred] (3,0) circle (2pt) node[above right] {\scriptsize $r_1=3$};
+  \fill[pcred] (-2,0) circle (2pt) node[above left] {\scriptsize $r_2=-2$};
+  \draw[pcpurple,dashed] (0.5,-2.2) -- (0.5,2.0);
+  \node[pcpurple] at (1.5,2.0) {\scriptsize axis $x=\tfrac12$};
+  \fill[pcgreen] (0.5,-1.5625) circle (2pt) node[below right] {\scriptsize vertex};
+\end{tikzpicture}
+\end{center}
+
+\section{Exercises}
+
+\begin{exercises}
+\item Explain why the slope of a line is the same regardless of which two points are
+used to compute it, referring to similar triangles in your answer.
+
+\item Find the equation of the line through $(-1,2)$ and $(3,-6)$. Carry it through
+slope, point-slope, and slope-intercept form, and verify with both points.
+
+\item A line passes through $(4,1)$ with slope $-\tfrac23$. Write its point-slope and
+slope-intercept forms, and find its $x$- and $y$-intercepts.
+
+\item Decide whether each relation is a function and, if so, give its slope:
+(a) the line through $(2,5)$ and $(2,-1)$; (b) the line through $(0,4)$ and $(7,4)$;
+(c) the line through $(1,1)$ and $(3,5)$.
+
+\item State the focus-directrix definition of a parabola and explain, in terms of
+equidistance, why the vertex lies halfway between focus and directrix.
+
+\item Describe the focusing property of a parabola and name two devices that exploit
+it. Explain which direction the rays travel in each device.
+
+\item Find the quadratic $f(x)=ax^2+bx+c$ through $(-1,6)$, $(0,1)$, and $(2,3)$ by
+setting up and solving the linear system.
+
+\item Convert $f(x)=3x^2+12x+7$ to vertex form by completing the square, and confirm
+the vertex with the formula $h=-\tfrac{b}{2a}$.
+
+\item For $f(x)=x^2-2x-15$, find the roots by factoring, the vertex by averaging the
+roots, and the $y$-intercept. Sketch the parabola with all three labeled.
+
+\item Use the discriminant to determine the number of real roots of each:
+(a) $x^2-4x+4$; (b) $2x^2+x+3$; (c) $x^2-5x+2$. For any with real roots, give them.
+
+\item A quadratic has roots $-4$ and $2$ and passes through $(0,-16)$. Determine $a$,
+then write the function in all three forms.
+
+\item Show, using $h=-\tfrac{b}{2a}$ and the root-sum relation $r_1+r_2=-\tfrac{b}{a}$,
+that the vertex's $x$-coordinate equals the average of the two roots. Explain the
+connection to the axis of symmetry.
+\end{exercises}
+
+\end{document}

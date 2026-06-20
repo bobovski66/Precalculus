@@ -1,0 +1,344 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{2}
+\begin{document}
+
+\chapter{Polynomials and Their Shape}
+
+A polynomial of high degree looks intimidating in expanded form, a long sum of
+powers with no obvious shape. The global shape of its graph is nonetheless forced by
+a small amount of local data: how the function behaves at the far left and far right,
+and what happens at each root. The factored form displays this data. Each factor
+names a root, the exponent on that factor governs whether the graph crosses the axis
+or turns back from it, and the leading term governs both ends.
+
+\section{What a Polynomial Is}
+
+\begin{definition}{Polynomial}
+A \emph{polynomial} is a function of the form
+\[
+f(x)=a_n x^n+a_{n-1}x^{n-1}+\cdots+a_1 x+a_0,
+\]
+where the coefficients $a_i$ are real numbers and $a_n\neq 0$. The \emph{degree} is
+$n$, the highest power present; $a_n$ is the \emph{leading coefficient} and $a_0$ is
+the constant term.
+\end{definition}
+
+Lines are degree-one polynomials and parabolas are degree-two. The expanded form
+above is convenient for evaluation and for reading the constant term $a_0=f(0)$, but
+it conceals the shape. The factored form reveals it.
+
+\begin{keyidea}
+The expanded form of a polynomial is built for arithmetic; the factored form is
+built for shape. Where the graph crosses the axis, where it turns back, and where it
+goes at the two ends are all read from the factored form together with the leading
+term.
+\end{keyidea}
+
+\section{End Behavior: the Two Ends}
+
+Far from the origin, the highest-degree term dominates every other term, because a
+high power outgrows all lower powers once $|x|$ is large. So the two ends of a
+polynomial's graph behave like the graph of its leading term $a_n x^n$ alone. Two
+features of that term decide the ends: the parity of the degree $n$ and the sign of
+the leading coefficient $a_n$.
+
+\begin{keyidea}
+\textbf{End behavior of} $f(x)=a_n x^n+\cdots$
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item \emph{Even degree.} Both ends point the same way: up if $a_n>0$, down if
+        $a_n<0$. The graph resembles a parabola at large scale.
+  \item \emph{Odd degree.} The ends point opposite ways: down-left to up-right if
+        $a_n>0$, up-left to down-right if $a_n<0$. The graph resembles a cubic at
+        large scale.
+\end{itemize}
+\end{keyidea}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.62]
+  % even, positive
+  \begin{scope}
+    \draw[->] (-2.4,0)--(2.4,0); \draw[->] (0,-1)--(0,3.6);
+    \draw[pcblue,thick,domain=-1.8:1.8,smooth] plot (\x,{0.6*\x*\x*\x*\x-0.3});
+    \node at (0,-1.8) {\scriptsize even, $a_n>0$};
+  \end{scope}
+  % even, negative
+  \begin{scope}[xshift=6cm]
+    \draw[->] (-2.4,0)--(2.4,0); \draw[->] (0,-3.6)--(0,1);
+    \draw[pcred,thick,domain=-1.8:1.8,smooth] plot (\x,{-0.6*\x*\x*\x*\x+0.3});
+    \node at (0,-4.4) {\scriptsize even, $a_n<0$};
+  \end{scope}
+  % odd, positive
+  \begin{scope}[xshift=12cm]
+    \draw[->] (-2.4,0)--(2.4,0); \draw[->] (0,-2.6)--(0,2.6);
+    \draw[pcblue,thick,domain=-1.7:1.7,smooth] plot (\x,{0.5*\x*\x*\x});
+    \node at (0,-3.4) {\scriptsize odd, $a_n>0$};
+  \end{scope}
+  % odd, negative
+  \begin{scope}[xshift=18cm]
+    \draw[->] (-2.4,0)--(2.4,0); \draw[->] (0,-2.6)--(0,2.6);
+    \draw[pcred,thick,domain=-1.7:1.7,smooth] plot (\x,{-0.5*\x*\x*\x});
+    \node at (0,-3.4) {\scriptsize odd, $a_n<0$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[reading the ends]
+The polynomial $f(x)=-2x^5+7x^2-4$ has odd degree $5$ and negative leading
+coefficient. The ends therefore run up on the left and down on the right. No
+factoring is needed; the leading term $-2x^5$ settles both ends by itself.
+\end{example}
+
+\begin{pitfall}
+End behavior depends only on the leading term, never on the constant term or the
+middle coefficients. A large constant shifts the graph vertically but does not change
+where the ends go. Reading $a_0$ for end behavior is a common error; read $a_n x^n$.
+\end{pitfall}
+
+\section{Roots and the Factored Form}
+
+A \emph{root} (or zero) of $f$ is an input $r$ with $f(r)=0$, a point where the graph
+meets the $x$-axis. The factored form lists the roots directly:
+\[
+f(x)=a_n (x-r_1)^{m_1}(x-r_2)^{m_2}\cdots (x-r_k)^{m_k}.
+\]
+Each $r_i$ is a root, and the exponent $m_i$ is its \emph{multiplicity}, the number
+of times that factor is repeated. The multiplicities sum to the degree $n$.
+
+\begin{definition}{Multiplicity}
+The \emph{multiplicity} of a root $r$ is the exponent on the factor $(x-r)$ in the
+factored form. A root with multiplicity one is \emph{simple}; higher multiplicities
+are \emph{repeated}.
+\end{definition}
+
+Multiplicity controls how the graph meets the axis at the root, and the rule is a
+parity rule, the same parity idea that governed the ends.
+
+\begin{keyidea}
+\textbf{Behavior at a root of multiplicity} $m$:
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item \emph{$m$ odd.} The graph \emph{crosses} the axis; the function changes
+        sign there. ($m=1$: a straight crossing. $m=3,5,\dots$: a crossing that
+        flattens against the axis.)
+  \item \emph{$m$ even.} The graph \emph{touches} the axis and turns back; the
+        function does \emph{not} change sign there. ($m=2$: a parabola-like bounce.)
+\end{itemize}
+\end{keyidea}
+
+\begin{visual}
+At a root, the factor $(x-r)^m$ changes sign exactly when $m$ is odd, because a
+negative number raised to an odd power stays negative while an even power makes it
+positive. Crossing the axis is a sign change; touching and turning back is not. The
+multiplicity's parity is the whole story.
+\end{visual}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+  % simple root: crosses
+  \begin{scope}
+    \draw[->] (-2,0)--(2,0); \draw[->] (0,-1.8)--(0,1.8);
+    \draw[pcblue,thick,domain=-1.5:1.5,smooth] plot (\x,{\x});
+    \fill[pcred] (0,0) circle (2pt);
+    \node at (0,-2.6) {\scriptsize $m=1$: crosses};
+  \end{scope}
+  % double root: touches
+  \begin{scope}[xshift=5.5cm]
+    \draw[->] (-2,0)--(2,0); \draw[->] (0,-0.6)--(0,2.6);
+    \draw[pcgreen,thick,domain=-1.45:1.45,smooth] plot (\x,{\x*\x});
+    \fill[pcred] (0,0) circle (2pt);
+    \node at (0,-1.4) {\scriptsize $m=2$: touches};
+  \end{scope}
+  % triple root: flat crossing
+  \begin{scope}[xshift=11cm]
+    \draw[->] (-2,0)--(2,0); \draw[->] (0,-1.8)--(0,1.8);
+    \draw[pcblue,thick,domain=-1.2:1.2,smooth,samples=60] plot (\x,{\x*\x*\x});
+    \fill[pcred] (0,0) circle (2pt);
+    \node at (0,-2.6) {\scriptsize $m=3$: flat crossing};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[reading roots and multiplicities]
+For $f(x)=(x+2)(x-1)^2(x-3)$, the roots are $-2$, $1$, and $3$. The roots $-2$ and
+$3$ are simple (odd multiplicity), so the graph crosses there. The root $1$ has
+multiplicity two (even), so the graph touches the axis at $x=1$ and turns back
+without crossing. The degree is $1+2+1=4$, even, with positive leading coefficient,
+so both ends point up.
+\end{example}
+
+\demo{Build a polynomial by placing roots and setting each multiplicity, in the form
+$y=(x-r_1)^{m_1}\cdots(x-r_n)^{m_n}$, then fit a hidden target. The fit score weighs
+root locations, multiplicities, and overall agreement. Watch how an even
+multiplicity makes the curve bounce off the axis while an odd multiplicity sends it
+through.}{https://bobovski66.github.io/Precalculus/demos/polynomial\_roots.html}
+
+\section{The Sign Chart}
+
+The roots are the only places a polynomial can change sign, because a polynomial is
+continuous and changes sign only by passing through zero. Between consecutive roots
+the function holds a single sign throughout. This is the observation that turns local
+data into a global sketch: mark the roots on a number line, and the line breaks into
+intervals on each of which $f$ is entirely positive or entirely negative. One test
+point per interval reveals which.
+
+\begin{keyidea}
+\textbf{Sign chart procedure.}
+\begin{enumerate}\setlength{\itemsep}{2pt}
+  \item Factor $f$ and mark all roots on a number line; they divide it into intervals.
+  \item Pick one test point in each interval and evaluate the sign of $f$ there
+        (the sign of the product of factors).
+  \item Label each interval $+$ or $-$. The sign can change only at a root, and only
+        at a root of odd multiplicity.
+\end{enumerate}
+\end{keyidea}
+
+\begin{example}[building a sign chart]
+Analyze $f(x)=(x+2)(x-1)^2(x-3)$.
+
+The roots $-2,1,3$ divide the line into four intervals. Evaluate the sign of each
+factor at a test point in each interval; the factor $(x-1)^2$ is never negative, so
+it never affects the sign.
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Interval & test $x$ & $(x+2)$ & $(x-1)^2$ & $(x-3)$ & sign of $f$\\
+\midrule
+$(-\infty,-2)$ & $-3$ & $-$ & $+$ & $-$ & $+$\\
+$(-2,1)$       & $0$  & $+$ & $+$ & $-$ & $-$\\
+$(1,3)$        & $2$  & $+$ & $+$ & $-$ & $-$\\
+$(3,\infty)$   & $4$  & $+$ & $+$ & $+$ & $+$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The sign stays negative across $x=1$, confirming the even multiplicity: no sign
+change there. It flips at $x=-2$ and at $x=3$, the simple roots.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+  \draw[thick] (-4.5,0)--(4.5,0);
+  \foreach \x/\lab in {-3/-2,0/1,3/3}{
+    \fill[pcred] (\x,0) circle (2.4pt);
+  }
+  \node[below] at (-3,-0.15) {\scriptsize $-2$};
+  \node[below] at (0,-0.15) {\scriptsize $1$};
+  \node[below] at (3,-0.15) {\scriptsize $3$};
+  \node[pcgreen] at (-4,0.35) {\scriptsize $+$};
+  \node[pcred] at (-1.5,0.35) {\scriptsize $-$};
+  \node[pcred] at (1.5,0.35) {\scriptsize $-$};
+  \node[pcgreen] at (4,0.35) {\scriptsize $+$};
+\end{tikzpicture}
+\end{center}
+
+\begin{visual}
+The sign chart is a number line with the roots marked as special points and a sign
+assigned to each interval between them. It records, at a glance, where the function
+lives above the axis and where below. The graph must obey it: positive intervals
+hold the curve above the axis, negative intervals below, and the roots pin it to the
+axis.
+\end{visual}
+
+\section{Assembling the Global Sketch}
+
+End behavior fixes the two ends. The sign chart fixes which side of the axis the
+curve occupies on every interval. Multiplicity fixes how it meets each root. These
+three pieces of local data determine the global shape up to the heights of the turns,
+which precalculus does not pin down exactly but calculus does. A faithful sketch
+needs only the three pieces.
+
+\begin{keyidea}
+\textbf{Sketching a polynomial from its factored form.}
+\begin{enumerate}\setlength{\itemsep}{2pt}
+  \item Read the degree and leading coefficient; draw the two ends.
+  \item Mark the roots; at each, cross (odd multiplicity) or touch (even).
+  \item Use the sign chart to keep the curve on the correct side of the axis between
+        roots.
+  \item Connect smoothly, consistent with the ends and the sign chart.
+\end{enumerate}
+\end{keyidea}
+
+\begin{example}[a full sketch]
+Sketch $f(x)=(x+2)(x-1)^2(x-3)$.
+
+\emph{Ends.} Degree $4$, positive leading coefficient: both ends up.
+
+\emph{Roots.} Cross at $-2$, touch at $1$, cross at $3$.
+
+\emph{Sign chart.} Positive on $(-\infty,-2)$, negative on $(-2,3)$ except pinned to
+zero at $x=1$, positive on $(3,\infty)$.
+
+The curve descends from the upper left, crosses down at $-2$, runs below the axis,
+rises to touch zero at $x=1$ and falls back below, then crosses up at $3$ and climbs
+to the upper right. The touch at $x=1$ is the visual signature of the double root.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95]
+  \draw[->] (-3.6,0)--(4.4,0) node[right] {$x$};
+  \draw[->] (0,-3.4)--(0,3.6) node[above] {$y$};
+  \draw[pcblue,thick,domain=-2.35:3.4,smooth,samples=160]
+    plot (\x,{0.1*(\x+2)*(\x-1)*(\x-1)*(\x-3)});
+  \foreach \x in {-2,1,3}\fill[pcred] (\x,0) circle (2.2pt);
+  \node[below left] at (-2,0) {\scriptsize $-2$};
+  \node[above right] at (1,0.05) {\scriptsize $1$};
+  \node[below right] at (3,0) {\scriptsize $3$};
+\end{tikzpicture}
+\end{center}
+
+\begin{pitfall}
+The sign chart constrains which side of the axis the curve is on, not how high it
+rises. Without calculus the exact heights of the peaks and valleys are not
+determined, so sketches should show the correct \emph{shape} (crossings, touches,
+sides, ends) and not claim exact turning-point heights.
+\end{pitfall}
+
+\section{Exercises}
+
+\begin{exercises}
+\item State the end behavior of each polynomial from its leading term alone:
+(a) $f(x)=3x^4-x+5$; (b) $f(x)=-x^3+2x^2$; (c) $f(x)=-4x^6+x^5$;
+(d) $f(x)=x^5-3x^2+1$.
+
+\item Explain why the constant term and middle coefficients have no effect on end
+behavior, referring to how powers compare when $|x|$ is large.
+
+\item For $f(x)=(x+1)(x-2)^3(x-4)$, list the roots with their multiplicities, state
+the degree, and say at each root whether the graph crosses or touches.
+
+\item Using the parity of the exponent, explain why a factor $(x-r)^m$ changes sign
+at $r$ when $m$ is odd and does not when $m$ is even.
+
+\item Build a complete sign chart for $f(x)=(x+3)(x-1)(x-2)$, with a test point in
+each interval and the sign of every factor recorded.
+
+\item Build a sign chart for $f(x)=-(x+1)^2(x-3)$. Identify where the sign does and
+does not change, and connect each to a multiplicity.
+
+\item Sketch $f(x)=(x-1)(x+2)^2$ from its factored form: state the ends, mark the
+roots with crossing or touching behavior, use the sign chart, and draw a shape
+consistent with all three.
+
+\item Sketch a degree-five polynomial with a simple root at $-2$, a triple root at
+$0$, a simple root at $3$, and positive leading coefficient. Describe the behavior at
+the triple root in words.
+
+\item A polynomial has even degree and negative leading coefficient, with simple
+roots at $-1$ and $4$ and a double root at $2$. Determine the lowest possible degree,
+then sketch a graph consistent with all stated features.
+
+\item A polynomial is positive on $(-\infty,-1)$, negative on $(-1,2)$, and positive
+on $(2,\infty)$, with no other sign changes. Determine the multiplicity parity at
+each of $-1$ and $2$, and give a possible factored form of lowest degree.
+
+\item Two students draw graphs of $f(x)=(x-1)^2(x-4)$ that differ only in the height
+of the turning point between the roots. Explain why both can be correct sketches and
+what additional tool would be needed to fix the height.
+
+\item Open the Roots and Multiplicity Lab. Build a polynomial of degree at least four
+with at least one repeated root, record its factored form and the fit score against a
+target, and write one sentence on how changing a multiplicity from even to odd
+altered the graph at that root.
+\end{exercises}
+
+\end{document}

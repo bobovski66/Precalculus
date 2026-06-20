@@ -1,0 +1,249 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{7}
+\begin{document}
+
+\chapter{Implicit Curves and Conics}
+
+A function assigns one output to each input, and its graph is a curve that passes the
+vertical line test. Most curves in the plane are not of this kind. A circle, an
+ellipse, the orbit of a planet, the locus where two quantities balance, are described
+not by solving for $y$ but by an equation that $x$ and $y$ satisfy together. Such a
+curve is \emph{implicit}: the equation states a condition, and the curve is the set of
+all points meeting it.
+
+\section{Curves Defined by an Equation}
+
+An equation in $x$ and $y$ singles out the points whose coordinates satisfy it. That
+set of points is a curve in the plane, whether or not $y$ can be isolated.
+
+\begin{definition}{Implicit curve}
+An \emph{implicit curve} is the set of all points $(x,y)$ satisfying an equation
+$F(x,y)=0$. The equation need not determine $y$ as a function of $x$; a vertical line
+may meet the curve in several points.
+\end{definition}
+
+The unit circle $x^{2}+y^{2}=1$ is the standard example. No single function describes
+it, since most vertical lines through the interior cross it twice. Solving for $y$
+yields $y=\pm\sqrt{1-x^{2}}$, two functions, the upper and lower semicircles, that
+together reconstruct the curve. The implicit equation holds both halves at once.
+
+\begin{keyidea}
+An implicit equation describes a curve as a condition its points satisfy, not as a
+rule producing $y$ from $x$. When $y$ cannot be isolated as a single function, the
+curve simply is not the graph of a function, and the implicit form is the honest
+description.
+\end{keyidea}
+
+\begin{example}[testing membership]
+Does $(3,-4)$ lie on $x^{2}+y^{2}=25$? Substitute: $9+16=25$, true, so the point is
+on the curve. Does $(2,3)$? $4+9=13\neq25$, so it is not. Membership is checked by
+substitution into the defining equation, never by solving anything.
+\end{example}
+
+\section{An Elliptic Curve}
+
+A richer example shows how much structure an implicit equation can carry. The
+equation
+\[
+y^{2}=x^{3}-x
+\]
+defines an \emph{elliptic curve}. Reading it as a condition, a point $(x,y)$ lies on
+the curve when its $y$-coordinate squared equals $x^{3}-x$. Since a square is never
+negative, real points occur only where $x^{3}-x\ge0$, that is where $x(x-1)(x+1)\ge0$:
+on the interval $-1\le x\le0$ and on $x\ge1$.
+
+\begin{visual}
+The real locus of $y^{2}=x^{3}-x$ falls into two separate pieces: a bounded oval over
+$-1\le x\le0$, and an unbounded branch opening to the right over $x\ge1$. Between $0$
+and $1$ the right-hand side is negative, so no real point exists, and the curve has a
+genuine gap. Such a disconnected shape can never be the graph of a function.
+\end{visual}
+
+\begin{center}
+\begin{tikzpicture}[xscale=2.0,yscale=1.0]
+  \draw[->] (-1.6,0)--(2.2,0) node[right]{\scriptsize $x$};
+  \draw[->] (0,-2.4)--(0,2.4) node[above]{\scriptsize $y$};
+  \foreach \x in {-1,1,2} \draw (\x,0.05)--(\x,-0.05) node[below]{\scriptsize \x};
+  % oval over [-1,0], parametric upper then lower
+  \draw[pcblue,thick,smooth,samples=80,domain=-1:0,variable=\x]
+    plot (\x,{sqrt(max(0,\x*\x*\x-\x))});
+  \draw[pcblue,thick,smooth,samples=80,domain=-1:0,variable=\x]
+    plot (\x,{-sqrt(max(0,\x*\x*\x-\x))});
+  % right branch over [1,1.85]
+  \draw[pcblue,thick,smooth,samples=80,domain=1:1.85,variable=\x]
+    plot (\x,{sqrt(max(0,\x*\x*\x-\x))});
+  \draw[pcblue,thick,smooth,samples=80,domain=1:1.85,variable=\x]
+    plot (\x,{-sqrt(max(0,\x*\x*\x-\x))});
+  \node[pcblue] at (-0.5,1.4) {\scriptsize oval};
+  \node[pcblue] at (1.7,2.0) {\scriptsize branch};
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[points on the elliptic curve]
+The points with $x=-1$, $x=0$, and $x=1$ all give $y^{2}=0$, so $(-1,0)$, $(0,0)$, and
+$(1,0)$ lie on the curve; these are where it meets the $x$-axis. At $x=2$,
+$y^{2}=8-2=6$, so $(2,\sqrt6)$ and $(2,-\sqrt6)$ are both on the curve, a vertical
+line meeting it twice. At $x=\tfrac12$, $x^{3}-x=\tfrac18-\tfrac12=-\tfrac38<0$, so no
+real point sits above $x=\tfrac12$, confirming the gap.
+\end{example}
+
+\begin{pitfall}
+The symmetry $y\mapsto-y$ in $y^{2}=x^{3}-x$ means every point has a mirror image
+across the $x$-axis. This is exactly why the curve is not a function: each admissible
+$x$ with $x^{3}-x>0$ produces two $y$-values, one positive and one negative.
+\end{pitfall}
+
+\section{Conic Sections}
+
+The most important implicit curves are the \emph{conics}, the curves cut from a cone
+by a plane and, equivalently, the curves defined by second-degree equations in $x$
+and $y$. Four shapes arise: the circle, the ellipse, the parabola, and the hyperbola.
+Each has a standard implicit equation in which the parameters read off directly as
+geometric measurements.
+
+\begin{keyidea}
+\textbf{The conic sections} are the curves of second degree. In standard position,
+centered or with vertex at a convenient point:
+\begin{itemize}\setlength{\itemsep}{3pt}
+  \item \emph{Circle:} $x^{2}+y^{2}=r^{2}$, radius $r$.
+  \item \emph{Ellipse:} $\dfrac{x^{2}}{a^{2}}+\dfrac{y^{2}}{b^{2}}=1$, semi-axes $a,b$.
+  \item \emph{Parabola:} $y=\dfrac{1}{4p}x^{2}$, or $x^2=4py$, focus distance $p$.
+  \item \emph{Hyperbola:} $\dfrac{x^{2}}{a^{2}}-\dfrac{y^{2}}{b^{2}}=1$, opening left
+        and right.
+\end{itemize}
+\end{keyidea}
+
+\subsection{Circle and ellipse}
+
+The circle is the locus of points at fixed distance $r$ from a center; placing the
+center at the origin gives $x^{2}+y^{2}=r^{2}$ from the distance formula. Stretching
+the circle by different factors along the two axes produces the ellipse: dividing $x$
+by $a$ and $y$ by $b$ before squaring turns the radius-one circle into
+$\dfrac{x^{2}}{a^{2}}+\dfrac{y^{2}}{b^{2}}=1$, whose graph reaches $\pm a$ along the
+$x$-axis and $\pm b$ along the $y$-axis.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+  % circle
+  \begin{scope}
+    \draw[->] (-1.8,0)--(1.8,0) node[right]{\scriptsize $x$};
+    \draw[->] (0,-1.8)--(0,1.8) node[above]{\scriptsize $y$};
+    \draw[pcblue,thick] (0,0) circle (1.3);
+    \draw[pcred,dashed] (0,0)--(1.3,0) node[midway,below]{\scriptsize $r$};
+    \node at (0,-2.3) {\scriptsize $x^2+y^2=r^2$};
+  \end{scope}
+  % ellipse
+  \begin{scope}[xshift=5.5cm]
+    \draw[->] (-2.2,0)--(2.2,0) node[right]{\scriptsize $x$};
+    \draw[->] (0,-1.8)--(0,1.8) node[above]{\scriptsize $y$};
+    \draw[pcblue,thick] (0,0) ellipse (1.8 and 1.1);
+    \draw[pcred,dashed] (0,0)--(1.8,0) node[midway,below]{\scriptsize $a$};
+    \draw[pcred,dashed] (0,0)--(0,1.1) node[midway,left]{\scriptsize $b$};
+    \node at (0,-2.3) {\scriptsize $\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[reading an ellipse]
+The equation $\dfrac{x^{2}}{9}+\dfrac{y^{2}}{4}=1$ has $a^{2}=9$ and $b^{2}=4$, so
+$a=3$ and $b=2$. The ellipse stretches to $\pm3$ along the $x$-axis and $\pm2$ along
+the $y$-axis. Setting $y=0$ gives $x=\pm3$; setting $x=0$ gives $y=\pm2$, confirming
+the intercepts.
+\end{example}
+
+\subsection{Hyperbola}
+
+Changing the plus sign in the ellipse to a minus produces the hyperbola
+$\dfrac{x^{2}}{a^{2}}-\dfrac{y^{2}}{b^{2}}=1$. The curve has two branches opening left
+and right, and it approaches the diagonal asymptotes $y=\pm\dfrac{b}{a}x$ at the ends,
+because for large $x$ the constant $1$ becomes negligible and the equation approaches
+$\dfrac{x^{2}}{a^{2}}=\dfrac{y^{2}}{b^{2}}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  \draw[->] (-3.4,0)--(3.4,0) node[right]{\scriptsize $x$};
+  \draw[->] (0,-2.8)--(0,2.8) node[above]{\scriptsize $y$};
+  % asymptotes y = +- (b/a) x, take a=1.4,b=1.6 -> slope ~1.14
+  \draw[pcgreen,dashed] (-2.6,-2.97)--(2.6,2.97);
+  \draw[pcgreen,dashed] (-2.6,2.97)--(2.6,-2.97);
+  \node[pcgreen] at (2.6,2.3) {\scriptsize $y=\frac{b}{a}x$};
+  % right branch x = a cosh t, y = b sinh t
+  \draw[pcblue,thick,smooth,samples=60,domain=-1.5:1.5,variable=\t]
+    plot ({1.4*cosh(\t)},{1.6*sinh(\t)});
+  \draw[pcblue,thick,smooth,samples=60,domain=-1.5:1.5,variable=\t]
+    plot ({-1.4*cosh(\t)},{1.6*sinh(\t)});
+  \fill (1.4,0) circle (1.6pt) node[below right]{\scriptsize $a$};
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[asymptotes of a hyperbola]
+For $\dfrac{x^{2}}{16}-\dfrac{y^{2}}{9}=1$, $a^{2}=16$ and $b^{2}=9$, so $a=4$, $b=3$.
+The vertices sit at $(\pm4,0)$ and the asymptotes are $y=\pm\tfrac34 x$. The branches
+hug those lines as $x$ grows.
+\end{example}
+
+\subsection{Recognizing a conic from its equation}
+
+A second-degree equation with no $xy$ term is a conic, and the signs of the squared
+terms name which one. Equal positive coefficients on $x^{2}$ and $y^{2}$ give a
+circle; unequal positive coefficients give an ellipse; opposite signs give a
+hyperbola; a single squared term gives a parabola.
+
+\begin{keyidea}
+\textbf{Identifying a conic} from $Ax^{2}+Cy^{2}+\cdots=0$ (no $xy$ term):
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item $A=C$ (same sign): circle.
+  \item $A\neq C$, same sign: ellipse.
+  \item $A,C$ opposite signs: hyperbola.
+  \item exactly one of $A,C$ is zero: parabola.
+\end{itemize}
+\end{keyidea}
+
+\begin{example}[classifying by inspection]
+$4x^{2}+4y^{2}=36$ has equal coefficients, a circle (radius $3$ after dividing).
+$x^{2}+9y^{2}=9$ has unequal positive coefficients, an ellipse. $x^{2}-y^{2}=1$ has
+opposite signs, a hyperbola. $y-x^{2}=0$ has a single squared term, a parabola.
+\end{example}
+
+\section{Exercises}
+
+\begin{exercises}
+\item Decide by substitution whether each point lies on $x^{2}+y^{2}=25$:
+(a) $(0,5)$; (b) $(3,4)$; (c) $(-4,3)$; (d) $(2,2)$.
+
+\item Solve $x^{2}+y^{2}=9$ for $y$, obtaining two functions, and state the domain of
+each. Explain how they recombine to the full circle.
+
+\item For the elliptic curve $y^{2}=x^{3}-x$, find all points with $x=-1,0,1$, and
+determine whether any real point has $x=\tfrac14$.
+
+\item Explain, using the symmetry $y\mapsto-y$, why $y^{2}=x^{3}-x$ is not the graph
+of a function, and describe its two pieces.
+
+\item Find every point on $y^{2}=x^{3}-x$ with $x=3$, and verify each by substitution.
+
+\item Write the equation of the circle centered at the origin passing through
+$(6,8)$, and state its radius.
+
+\item Identify $a$ and $b$ for $\dfrac{x^{2}}{25}+\dfrac{y^{2}}{16}=1$, give the four
+axis intercepts, and sketch the ellipse.
+
+\item For $\dfrac{x^{2}}{9}-\dfrac{y^{2}}{4}=1$, give the vertices and the equations of
+the asymptotes, and sketch both branches with the asymptotes.
+
+\item Classify each conic from its equation: (a) $3x^{2}+3y^{2}=12$;
+(b) $4x^{2}+y^{2}=16$; (c) $y^{2}-x^{2}=1$; (d) $x-2y^{2}=0$.
+
+\item Explain why the hyperbola $\dfrac{x^{2}}{a^{2}}-\dfrac{y^{2}}{b^{2}}=1$
+approaches the lines $y=\pm\dfrac{b}{a}x$ for large $x$, reasoning from the equation.
+
+\item Starting from the unit circle $x^{2}+y^{2}=1$, explain how dividing $x$ by $a$
+and $y$ by $b$ before squaring produces an ellipse, and what $a$ and $b$ measure on
+the resulting curve.
+
+\item A second-degree equation $Ax^{2}+Cy^{2}=1$ has $A=4$, $C=-1$. Name the conic,
+give its vertices, and state its asymptotes.
+\end{exercises}
+
+\end{document}

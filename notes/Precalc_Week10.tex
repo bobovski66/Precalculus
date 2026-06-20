@@ -1,0 +1,325 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{9}
+\begin{document}
+
+\chapter{Matrices and Gaussian Elimination}
+
+Solving a system by elimination, the variable names $x,y,z$ are carried along
+unchanged through every step; only the coefficients move. A matrix strips away the
+names and keeps the numbers in a grid, so the bookkeeping is done on coefficients
+alone. The elimination procedure then becomes a fixed sequence of row operations on
+that grid, and the method, applied systematically, is Gaussian elimination.
+
+\section{The Augmented Matrix}
+
+A linear system is summarized by its coefficients and right-hand sides, arranged in a
+rectangular array. Each row is an equation; each column before the bar is a variable;
+the column after the bar holds the constants.
+
+\begin{definition}{Augmented matrix}
+The \emph{augmented matrix} of a linear system records each equation's coefficients
+in a row, aligned by variable in columns, with the constant terms placed after a
+vertical bar. The system
+\[
+\begin{aligned}
+2x+y-z&=1\\ x-y+2z&=3\\ 3x+2y+z&=10
+\end{aligned}
+\qquad\text{becomes}\qquad
+\left[\begin{array}{ccc|c}
+2&1&-1&1\\ 1&-1&2&3\\ 3&2&1&10
+\end{array}\right].
+\]
+\end{definition}
+
+\begin{keyidea}
+The augmented matrix is pure bookkeeping: the same system with the variable names
+removed. Every operation legal on equations corresponds to an operation on rows, and
+nothing is lost, because the column positions remember which variable each number
+belongs to.
+\end{keyidea}
+
+\section{Row Operations}
+
+The three reversible moves on equations, from the previous chapter, become the three
+elementary row operations. Each leaves the solution set unchanged.
+
+\begin{keyidea}
+\textbf{Elementary row operations.}
+\begin{enumerate}\setlength{\itemsep}{2pt}
+  \item \emph{Swap} two rows (reorder the equations).
+  \item \emph{Scale} a row by a nonzero constant (multiply an equation through).
+  \item \emph{Replace} a row by itself plus a multiple of another row (add a multiple
+        of one equation to another).
+\end{enumerate}
+\end{keyidea}
+
+The goal of these operations is \emph{row echelon form}: a staircase pattern in which
+each row's first nonzero entry (its leading entry) sits to the right of the one
+above, and entries below each leading position are zero. A matrix in this form is the
+matrix version of a triangular system, ready for back-substitution.
+
+\begin{visual}
+Row echelon form is a staircase of zeros below the diagonal. The leading entry of
+each row steps rightward as you move down, and everything beneath a leading entry is
+cleared to zero. Reading the bottom row gives one variable; reading upward recovers
+the rest.
+\end{visual}
+
+\section{Gaussian Elimination}
+
+Gaussian elimination is the disciplined use of row operations to reach echelon form,
+working one column at a time from left to right: use the leading entry of a row to
+clear all entries below it, then move to the next column. Once the staircase is
+complete, back-substitution finishes the solve.
+
+\begin{example}[a full elimination]
+Solve
+\[
+\left[\begin{array}{ccc|c}
+1&1&1&6\\ 2&-1&1&3\\ 1&2&-1&2
+\end{array}\right].
+\]
+Clear the first column below the leading $1$. Replace row $2$ by row $2$ minus twice
+row $1$, and row $3$ by row $3$ minus row $1$:
+\[
+\left[\begin{array}{ccc|c}
+1&1&1&6\\ 0&-3&-1&-9\\ 0&1&-2&-4
+\end{array}\right].
+\]
+Clear the second column below the new leading entry. Swap rows $2$ and $3$ for a
+tidy leading $1$, then replace row $3$ by row $3$ plus three times row $2$:
+\[
+\left[\begin{array}{ccc|c}
+1&1&1&6\\ 0&1&-2&-4\\ 0&-3&-1&-9
+\end{array}\right]
+\rightarrow
+\left[\begin{array}{ccc|c}
+1&1&1&6\\ 0&1&-2&-4\\ 0&0&-7&-21
+\end{array}\right].
+\]
+The matrix is in echelon form. The bottom row reads $-7z=-21$, so $z=3$. The middle
+row reads $y-2z=-4$, so $y=2$. The top row reads $x+y+z=6$, so $x=1$. The solution is
+$(1,2,3)$, matching the same system solved by hand in the previous chapter.
+\end{example}
+
+\begin{keyidea}
+Gaussian elimination reaches echelon form column by column: pick a leading entry,
+clear everything below it, advance. The procedure is mechanical and always
+terminates, which is why it scales to systems far larger than hand elimination can
+manage.
+\end{keyidea}
+
+\section{Reading the Outcome from the Matrix}
+
+The three outcomes appear in the echelon form as clearly as they did in the geometry.
+A full staircase with a leading entry in every variable column gives a unique
+solution. A row of zeros in the coefficients with a nonzero constant, the pattern
+$[\,0\ 0\ 0\mid c\,]$ with $c\neq0$, reads $0=c$, a contradiction, so no solution. A
+row of all zeros, $[\,0\ 0\ 0\mid 0\,]$, reads $0=0$, carrying no information and
+leaving a free variable, so infinitely many.
+
+\begin{keyidea}
+\textbf{Reading echelon form.}
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item A leading entry in every variable column: \emph{unique solution}.
+  \item A row $[\,0\ \cdots\ 0\mid c\,]$ with $c\neq0$: \emph{no solution}
+        (the false statement $0=c$).
+  \item A row of all zeros and a column without a leading entry: \emph{infinitely
+        many}, with a free variable.
+\end{itemize}
+\end{keyidea}
+
+\begin{example}[a system with no solution]
+Eliminating
+\[
+\left[\begin{array}{cc|c}
+1&-1&2\\ 2&-2&7
+\end{array}\right]
+\]
+by replacing row $2$ with row $2$ minus twice row $1$ gives
+\[
+\left[\begin{array}{cc|c}
+1&-1&2\\ 0&0&3
+\end{array}\right].
+\]
+The bottom row reads $0=3$, false, so the system has no solution; the two lines are
+parallel.
+\end{example}
+
+\begin{example}[a system with infinitely many]
+Eliminating
+\[
+\left[\begin{array}{cc|c}
+1&2&3\\ 2&4&6
+\end{array}\right]
+\]
+gives a bottom row of all zeros, $0=0$. The variable $y$ is free; setting $y=t$, the
+top row gives $x=3-2t$. The solution set is $(3-2t,\,t)$, the whole line, as before.
+\end{example}
+
+\section{Applications}
+
+\subsection{Currents in a circuit}
+
+Kirchhoff's two laws turn a circuit into a linear system. The \emph{current law}
+states that the current into any junction equals the current out; the \emph{voltage
+law} states that around any closed loop, the sum of voltage rises from batteries
+equals the sum of drops across resistors, each drop being resistance times current
+($V=IR$). Applying both laws produces one equation per junction and one per loop.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0,line width=0.9pt]
+  % outer rectangle
+  \draw (0,0) rectangle (5,2.4);
+  % middle branch
+  \draw (2.5,0)--(2.5,2.4);
+  % battery E1 left side
+  \node[left] at (0,1.2) {};
+  \draw (-0.05,1.05)--(-0.05,1.35); \draw (0.05,0.95)--(0.05,1.45);
+  \node[left] at (-0.1,1.2) {\scriptsize $E_1$};
+  % battery E2 right side
+  \draw (4.95,1.05)--(4.95,1.35); \draw (5.05,0.95)--(5.05,1.45);
+  \node[right] at (5.1,1.2) {\scriptsize $E_2$};
+  % resistors (zigzag as small boxes)
+  \draw[fill=white] (1.0,2.3) rectangle (1.7,2.5); \node at (1.35,2.72) {\scriptsize $R_1$};
+  \draw[fill=white] (3.3,2.3) rectangle (4.0,2.5); \node at (3.65,2.72) {\scriptsize $R_3$};
+  \draw[fill=white] (2.4,1.0) rectangle (2.6,1.7); \node at (2.95,1.35) {\scriptsize $R_m$};
+  % current labels
+  \node[pcblue] at (0.5,1.2) {\scriptsize $I_1$};
+  \node[pcblue] at (2.5,0.55) {\scriptsize $I_2$};
+  \node[pcblue] at (4.5,1.2) {\scriptsize $I_3$};
+  % top node
+  \fill (2.5,2.4) circle (1.6pt); \node[above right] at (2.5,2.4) {\scriptsize node};
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[a two-loop circuit]
+A circuit has a left branch carrying current $I_1$ through a battery $E_1=12$ V and
+resistor $R_1=2\,\Omega$, a middle branch carrying $I_2$ through $R_m=3\,\Omega$, and
+a right branch carrying $I_3$ through $R_3=4\,\Omega$ and battery $E_2=10$ V. The
+current law at the top node and the voltage law around the two loops give
+\[
+\begin{aligned}
+I_1-I_2-I_3&=0 &&\text{(junction)},\\
+2I_1+3I_2&=12 &&\text{(left loop)},\\
+3I_2+4I_3&=10 &&\text{(right loop)}.
+\end{aligned}
+\]
+The augmented matrix and its elimination:
+\[
+\left[\begin{array}{ccc|c}
+1&-1&-1&0\\ 2&3&0&12\\ 0&3&4&10
+\end{array}\right]
+\xrightarrow{\,R_2-2R_1\,}
+\left[\begin{array}{ccc|c}
+1&-1&-1&0\\ 0&5&2&12\\ 0&3&4&10
+\end{array}\right]
+\xrightarrow{\,5R_3-3R_2\,}
+\left[\begin{array}{ccc|c}
+1&-1&-1&0\\ 0&5&2&12\\ 0&0&14&14
+\end{array}\right].
+\]
+The bottom row gives $14I_3=14$, so $I_3=1$ A. Back-substituting, $5I_2+2=12$ gives
+$I_2=2$ A, and $I_1-2-1=0$ gives $I_1=3$ A. The currents are $I_1=3$, $I_2=2$,
+$I_3=1$ amperes; the junction law checks, since $3=2+1$.
+\end{example}
+
+\subsection{Balancing a chemical equation}
+
+\begin{example}[combustion of propane]
+Balance $a\,\mathrm{C_3H_8}+b\,\mathrm{O_2}\to c\,\mathrm{CO_2}+d\,\mathrm{H_2O}$.
+Equal atom counts on each side give one equation per element:
+\[
+\begin{aligned}
+\text{C:}&\quad 3a=c,\\
+\text{H:}&\quad 8a=2d,\\
+\text{O:}&\quad 2b=2c+d.
+\end{aligned}
+\]
+This is a homogeneous system in $a,b,c,d$. Take $a=t$ as the free parameter. The
+carbon equation gives $c=3t$; the hydrogen equation gives $d=4t$; substituting into
+the oxygen equation gives $2b=2(3t)+4t=10t$, so $b=5t$. The smallest whole numbers
+come from $t=1$: $a=1$, $b=5$, $c=3$, $d=4$, yielding
+\[
+\mathrm{C_3H_8}+5\,\mathrm{O_2}\to3\,\mathrm{CO_2}+4\,\mathrm{H_2O}.
+\]
+The free parameter is exactly the freedom to scale a balanced equation up or down.
+\end{example}
+
+\subsection{Flow through a road network}
+
+\begin{example}[a one-way traffic grid]
+Four one-way streets meet at four intersections $A,B,C,D$, with the unknown segment
+flows $x_1,x_2,x_3,x_4$ in cars per hour. Conservation at each intersection (flow in
+equals flow out), with the external flows shown by the data, gives
+\[
+\begin{aligned}
+A:&\quad x_1+x_2=800,\\
+B:&\quad x_2=x_3+200,\\
+C:&\quad x_3+x_4=600,\\
+D:&\quad x_1=x_4.
+\end{aligned}
+\]
+Eliminating leaves one row of zeros: the four conservation equations are not
+independent, because total flow in must equal total flow out, so one equation follows
+from the others. The system is underdetermined, with one free parameter. Taking
+$x_4=t$, back-substitution gives
+\[
+x_1=t,\qquad x_2=800-t,\qquad x_3=600-t,\qquad x_4=t.
+\]
+The flows are not uniquely fixed; the network admits a family of balanced states. The
+physical requirement that each flow be nonnegative forces $0\le t\le600$, the range of
+admissible traffic patterns. A measurement of any one segment pins down all four.
+\end{example}
+
+\section{Exercises}
+
+\begin{exercises}
+\item Write the augmented matrix of
+$\begin{aligned}3x-y+2z&=5\\ x+4y-z&=0\\ 2x+y+z&=7\end{aligned}$, labeling which
+column belongs to which variable.
+
+\item State the three elementary row operations and the equation operation each one
+represents.
+
+\item Apply one row operation to clear the first column below the top entry of
+$\left[\begin{array}{cc|c}1&3&5\\ 2&1&4\end{array}\right]$, and write the result.
+
+\item Solve by Gaussian elimination:
+$\left[\begin{array}{cc|c}1&2&5\\ 3&1&5\end{array}\right]$, and state the solution as
+a point.
+
+\item Carry
+$\left[\begin{array}{ccc|c}1&1&1&4\\ 2&1&-1&3\\ 1&-2&3&11\end{array}\right]$
+to echelon form and solve by back-substitution; check your answer.
+
+\item Eliminate
+$\left[\begin{array}{cc|c}1&-2&3\\ -3&6&5\end{array}\right]$
+and state the outcome, identifying the row that reveals it.
+
+\item Eliminate
+$\left[\begin{array}{cc|c}2&4&6\\ 3&6&9\end{array}\right]$,
+identify the free variable, and write the solution set with a parameter.
+
+\item Explain how each of the three outcomes, unique, none, and infinitely many,
+appears in the echelon form of the augmented matrix.
+
+\item A system's echelon form has a bottom row $[\,0\ 0\ 0\mid 5\,]$. State the
+outcome and explain the reasoning in one sentence.
+
+\item Balance $a\,\mathrm{Fe}+b\,\mathrm{O_2}\to c\,\mathrm{Fe_2O_3}$ by writing the
+atom-count equations as a linear system and choosing the smallest whole-number
+solution.
+
+\item A two-loop circuit gives the system
+$\begin{aligned}I_1-I_2-I_3&=0\\ I_1+2I_2&=10\\ 2I_2+3I_3&=9\end{aligned}$
+for its branch currents. Solve by Gaussian elimination, and verify the junction law
+$I_1=I_2+I_3$.
+
+\item Explain why Gaussian elimination on a matrix and hand elimination on the
+equations produce the same solution, and why the matrix form is preferred for large
+systems.
+\end{exercises}
+
+\end{document}

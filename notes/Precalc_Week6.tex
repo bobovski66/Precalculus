@@ -1,0 +1,292 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+\setcounter{chapter}{5}
+\begin{document}
+
+\chapter{Exponential Functions}
+
+An exponential function puts the variable in the exponent,
+\[
+f(x)=a\,b^{x},
+\]
+with a fixed base $b>0$ and a starting value $a$. Each step of one unit in $x$
+multiplies the output by the same factor $b$, in contrast to a line, where each step
+adds the same amount. Repeated multiplication is the engine of growth when $b>1$ and
+of decay when $0<b<1$, and it governs populations, cooling, interest, and the decay
+of radioactive matter.
+
+\section{Constant Ratio, Not Constant Difference}
+
+A linear function changes by a constant difference: each unit step adds $m$. An
+exponential function changes by a constant ratio: each unit step multiplies by $b$.
+This single distinction separates the two kinds of growth and decides which model a
+data cloud calls for.
+
+\begin{definition}{Exponential function}
+An \emph{exponential function} has the form $f(x)=a\,b^{x}$ with base $b>0$,
+$b\neq1$, and $a\neq0$. The value $a=f(0)$ is the output at $x=0$; the base $b$ is the
+factor by which the output multiplies for each unit increase in $x$.
+\end{definition}
+
+\begin{keyidea}
+Linear growth adds a fixed amount per step; exponential growth multiplies by a fixed
+factor per step. Over equal input steps, a linear function has equal differences and
+an exponential function has equal ratios.
+\end{keyidea}
+
+\begin{example}[spotting the pattern in a table]
+The outputs $3, 6, 12, 24, 48$ at $x=0,1,2,3,4$ multiply by $2$ each step, so they
+fit $f(x)=3\cdot2^{x}$. The outputs $3,5,7,9,11$ instead add $2$ each step, a linear
+pattern $f(x)=2x+3$. Reading whether successive outputs share a difference or a ratio
+identifies the model.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.78]
+  \draw[->] (-2.6,0)--(2.8,0) node[right]{\scriptsize $x$};
+  \draw[->] (0,-0.4)--(0,5) node[above]{\scriptsize $y$};
+  \draw[pcblue,thick,domain=-2.4:2.25,smooth,samples=80] plot (\x,{2^\x});
+  \node[pcblue] at (1.9,4.6) {\scriptsize $b>1$: growth};
+  \draw[pcred,thick,domain=-2.25:2.4,smooth,samples=80] plot (\x,{2^(-\x)});
+  \node[pcred] at (-1.6,4.6) {\scriptsize $0<b<1$: decay};
+  \draw[gray,dashed] (-2.6,0)--(2.8,0);
+  \fill (0,1) circle (1.6pt) node[above right]{\scriptsize $(0,1)$};
+\end{tikzpicture}
+\end{center}
+
+Every exponential $b^{x}$ passes through $(0,1)$, since $b^{0}=1$, and stays strictly
+positive, since a positive base raised to any power is positive. The $x$-axis is a
+horizontal asymptote: the graph approaches it on one side without reaching it.
+
+\section{Negative Exponents and Decay}
+
+A negative exponent is a reciprocal: $b^{-x}=\dfrac{1}{b^{x}}=\left(\dfrac1b\right)^{x}$.
+So raising a base to negative powers is the same as raising its reciprocal to
+positive powers, which turns growth into decay. A base larger than $1$ run with
+negative exponents shrinks; equivalently, a base between $0$ and $1$ shrinks with
+positive exponents. The two descriptions are the same function.
+
+\begin{keyidea}
+$b^{-x}=\left(\dfrac1b\right)^{x}$. A negative exponent reflects the graph across the
+$y$-axis and converts growth into decay. A decay function can be written with a base
+above $1$ and a negative exponent, or with a base below $1$ and a positive exponent;
+both name the same curve.
+\end{keyidea}
+
+\begin{example}[two ways to write decay]
+The function $f(x)=2^{-x}$ halves at each step: $1,\tfrac12,\tfrac14,\tfrac18,\dots$
+The same outputs come from $g(x)=\left(\tfrac12\right)^{x}$. Writing the decay with
+base $\tfrac12$ and positive exponent, or base $2$ and negative exponent, is a matter
+of preference; the graph is identical.
+\end{example}
+
+\section{The Number $e$}
+
+One base stands out, and it arises from asking how fast money grows under continual
+compounding. Invest one dollar for one year at $100\%$ annual interest. Compounded
+once, the year-end value is $(1+1)=2$ dollars. Compounded twice, each half-year adds
+$50\%$: $(1+\tfrac12)^{2}=2.25$. Compounded $n$ times, the year-end factor is
+\[
+\left(1+\frac1n\right)^{n}.
+\]
+As the compounding is split into ever finer periods, this factor does not run away to
+infinity, nor does it stall; it climbs and settles toward a fixed ceiling.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}rl@{}}
+\toprule
+compounding $n$ & year-end factor $\left(1+\tfrac1n\right)^{n}$\\
+\midrule
+$1$ (annually)      & $2.000000$\\
+$2$ (semiannually)  & $2.250000$\\
+$4$ (quarterly)     & $2.441406$\\
+$12$ (monthly)      & $2.613035$\\
+$52$ (weekly)       & $2.692597$\\
+$365$ (daily)       & $2.714567$\\
+$8760$ (hourly)     & $2.718127$\\
+$1{,}000{,}000$     & $2.718280$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The values press upward against a ceiling near $2.71828$, never crossing it however
+fine the compounding. That ceiling is the number $e$, an irrational constant
+\[
+e=2.718281828\ldots,
+\]
+the value the year-end factor approaches under continuous compounding.
+
+\begin{keyidea}
+The number $e$ is the ceiling the compounding factor $\left(1+\tfrac1n\right)^{n}$
+rises toward as the compounding is made continuous. It is the natural base for
+exponential growth and decay, written $f(x)=a\,e^{kx}$, where $k>0$ gives growth and
+$k<0$ gives decay.
+\end{keyidea}
+
+\begin{visual}
+Splitting the year into finer compounding periods adds a little more growth each
+time, but each addition is smaller than the last, and the running total is trapped
+beneath a fixed height. That height is $e$. The continuous-growth curve $e^{x}$ is the
+smooth result of compounding at every instant.
+\end{visual}
+
+\begin{example}[continuous growth]
+A culture growing continuously at rate $k=0.5$ per hour from an initial $200$ cells
+is modeled by $P(t)=200\,e^{0.5t}$. After $3$ hours, $P(3)=200\,e^{1.5}\approx
+200(4.4817)\approx 896$ cells. The base $e$ encodes growth happening at every
+instant rather than in discrete steps.
+\end{example}
+
+\section{Change of Base}
+
+Any exponential can be rewritten in any other base, because every positive base is a
+power of every other. In particular, every exponential can be written with base $e$,
+which is why $e$ suffices as a universal base. Writing $b=e^{k}$ for the exponent $k$
+that produces $b$, the conversion follows from the exponent rules.
+
+\begin{keyidea}
+\textbf{Change of base into $e$.} For a positive base $b$, let $k$ be the exponent
+with $e^{k}=b$. Then
+\[
+b^{x}=\left(e^{k}\right)^{x}=e^{kx},
+\]
+so every exponential is a base-$e$ exponential with a rescaled exponent. The value
+$k$ is denoted $\ln b$, the natural logarithm of $b$, studied next; here it is simply
+the exponent that turns $e$ into $b$.
+\end{keyidea}
+
+\begin{example}[rewriting in base $e$]
+Write $f(x)=3^{x}$ in base $e$. The exponent producing $3$ is $k=\ln 3\approx1.0986$
+(so $e^{1.0986}\approx3$), giving
+\[
+3^{x}=\left(e^{\ln 3}\right)^{x}=e^{(\ln 3)x}\approx e^{1.0986\,x}.
+\]
+The growth base $3$ becomes the continuous rate $k\approx1.0986$.
+\end{example}
+
+\begin{example}[a decay rate in base $e$]
+A substance retaining $90\%$ of its mass per year obeys $f(t)=(0.9)^{t}$. The
+exponent producing $0.9$ is $k=\ln 0.9\approx-0.1054$, so $f(t)\approx e^{-0.1054\,t}$.
+The negative continuous rate confirms decay.
+\end{example}
+
+\section{Half-Life and Radioactive Decay}
+
+A radioactive element loses a fixed \emph{fraction} of its mass in each fixed span of
+time, which is exactly constant-ratio behavior, so its mass is an exponential
+function of time. The natural span to measure is the \emph{half-life}: the time for
+the mass to fall to half its value. After one half-life, half remains; after two, a
+quarter; after three, an eighth.
+
+\begin{definition}{Half-life}
+The \emph{half-life} $T$ of a decaying quantity is the time required for it to
+diminish to one-half of its current amount. Starting from $M_0$, the amount after
+time $t$ is
+\[
+M(t)=M_0\left(\tfrac12\right)^{t/T},
+\]
+since $t/T$ counts how many half-lives have elapsed.
+\end{definition}
+
+\begin{keyidea}
+Half-life decay is constant-ratio decay with ratio $\tfrac12$ per half-life. The
+exponent $t/T$ is the number of half-lives elapsed; each whole number of half-lives
+multiplies the remaining amount by another factor of $\tfrac12$.
+\end{keyidea}
+
+\begin{example}[carbon-14 dating]
+Carbon-14 has a half-life of about $5730$ years. A sample starting with $M_0$ grams
+has
+\[
+M(t)=M_0\left(\tfrac12\right)^{t/5730}.
+\]
+After $11{,}460$ years, two half-lives have passed, so $M=M_0\left(\tfrac12\right)^{2}
+=\tfrac14 M_0$. If a sample is measured at $25\%$ of its original carbon-14, it has
+aged two half-lives, about $11{,}460$ years.
+\end{example}
+
+\begin{center}
+\begin{tikzpicture}[xscale=0.95,yscale=1.7]
+  \draw[->] (-0.3,0)--(4.6,0) node[right]{\scriptsize $t/T$ (half-lives)};
+  \draw[->] (0,-0.15)--(0,1.3) node[above]{\scriptsize fraction remaining};
+  \draw[pcblue,thick,domain=0:4.3,smooth,samples=80] plot (\x,{2^(-\x)});
+  \foreach \n/\v in {0/1,1/0.5,2/0.25,3/0.125,4/0.0625}{
+    \fill[pcred] (\n,\v) circle (1.4pt);
+  }
+  \node[above right] at (0,1) {\scriptsize $1$};
+  \node[above right] at (1,0.5) {\scriptsize $\tfrac12$};
+  \node[above right] at (2,0.25) {\scriptsize $\tfrac14$};
+  \node[above right] at (3,0.125) {\scriptsize $\tfrac18$};
+  \draw[gray,dashed] (-0.3,0)--(4.6,0);
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[solving for elapsed time without logarithms]
+A medical isotope has a half-life of $6$ hours. A dose of $80$ milligrams is given;
+how much remains after $18$ hours? Eighteen hours is $18/6=3$ half-lives, so
+\[
+M=80\left(\tfrac12\right)^{3}=80\cdot\tfrac18=10\text{ mg}.
+\]
+When the elapsed time is a whole number of half-lives, the answer needs no
+logarithms: just halve repeatedly.
+\end{example}
+
+\begin{pitfall}
+Half-life decay multiplies by $\tfrac12$ each half-life; it does not subtract a fixed
+amount. After one half-life $80$ mg becomes $40$, after another it becomes $20$, not
+$0$. Treating decay as repeated subtraction, rather than repeated halving, is a common
+error and predicts the substance vanishing far too soon.
+\end{pitfall}
+
+\demo{In the Function Fit Lab, set the parent function to an exponential and tune
+$A\,f(b(x-h))+k$ to thread a noisy point cloud. A positive horizontal scale grows and
+a negative one decays; matching the curve to data is the practical form of choosing a
+growth or decay rate. Compare how altering the base steepens or flattens the
+climb.}{https://bobovski66.github.io/Precalculus/demos/function\_fit.html}
+
+\section{Exercises}
+
+\begin{exercises}
+\item Decide whether each table is linear or exponential, and give a formula:
+(a) outputs $5,10,20,40$ at $x=0,1,2,3$; (b) outputs $5,8,11,14$ at the same inputs;
+(c) outputs $100,20,4$ at $x=0,1,2$.
+
+\item Sketch $f(x)=3^{x}$ and $g(x)=3^{-x}$ on the same axes, mark the shared point
+$(0,1)$, and identify the horizontal asymptote of each.
+
+\item Rewrite each as a positive-base, positive-exponent decay or growth, whichever
+applies: (a) $5^{-x}$; (b) $\left(\tfrac14\right)^{x}$; (c) $2^{-3x}$.
+
+\item Using the compounding table, explain in your own words why
+$\left(1+\tfrac1n\right)^{n}$ does not grow without bound as the compounding is
+refined, and state the value it approaches.
+
+\item A bank account of \$1000 grows continuously at $4\%$ per year, modeled by
+$A(t)=1000\,e^{0.04t}$. Find the balance after $10$ years.
+
+\item Rewrite $f(x)=4^{x}$ in base $e$, giving the continuous rate $k=\ln 4$ to four
+decimals.
+
+\item Rewrite $f(t)=(0.8)^{t}$ in base $e$ and state whether the continuous rate is
+positive or negative, with its meaning.
+
+\item A radioactive sample has a half-life of $10$ years. Starting from $64$ grams,
+find the amount remaining after $10$, $20$, and $30$ years without using logarithms.
+
+\item Write the decay model $M(t)=M_0\left(\tfrac12\right)^{t/T}$ for an element with
+half-life $T=1600$ years, and find the fraction remaining after $4800$ years.
+
+\item A sample is measured at one-eighth of its original radioactive content.
+Determine how many half-lives have elapsed, and if the half-life is $30$ years, the
+sample's age.
+
+\item Explain why a radioactive element's mass is an exponential function of time,
+referring to the constant-ratio property and the meaning of half-life.
+
+\item Two isotopes start with equal mass; one has half-life $2$ years, the other
+$4$ years. Compute the fraction of each remaining after $8$ years, and explain which
+has decayed further and why.
+\end{exercises}
+
+\end{document}
