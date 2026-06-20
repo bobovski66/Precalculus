@@ -1,0 +1,645 @@
+\documentclass[12pt]{book}
+\usepackage{precalc1}
+
+% --- solutions list environment: numbered to match exercises ---
+\newcounter{soln}[section]
+\newenvironment{solutions}{%
+  \setcounter{soln}{0}%
+  \begin{list}{\textbf{\arabic{soln}.}}{%
+    \usecounter{soln}\setlength{\leftmargin}{2.2em}\setlength{\itemsep}{10pt}}%
+}{\end{list}}
+
+\begin{document}
+
+\chapter*{Solutions Manual}
+\markboth{Precalculus I — Solutions}{Precalculus I — Solutions}
+\addcontentsline{toc}{chapter}{Solutions Manual}
+
+\bigskip
+\noindent\textit{Worked solutions to the end-of-chapter exercises, Weeks 1--10.
+Conceptual answers give the reasoning expected; computational answers show the steps.
+Sketching and lab exercises describe what a complete response contains.}
+
+\section*{Week 1 — Functions}
+\setcounter{section}{1}
+
+\begin{solutions}
+\item Domain $\{-1,0,2,5\}$, range $\{3,0,-3,1\}$. \emph{Not} a function: the input
+$2$ is paired with both $3$ and $-3$, so one input determines two outputs.
+
+\item (a) A circle fails; a vertical line through its interior meets it twice.
+(b) A downward parabola passes; every vertical line meets it once.
+(c) A sideways ``S'' fails; some vertical lines meet it three times.
+(d) A single steep line passes. The test checks the defining property of a function:
+that each input has exactly one output, since a vertical line collects all points
+sharing one $x$-value.
+
+\item $f(0)=3$ and $f(-2)=2(4)-(-2)+3=8+2+3=13$. For $f(t+1)$,
+\[
+f(t+1)=2(t+1)^2-(t+1)+3=2(t^2+2t+1)-t-1+3=2t^2+3t+4.
+\]
+
+\item For example $\{(1,2),(1,5)\}$ is not a function, since $1$ has two outputs.
+Changing $(1,5)$ to $(2,5)$ gives $\{(1,2),(2,5)\}$, a function: the repeated input is
+removed, so every input now has a single output.
+
+\item Shifting left $4$ uses $h=-4$, stretching vertically by $3$ uses $A=3$, and
+shifting down $1$ uses $k=-1$:
+\[
+g(x)=3(x+4)^2-1.
+\]
+The vertex of $x^2$ at the origin maps to $(h,k)=(-4,-1)$.
+
+\item Read $g(x)=-\tfrac12\,|x+2|+5$ as $A=-\tfrac12$, $h=-2$, $k=5$. In order:
+shift left $2$; compress vertically by $\tfrac12$ and reflect across the $x$-axis
+(because $A<0$); shift up $5$. The corner of $|x|$ at the origin lands at
+$(h,k)=(-2,5)$.
+
+\item Track the point $(9,3)$ through $g(x)=2\sqrt{x-1}+4$. The input transforms by
+the inside: $x:9\to 9-1=8$? No, undo carefully. The inside is $x-1$, so the parent's
+input $9$ corresponds to $g$'s input $9+1=10$. The output transforms by the outside:
+$y:3\to 2(3)+4=10$. So $(9,3)\mapsto(10,10)$. Confirm directly:
+$g(10)=2\sqrt{10-1}+4=2(3)+4=10$. \checkmark
+
+\item Constants outside $f$ act on the output and move the graph vertically as
+expected, so $f(x)+3$ raises every output by $3$. Constants inside $f$ act on the
+input and move the graph horizontally in reverse: $f(x-3)$ reaches the parent's value
+at input $0$ when $x-3=0$, that is at $x=3$, so the graph shifts right. The two
+``$+3$'' moves differ because one adjusts the output (after the function acts) and the
+other adjusts the input (before the function acts).
+
+\item The cloud is the data itself: scattered points with no exact rule. A linear fit
+is a \emph{model}, a clean predictable line laid through the cloud to follow its
+trend. The two are not equal; the model summarizes and forecasts the data without
+passing through every point. ``Model'' names the chosen rule that stands in for the
+data so one can compute with it.
+
+\item With $A<0$ the graph reflects across the $x$-axis (the output sign flips), and
+with $b<0$ it reflects across the $y$-axis (the input sign flips). The two reflections
+are independent and involve the $x$-axis and the $y$-axis respectively.
+
+\item A bowl opening upward with lowest point near $(2,-3)$ suggests the parent
+$f(x)=x^2$. Start with $A=1$ (upward, unstretched), $b=1$, $h=2$ (vertex $x$), and
+$k=-3$ (vertex $y$). The vertex of the model then sits at $(2,-3)$, matching the
+cloud's lowest point; $A$ is tuned afterward to match how steeply the cloud rises.
+
+\item \emph{Lab exercise.} Answers vary with the generated cloud. A complete response
+records the parent family, the four fitted constants, the fit score, and one sentence
+identifying the hardest constant (commonly $b$, since horizontal scaling is the least
+visually obvious of the four).
+\end{solutions}
+
+\section*{Week 2 — Lines and Parabolas}
+\setcounter{section}{2}
+
+\begin{solutions}
+\item Any two points on a line determine a right triangle with horizontal leg (run)
+and vertical leg (rise). Because the line meets every horizontal at one fixed angle,
+all such triangles have the same angles and are therefore similar. Similar triangles
+have proportional sides, so the ratio rise$/$run is identical for every pair of
+points; that common ratio is the slope.
+
+\item Slope: $m=\dfrac{-6-2}{3-(-1)}=\dfrac{-8}{4}=-2$. Point-slope through $(-1,2)$:
+$y-2=-2(x+1)$. Slope-intercept: $y=-2x-2+2=-2x$, so $f(x)=-2x$. Check: $f(-1)=2$ and
+$f(3)=-6$. \checkmark
+
+\item Point-slope: $y-1=-\tfrac23(x-4)$. Slope-intercept:
+$y=-\tfrac23 x+\tfrac83+1=-\tfrac23 x+\tfrac{11}{3}$. The $y$-intercept is
+$\tfrac{11}{3}$. The $x$-intercept solves $0=-\tfrac23 x+\tfrac{11}{3}$, giving
+$x=\tfrac{11}{2}$.
+
+\item (a) Through $(2,5)$ and $(2,-1)$: the run is $0$, so the slope is undefined; this
+is the vertical line $x=2$, which is \emph{not} a function. (b) Through $(0,4)$ and
+$(7,4)$: slope $0$, a function (the horizontal line $y=4$). (c) Through $(1,1)$ and
+$(3,5)$: slope $\dfrac{5-1}{3-1}=2$, a function.
+
+\item A parabola is the set of points equidistant from a fixed point (the focus) and a
+fixed line (the directrix). The vertex is the point of the parabola on the axis; its
+distance to the focus equals its distance to the directrix by definition. Since both
+distances are measured along the axis, the vertex sits exactly halfway between focus
+and directrix.
+
+\item Rays arriving parallel to the axis reflect off the curve and all pass through the
+focus. Two devices: a satellite dish or solar collector, where incoming parallel rays
+are concentrated \emph{at} the focus; and a headlight or flashlight reflector, where
+light from a source \emph{at} the focus is sent out as a parallel beam. The directions
+are reversed in the two cases.
+
+\item Substitute each point into $f(x)=ax^2+bx+c$. From $(0,1)$: $c=1$. From
+$(-1,6)$: $a-b+c=6$, so $a-b=5$. From $(2,3)$: $4a+2b+c=3$, so $4a+2b=2$, i.e.
+$2a+b=1$. Adding $a-b=5$ and $2a+b=1$ gives $3a=6$, so $a=2$, then $b=-3$. Thus
+$f(x)=2x^2-3x+1$. Check $(-1)$: $2+3+1=6$. \checkmark
+
+\item Factor $3$ from the variable terms: $3(x^2+4x)+7$. Half of $4$, squared, is $4$:
+$3(x^2+4x+4-4)+7=3(x+2)^2-12+7=3(x+2)^2-5$. The vertex is $(-2,-5)$. By formula,
+$h=-\dfrac{b}{2a}=-\dfrac{12}{6}=-2$, agreeing.
+
+\item Factor: $x^2-2x-15=(x-5)(x+3)$, roots $5$ and $-3$. Axis of symmetry:
+$x=\dfrac{5+(-3)}{2}=1$. Vertex $y$-value: $f(1)=1-2-15=-16$, so the vertex is
+$(1,-16)$. The $y$-intercept is $f(0)=-15$. A correct sketch is an upward parabola
+crossing at $-3$ and $5$, with vertex $(1,-16)$ and $y$-intercept $(0,-15)$.
+
+\item Discriminant $b^2-4ac$. (a) $x^2-4x+4$: $16-16=0$, one (doubled) real root at
+$x=2$. (b) $2x^2+x+3$: $1-24=-23<0$, no real roots. (c) $x^2-5x+2$: $25-8=17>0$, two
+real roots, $x=\dfrac{5\pm\sqrt{17}}{2}\approx 4.56$ and $0.44$.
+
+\item With roots $-4$ and $2$, $f(x)=a(x+4)(x-2)$. Then $f(0)=a(4)(-2)=-8a=-16$, so
+$a=2$. The three forms:
+\[
+\text{factored } 2(x+4)(x-2),\quad
+\text{standard } 2x^2+4x-16,\quad
+\text{vertex } 2(x+1)^2-18,
+\]
+the last from $h=\dfrac{-4+2}{2}=-1$ and $k=f(-1)=2-4-16=-18$.
+
+\item The vertex sits at $h=-\dfrac{b}{2a}$. The root-sum relation gives
+$r_1+r_2=-\dfrac{b}{a}$, so the average of the roots is
+$\dfrac{r_1+r_2}{2}=-\dfrac{b}{2a}=h$. Thus the vertex's $x$-coordinate is exactly the
+average of the roots. Geometrically, a parabola is symmetric about the vertical line
+through its vertex, and the two roots lie at equal distances on either side of that
+axis, so their midpoint is the axis itself.
+\end{solutions}
+
+\section*{Week 3 — Polynomials and Their Shape}
+\setcounter{section}{3}
+
+\begin{solutions}
+\item End behavior from the leading term. (a) $3x^4$: even degree, positive lead, both
+ends up. (b) $-x^3$: odd, negative lead, up on the left and down on the right.
+(c) $-4x^6$: even, negative lead, both ends down. (d) $x^5$: odd, positive lead, down
+on the left and up on the right.
+
+\item For large $|x|$, a higher power outgrows every lower power: $x^n$ eventually
+dwarfs $x^{n-1}, \dots, x, 1$. So the leading term decides the ends, and the constant
+and middle coefficients, attached to lower powers, become negligible there. They shift
+and bend the middle of the graph but cannot change where the ends go.
+
+\item Roots: $-1$ (multiplicity $1$), $2$ (multiplicity $3$), $4$ (multiplicity $1$).
+Degree $1+3+1=5$. The graph crosses at all three, since every multiplicity is odd; at
+$x=2$ the crossing flattens against the axis because the multiplicity is $3$.
+
+\item Just left of $r$ the factor $(x-r)$ is negative; just right it is positive. If
+$m$ is odd, $(x-r)^m$ keeps the sign of $(x-r)$ (a negative raised to an odd power
+stays negative), so it flips sign across $r$. If $m$ is even, $(x-r)^m\ge0$ on both
+sides (an even power is nonnegative), so the sign does not change.
+
+\item Roots $-3,1,2$ split the line into four intervals.
+\[
+\begin{array}{c|cccc}
+\text{interval} & (-\infty,-3) & (-3,1) & (1,2) & (2,\infty)\\\hline
+\text{test }x & -4 & 0 & 1.5 & 3\\
+x+3 & - & + & + & +\\
+x-1 & - & - & + & +\\
+x-2 & - & - & - & +\\\hline
+f & - & + & - & +
+\end{array}
+\]
+The sign changes at each root (all simple).
+
+\item For $f(x)=-(x+1)^2(x-3)$ the roots are $-1$ (multiplicity $2$) and $3$
+(multiplicity $1$). Intervals: $f$ is $+$ on $(-\infty,-1)$, $+$ on $(-1,3)$, and $-$
+on $(3,\infty)$. The sign does \emph{not} change at $x=-1$ (even multiplicity: a
+touch) and \emph{does} change at $x=3$ (odd multiplicity: a crossing). The overall
+leading sign is negative because of the $-1$ in front.
+
+\item $f(x)=(x-1)(x+2)^2$. Degree $3$, positive lead: down on the left, up on the
+right. Roots: cross at $1$ (simple), touch at $-2$ (double). Sign chart: $-$ on
+$(-\infty,-2)$, $-$ on $(-2,1)$, $+$ on $(1,\infty)$. The curve rises from the lower
+left, touches the axis at $x=-2$ and turns back down, continues below to cross up at
+$x=1$, then climbs to the upper right.
+
+\item Degree-five, positive lead: down-left to up-right. Roots: simple at $-2$ and $3$
+(crossings), triple at $0$ (a flattened crossing). At the triple root the graph
+crosses the axis but flattens noticeably against it, the visual signature of
+multiplicity three, before continuing through.
+
+\item Even degree with simple roots at $-1,4$ (multiplicity $1$ each) and a double root
+at $2$ gives multiplicities summing to at least $1+1+2=4$, so the lowest possible
+degree is $4$ (even, consistent). With negative lead, both ends point down. The curve
+comes up from the lower left, crosses at $-1$, rises, touches at $2$ and turns, crosses
+at $4$, and falls to the lower right.
+
+\item The sign changes at $-1$ (from $+$ to $-$) and at $2$ (from $-$ to $+$), so both
+roots have \emph{odd} multiplicity. The lowest-degree factored form using simple roots
+is $f(x)=(x+1)(x-2)$ up to a positive constant; its sign pattern is $+,-,+$, matching.
+
+\item Without calculus, the sign chart and roots fix which side of the axis the curve
+occupies and where it crosses or touches, but not the exact height of the turning
+point between the roots. Both students' graphs can show the correct shape (touch at
+$x=1$, cross at $x=4$, correct ends) while differing in that height. Calculus, through
+the derivative, is the tool that pins the turning-point height exactly.
+
+\item \emph{Lab exercise.} Answers vary. A complete response records the factored form,
+the fit score, and one sentence noting that switching a multiplicity from even to odd
+turns a touch into a crossing at that root (or vice versa).
+\end{solutions}
+
+\section*{Week 4 — Rational Functions}
+\setcounter{section}{4}
+
+\begin{solutions}
+\item Zeros at $x=4$ and $x=-2$ (numerator roots); vertical asymptotes at $x=1$ and
+$x=-5$ (denominator roots). No factor is shared between numerator and denominator, so
+there are no holes and no cancellation.
+
+\item The factor $(x+2)$ is common, so it cancels, leaving $\dfrac{x-3}{x-5}$ with a
+hole at $x=-2$. The zero is $x=3$ and the vertical asymptote is $x=5$.
+
+\item Near a numerator root the fraction is (small)$/$(ordinary), which is small, so the
+graph sits near the $x$-axis: a zero. Near a denominator root the fraction is
+(ordinary)$/$(small), which is enormous, so the graph races off toward $\pm\infty$
+along a vertical line: an asymptote.
+
+\item Horizontal asymptotes. (a) Equal degrees: $y=\tfrac{2}{1}=2$. (b) Equal degrees:
+$y=\tfrac{5}{1}=5$. (c) Numerator degree below denominator: $y=0$. (d) Numerator degree
+above denominator: no horizontal asymptote.
+
+\item $\dfrac{6x^2+x}{3x^2-12}$. Equal degrees, so $y=\tfrac{6}{3}=2$. Zeros from
+$x(6x+1)=0$: $x=0$ and $x=-\tfrac16$. Vertical asymptotes from $3(x^2-4)=0$: $x=2$ and
+$x=-2$.
+
+\item Dividing $x^2-5x+6$ by $x-1$: quotient $x-4$, remainder $2$, so
+$f(x)=x-4+\dfrac{2}{x-1}$. The slant asymptote is $y=x-4$.
+
+\item Dividing $2x^2+3x-1$ by $x+2$: quotient $2x-1$, remainder $1$, so the slant
+asymptote is $y=2x-1$. The vertical asymptote is $x=-2$. The zeros solve
+$2x^2+3x-1=0$: $x=\dfrac{-3\pm\sqrt{17}}{4}\approx 0.28$ and $-1.78$.
+
+\item When the numerator degree exceeds the denominator degree, the ratio of leading
+terms grows without bound as $|x|\to\infty$, so the values cannot level off at a finite
+height; there is no horizontal asymptote. The end-behavior curve is the polynomial
+quotient from long division, and it is a straight line exactly when the numerator
+degree is one more than the denominator degree.
+
+\item $\dfrac{x-1}{(x+2)(x-3)}$. Features $-2,1,3$.
+\[
+\begin{array}{c|cccc}
+\text{interval} & (-\infty,-2) & (-2,1) & (1,3) & (3,\infty)\\\hline
+\text{test }x & -3 & 0 & 2 & 4\\
+x-1 & - & - & + & +\\
+x+2 & - & + & + & +\\
+x-3 & - & - & - & +\\\hline
+f & - & + & - & +
+\end{array}
+\]
+
+\item $\dfrac{x^2-4}{x^2-1}=\dfrac{(x-2)(x+2)}{(x-1)(x+1)}$; no common factors, so no
+holes. Zeros at $x=\pm2$ (both crossings). Vertical asymptotes at $x=\pm1$. Equal
+degrees with leading coefficients $1$, so horizontal asymptote $y=1$. The sign chart
+over $-2,-1,1,2$ places the curve above the axis on the outer intervals (approaching
+$y=1$) and produces the escapes beside $x=\pm1$. The sketch is symmetric: outer
+branches approach $y=1$ from above, the central branch passes through $\pm2$ with a
+small peak at $(0,4)$? No: $f(0)=\tfrac{-4}{-1}=4$, so the central piece peaks near
+$(0,4)$ — adjust: the central region lies between the asymptotes and the curve dips
+below the axis between the zeros. A correct sketch shows the two outer branches and the
+behavior near each asymptote, with $f(0)=4$.
+
+\item Zeros at $0$ and $3$ need numerator factors $x(x-3)$; vertical asymptotes at
+$-1$ and $2$ need denominator factors $(x+1)(x-2)$. The horizontal asymptote $y=1$
+requires equal degrees with equal leading coefficients, which $\dfrac{x(x-3)}{(x+1)(x-2)}$
+satisfies (both degree $2$, leading coefficient $1$). So
+$f(x)=\dfrac{x(x-3)}{(x+1)(x-2)}$.
+
+\item \emph{Lab exercise.} Answers vary. A complete response records the factored form,
+the degree ratio, the fit score, and one sentence noting that raising the numerator
+degree past the denominator degree replaces the horizontal asymptote with a slant or
+polynomial end-behavior curve.
+\end{solutions}
+
+\section*{Week 5 — Inverses and Radicals}
+\setcounter{section}{5}
+
+\begin{solutions}
+\item Domains. (a) $\dfrac{x}{x^2-9}$: all reals except $x=\pm3$. (b) $\sqrt{2x-6}$:
+need $2x-6\ge0$, so $x\ge3$. (c) $\sqrt[3]{x+1}$: all reals (odd root). (d)
+$\dfrac{1}{\sqrt{x-4}}$: need $x-4>0$ (strictly, to avoid both the negative radicand
+and a zero denominator), so $x>4$.
+
+\item Ranges. (a) $x^2-4$: a square is $\ge0$, so the range is $y\ge-4$. (b)
+$\sqrt{x}+2$: $\sqrt{x}\ge0$, so the range is $y\ge2$. (c) $-|x|$: $|x|\ge0$, so
+$-|x|\le0$, range $y\le0$.
+
+\item One-to-one by the horizontal line test. (a) $3x+2$: yes (a non-horizontal line).
+(b) $x^2-1$: no (a horizontal line meets it twice). (c) $x^3$: yes. (d) $|x|$: no (the
+V is met twice by horizontals above the vertex).
+
+\item An inverse must send each output back to the single input that produced it. If
+the function is not one-to-one, some output $y$ comes from two different inputs, and
+the inverse would have to send $y$ to both — impossible for a function. The shared
+output is exactly the obstruction.
+
+\item Inverses. (a) $f(x)=3x-7$: $f^{-1}(x)=\dfrac{x+7}{3}$, domain all reals. (b)
+$f(x)=\dfrac{x+2}{5}$: $f^{-1}(x)=5x-2$, domain all reals. (c) $f(x)=x^3+1$:
+$f^{-1}(x)=\sqrt[3]{x-1}$, domain all reals.
+
+\item Restricting $f(x)=x^2$ to $x\ge0$ makes it one-to-one, with inverse
+$f^{-1}(x)=\sqrt{x}$. Check: $f^{-1}(f(x))=\sqrt{x^2}=|x|=x$ for $x\ge0$. The inverse
+has domain $x\ge0$ and range $y\ge0$ (the original domain).
+
+\item $\sqrt[3]{x}$ inverts $x^3$, which takes every real value including negatives
+(e.g. $(-2)^3=-8$), so its inverse is defined for all reals. $\sqrt{x}$ inverts $x^2$,
+which is never negative, so there is no real input whose square is negative; the domain
+is restricted to $x\ge0$. The difference is the parity of the power being inverted.
+
+\item Sketch: $f(x)=x^2$ on $x\ge0$ is the right half of the upward parabola, starting
+at the origin; $f^{-1}(x)=\sqrt{x}$ is the upper half of a sideways parabola, also from
+the origin. Each is the mirror image of the other across the dashed line $y=x$, since
+the point $(a,a^2)$ on $f$ corresponds to $(a^2,a)$ on $f^{-1}$.
+
+\item (a) $\sqrt{2x+3}=x$. Square: $2x+3=x^2$, so $x^2-2x-3=0$, $(x-3)(x+1)=0$,
+candidates $3,-1$. Check: $x=3$ gives $\sqrt9=3$ \checkmark; $x=-1$ gives $\sqrt1=1\ne-1$,
+rejected. Solution $x=3$. (b) $\sqrt{x+7}=x+1$. Square: $x+7=x^2+2x+1$, so
+$x^2+x-6=0$, $(x+3)(x-2)=0$, candidates $-3,2$. Check: $x=2$ gives $\sqrt9=3=2+1$
+\checkmark; $x=-3$ gives $\sqrt4=2\ne-2$, rejected. Solution $x=2$.
+
+\item Reflecting across $y=x$ sends a point $(a,b)$ to $(b,a)$. A point on both $f$ and
+$f^{-1}$ is fixed by this reflection, which happens only when $a=b$, i.e. on the line
+$y=x$. So any intersection of a function with its inverse lies on that line.
+
+\item $f(x)=\sqrt{x-2}+1$: domain $x\ge2$ (radicand $\ge0$), range $y\ge1$ (the
+$\sqrt{\,}$ is $\ge0$, shifted up $1$). Inverse: set $y=\sqrt{x-2}+1$, swap, solve:
+$x-1=\sqrt{y-2}$, so $y=(x-1)^2+2$, giving $f^{-1}(x)=(x-1)^2+2$ with domain $x\ge1$.
+The inverse's domain $x\ge1$ equals the range of $f$, as required.
+
+\item $f(x)=\dfrac1x$. Swap and solve: $x=\dfrac1y$ gives $y=\dfrac1x$, so
+$f^{-1}(x)=\dfrac1x=f(x)$. The function is its own inverse. Its graph is therefore
+symmetric across the line $y=x$, since reflecting it there returns the same curve.
+\end{solutions}
+
+\section*{Week 6 — Exponential Functions}
+\setcounter{section}{6}
+
+\begin{solutions}
+\item (a) $5,10,20,40$: constant ratio $2$, exponential $f(x)=5\cdot2^{x}$. (b)
+$5,8,11,14$: constant difference $3$, linear $f(x)=3x+5$. (c) $100,20,4$: constant
+ratio $\tfrac15$, exponential $f(x)=100\left(\tfrac15\right)^{x}$.
+
+\item Both $3^x$ and $3^{-x}$ pass through $(0,1)$. The graph of $3^x$ rises to the
+right (growth); $3^{-x}$ is its mirror across the $y$-axis, falling to the right
+(decay). Each has the $x$-axis ($y=0$) as a horizontal asymptote.
+
+\item (a) $5^{-x}=\left(\tfrac15\right)^{x}$, decay. (b) $\left(\tfrac14\right)^{x}$ is
+already positive-base positive-exponent decay. (c) $2^{-3x}=\left(\tfrac18\right)^{x}$,
+since $2^{-3}=\tfrac18$, decay.
+
+\item Each finer compounding adds a little more growth, but each added amount is
+smaller than the last, so the running total is trapped beneath a fixed ceiling rather
+than increasing without bound. It approaches $e\approx2.71828$.
+
+\item $A(10)=1000\,e^{0.04\cdot10}=1000\,e^{0.4}\approx 1000(1.49182)\approx
+\$1491.82$.
+
+\item $4^{x}=e^{(\ln 4)x}$ with $\ln 4\approx1.3863$, so $f(x)\approx e^{1.3863\,x}$.
+
+\item $0.8^{t}=e^{(\ln 0.8)t}$ with $\ln 0.8\approx-0.2231$. The continuous rate is
+negative, confirming decay: the quantity shrinks at about $22.3\%$ continuous rate per
+unit time.
+
+\item Each $10$ years is one half-life: $64\to32$ ($t=10$), $32\to16$ ($t=20$),
+$16\to8$ ($t=30$). Remaining masses: $32$, $16$, $8$ grams.
+
+\item $M(t)=M_0\left(\tfrac12\right)^{t/1600}$. After $4800$ years,
+$t/T=4800/1600=3$, so $\left(\tfrac12\right)^{3}=\tfrac18$ remains.
+
+\item $\left(\tfrac12\right)^{n}=\tfrac18$ gives $n=3$ half-lives. With $T=30$ years,
+the age is $3\times30=90$ years.
+
+\item A radioactive element loses a fixed \emph{fraction} of its mass in each fixed
+time span (half in each half-life), which is constant-ratio behavior, the defining
+property of an exponential function. Subtracting a fixed amount each year would be
+linear and would reach zero in finite time, which decay never does.
+
+\item After $8$ years: the $2$-year isotope has passed $8/2=4$ half-lives, leaving
+$\left(\tfrac12\right)^{4}=\tfrac1{16}$; the $4$-year isotope has passed $8/4=2$
+half-lives, leaving $\left(\tfrac12\right)^{2}=\tfrac14$. The shorter-half-life isotope
+has decayed further, because it halves more often in the same time.
+\end{solutions}
+
+\section*{Week 7 — Logarithms}
+\setcounter{section}{7}
+
+\begin{solutions}
+\item (a) $\log_3 81=4$ ($3^4=81$). (b) $\log_{10}0.01=-2$ ($10^{-2}=0.01$). (c)
+$\log_2\tfrac1{16}=-4$ ($2^{-4}=\tfrac1{16}$). (d) $\log_7 1=0$. (e) $\ln e^4=4$.
+
+\item (a) $5^3=125 \iff \log_5 125=3$. (b) $\log_2 32=5 \iff 2^5=32$. (c)
+$e^0=1 \iff \ln 1=0$.
+
+\item The graphs of $2^x$ and $\log_2 x$ are reflections across $y=x$. The exponential
+passes through $(0,1)$ with horizontal asymptote $y=0$; the logarithm passes through
+$(1,0)$ with vertical asymptote $x=0$ (the $y$-axis).
+
+\item (a) $\log_b(x^2yz^3)=2\log_b x+\log_b y+3\log_b z$. (b)
+$\log\dfrac{\sqrt{x}}{y^4}=\tfrac12\log x-4\log y$. (c)
+$\ln\dfrac{e^2 x}{y}=2+\ln x-\ln y$ (since $\ln e^2=2$).
+
+\item (a) $\log x+3\log y=\log(xy^3)$. (b) $2\ln x-\tfrac12\ln y=\ln\dfrac{x^2}{\sqrt
+y}$. (c) $\log_b 6-\log_b 2=\log_b 3$.
+
+\item The laws apply to products, quotients, and powers, never to sums; $\log_b(M+N)$
+has no expansion. The expression $\log_b M+\log_b N$ equals $\log_b(MN)$, the logarithm
+of the product, which is a different quantity from $\log_b(M+N)$.
+
+\item By change of base: (a) $\log_2 50=\dfrac{\ln 50}{\ln 2}\approx5.6439$. (b)
+$\log_5 100=\dfrac{\ln 100}{\ln 5}\approx2.8614$. (c)
+$\log_3 7=\dfrac{\ln 7}{\ln 3}\approx1.7712$.
+
+\item (a) $2^x=15$: $x=\dfrac{\ln 15}{\ln 2}\approx3.9069$. (b) $5^x=2$:
+$x=\dfrac{\ln 2}{\ln 5}\approx0.4307$. (c) $e^x=10$: $x=\ln 10\approx2.3026$.
+
+\item (a) $\log_2 16=4$ bits. (b) $\log_2 1000=\dfrac{\ln 1000}{\ln 2}\approx9.97$
+bits. (c) $\log_2 6\approx2.58$ bits.
+
+\item $p=\tfrac1{64}$: information $-\log_2\tfrac1{64}=\log_2 64=6$ bits. A rarer event
+has smaller $p$, hence larger $\log_2\tfrac1p$, so its occurrence resolves more
+uncertainty and carries more information.
+
+\item A password chosen from $2^{40}$ equally likely strings carries
+$\log_2 2^{40}=40$ bits. By the product law, the bits of independent characters add:
+$\log_2(2^k\cdot2^m)=\log_2 2^k+\log_2 2^m=k+m$, so each character contributes its own
+bits to the total.
+
+\item Total outcomes $6\times4=24$, carrying $\log_2 24\approx4.585$ bits. The parts
+add: $\log_2 6+\log_2 4\approx2.585+2=4.585$, matching, because the product law of
+logarithms is the additivity of information across independent sources.
+\end{solutions}
+
+\section*{Week 8 — Implicit Curves and Conics}
+\setcounter{section}{8}
+
+\begin{solutions}
+\item On $x^2+y^2=25$? (a) $(0,5)$: $0+25=25$ \checkmark. (b) $(3,4)$: $9+16=25$
+\checkmark. (c) $(-4,3)$: $16+9=25$ \checkmark. (d) $(2,2)$: $4+4=8\ne25$, not on the
+circle.
+
+\item Solving $x^2+y^2=9$ gives $y=\sqrt{9-x^2}$ (upper semicircle) and
+$y=-\sqrt{9-x^2}$ (lower semicircle), each with domain $-3\le x\le3$. Together they
+recombine to the full circle, since every point of the circle has $y$ either
+nonnegative (upper) or nonpositive (lower).
+
+\item For $y^2=x^3-x$: at $x=-1,0,1$ the right side is $0$, so $y=0$, giving the points
+$(-1,0)$, $(0,0)$, $(1,0)$. At $x=\tfrac14$, $x^3-x=\tfrac1{64}-\tfrac14<0$, so $y^2<0$
+is impossible: no real point there.
+
+\item Wherever $x^3-x>0$, the equation gives $y=\pm\sqrt{x^3-x}$, two opposite values,
+so a vertical line meets the curve twice and it fails the vertical line test. The real
+locus has two pieces: a bounded oval over $-1\le x\le0$ and an unbounded branch over
+$x\ge1$, with a gap on $(0,1)$ where $x^3-x<0$.
+
+\item At $x=3$: $y^2=27-3=24$, so $y=\pm\sqrt{24}=\pm2\sqrt6$. The points are
+$(3,2\sqrt6)$ and $(3,-2\sqrt6)$. Check: $(2\sqrt6)^2=24=3^3-3$ \checkmark.
+
+\item The radius is the distance from the origin to $(6,8)$:
+$\sqrt{6^2+8^2}=\sqrt{100}=10$. The circle is $x^2+y^2=100$.
+
+\item $\dfrac{x^2}{25}+\dfrac{y^2}{16}=1$: $a^2=25$, $b^2=16$, so $a=5$, $b=4$.
+Intercepts $(\pm5,0)$ and $(0,\pm4)$. The sketch is an ellipse stretching to $\pm5$
+horizontally and $\pm4$ vertically.
+
+\item $\dfrac{x^2}{9}-\dfrac{y^2}{4}=1$: $a=3$, $b=2$. Vertices $(\pm3,0)$; asymptotes
+$y=\pm\dfrac{b}{a}x=\pm\dfrac23 x$. The two branches open left and right, hugging the
+asymptotes.
+
+\item Classify. (a) $3x^2+3y^2=12$: equal coefficients, circle. (b) $4x^2+y^2=16$:
+unequal positive, ellipse. (c) $y^2-x^2=1$: opposite signs, hyperbola. (d)
+$x-2y^2=0$: one squared term, parabola.
+
+\item For large $x$, the constant $1$ is negligible beside the large squared terms, so
+$\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}=1$ approaches $\dfrac{x^2}{a^2}=\dfrac{y^2}{b^2}$,
+which rearranges to $y=\pm\dfrac{b}{a}x$. The branches approach these asymptote lines
+ever more closely as $x$ grows.
+
+\item Dividing $x$ by $a$ and $y$ by $b$ before squaring replaces $x^2+y^2=1$ with
+$\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=1$. This stretches the unit circle by a factor $a$
+horizontally and $b$ vertically: the curve now reaches $\pm a$ along the $x$-axis and
+$\pm b$ along the $y$-axis, so $a$ and $b$ are the semi-axes.
+
+\item $4x^2-y^2=1$, i.e. $\dfrac{x^2}{1/4}-\dfrac{y^2}{1}=1$. Opposite signs: a
+hyperbola. Here $a^2=\tfrac14$ so $a=\tfrac12$, vertices $\left(\pm\tfrac12,0\right)$;
+$b=1$, asymptotes $y=\pm\dfrac{b}{a}x=\pm2x$.
+\end{solutions}
+
+\section*{Week 9 — Systems of Linear Equations}
+\setcounter{section}{9}
+
+\begin{solutions}
+\item (a) Two lines with different slopes cross at one point: a unique solution. (b)
+Two distinct lines with equal slope are parallel and never meet: no solution. (c) One
+line written two ways is a single line: every point solves both, infinitely many
+solutions.
+
+\item From the first, $y=5-x$. Substitute: $2x-(5-x)=1$, so $3x=6$, $x=2$, then $y=3$.
+Check: $2+3=5$ and $2(2)-3=1$ \checkmark. Solution $(2,3)$.
+
+\item From the first, $y=3x-2$. Substitute into $6x-2y=10$: $6x-2(3x-2)=10$ gives
+$4=10$, a contradiction. No solution; the lines are parallel.
+
+\item The second equation is $-2$ times the first ($-2x+4y=-8$ is $x-2y=4$ scaled), so
+it adds nothing. Substituting $x=4+2y$ into the second yields $-8=-8$, always true.
+Infinitely many solutions: with $y=t$, the set is $(4+2t,\,t)$.
+
+\item A linear system's solution set is the intersection of lines or planes, which are
+flat objects. Flat objects intersect in a flat object: a point, the empty set, or an
+entire line or plane. "Exactly two points" is not a flat set, so it cannot be a
+solution set.
+
+\item Two arrangements giving no solution: (i) two of the three planes are parallel and
+distinct, so they share no point; (ii) the three planes form a triangular prism, each
+pair meeting in a line but with the three lines parallel and distinct, so no point lies
+on all three.
+
+\item Back-substitute. $4z=8$ gives $z=2$. Then $y-z=1$ gives $y=3$. Then
+$x-y+2z=5$ gives $x=5+3-4=4$. Solution $(4,3,2)$.
+
+\item Eliminate. $R_2-2R_1$: $-y-3z=-5$. $R_3-R_1$: $-3y+2z=7$. From the first of
+these, $y=5-3z$; substitute: $-3(5-3z)+2z=7$, so $-15+11z=7$, $z=2$, then $y=-1$, then
+$x=4-(-1)-2=3$. Solution $(3,-1,2)$. Check: $3-1+2=4$ \checkmark.
+
+\item The second equation is twice the first, so it is redundant. The system reduces to
+$x+y+z=2$ and $x-y+z=0$. Subtracting, $2y=2$, so $y=1$; then $x+z=1$. With $z=t$ free,
+$x=1-t$, giving solutions $(1-t,\,1,\,t)$: infinitely many, a line where the two
+distinct planes meet.
+
+\item Let $a,c$ be adult and child tickets. $a+c=200$ and $12a+8c=2000$. From the
+first, $c=200-a$; substitute: $12a+8(200-a)=2000$, so $4a+1600=2000$, $a=100$, then
+$c=100$. One hundred of each.
+
+\item Let $x,y,z$ be pounds at \$8, \$10, \$14. Total $x+y+z=10$; value
+$8x+10y+14z=11(10)=110$; equal cheaper beans $x=y$. Substituting $x=y$:
+$2x+z=10$ and $18x+14z=110$. From the first $z=10-2x$; substitute:
+$18x+14(10-2x)=110$, so $-10x+140=110$, $x=3$, then $y=3$, $z=4$. Three pounds each of
+the \$8 and \$10 beans and four of the \$14.
+
+\item Adding a multiple of one equation to another produces a new equation that holds
+exactly when both originals do, and the step is reversible (subtract the same
+multiple), so the solution set is unchanged. Scaling by zero is forbidden because it
+replaces an equation with $0=0$, discarding its information and potentially enlarging
+the solution set.
+\end{solutions}
+
+\section*{Week 10 — Matrices and Gaussian Elimination}
+\setcounter{section}{10}
+
+\begin{solutions}
+\item
+\[
+\left[\begin{array}{ccc|c}
+3&-1&2&5\\ 1&4&-1&0\\ 2&1&1&7
+\end{array}\right]
+\]
+The first column holds the $x$-coefficients, the second the $y$-coefficients, the
+third the $z$-coefficients, and the column after the bar the constants.
+
+\item (i) \emph{Swap} two rows — reorder the equations. (ii) \emph{Scale} a row by a
+nonzero constant — multiply an equation through by that constant. (iii) \emph{Replace}
+a row by itself plus a multiple of another row — add a multiple of one equation to
+another. Each leaves the solution set unchanged.
+
+\item Replace $R_2$ by $R_2-2R_1$:
+\[
+\left[\begin{array}{cc|c}1&3&5\\ 2&1&4\end{array}\right]
+\rightarrow
+\left[\begin{array}{cc|c}1&3&5\\ 0&-5&-6\end{array}\right].
+\]
+
+\item $R_2-3R_1$ gives $\left[\begin{array}{cc|c}1&2&5\\ 0&-5&-10\end{array}\right]$.
+The bottom row reads $-5y=-10$, so $y=2$; then $x+2(2)=5$, $x=1$. Solution $(1,2)$.
+
+\item $R_2-2R_1$: $-y-3z=-5$. $R_3-R_1$: $-3y+2z=7$. Eliminating $y$ (e.g. $R_3-3R_2$
+on these) gives $11z=22$, so $z=2$; then $y=-1$ and $x=3$. Solution $(3,-1,2)$. Check:
+$3-1+2=4$ \checkmark.
+
+\item $R_2+3R_1$ gives $\left[\begin{array}{cc|c}1&-2&3\\ 0&0&14\end{array}\right]$.
+The bottom row reads $0=14$, a contradiction, so there is no solution; the row of zero
+coefficients with nonzero constant reveals it.
+
+\item $R_2-\tfrac32 R_1$ (or $2R_2-3R_1$) gives a bottom row of all zeros,
+$0=0$. The variable $y$ is free; from $2x+4y=6$, $x=3-2y$. With $y=t$, the solution set
+is $(3-2t,\,t)$.
+
+\item A leading entry in every variable column pins down each variable: unique
+solution. A row $[\,0\ \cdots\ 0\mid c\,]$ with $c\neq0$ reads $0=c$, a contradiction:
+no solution. A row of all zeros leaves a variable without a leading entry, hence free:
+infinitely many.
+
+\item The row $[\,0\ 0\ 0\mid 5\,]$ reads $0=5$, which is false, so the system has no
+solution.
+
+\item Atom counts: Fe gives $a=2c$, O gives $2b=3c$. Take $c=t$: $a=2t$,
+$b=\tfrac{3t}{2}$. The smallest whole numbers use $t=2$: $a=4$, $b=3$, $c=2$, giving
+$4\,\mathrm{Fe}+3\,\mathrm{O_2}\to2\,\mathrm{Fe_2O_3}$. Check: Fe $4=4$, O $6=6$.
+
+\item From $R_2$, $I_1=10-2I_2$. The junction equation $I_1-I_2-I_3=0$ becomes
+$10-2I_2-I_2-I_3=0$, i.e. $3I_2+I_3=10$. With $R_3$: $2I_2+3I_3=9$. Solving,
+$I_2=3$, $I_3=1$, and $I_1=10-6=4$. Currents $I_1=4$, $I_2=3$, $I_3=1$ amperes. Junction
+law: $4=3+1$ \checkmark.
+
+\item Each row operation on the matrix is exactly an equation operation in disguise:
+the columns remember which variable each number belongs to, so manipulating rows is the
+same as manipulating equations, producing the same solution. The matrix form is
+preferred for large systems because it strips away the repeated variable names,
+reducing the work to a mechanical, easily automated sequence of arithmetic steps on the
+coefficient grid.
+\end{solutions}
+
+\end{document}
