@@ -1,6 +1,6 @@
 # Precalculus I
 Course materials, interactive demos, and labs for Precalculus I (college algebra) at Centralia College.
-The organizing idea is to treat **functions as data** — point clouds with a constraint — and to introduce each function family through a real question that produces data of a characteristic shape. The algebra arrives as the model that explains the shape, not as a rule handed down in advance.
+The organizing idea is to treat **functions as data** — point clouds with a constraint — and to introduce each function family through data of a characteristic shape. 
 
 ## Lecture Notes
 
