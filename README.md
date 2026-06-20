@@ -1,4 +1,4 @@
-# Precalculus I — MATH& 141
+# Precalculus I
 
 Course materials, interactive demos, and labs for Precalculus I (college algebra) at Centralia College.
 
@@ -19,8 +19,6 @@ The organizing idea is to treat **functions as data** — point clouds with a co
 This repository contains browser-based interactive demos for Precalculus topics.  
 Each demo is a standalone HTML file and can be opened directly through GitHub Pages.
 
-## Live demos
-
 - [Function Fit Lab](https://bobovski66.github.io/Precalculus/demos/function_fit.html)  
   Match a transformed parent function to a point cloud using parameters of the form  
   `A f(b(x-h)) + k`.
@@ -34,20 +32,3 @@ Each demo is a standalone HTML file and can be opened directly through GitHub Pa
 - [Transformations Lab](https://bobovski66.github.io/Precalculus/demos/transformations.html)  
   Practice graph transformations using shifts, stretches, compressions, and reflections.
 
-## Structure
-
-```
-.
-├── demos/        interactive HTML pages
-├── labs/         data-first activities
-├── summaries/    weekly summaries
-└── quizzes/      prequizzes and in-class quizzes
-```
-
-## Course rhythm
-
-Weekly summaries and prequizzes distributed Thursdays, due Tuesdays. A short written in-class quiz on the material follows on Thursday.
-
-## License
-
-Course materials by Christopher Lee-Jenkins, Centralia College.
