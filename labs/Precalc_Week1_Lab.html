@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precalculus I — Week 1 Lab: Functions</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ink:#1c1c1c; --paper:#fcfbf8; --rule:#d8d3c8;
+    --blue:#2a4d7a; --blue-bg:#eef2f8; --blue-rule:#bcccdf;
+    --green:#1f6b46; --green-bg:#edf5ef; --green-rule:#b7d6c2;
+    --amber:#9a6a00; --red:#9a2a2a; --mono:'DM Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:'Crimson Pro',Georgia,serif; font-size:19px; line-height:1.5;
+    margin:0; padding:0;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:32px 28px 80px;}
+
+  header{border-bottom:2px solid var(--ink); padding-bottom:14px; margin-bottom:8px;}
+  header h1{font-size:30px; font-weight:600; margin:0 0 4px;}
+  header .sub{font-size:17px; color:#555; font-style:italic;}
+  .intro{margin:18px 0 22px;}
+
+  .objectives{
+    background:var(--blue-bg); border:1px solid var(--blue-rule);
+    border-radius:8px; padding:14px 20px 14px; margin:0 0 26px;
+  }
+  .objectives h2{
+    font-size:16px; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--blue); margin:0 0 8px; font-weight:600;
+  }
+  .objectives ul{margin:0; padding-left:22px;}
+  .objectives li{margin:3px 0;}
+
+  .toolbar{display:flex; gap:10px; margin:0 0 28px;}
+  .toolbar button{
+    font-family:var(--mono); font-size:13px; cursor:pointer;
+    background:#fff; border:1px solid var(--rule); border-radius:6px;
+    padding:8px 14px; color:var(--ink);
+  }
+  .toolbar button:hover{background:#f0ece3;}
+
+  .problem{margin:0 0 34px;}
+  .problem > h2{
+    font-size:21px; font-weight:600; margin:0 0 4px;
+    border-bottom:1px solid var(--rule); padding-bottom:5px;
+  }
+  .scenario{
+    background:var(--blue-bg); border-left:4px solid var(--blue);
+    padding:12px 16px; margin:12px 0; border-radius:0 6px 6px 0;
+  }
+
+  .part{margin:16px 0 6px;}
+  .part-stem{display:flex; gap:8px; align-items:baseline;}
+  .part-label{font-family:var(--mono); font-weight:500; color:var(--blue); flex:none;}
+  .part-text{flex:1;}
+
+  .answer-row{
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    margin:8px 0 4px 26px;
+  }
+  .answer-row label{font-family:var(--mono); font-size:14px; color:#444;}
+  .answer-row input[type=text]{
+    font-family:var(--mono); font-size:15px;
+    border:1px solid var(--rule); border-radius:5px;
+    padding:5px 8px; width:90px; background:#fff;
+  }
+  .answer-row input.wide{width:150px;}
+  .answer-row input.ok{border-color:var(--green); background:var(--green-bg);}
+  .answer-row input.no{border-color:var(--red); background:#f8eded;}
+  .check-btn{
+    font-family:var(--mono); font-size:13px; cursor:pointer;
+    background:var(--blue); color:#fff; border:none; border-radius:5px;
+    padding:6px 12px;
+  }
+  .check-btn:hover{background:#1d3a60;}
+  .verdict{font-family:var(--mono); font-size:14px; margin-left:4px;}
+  .verdict.ok{color:var(--green);}
+  .verdict.no{color:var(--red);}
+
+  .text-answer{margin:8px 0 4px 26px;}
+  .text-answer label{
+    font-family:var(--mono); font-size:13px; color:#666;
+    display:block; margin-bottom:4px;
+  }
+  .text-answer textarea{
+    width:100%; min-height:70px; resize:vertical;
+    font-family:'Crimson Pro',Georgia,serif; font-size:17px; line-height:1.4;
+    border:1px solid var(--rule); border-radius:6px; padding:8px 10px;
+    background:#fff; color:var(--ink);
+  }
+  .text-answer textarea:focus{border-color:var(--blue); outline:none;}
+
+  details{margin:8px 0 4px 26px;}
+  summary{
+    font-family:var(--mono); font-size:13px; color:var(--green);
+    cursor:pointer; user-select:none; width:max-content;
+  }
+  summary:hover{text-decoration:underline;}
+  .solution{
+    background:var(--green-bg); border-left:4px solid var(--green);
+    padding:10px 16px; margin:8px 0 0; border-radius:0 6px 6px 0;
+  }
+  .solution .ans{font-weight:600; color:var(--green);}
+  .solution p{margin:6px 0;}
+  .note{font-size:16px; color:#555; font-style:italic;}
+
+  .demo-link{
+    background:#fdf6e3; border:1px solid #e6d8a8; border-radius:6px;
+    padding:12px 16px; margin:14px 0;
+  }
+  .demo-link a{color:var(--amber); font-weight:600;}
+
+  .footer{
+    border-top:1px solid var(--rule); margin-top:50px; padding-top:12px;
+    font-family:var(--mono); font-size:13px; color:#888; text-align:center;
+  }
+  @media print{
+    .toolbar,.check-btn{display:none;}
+    details{display:block;} details > summary{display:none;}
+    .solution{display:block !important;}
+    .text-answer textarea{border:1px solid #999; min-height:auto;}
+    body{font-size:16px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Week 1 Lab — Functions</h1>
+  <div class="sub">Precalculus I &middot; Centralia College</div>
+</header>
+
+<p class="intro">
+  Work through each problem, filling in the answer boxes as you go. Click
+  <strong>Check</strong> to test a numeric answer; a box turns green when it matches.
+  For parts that ask you to factor, explain, or sketch, work it on paper first, then
+  open <strong>Show solution</strong> to compare. Your typed answers are saved in this
+  browser until you clear them.
+</p>
+
+<div class="objectives">
+  <h2>Objectives</h2>
+  <ul>
+    <li>Read the domain and range of a relation, and decide whether it is a function.</li>
+    <li>Apply the vertical line test and explain what it checks.</li>
+    <li>Evaluate a function at a number and at an expression.</li>
+    <li>Describe and apply transformations of the form \(A\,f(b(x-h))+k\).</li>
+  </ul>
+</div>
+
+<div class="toolbar">
+  <button onclick="window.print()">Print</button>
+  <button onclick="clearData()">Clear data</button>
+</div>
+
+<!-- PROBLEM 1 -->
+<div class="problem" id="p1">
+  <h2>Problem 1 — Relations, domain, range, and the function test</h2>
+  <div class="scenario">
+    Consider the relation \(R=\{(-2,4),\,(0,1),\,(1,4),\,(1,-3),\,(3,2)\}\).
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(a)</span>
+      <span class="part-text">How many distinct elements are in the domain of \(R\)?
+      How many are in the range?</span>
+    </div>
+    <div class="answer-row">
+      <label>domain size</label>
+      <input type="text" id="q1a_dom" data-ans="4">
+      <label>range size</label>
+      <input type="text" id="q1a_ran" data-ans="4">
+      <button class="check-btn" onclick="checkNum(['q1a_dom','q1a_ran'],'q1a_v')">Check</button>
+      <span class="verdict" id="q1a_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">Domain \(\{-2,0,1,3\}\): 4 elements. Range \(\{4,1,-3,2\}\): 4 elements.</span></p>
+        <p>The domain is the set of first coordinates. The input \(1\) appears twice but
+        is counted once, so the domain has four elements. The range is the set of second
+        coordinates; \(4\) appears twice but is listed once, leaving four values.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(b)</span>
+      <span class="part-text">Is \(R\) a function? Enter <span class="mono">1</span> for yes
+      or <span class="mono">0</span> for no.</span>
+    </div>
+    <div class="answer-row">
+      <label>function?</label>
+      <input type="text" id="q1b" data-ans="0">
+      <button class="check-btn" onclick="checkNum(['q1b'],'q1b_v')">Check</button>
+      <span class="verdict" id="q1b_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">No, \(R\) is not a function.</span></p>
+        <p>The input \(1\) is paired with two different outputs, \(4\) and \(-3\). A
+        function requires each input to determine exactly one output, so a single input
+        with two outputs disqualifies it.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(c)</span>
+      <span class="part-text">Change exactly one ordered pair so that \(R\) becomes a
+      function, and explain why your change works.</span>
+    </div>
+    <div class="text-answer">
+      <label>Your answer</label>
+      <textarea id="q1c_txt" placeholder="State which pair you change and to what, then explain why the result is a function."></textarea>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">Replace \((1,-3)\) with any pair whose input is not already
+        used, for example \((2,-3)\).</span></p>
+        <p>The only obstruction was that \(1\) had two outputs. Moving one of those pairs
+        to a fresh input removes the conflict, and every input now has a single output.
+        Replacing \((1,4)\) instead would work equally well; what matters is eliminating
+        the repeated input.</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- PROBLEM 2 -->
+<div class="problem" id="p2">
+  <h2>Problem 2 — Evaluating a function</h2>
+  <div class="scenario">
+    Let \(f(x)=2x^{2}-3x+1\).
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(a)</span>
+      <span class="part-text">Compute \(f(0)\), \(f(2)\), and \(f(-1)\).</span>
+    </div>
+    <div class="answer-row">
+      <label>\(f(0)\)</label>
+      <input type="text" id="q2a_0" data-ans="1">
+      <label>\(f(2)\)</label>
+      <input type="text" id="q2a_2" data-ans="3">
+      <label>\(f(-1)\)</label>
+      <input type="text" id="q2a_n1" data-ans="6">
+      <button class="check-btn" onclick="checkNum(['q2a_0','q2a_2','q2a_n1'],'q2a_v')">Check</button>
+      <span class="verdict" id="q2a_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">\(f(0)=1,\quad f(2)=3,\quad f(-1)=6.\)</span></p>
+        <p>\(f(0)=2(0)-0+1=1\). \(f(2)=2(4)-3(2)+1=8-6+1=3\).
+        \(f(-1)=2(1)-3(-1)+1=2+3+1=6\). Substitute the input everywhere \(x\) appears,
+        then simplify.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(b)</span>
+      <span class="part-text">Expand \(f(t+1)\) completely. Enter the coefficients of the
+      simplified form \(at^{2}+bt+c\).</span>
+    </div>
+    <div class="answer-row">
+      <label>\(a\)</label>
+      <input type="text" id="q2b_a" data-ans="2">
+      <label>\(b\)</label>
+      <input type="text" id="q2b_b" data-ans="1">
+      <label>\(c\)</label>
+      <input type="text" id="q2b_c" data-ans="0">
+      <button class="check-btn" onclick="checkNum(['q2b_a','q2b_b','q2b_c'],'q2b_v')">Check</button>
+      <span class="verdict" id="q2b_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">\(f(t+1)=2t^{2}+t\), so \(a=2,\ b=1,\ c=0\).</span></p>
+        <p>\(f(t+1)=2(t+1)^{2}-3(t+1)+1=2(t^{2}+2t+1)-3t-3+1
+        =2t^{2}+4t+2-3t-2=2t^{2}+t\). Evaluating at an expression means substituting the
+        whole expression for \(x\), then expanding.</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- PROBLEM 3 -->
+<div class="problem" id="p3">
+  <h2>Problem 3 — Transformations</h2>
+  <div class="scenario">
+    Start from the parent function \(f(x)=x^{2}\) and consider
+    \(g(x)=-2\,(x-3)^{2}+5\).
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(a)</span>
+      <span class="part-text">Read off the four transformation constants in
+      \(A\,f(b(x-h))+k\). (Here \(b=1\).)</span>
+    </div>
+    <div class="answer-row">
+      <label>\(A\)</label>
+      <input type="text" id="q3a_A" data-ans="-2">
+      <label>\(h\)</label>
+      <input type="text" id="q3a_h" data-ans="3">
+      <label>\(k\)</label>
+      <input type="text" id="q3a_k" data-ans="5">
+      <button class="check-btn" onclick="checkNum(['q3a_A','q3a_h','q3a_k'],'q3a_v')">Check</button>
+      <span class="verdict" id="q3a_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">\(A=-2,\ h=3,\ k=5.\)</span></p>
+        <p>The \(-2\) outside stretches vertically by \(2\) and reflects across the
+        \(x\)-axis. The \((x-3)\) shifts right \(3\). The \(+5\) shifts up \(5\).</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(b)</span>
+      <span class="part-text">The vertex of the parent \(x^{2}\) is at the origin. Give the
+      vertex of \(g\).</span>
+    </div>
+    <div class="answer-row">
+      <label>vertex \((\,h,\,k\,)=\)</label>
+      <input type="text" id="q3b_x" data-ans="3">
+      <input type="text" id="q3b_y" data-ans="5">
+      <button class="check-btn" onclick="checkNum(['q3b_x','q3b_y'],'q3b_v')">Check</button>
+      <span class="verdict" id="q3b_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">Vertex \((3,5)\).</span></p>
+        <p>The origin maps to \((h,k)=(3,5)\): the inside is zero at \(x=3\), and the
+        \(+5\) lifts the output to \(5\). The reflection and stretch change the opening
+        but not the vertex location.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(c)</span>
+      <span class="part-text">Does \(g\) open upward or downward? Enter <span class="mono">1</span>
+      for upward or <span class="mono">-1</span> for downward.</span>
+    </div>
+    <div class="answer-row">
+      <label>opening</label>
+      <input type="text" id="q3c" data-ans="-1">
+      <button class="check-btn" onclick="checkNum(['q3c'],'q3c_v')">Check</button>
+      <span class="verdict" id="q3c_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">Downward.</span></p>
+        <p>Because \(A=-2<0\), the parabola is reflected across the \(x\)-axis and opens
+        downward. The vertex \((3,5)\) is therefore the highest point of the graph.</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- PROBLEM 4 -->
+<div class="problem" id="p4">
+  <h2>Problem 4 — Fitting a model to a point cloud</h2>
+  <div class="scenario">
+    A cloud of data points rises steeply near \(x=0\), then bends and climbs gently as
+    \(x\) grows, staying in the first quadrant.
+  </div>
+
+  <div class="demo-link">
+    Use the <a href="https://bobovski66.github.io/Precalculus/demos/function_fit.html"
+    target="_blank">Function Fit Lab</a> for this problem: generate a cloud, identify the
+    parent family, and tune \(A\,f(b(x-h))+k\) until your curve threads the data.
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(a)</span>
+      <span class="part-text">Which parent function best matches the described shape:
+      linear, quadratic, square-root, or exponential? Open the solution after deciding.</span>
+    </div>
+    <div class="text-answer">
+      <label>Your answer</label>
+      <textarea id="q4a_txt" placeholder="Name the parent family and say what features of the cloud led you to it."></textarea>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">Square root, \(f(x)=\sqrt{x}\).</span></p>
+        <p>The "steep near zero, then gently rising" profile beginning in the first
+        quadrant is the signature of \(\sqrt{x}\). A line would not bend; a parabola would
+        curve the wrong way (slow then steep); an exponential would accelerate rather than
+        flatten.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(b)</span>
+      <span class="part-text">In the lab, generate a cloud and fit it. Record the four
+      constants you settled on and your fit score, and note in one sentence which constant
+      was hardest to pin down.</span>
+    </div>
+    <div class="answer-row">
+      <label>\(A\)</label><input type="text" id="q4b_A">
+      <label>\(b\)</label><input type="text" id="q4b_b">
+      <label>\(h\)</label><input type="text" id="q4b_h">
+      <label>\(k\)</label><input type="text" id="q4b_k">
+      <label>score %</label><input type="text" id="q4b_s">
+    </div>
+    <div class="answer-row">
+      <input type="text" class="wide" id="q4b_note" style="width:100%;"
+        placeholder="Which constant was hardest, and why?">
+    </div>
+    <p class="note">This part is recorded for your own reference; there is no single
+    correct answer, since each generated cloud differs and carries noise.</p>
+  </div>
+</div>
+
+<div class="footer">
+  MATH&amp; 141 &middot; Centralia College &middot; Week 1 Lab
+</div>
+
+</div>
+
+<script>
+  // ---- persistence ----
+  const STORE_KEY = 'precalc_w1_lab';
+  function allInputs(){ return Array.from(document.querySelectorAll('input[type=text], textarea')); }
+  function save(){
+    const data = {};
+    allInputs().forEach(i => { if(i.id) data[i.id] = i.value; });
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch(e){}
+  }
+  function load(){
+    let data = {};
+    try { data = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e){}
+    allInputs().forEach(i => { if(i.id && data[i.id] != null) i.value = data[i.id]; });
+  }
+  function clearData(){
+    try { localStorage.removeItem(STORE_KEY); } catch(e){}
+    allInputs().forEach(i => { i.value=''; i.classList.remove('ok','no'); });
+    document.querySelectorAll('.verdict').forEach(v => { v.textContent=''; v.className='verdict'; });
+  }
+  document.addEventListener('input', e => { if(e.target.matches('input[type=text], textarea')) save(); });
+
+  // ---- numeric checking ----
+  function parseNum(s){
+    if(s == null) return NaN;
+    s = s.trim().replace(/\s+/g,'');
+    if(s === '') return NaN;
+    // allow simple fractions like -3/4
+    if(/^[-+]?\d+\/\d+$/.test(s)){
+      const [a,b] = s.split('/').map(Number); return a/b;
+    }
+    return Number(s);
+  }
+  function checkNum(ids, verdictId){
+    let allGood = true, anyBlank = false;
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      const target = parseNum(el.dataset.ans);
+      const val = parseNum(el.value);
+      el.classList.remove('ok','no');
+      if(isNaN(val)){ anyBlank = true; allGood = false; return; }
+      if(Math.abs(val - target) < 1e-9){ el.classList.add('ok'); }
+      else { el.classList.add('no'); allGood = false; }
+    });
+    const v = document.getElementById(verdictId);
+    if(anyBlank){ v.textContent = 'fill in every box'; v.className = 'verdict no'; }
+    else if(allGood){ v.textContent = '✓ correct'; v.className = 'verdict ok'; }
+    else { v.textContent = '✗ check again'; v.className = 'verdict no'; }
+  }
+
+  load();
+</script>
+</body>
+</html>

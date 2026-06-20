@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precalculus I — Week 4 Lab: Rational Functions</title>
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root{--ink:#1c1c1c;--paper:#fcfbf8;--rule:#d8d3c8;--blue:#2a4d7a;--blue-bg:#eef2f8;--blue-rule:#bcccdf;--green:#1f6b46;--green-bg:#edf5ef;--green-rule:#b7d6c2;--amber:#9a6a00;--red:#9a2a2a;--mono:'DM Mono',monospace;}
+  *{box-sizing:border-box;}
+  body{background:var(--paper);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:19px;line-height:1.5;margin:0;padding:0;}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 28px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:8px;}
+  header h1{font-size:30px;font-weight:600;margin:0 0 4px;}
+  header .sub{font-size:17px;color:#555;font-style:italic;}
+  .intro{margin:18px 0 22px;}
+  .objectives{background:var(--blue-bg);border:1px solid var(--blue-rule);border-radius:8px;padding:14px 20px;margin:0 0 26px;}
+  .objectives h2{font-size:16px;text-transform:uppercase;letter-spacing:0.06em;color:var(--blue);margin:0 0 8px;font-weight:600;}
+  .objectives ul{margin:0;padding-left:22px;} .objectives li{margin:3px 0;}
+  .toolbar{display:flex;gap:10px;margin:0 0 28px;}
+  .toolbar button{font-family:var(--mono);font-size:13px;cursor:pointer;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 14px;color:var(--ink);}
+  .toolbar button:hover{background:#f0ece3;}
+  .problem{margin:0 0 34px;}
+  .problem > h2{font-size:21px;font-weight:600;margin:0 0 4px;border-bottom:1px solid var(--rule);padding-bottom:5px;}
+  .scenario{background:var(--blue-bg);border-left:4px solid var(--blue);padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;}
+  .part{margin:16px 0 6px;}
+  .part-stem{display:flex;gap:8px;align-items:baseline;}
+  .part-label{font-family:var(--mono);font-weight:500;color:var(--blue);flex:none;}
+  .part-text{flex:1;}
+  .answer-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px 26px;}
+  .answer-row label{font-family:var(--mono);font-size:14px;color:#444;}
+  .answer-row input[type=text]{font-family:var(--mono);font-size:15px;border:1px solid var(--rule);border-radius:5px;padding:5px 8px;width:90px;background:#fff;}
+  .answer-row input.wide{width:150px;}
+  .answer-row input.ok{border-color:var(--green);background:var(--green-bg);}
+  .answer-row input.no{border-color:var(--red);background:#f8eded;}
+  .check-btn{font-family:var(--mono);font-size:13px;cursor:pointer;background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;}
+  .check-btn:hover{background:#1d3a60;}
+  .verdict{font-family:var(--mono);font-size:14px;margin-left:4px;} .verdict.ok{color:var(--green);} .verdict.no{color:var(--red);}
+  .text-answer{margin:8px 0 4px 26px;}
+  .text-answer label{font-family:var(--mono);font-size:13px;color:#666;display:block;margin-bottom:4px;}
+  .text-answer textarea{width:100%;min-height:70px;resize:vertical;font-family:'Crimson Pro',Georgia,serif;font-size:17px;line-height:1.4;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink);}
+  .text-answer textarea:focus{border-color:var(--blue);outline:none;}
+  details{margin:8px 0 4px 26px;}
+  summary{font-family:var(--mono);font-size:13px;color:var(--green);cursor:pointer;user-select:none;width:max-content;}
+  summary:hover{text-decoration:underline;}
+  .solution{background:var(--green-bg);border-left:4px solid var(--green);padding:10px 16px;margin:8px 0 0;border-radius:0 6px 6px 0;}
+  .solution .ans{font-weight:600;color:var(--green);} .solution p{margin:6px 0;}
+  .note{font-size:16px;color:#555;font-style:italic;}
+  .demo-link{background:#fdf6e3;border:1px solid #e6d8a8;border-radius:6px;padding:12px 16px;margin:14px 0;}
+  .demo-link a{color:var(--amber);font-weight:600;}
+  .footer{border-top:1px solid var(--rule);margin-top:50px;padding-top:12px;font-family:var(--mono);font-size:13px;color:#888;text-align:center;}
+  @media print{.toolbar,.check-btn{display:none;}details{display:block;}details>summary{display:none;}.solution{display:block !important;}.text-answer textarea{border:1px solid #999;min-height:auto;}body{font-size:16px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Week 4 Lab — Rational Functions</h1>
+  <div class="sub">Precalculus I &middot; Centralia College</div>
+</header>
+
+<p class="intro">
+  Fill in the answer boxes as you work. Click <strong>Check</strong> to test a numeric
+  answer. For parts that ask you to explain, type your reasoning, then open
+  <strong>Show solution</strong> to compare. Your work is saved in this browser until you
+  clear it.
+</p>
+
+<div class="objectives">
+  <h2>Objectives</h2>
+  <ul>
+    <li>Locate zeros and vertical asymptotes from the factored form.</li>
+    <li>Identify a hole created by a cancelled common factor.</li>
+    <li>Determine end behavior by comparing numerator and denominator degrees.</li>
+    <li>Use long division to find a slant asymptote.</li>
+  </ul>
+</div>
+
+<div class="toolbar">
+  <button onclick="window.print()">Print</button>
+  <button onclick="clearData()">Clear data</button>
+</div>
+
+<!-- PROBLEM 1 -->
+<div class="problem" id="p1">
+  <h2>Problem 1 — Zeros, asymptotes, and a hole</h2>
+  <div class="scenario">Consider \(f(x)=\dfrac{(x-2)(x+1)}{(x-3)(x+1)}\).</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">A common factor cancels, leaving a hole. At what \(x\) is the
+      hole?</span></div>
+    <div class="answer-row"><label>hole at \(x=\)</label><input type="text" id="q1a" data-ans="-1">
+      <button class="check-btn" onclick="checkNum(['q1a'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Hole at \(x=-1\).</span></p>
+      <p>The factor \((x+1)\) appears in both numerator and denominator, so it cancels,
+      removing a single point rather than creating an asymptote.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">After reducing to \(\dfrac{x-2}{x-3}\), enter the zero and the
+      vertical asymptote.</span></div>
+    <div class="answer-row"><label>zero \(x=\)</label><input type="text" id="q1b_z" data-ans="2">
+      <label>asymptote \(x=\)</label><input type="text" id="q1b_a" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q1b_z','q1b_a'],'q1b_v')">Check</button><span class="verdict" id="q1b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Zero at \(x=2\); vertical asymptote at \(x=3\).</span></p>
+      <p>After cancellation, the remaining numerator root is the zero and the remaining
+      denominator root is the vertical asymptote.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Explain why the cancelled factor gives a hole and not a
+      vertical asymptote.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q1c_txt" placeholder="Think about whether the denominator factor survives after reducing."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">The factor cancels, so the denominator no longer vanishes there in lowest terms.</span></p>
+      <p>A vertical asymptote needs a denominator root that survives reduction. When a
+      factor appears in both numerator and denominator, it divides out, and the function
+      equals the reduced form everywhere except that one input, which is simply missing
+      from the domain: a hole.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 2 -->
+<div class="problem" id="p2">
+  <h2>Problem 2 — End behavior by degree</h2>
+  <div class="scenario">For each function, compare numerator and denominator degrees to
+  find the horizontal asymptote. Enter the asymptote's \(y\)-value, or type
+  <span class="mono">none</span> in the text box if there is none.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">\(f(x)=\dfrac{3x^{2}-1}{2x^{2}+x+5}\): enter the horizontal asymptote \(y=\).</span></div>
+    <div class="answer-row"><label>\(y=\)</label><input type="text" id="q2a" data-ans="3/2">
+      <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(y=\tfrac32\).</span></p>
+      <p>Equal degrees: the asymptote is the ratio of leading coefficients, \(3/2\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">\(f(x)=\dfrac{4x+1}{x^{2}-9}\): enter the horizontal asymptote \(y=\).</span></div>
+    <div class="answer-row"><label>\(y=\)</label><input type="text" id="q2b" data-ans="0">
+      <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(y=0\).</span></p>
+      <p>The numerator degree \(1\) is below the denominator degree \(2\), so the ends
+      approach \(y=0\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">\(f(x)=\dfrac{x^{3}}{x+2}\) has no horizontal asymptote.
+      Explain why, in terms of the degrees.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q2c_txt" placeholder="What happens to the ratio of leading terms when the numerator degree is larger?"></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">The numerator degree exceeds the denominator degree, so the ratio grows without bound.</span></p>
+      <p>For large \(x\) the function behaves like \(x^{3}/x=x^{2}\), which increases
+      without bound rather than leveling off, so there is no horizontal asymptote. The end
+      behavior follows the polynomial quotient from long division instead.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 3 -->
+<div class="problem" id="p3">
+  <h2>Problem 3 — A slant asymptote by long division</h2>
+  <div class="scenario">Analyze \(f(x)=\dfrac{x^{2}+x-2}{x-3}\).</div>
+
+  <div class="demo-link">
+    Explore zeros and asymptotes in the
+    <a href="https://bobovski66.github.io/Precalculus/demos/rational_functions.html"
+    target="_blank">Rational Functions Lab</a>.
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Long division gives \(f(x)=x+4+\dfrac{R}{x-3}\). Enter the
+      remainder \(R\).</span></div>
+    <div class="answer-row"><label>\(R=\)</label><input type="text" id="q3a" data-ans="10">
+      <button class="check-btn" onclick="checkNum(['q3a'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(R=10\), so \(f(x)=x+4+\dfrac{10}{x-3}\).</span></p>
+      <p>Dividing \(x^{2}+x-2\) by \(x-3\): quotient \(x+4\), remainder \(10\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Enter the slant asymptote as \(y=mx+b\) (give \(m\) and \(b\)),
+      and the vertical asymptote \(x=\).</span></div>
+    <div class="answer-row"><label>\(m\)</label><input type="text" id="q3b_m" data-ans="1">
+      <label>\(b\)</label><input type="text" id="q3b_b" data-ans="4">
+      <label>vert \(x=\)</label><input type="text" id="q3b_v2" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q3b_m','q3b_b','q3b_v2'],'q3b_v')">Check</button><span class="verdict" id="q3b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Slant asymptote \(y=x+4\); vertical asymptote \(x=3\).</span></p>
+      <p>The remainder term \(\dfrac{10}{x-3}\) decays to zero at the ends, so the graph
+      approaches the quotient line \(y=x+4\). The denominator root \(x=3\) is the vertical
+      asymptote.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Factor the numerator and enter the two zeros (smaller first).</span></div>
+    <div class="answer-row"><label>\(r_1\)</label><input type="text" id="q3c_1" data-ans="-2">
+      <label>\(r_2\)</label><input type="text" id="q3c_2" data-ans="1">
+      <button class="check-btn" onclick="checkNum(['q3c_1','q3c_2'],'q3c_v')">Check</button><span class="verdict" id="q3c_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(x^{2}+x-2=(x+2)(x-1)\), zeros \(-2\) and \(1\).</span></p>
+      <p>These are the inputs where the numerator, hence \(f\), is zero.</p>
+    </div></details>
+  </div>
+</div>
+
+<div class="footer">MATH&amp; 141 &middot; Centralia College &middot; Week 4 Lab</div>
+</div>
+
+<script>
+  const STORE_KEY='precalc_w4_lab';
+  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea'));}
+  function save(){const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
+  function load(){let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
+  function clearData(){try{localStorage.removeItem(STORE_KEY);}catch(e){}allInputs().forEach(i=>{i.value='';i.classList.remove('ok','no');});document.querySelectorAll('.verdict').forEach(v=>{v.textContent='';v.className='verdict';});}
+  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea'))save();});
+  function parseNum(s){if(s==null)return NaN;s=s.trim().replace(/\s+/g,'');if(s==='')return NaN;if(/^[-+]?\d+\/\d+$/.test(s)){const[a,b]=s.split('/').map(Number);return a/b;}return Number(s);}
+  function checkNum(ids,verdictId){let allGood=true,anyBlank=false;ids.forEach(id=>{const el=document.getElementById(id);const target=parseNum(el.dataset.ans);const val=parseNum(el.value);el.classList.remove('ok','no');if(isNaN(val)){anyBlank=true;allGood=false;return;}if(Math.abs(val-target)<1e-9){el.classList.add('ok');}else{el.classList.add('no');allGood=false;}});const v=document.getElementById(verdictId);if(anyBlank){v.textContent='fill in every box';v.className='verdict no';}else if(allGood){v.textContent='✓ correct';v.className='verdict ok';}else{v.textContent='✗ check again';v.className='verdict no';}}
+  load();
+</script>
+</body>
+</html>

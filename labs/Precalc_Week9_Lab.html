@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precalculus I — Week 9 Lab: Systems of Linear Equations</title>
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root{--ink:#1c1c1c;--paper:#fcfbf8;--rule:#d8d3c8;--blue:#2a4d7a;--blue-bg:#eef2f8;--blue-rule:#bcccdf;--green:#1f6b46;--green-bg:#edf5ef;--green-rule:#b7d6c2;--amber:#9a6a00;--red:#9a2a2a;--mono:'DM Mono',monospace;}
+  *{box-sizing:border-box;}
+  body{background:var(--paper);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:19px;line-height:1.5;margin:0;padding:0;}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 28px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:8px;}
+  header h1{font-size:30px;font-weight:600;margin:0 0 4px;}
+  header .sub{font-size:17px;color:#555;font-style:italic;}
+  .intro{margin:18px 0 22px;}
+  .objectives{background:var(--blue-bg);border:1px solid var(--blue-rule);border-radius:8px;padding:14px 20px;margin:0 0 26px;}
+  .objectives h2{font-size:16px;text-transform:uppercase;letter-spacing:0.06em;color:var(--blue);margin:0 0 8px;font-weight:600;}
+  .objectives ul{margin:0;padding-left:22px;} .objectives li{margin:3px 0;}
+  .toolbar{display:flex;gap:10px;margin:0 0 28px;}
+  .toolbar button{font-family:var(--mono);font-size:13px;cursor:pointer;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 14px;color:var(--ink);}
+  .toolbar button:hover{background:#f0ece3;}
+  .problem{margin:0 0 34px;}
+  .problem > h2{font-size:21px;font-weight:600;margin:0 0 4px;border-bottom:1px solid var(--rule);padding-bottom:5px;}
+  .scenario{background:var(--blue-bg);border-left:4px solid var(--blue);padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;}
+  .part{margin:16px 0 6px;}
+  .part-stem{display:flex;gap:8px;align-items:baseline;}
+  .part-label{font-family:var(--mono);font-weight:500;color:var(--blue);flex:none;}
+  .part-text{flex:1;}
+  .answer-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px 26px;}
+  .answer-row label{font-family:var(--mono);font-size:14px;color:#444;}
+  .answer-row input[type=text]{font-family:var(--mono);font-size:15px;border:1px solid var(--rule);border-radius:5px;padding:5px 8px;width:90px;background:#fff;}
+  .answer-row input.wide{width:150px;}
+  .answer-row input.ok{border-color:var(--green);background:var(--green-bg);}
+  .answer-row input.no{border-color:var(--red);background:#f8eded;}
+  .check-btn{font-family:var(--mono);font-size:13px;cursor:pointer;background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;}
+  .check-btn:hover{background:#1d3a60;}
+  .verdict{font-family:var(--mono);font-size:14px;margin-left:4px;} .verdict.ok{color:var(--green);} .verdict.no{color:var(--red);}
+  .text-answer{margin:8px 0 4px 26px;}
+  .text-answer label{font-family:var(--mono);font-size:13px;color:#666;display:block;margin-bottom:4px;}
+  .text-answer textarea{width:100%;min-height:70px;resize:vertical;font-family:'Crimson Pro',Georgia,serif;font-size:17px;line-height:1.4;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink);}
+  .text-answer textarea:focus{border-color:var(--blue);outline:none;}
+  details{margin:8px 0 4px 26px;}
+  summary{font-family:var(--mono);font-size:13px;color:var(--green);cursor:pointer;user-select:none;width:max-content;}
+  summary:hover{text-decoration:underline;}
+  .solution{background:var(--green-bg);border-left:4px solid var(--green);padding:10px 16px;margin:8px 0 0;border-radius:0 6px 6px 0;}
+  .solution .ans{font-weight:600;color:var(--green);} .solution p{margin:6px 0;}
+  .note{font-size:16px;color:#555;font-style:italic;}
+  .footer{border-top:1px solid var(--rule);margin-top:50px;padding-top:12px;font-family:var(--mono);font-size:13px;color:#888;text-align:center;}
+  @media print{.toolbar,.check-btn{display:none;}details{display:block;}details>summary{display:none;}.solution{display:block !important;}.text-answer textarea{border:1px solid #999;min-height:auto;}body{font-size:16px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Week 9 Lab — Systems of Linear Equations</h1>
+  <div class="sub">Precalculus I &middot; Centralia College</div>
+</header>
+
+<p class="intro">
+  Fill in the answer boxes as you work. Click <strong>Check</strong> to test a numeric
+  answer. For parts that ask you to explain, type your reasoning, then open
+  <strong>Show solution</strong> to compare. Your work is saved in this browser until you
+  clear it.
+</p>
+
+<div class="objectives">
+  <h2>Objectives</h2>
+  <ul>
+    <li>Solve a two-variable system by substitution.</li>
+    <li>Recognize the no-solution and infinitely-many cases from the algebra.</li>
+    <li>Solve a three-variable triangular system by back-substitution.</li>
+    <li>Set up and solve a system from a word problem.</li>
+  </ul>
+</div>
+
+<div class="toolbar">
+  <button onclick="window.print()">Print</button>
+  <button onclick="clearData()">Clear data</button>
+</div>
+
+<!-- PROBLEM 1 -->
+<div class="problem" id="p1">
+  <h2>Problem 1 — Substitution and the three outcomes</h2>
+  <div class="scenario">A linear system has exactly one of three outcomes: a unique
+  solution, no solution, or infinitely many.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Solve \(\begin{aligned}2x+y&=7\\ 3x-2y&=0\end{aligned}\). Enter
+      \(x\) and \(y\).</span></div>
+    <div class="answer-row"><label>\(x\)</label><input type="text" id="q1a_x" data-ans="2">
+      <label>\(y\)</label><input type="text" id="q1a_y" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q1a_x','q1a_y'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\((x,y)=(2,3)\).</span></p>
+      <p>From the first, \(y=7-2x\). Substitute: \(3x-2(7-2x)=0\Rightarrow7x=14\Rightarrow
+      x=2\), then \(y=3\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Solve \(\begin{aligned}x-y&=1\\ x-y&=4\end{aligned}\). Enter
+      \(1\) unique, \(0\) none, or \(2\) infinitely many.</span></div>
+    <div class="answer-row"><label>outcome code</label><input type="text" id="q1b" data-ans="0">
+      <button class="check-btn" onclick="checkNum(['q1b'],'q1b_v')">Check</button><span class="verdict" id="q1b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">No solution (code \(0\)).</span></p>
+      <p>Substituting \(x=y+1\) into the second gives \(1=4\), a contradiction. The lines
+      are parallel and distinct.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Explain why a linear system can never have exactly two
+      solutions.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q1c_txt" placeholder="Think about how flat objects (lines, planes) intersect."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Flat objects intersect in a flat object: a point, the empty set, or a whole line or plane.</span></p>
+      <p>Two lines either cross once, never meet, or coincide entirely. "Exactly two points"
+      is not a possible intersection of flat objects, so it cannot occur.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 2 -->
+<div class="problem" id="p2">
+  <h2>Problem 2 — Back-substitution</h2>
+  <div class="scenario">Solve the triangular system
+  \(\begin{aligned}x+2y-z&=3\\ y+2z&=4\\ 3z&=9\end{aligned}\).</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Enter \(z\), then \(y\), then \(x\).</span></div>
+    <div class="answer-row"><label>\(z\)</label><input type="text" id="q2a_z" data-ans="3">
+      <label>\(y\)</label><input type="text" id="q2a_y" data-ans="-2">
+      <label>\(x\)</label><input type="text" id="q2a_x" data-ans="10">
+      <button class="check-btn" onclick="checkNum(['q2a_z','q2a_y','q2a_x'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\((x,y,z)=(10,-2,3)\).</span></p>
+      <p>\(3z=9\Rightarrow z=3\). Then \(y+6=4\Rightarrow y=-2\). Then
+      \(x+2(-2)-3=3\Rightarrow x=10\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Explain why a triangular system is easy to solve, and what
+      "back-substitution" means.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q2b_txt" placeholder="How does each equation help solve the next?"></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Each equation drops a variable, so the last gives one unknown directly, and you substitute upward.</span></p>
+      <p>The bottom equation has one variable; solving it and substituting into the row above
+      gives the next, and so on up to the top. The values flow upward, each step using only
+      what is already known.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 3 -->
+<div class="problem" id="p3">
+  <h2>Problem 3 — Reducing to triangular form</h2>
+  <div class="scenario">Solve \(\begin{aligned}x+y+z&=6\\ 2x-y+z&=3\\ x+2y-z&=2\end{aligned}\).</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Eliminate to triangular form and back-substitute. Enter \(x\),
+      \(y\), \(z\).</span></div>
+    <div class="answer-row"><label>\(x\)</label><input type="text" id="q3a_x" data-ans="1">
+      <label>\(y\)</label><input type="text" id="q3a_y" data-ans="2">
+      <label>\(z\)</label><input type="text" id="q3a_z" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q3a_x','q3a_y','q3a_z'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\((x,y,z)=(1,2,3)\).</span></p>
+      <p>Row 2 minus twice row 1: \(-3y-z=-9\). Row 3 minus row 1: \(y-2z=-4\). Eliminating
+      \(y\) gives \(-7z=-21\), so \(z=3\), then \(y=2\), then \(x=1\). Check:
+      \(1+2+3=6\). ✓</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 4 -->
+<div class="problem" id="p4">
+  <h2>Problem 4 — A word problem</h2>
+  <div class="scenario">A theater sells adult tickets at \$12 and child tickets at \$8. One
+  evening \(200\) tickets bring in \$2000.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Let \(a\) be adult tickets and \(c\) child tickets. Enter the
+      number of each.</span></div>
+    <div class="answer-row"><label>\(a\)</label><input type="text" id="q4a_a" data-ans="100">
+      <label>\(c\)</label><input type="text" id="q4a_c" data-ans="100">
+      <button class="check-btn" onclick="checkNum(['q4a_a','q4a_c'],'q4a_v')">Check</button><span class="verdict" id="q4a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(a=100\), \(c=100\).</span></p>
+      <p>System: \(a+c=200\) and \(12a+8c=2000\). From the first, \(c=200-a\); substitute:
+      \(12a+8(200-a)=2000\Rightarrow4a+1600=2000\Rightarrow a=100\), so \(c=100\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Write the two equations you used, and say in words what each
+      represents.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q4b_txt" placeholder="One equation counts tickets; the other counts dollars."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(a+c=200\) (total tickets) and \(12a+8c=2000\) (total revenue).</span></p>
+      <p>The first counts how many tickets were sold; the second adds up the money, weighting
+      each ticket by its price. Their common solution is the only count meeting both
+      conditions.</p>
+    </div></details>
+  </div>
+</div>
+
+<div class="footer">MATH&amp; 141 &middot; Centralia College &middot; Week 9 Lab</div>
+</div>
+
+<script>
+  const STORE_KEY='precalc_w9_lab';
+  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea'));}
+  function save(){const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
+  function load(){let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
+  function clearData(){try{localStorage.removeItem(STORE_KEY);}catch(e){}allInputs().forEach(i=>{i.value='';i.classList.remove('ok','no');});document.querySelectorAll('.verdict').forEach(v=>{v.textContent='';v.className='verdict';});}
+  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea'))save();});
+  function parseNum(s){if(s==null)return NaN;s=s.trim().replace(/\s+/g,'').replace(/^\$/,'').replace(/,/g,'');if(s==='')return NaN;if(/^[-+]?\d+\/\d+$/.test(s)){const[a,b]=s.split('/').map(Number);return a/b;}return Number(s);}
+  function checkNum(ids,verdictId,tol){const T=(tol==null?1e-9:tol);let allGood=true,anyBlank=false;ids.forEach(id=>{const el=document.getElementById(id);const target=parseNum(el.dataset.ans);const val=parseNum(el.value);el.classList.remove('ok','no');if(isNaN(val)){anyBlank=true;allGood=false;return;}if(Math.abs(val-target)<=T){el.classList.add('ok');}else{el.classList.add('no');allGood=false;}});const v=document.getElementById(verdictId);if(anyBlank){v.textContent='fill in every box';v.className='verdict no';}else if(allGood){v.textContent='✓ correct';v.className='verdict ok';}else{v.textContent='✗ check again';v.className='verdict no';}}
+  load();
+</script>
+</body>
+</html>

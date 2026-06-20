@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precalculus I — Week 8 Lab: Implicit Curves and Conics</title>
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root{--ink:#1c1c1c;--paper:#fcfbf8;--rule:#d8d3c8;--blue:#2a4d7a;--blue-bg:#eef2f8;--blue-rule:#bcccdf;--green:#1f6b46;--green-bg:#edf5ef;--green-rule:#b7d6c2;--amber:#9a6a00;--red:#9a2a2a;--mono:'DM Mono',monospace;}
+  *{box-sizing:border-box;}
+  body{background:var(--paper);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:19px;line-height:1.5;margin:0;padding:0;}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 28px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:8px;}
+  header h1{font-size:30px;font-weight:600;margin:0 0 4px;}
+  header .sub{font-size:17px;color:#555;font-style:italic;}
+  .intro{margin:18px 0 22px;}
+  .objectives{background:var(--blue-bg);border:1px solid var(--blue-rule);border-radius:8px;padding:14px 20px;margin:0 0 26px;}
+  .objectives h2{font-size:16px;text-transform:uppercase;letter-spacing:0.06em;color:var(--blue);margin:0 0 8px;font-weight:600;}
+  .objectives ul{margin:0;padding-left:22px;} .objectives li{margin:3px 0;}
+  .toolbar{display:flex;gap:10px;margin:0 0 28px;}
+  .toolbar button{font-family:var(--mono);font-size:13px;cursor:pointer;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 14px;color:var(--ink);}
+  .toolbar button:hover{background:#f0ece3;}
+  .problem{margin:0 0 34px;}
+  .problem > h2{font-size:21px;font-weight:600;margin:0 0 4px;border-bottom:1px solid var(--rule);padding-bottom:5px;}
+  .scenario{background:var(--blue-bg);border-left:4px solid var(--blue);padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;}
+  .part{margin:16px 0 6px;}
+  .part-stem{display:flex;gap:8px;align-items:baseline;}
+  .part-label{font-family:var(--mono);font-weight:500;color:var(--blue);flex:none;}
+  .part-text{flex:1;}
+  .answer-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px 26px;}
+  .answer-row label{font-family:var(--mono);font-size:14px;color:#444;}
+  .answer-row input[type=text]{font-family:var(--mono);font-size:15px;border:1px solid var(--rule);border-radius:5px;padding:5px 8px;width:90px;background:#fff;}
+  .answer-row input.wide{width:150px;}
+  .answer-row input.ok{border-color:var(--green);background:var(--green-bg);}
+  .answer-row input.no{border-color:var(--red);background:#f8eded;}
+  .check-btn{font-family:var(--mono);font-size:13px;cursor:pointer;background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;}
+  .check-btn:hover{background:#1d3a60;}
+  .verdict{font-family:var(--mono);font-size:14px;margin-left:4px;} .verdict.ok{color:var(--green);} .verdict.no{color:var(--red);}
+  .text-answer{margin:8px 0 4px 26px;}
+  .text-answer label{font-family:var(--mono);font-size:13px;color:#666;display:block;margin-bottom:4px;}
+  .text-answer textarea{width:100%;min-height:70px;resize:vertical;font-family:'Crimson Pro',Georgia,serif;font-size:17px;line-height:1.4;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink);}
+  .text-answer textarea:focus{border-color:var(--blue);outline:none;}
+  details{margin:8px 0 4px 26px;}
+  summary{font-family:var(--mono);font-size:13px;color:var(--green);cursor:pointer;user-select:none;width:max-content;}
+  summary:hover{text-decoration:underline;}
+  .solution{background:var(--green-bg);border-left:4px solid var(--green);padding:10px 16px;margin:8px 0 0;border-radius:0 6px 6px 0;}
+  .solution .ans{font-weight:600;color:var(--green);} .solution p{margin:6px 0;}
+  .note{font-size:16px;color:#555;font-style:italic;}
+  .footer{border-top:1px solid var(--rule);margin-top:50px;padding-top:12px;font-family:var(--mono);font-size:13px;color:#888;text-align:center;}
+  @media print{.toolbar,.check-btn{display:none;}details{display:block;}details>summary{display:none;}.solution{display:block !important;}.text-answer textarea{border:1px solid #999;min-height:auto;}body{font-size:16px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Week 8 Lab — Implicit Curves and Conics</h1>
+  <div class="sub">Precalculus I &middot; Centralia College</div>
+</header>
+
+<p class="intro">
+  Fill in the answer boxes as you work. Click <strong>Check</strong> to test a numeric
+  answer. For parts that ask you to explain, type your reasoning, then open
+  <strong>Show solution</strong> to compare. Your work is saved in this browser until you
+  clear it.
+</p>
+
+<div class="objectives">
+  <h2>Objectives</h2>
+  <ul>
+    <li>Test whether a point lies on an implicitly defined curve.</li>
+    <li>Analyze the real locus of an elliptic curve from the sign of a cubic.</li>
+    <li>Read the semi-axes and intercepts of an ellipse.</li>
+    <li>Classify a conic and find a hyperbola's vertices and asymptotes.</li>
+  </ul>
+</div>
+
+<div class="toolbar">
+  <button onclick="window.print()">Print</button>
+  <button onclick="clearData()">Clear data</button>
+</div>
+
+<!-- PROBLEM 1 -->
+<div class="problem" id="p1">
+  <h2>Problem 1 — Membership and an elliptic curve</h2>
+  <div class="scenario">Consider the elliptic curve \(y^{2}=x^{3}-x\). A point lies on it
+  when its coordinates satisfy the equation.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">At \(x=2\), \(y^{2}=x^{3}-x\). Enter \(y^{2}\).</span></div>
+    <div class="answer-row"><label>\(y^{2}=\)</label><input type="text" id="q1a" data-ans="6">
+      <button class="check-btn" onclick="checkNum(['q1a'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(y^{2}=8-2=6\), so \((2,\pm\sqrt6)\) are on the curve.</span></p>
+      <p>A vertical line at \(x=2\) meets the curve twice, at \(y=\sqrt6\) and \(y=-\sqrt6\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Real points need \(x^{3}-x\ge0\), i.e. \(x(x-1)(x+1)\ge0\).
+      Is there a real point at \(x=\tfrac12\)? Enter \(1\) for yes or \(0\) for no.</span></div>
+    <div class="answer-row"><label>real at \(x=\tfrac12\)?</label><input type="text" id="q1b" data-ans="0">
+      <button class="check-btn" onclick="checkNum(['q1b'],'q1b_v')">Check</button><span class="verdict" id="q1b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">No.</span></p>
+      <p>\(\left(\tfrac12\right)^{3}-\tfrac12=\tfrac18-\tfrac12=-\tfrac38<0\). Since \(y^{2}\)
+      cannot be negative, there is no real point there; this is the gap between \(0\) and
+      \(1\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Explain why this curve is not the graph of a function, and
+      describe its two pieces.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q1c_txt" placeholder="Use the y to -y symmetry and the sign of x^3 - x."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Each admissible \(x\) with \(x^{3}-x>0\) gives two \(y\)-values, \(\pm\sqrt{x^{3}-x}\), so a vertical line meets it twice.</span></p>
+      <p>The real locus has two pieces: a bounded oval over \(-1\le x\le0\) and an unbounded
+      branch over \(x\ge1\), with a gap between \(0\) and \(1\) where \(x^{3}-x<0\). A
+      disconnected, doubled curve cannot be a function.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 2 -->
+<div class="problem" id="p2">
+  <h2>Problem 2 — Reading an ellipse</h2>
+  <div class="scenario">Consider \(\dfrac{x^{2}}{25}+\dfrac{y^{2}}{16}=1\).</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Enter the semi-axes \(a\) (along \(x\)) and \(b\) (along \(y\)).</span></div>
+    <div class="answer-row"><label>\(a\)</label><input type="text" id="q2a_a" data-ans="5">
+      <label>\(b\)</label><input type="text" id="q2a_b" data-ans="4">
+      <button class="check-btn" onclick="checkNum(['q2a_a','q2a_b'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(a=5,\ b=4\).</span></p>
+      <p>\(a^{2}=25\) and \(b^{2}=16\), so the ellipse reaches \(\pm5\) along \(x\) and
+      \(\pm4\) along \(y\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Enter the positive \(x\)-intercept and the positive
+      \(y\)-intercept.</span></div>
+    <div class="answer-row"><label>\(x\)-int</label><input type="text" id="q2b_x" data-ans="5">
+      <label>\(y\)-int</label><input type="text" id="q2b_y" data-ans="4">
+      <button class="check-btn" onclick="checkNum(['q2b_x','q2b_y'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(x\)-intercept \(5\), \(y\)-intercept \(4\).</span></p>
+      <p>Set \(y=0\): \(x^{2}/25=1\), so \(x=\pm5\). Set \(x=0\): \(y^{2}/16=1\), so
+      \(y=\pm4\).</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 3 -->
+<div class="problem" id="p3">
+  <h2>Problem 3 — A hyperbola and classification</h2>
+  <div class="scenario">Consider \(\dfrac{x^{2}}{16}-\dfrac{y^{2}}{9}=1\).</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Enter the positive vertex \(x\)-coordinate, and the positive
+      asymptote slope \(b/a\) as a fraction.</span></div>
+    <div class="answer-row"><label>vertex \(x=\)</label><input type="text" id="q3a_v2" data-ans="4">
+      <label>slope</label><input type="text" id="q3a_m" data-ans="3/4">
+      <button class="check-btn" onclick="checkNum(['q3a_v2','q3a_m'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Vertices \((\pm4,0)\); asymptotes \(y=\pm\tfrac34 x\).</span></p>
+      <p>\(a=4\), \(b=3\). Vertices sit at \(\pm a\) on the \(x\)-axis; the asymptote slopes
+      are \(\pm b/a=\pm\tfrac34\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Classify each conic by the signs of the squared terms: enter
+      <span class="mono">C</span> circle, <span class="mono">E</span> ellipse,
+      <span class="mono">H</span> hyperbola, <span class="mono">P</span> parabola, in the
+      text box.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q3b_txt" placeholder="(i) 4x^2+4y^2=36   (ii) x^2+9y^2=9   (iii) x^2-y^2=1   (iv) y-x^2=0"></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">(i) C, (ii) E, (iii) H, (iv) P.</span></p>
+      <p>Equal positive coefficients give a circle; unequal positive give an ellipse;
+      opposite signs give a hyperbola; a single squared term gives a parabola.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Explain why the hyperbola approaches the lines
+      \(y=\pm\tfrac{b}{a}x\) as \(x\) grows large.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q3c_txt" placeholder="What happens to the constant 1 relative to the squared terms when x is large?"></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">For large \(x\), the constant \(1\) is negligible next to the squared terms, so the equation approaches \(x^{2}/a^{2}=y^{2}/b^{2}\).</span></p>
+      <p>That limiting equation rearranges to \(y=\pm\tfrac{b}{a}x\), the asymptote lines.
+      The branches hug these lines ever more closely as \(x\) increases.</p>
+    </div></details>
+  </div>
+</div>
+
+<div class="footer">MATH&amp; 141 &middot; Centralia College &middot; Week 8 Lab</div>
+</div>
+
+<script>
+  const STORE_KEY='precalc_w8_lab';
+  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea'));}
+  function save(){const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
+  function load(){let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
+  function clearData(){try{localStorage.removeItem(STORE_KEY);}catch(e){}allInputs().forEach(i=>{i.value='';i.classList.remove('ok','no');});document.querySelectorAll('.verdict').forEach(v=>{v.textContent='';v.className='verdict';});}
+  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea'))save();});
+  function parseNum(s){if(s==null)return NaN;s=s.trim().replace(/\s+/g,'').replace(/^\$/,'').replace(/,/g,'');if(s==='')return NaN;if(/^[-+]?\d+\/\d+$/.test(s)){const[a,b]=s.split('/').map(Number);return a/b;}return Number(s);}
+  function checkNum(ids,verdictId,tol){const T=(tol==null?1e-9:tol);let allGood=true,anyBlank=false;ids.forEach(id=>{const el=document.getElementById(id);const target=parseNum(el.dataset.ans);const val=parseNum(el.value);el.classList.remove('ok','no');if(isNaN(val)){anyBlank=true;allGood=false;return;}if(Math.abs(val-target)<=T){el.classList.add('ok');}else{el.classList.add('no');allGood=false;}});const v=document.getElementById(verdictId);if(anyBlank){v.textContent='fill in every box';v.className='verdict no';}else if(allGood){v.textContent='✓ correct';v.className='verdict ok';}else{v.textContent='✗ check again';v.className='verdict no';}}
+  load();
+</script>
+</body>
+</html>

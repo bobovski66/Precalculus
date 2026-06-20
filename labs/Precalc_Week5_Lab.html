@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precalculus I — Week 5 Lab: Inverses and Radicals</title>
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root{--ink:#1c1c1c;--paper:#fcfbf8;--rule:#d8d3c8;--blue:#2a4d7a;--blue-bg:#eef2f8;--blue-rule:#bcccdf;--green:#1f6b46;--green-bg:#edf5ef;--green-rule:#b7d6c2;--amber:#9a6a00;--red:#9a2a2a;--mono:'DM Mono',monospace;}
+  *{box-sizing:border-box;}
+  body{background:var(--paper);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:19px;line-height:1.5;margin:0;padding:0;}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 28px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:8px;}
+  header h1{font-size:30px;font-weight:600;margin:0 0 4px;}
+  header .sub{font-size:17px;color:#555;font-style:italic;}
+  .intro{margin:18px 0 22px;}
+  .objectives{background:var(--blue-bg);border:1px solid var(--blue-rule);border-radius:8px;padding:14px 20px;margin:0 0 26px;}
+  .objectives h2{font-size:16px;text-transform:uppercase;letter-spacing:0.06em;color:var(--blue);margin:0 0 8px;font-weight:600;}
+  .objectives ul{margin:0;padding-left:22px;} .objectives li{margin:3px 0;}
+  .toolbar{display:flex;gap:10px;margin:0 0 28px;}
+  .toolbar button{font-family:var(--mono);font-size:13px;cursor:pointer;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 14px;color:var(--ink);}
+  .toolbar button:hover{background:#f0ece3;}
+  .problem{margin:0 0 34px;}
+  .problem > h2{font-size:21px;font-weight:600;margin:0 0 4px;border-bottom:1px solid var(--rule);padding-bottom:5px;}
+  .scenario{background:var(--blue-bg);border-left:4px solid var(--blue);padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;}
+  .part{margin:16px 0 6px;}
+  .part-stem{display:flex;gap:8px;align-items:baseline;}
+  .part-label{font-family:var(--mono);font-weight:500;color:var(--blue);flex:none;}
+  .part-text{flex:1;}
+  .answer-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px 26px;}
+  .answer-row label{font-family:var(--mono);font-size:14px;color:#444;}
+  .answer-row input[type=text]{font-family:var(--mono);font-size:15px;border:1px solid var(--rule);border-radius:5px;padding:5px 8px;width:90px;background:#fff;}
+  .answer-row input.wide{width:150px;}
+  .answer-row input.ok{border-color:var(--green);background:var(--green-bg);}
+  .answer-row input.no{border-color:var(--red);background:#f8eded;}
+  .check-btn{font-family:var(--mono);font-size:13px;cursor:pointer;background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;}
+  .check-btn:hover{background:#1d3a60;}
+  .verdict{font-family:var(--mono);font-size:14px;margin-left:4px;} .verdict.ok{color:var(--green);} .verdict.no{color:var(--red);}
+  .text-answer{margin:8px 0 4px 26px;}
+  .text-answer label{font-family:var(--mono);font-size:13px;color:#666;display:block;margin-bottom:4px;}
+  .text-answer textarea{width:100%;min-height:70px;resize:vertical;font-family:'Crimson Pro',Georgia,serif;font-size:17px;line-height:1.4;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink);}
+  .text-answer textarea:focus{border-color:var(--blue);outline:none;}
+  details{margin:8px 0 4px 26px;}
+  summary{font-family:var(--mono);font-size:13px;color:var(--green);cursor:pointer;user-select:none;width:max-content;}
+  summary:hover{text-decoration:underline;}
+  .solution{background:var(--green-bg);border-left:4px solid var(--green);padding:10px 16px;margin:8px 0 0;border-radius:0 6px 6px 0;}
+  .solution .ans{font-weight:600;color:var(--green);} .solution p{margin:6px 0;}
+  .note{font-size:16px;color:#555;font-style:italic;}
+  .footer{border-top:1px solid var(--rule);margin-top:50px;padding-top:12px;font-family:var(--mono);font-size:13px;color:#888;text-align:center;}
+  @media print{.toolbar,.check-btn{display:none;}details{display:block;}details>summary{display:none;}.solution{display:block !important;}.text-answer textarea{border:1px solid #999;min-height:auto;}body{font-size:16px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Week 5 Lab — Inverses and Radicals</h1>
+  <div class="sub">Precalculus I &middot; Centralia College</div>
+</header>
+
+<p class="intro">
+  Fill in the answer boxes as you work. Click <strong>Check</strong> to test a numeric
+  answer. For parts that ask you to explain, type your reasoning, then open
+  <strong>Show solution</strong> to compare. Your work is saved in this browser until you
+  clear it.
+</p>
+
+<div class="objectives">
+  <h2>Objectives</h2>
+  <ul>
+    <li>Find the domain of a function from its operations.</li>
+    <li>Use the horizontal line test to decide whether a function is one-to-one.</li>
+    <li>Find an inverse by swapping input and output and solving.</li>
+    <li>Solve a radical equation and discard false solutions.</li>
+  </ul>
+</div>
+
+<div class="toolbar">
+  <button onclick="window.print()">Print</button>
+  <button onclick="clearData()">Clear data</button>
+</div>
+
+<!-- PROBLEM 1 -->
+<div class="problem" id="p1">
+  <h2>Problem 1 — Domain from the operations</h2>
+  <div class="scenario">A domain is restricted only by division (no zero denominator) and
+  even roots (no negative radicand). For each function, enter the boundary value asked
+  for.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">\(f(x)=\dfrac{1}{x-5}\): the domain is all reals except one
+      value. Enter the excluded \(x\).</span></div>
+    <div class="answer-row"><label>exclude \(x=\)</label><input type="text" id="q1a" data-ans="5">
+      <button class="check-btn" onclick="checkNum(['q1a'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Exclude \(x=5\).</span></p>
+      <p>The denominator \(x-5\) vanishes at \(x=5\), where the function is undefined.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">\(g(x)=\sqrt{x-3}\): the domain is \(x\ge c\). Enter \(c\).</span></div>
+    <div class="answer-row"><label>\(c=\)</label><input type="text" id="q1b" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q1b'],'q1b_v')">Check</button><span class="verdict" id="q1b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(c=3\), so the domain is \(x\ge3\).</span></p>
+      <p>An even root requires a nonnegative radicand: \(x-3\ge0\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Explain why \(\sqrt[3]{x}\) accepts negative inputs but
+      \(\sqrt{x}\) does not.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q1c_txt" placeholder="Compare odd and even roots of a negative number."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Odd roots of negatives are real; even roots of negatives are not.</span></p>
+      <p>A cube root inverts \(x^{3}\), which takes all real values including negatives, so
+      \(\sqrt[3]{-8}=-2\) is real. A square root inverts \(x^{2}\), which is never
+      negative, so there is no real square root of a negative number.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 2 -->
+<div class="problem" id="p2">
+  <h2>Problem 2 — One-to-one and the horizontal line test</h2>
+  <div class="scenario">A function is one-to-one when no horizontal line meets its graph
+  more than once. Enter \(1\) for one-to-one or \(0\) for not.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">\(f(x)=2x-1\)</span></div>
+    <div class="answer-row"><label>one-to-one?</label><input type="text" id="q2a" data-ans="1">
+      <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Yes.</span></p>
+      <p>A non-horizontal line meets every horizontal line exactly once.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">\(f(x)=x^{2}\)</span></div>
+    <div class="answer-row"><label>one-to-one?</label><input type="text" id="q2b" data-ans="0">
+      <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">No.</span></p>
+      <p>The line \(y=4\) meets the parabola at \(x=2\) and \(x=-2\), two inputs sharing one
+      output. Restricting to \(x\ge0\) would make it one-to-one.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 3 -->
+<div class="problem" id="p3">
+  <h2>Problem 3 — Finding an inverse</h2>
+  <div class="scenario">Let \(f(x)=3x-7\).</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">The inverse has the form \(f^{-1}(x)=\dfrac{x+a}{b}\). Enter
+      \(a\) and \(b\).</span></div>
+    <div class="answer-row"><label>\(a\)</label><input type="text" id="q3a_a" data-ans="7">
+      <label>\(b\)</label><input type="text" id="q3a_b" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q3a_a','q3a_b'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(f^{-1}(x)=\dfrac{x+7}{3}\), so \(a=7,\ b=3\).</span></p>
+      <p>Write \(y=3x-7\), swap to \(x=3y-7\), and solve: \(y=\dfrac{x+7}{3}\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Verify by computing \(f^{-1}(f(2))\). Enter the result.</span></div>
+    <div class="answer-row"><label>\(f^{-1}(f(2))=\)</label><input type="text" id="q3b" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q3b'],'q3b_v')">Check</button><span class="verdict" id="q3b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(f^{-1}(f(2))=2\).</span></p>
+      <p>\(f(2)=3(2)-7=-1\), then \(f^{-1}(-1)=\dfrac{-1+7}{3}=2\). An inverse returns the
+      original input.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Explain why the graph of \(f^{-1}\) is the reflection of \(f\)
+      across the line \(y=x\).</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q3c_txt" placeholder="What happens to a point (a,b) when input and output are swapped?"></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Swapping input and output sends each point \((a,b)\) to \((b,a)\), which is its mirror image across \(y=x\).</span></p>
+      <p>The inverse is defined by exchanging the roles of \(x\) and \(y\). Reflecting every
+      point of the graph across the diagonal \(y=x\) produces exactly that swap, so the two
+      graphs are mirror images.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 4 -->
+<div class="problem" id="p4">
+  <h2>Problem 4 — A radical equation</h2>
+  <div class="scenario">Solve \(\sqrt{x+5}=x-1\), checking each candidate.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Squaring gives a quadratic. Enter its two candidate solutions
+      (smaller first).</span></div>
+    <div class="answer-row"><label>\(x_1\)</label><input type="text" id="q4a_1" data-ans="-1">
+      <label>\(x_2\)</label><input type="text" id="q4a_2" data-ans="4">
+      <button class="check-btn" onclick="checkNum(['q4a_1','q4a_2'],'q4a_v')">Check</button><span class="verdict" id="q4a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Candidates \(x=-1\) and \(x=4\).</span></p>
+      <p>Squaring: \(x+5=x^{2}-2x+1\), so \(x^{2}-3x-4=0\), giving \((x-4)(x+1)=0\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Check each in the original equation. Enter the one valid
+      solution.</span></div>
+    <div class="answer-row"><label>valid \(x=\)</label><input type="text" id="q4b" data-ans="4">
+      <button class="check-btn" onclick="checkNum(['q4b'],'q4b_v')">Check</button><span class="verdict" id="q4b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Only \(x=4\) is valid.</span></p>
+      <p>\(x=4\): \(\sqrt{9}=3\) and \(4-1=3\). ✓. \(x=-1\): \(\sqrt{4}=2\) but \(-1-1=-2\);
+      the two sides disagree, so \(-1\) is rejected.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Explain why squaring both sides can introduce a false
+      solution.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q4c_txt" placeholder="Consider what the square root sign returns versus what squaring forgets."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Squaring forgets sign: \(\sqrt{\,}\) returns the nonnegative root, but squaring accepts both signs.</span></p>
+      <p>The equation \(\sqrt{x+5}=x-1\) requires the right side to be nonnegative. Squaring
+      drops that requirement, so a candidate making the right side negative can satisfy the
+      squared equation while failing the original. Checking each candidate catches it.</p>
+    </div></details>
+  </div>
+</div>
+
+<div class="footer">MATH&amp; 141 &middot; Centralia College &middot; Week 5 Lab</div>
+</div>
+
+<script>
+  const STORE_KEY='precalc_w5_lab';
+  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea'));}
+  function save(){const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
+  function load(){let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
+  function clearData(){try{localStorage.removeItem(STORE_KEY);}catch(e){}allInputs().forEach(i=>{i.value='';i.classList.remove('ok','no');});document.querySelectorAll('.verdict').forEach(v=>{v.textContent='';v.className='verdict';});}
+  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea'))save();});
+  function parseNum(s){if(s==null)return NaN;s=s.trim().replace(/\s+/g,'');if(s==='')return NaN;if(/^[-+]?\d+\/\d+$/.test(s)){const[a,b]=s.split('/').map(Number);return a/b;}return Number(s);}
+  function checkNum(ids,verdictId){let allGood=true,anyBlank=false;ids.forEach(id=>{const el=document.getElementById(id);const target=parseNum(el.dataset.ans);const val=parseNum(el.value);el.classList.remove('ok','no');if(isNaN(val)){anyBlank=true;allGood=false;return;}if(Math.abs(val-target)<1e-9){el.classList.add('ok');}else{el.classList.add('no');allGood=false;}});const v=document.getElementById(verdictId);if(anyBlank){v.textContent='fill in every box';v.className='verdict no';}else if(allGood){v.textContent='✓ correct';v.className='verdict ok';}else{v.textContent='✗ check again';v.className='verdict no';}}
+  load();
+</script>
+</body>
+</html>

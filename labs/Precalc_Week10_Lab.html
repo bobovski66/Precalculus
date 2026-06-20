@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precalculus I — Week 10 Lab: Matrices and Gaussian Elimination</title>
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] }, svg: { fontCache: 'global' } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+  :root{--ink:#1c1c1c;--paper:#fcfbf8;--rule:#d8d3c8;--blue:#2a4d7a;--blue-bg:#eef2f8;--blue-rule:#bcccdf;--green:#1f6b46;--green-bg:#edf5ef;--green-rule:#b7d6c2;--amber:#9a6a00;--red:#9a2a2a;--mono:'DM Mono',monospace;}
+  *{box-sizing:border-box;}
+  body{background:var(--paper);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:19px;line-height:1.5;margin:0;padding:0;}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 28px 80px;}
+  header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:8px;}
+  header h1{font-size:30px;font-weight:600;margin:0 0 4px;}
+  header .sub{font-size:17px;color:#555;font-style:italic;}
+  .intro{margin:18px 0 22px;}
+  .objectives{background:var(--blue-bg);border:1px solid var(--blue-rule);border-radius:8px;padding:14px 20px;margin:0 0 26px;}
+  .objectives h2{font-size:16px;text-transform:uppercase;letter-spacing:0.06em;color:var(--blue);margin:0 0 8px;font-weight:600;}
+  .objectives ul{margin:0;padding-left:22px;} .objectives li{margin:3px 0;}
+  .toolbar{display:flex;gap:10px;margin:0 0 28px;}
+  .toolbar button{font-family:var(--mono);font-size:13px;cursor:pointer;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 14px;color:var(--ink);}
+  .toolbar button:hover{background:#f0ece3;}
+  .problem{margin:0 0 34px;}
+  .problem > h2{font-size:21px;font-weight:600;margin:0 0 4px;border-bottom:1px solid var(--rule);padding-bottom:5px;}
+  .scenario{background:var(--blue-bg);border-left:4px solid var(--blue);padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;}
+  .part{margin:16px 0 6px;}
+  .part-stem{display:flex;gap:8px;align-items:baseline;}
+  .part-label{font-family:var(--mono);font-weight:500;color:var(--blue);flex:none;}
+  .part-text{flex:1;}
+  .answer-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 4px 26px;}
+  .answer-row label{font-family:var(--mono);font-size:14px;color:#444;}
+  .answer-row input[type=text]{font-family:var(--mono);font-size:15px;border:1px solid var(--rule);border-radius:5px;padding:5px 8px;width:90px;background:#fff;}
+  .answer-row input.wide{width:150px;}
+  .answer-row input.ok{border-color:var(--green);background:var(--green-bg);}
+  .answer-row input.no{border-color:var(--red);background:#f8eded;}
+  .check-btn{font-family:var(--mono);font-size:13px;cursor:pointer;background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;}
+  .check-btn:hover{background:#1d3a60;}
+  .verdict{font-family:var(--mono);font-size:14px;margin-left:4px;} .verdict.ok{color:var(--green);} .verdict.no{color:var(--red);}
+  .text-answer{margin:8px 0 4px 26px;}
+  .text-answer label{font-family:var(--mono);font-size:13px;color:#666;display:block;margin-bottom:4px;}
+  .text-answer textarea{width:100%;min-height:70px;resize:vertical;font-family:'Crimson Pro',Georgia,serif;font-size:17px;line-height:1.4;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink);}
+  .text-answer textarea:focus{border-color:var(--blue);outline:none;}
+  details{margin:8px 0 4px 26px;}
+  summary{font-family:var(--mono);font-size:13px;color:var(--green);cursor:pointer;user-select:none;width:max-content;}
+  summary:hover{text-decoration:underline;}
+  .solution{background:var(--green-bg);border-left:4px solid var(--green);padding:10px 16px;margin:8px 0 0;border-radius:0 6px 6px 0;}
+  .solution .ans{font-weight:600;color:var(--green);} .solution p{margin:6px 0;}
+  .note{font-size:16px;color:#555;font-style:italic;}
+  .footer{border-top:1px solid var(--rule);margin-top:50px;padding-top:12px;font-family:var(--mono);font-size:13px;color:#888;text-align:center;}
+  @media print{.toolbar,.check-btn{display:none;}details{display:block;}details>summary{display:none;}.solution{display:block !important;}.text-answer textarea{border:1px solid #999;min-height:auto;}body{font-size:16px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Week 10 Lab — Matrices and Gaussian Elimination</h1>
+  <div class="sub">Precalculus I &middot; Centralia College</div>
+</header>
+
+<p class="intro">
+  Fill in the answer boxes as you work. Click <strong>Check</strong> to test a numeric
+  answer. For parts that ask you to explain, type your reasoning, then open
+  <strong>Show solution</strong> to compare. Your work is saved in this browser until you
+  clear it.
+</p>
+
+<div class="objectives">
+  <h2>Objectives</h2>
+  <ul>
+    <li>Write the augmented matrix of a linear system.</li>
+    <li>Use row operations to reach echelon form.</li>
+    <li>Read the outcome (unique, none, infinitely many) from the echelon form.</li>
+    <li>Solve a physics application by Gaussian elimination.</li>
+  </ul>
+</div>
+
+<div class="toolbar">
+  <button onclick="window.print()">Print</button>
+  <button onclick="clearData()">Clear data</button>
+</div>
+
+<!-- PROBLEM 1 -->
+<div class="problem" id="p1">
+  <h2>Problem 1 — Gaussian elimination</h2>
+  <div class="scenario">Solve the system whose augmented matrix is
+  \(\left[\begin{array}{ccc|c}1&1&1&6\\ 2&-1&1&3\\ 1&2&-1&2\end{array}\right]\).</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Reduce to echelon form and back-substitute. Enter \(x\), \(y\),
+      \(z\).</span></div>
+    <div class="answer-row"><label>\(x\)</label><input type="text" id="q1a_x" data-ans="1">
+      <label>\(y\)</label><input type="text" id="q1a_y" data-ans="2">
+      <label>\(z\)</label><input type="text" id="q1a_z" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q1a_x','q1a_y','q1a_z'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\((x,y,z)=(1,2,3)\).</span></p>
+      <p>\(R_2-2R_1\) and \(R_3-R_1\) clear the first column. Continuing the elimination
+      gives a bottom row \(-7z=-21\), so \(z=3\); then \(y=2\) and \(x=1\). Check:
+      \(1+2+3=6\). ✓</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Name the three elementary row operations and the equation
+      operation each represents.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q1b_txt" placeholder="Swap, scale, replace — and what each does to the equations."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Swap two rows; scale a row by a nonzero constant; replace a row by itself plus a multiple of another.</span></p>
+      <p>These correspond to reordering equations, multiplying an equation through by a
+      nonzero number, and adding a multiple of one equation to another. Each leaves the
+      solution set unchanged.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 2 -->
+<div class="problem" id="p2">
+  <h2>Problem 2 — Reading the outcome</h2>
+  <div class="scenario">The echelon form reveals which of the three outcomes occurs.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Eliminating \(\left[\begin{array}{cc|c}1&-1&2\\ 2&-2&7\end{array}\right]\)
+      yields a bottom row \([\,0\ 0\mid 3\,]\). Enter the outcome code: \(1\) unique, \(0\)
+      none, \(2\) infinitely many.</span></div>
+    <div class="answer-row"><label>outcome</label><input type="text" id="q2a" data-ans="0">
+      <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">No solution (code \(0\)).</span></p>
+      <p>The row \([\,0\ 0\mid 3\,]\) reads \(0=3\), a contradiction. The two lines are
+      parallel.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Eliminating \(\left[\begin{array}{cc|c}1&2&3\\ 2&4&6\end{array}\right]\)
+      yields a bottom row of all zeros. Enter the outcome code.</span></div>
+    <div class="answer-row"><label>outcome</label><input type="text" id="q2b" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">Infinitely many (code \(2\)).</span></p>
+      <p>The row \([\,0\ 0\mid 0\,]\) reads \(0=0\), carrying no information. With a free
+      variable \(y=t\), the solutions are \((3-2t,\,t)\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Explain how each of the three outcomes shows up in the echelon
+      form.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q2c_txt" placeholder="Describe the leading-entry pattern, the 0=c row, and the 0=0 row."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">A leading entry in every variable column gives a unique solution; a row \([\,0\cdots0\mid c\,]\) with \(c\neq0\) gives none; a row of all zeros leaves a free variable, giving infinitely many.</span></p>
+      <p>The staircase of leading entries determines whether each variable is pinned down,
+      contradicted, or free.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 3 -->
+<div class="problem" id="p3">
+  <h2>Problem 3 — Currents in a circuit</h2>
+  <div class="scenario">Kirchhoff's laws give the branch currents of a two-loop circuit:
+  \(\begin{aligned}I_1-I_2-I_3&=0\\ I_1+2I_2&=10\\ 2I_2+3I_3&=9\end{aligned}\)</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">Solve by Gaussian elimination. Enter \(I_1\), \(I_2\), \(I_3\)
+      in amperes.</span></div>
+    <div class="answer-row"><label>\(I_1\)</label><input type="text" id="q3a_1" data-ans="4">
+      <label>\(I_2\)</label><input type="text" id="q3a_2" data-ans="3">
+      <label>\(I_3\)</label><input type="text" id="q3a_3" data-ans="1">
+      <button class="check-btn" onclick="checkNum(['q3a_1','q3a_2','q3a_3'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(I_1=4,\ I_2=3,\ I_3=1\) amperes.</span></p>
+      <p>From row 2, \(I_1=10-2I_2\). Substituting into the junction equation and using row 3
+      leads to \(I_2=3\), \(I_3=1\), \(I_1=4\). The junction law checks: \(4=3+1\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Verify the junction law \(I_1=I_2+I_3\) with your values, and
+      explain what it expresses physically.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q3b_txt" placeholder="What goes in must come out — at a junction."></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(4=3+1\). The current flowing into a junction equals the current flowing out.</span></p>
+      <p>Charge is conserved: it cannot pile up at a junction, so the current entering must
+      equal the total leaving. This is Kirchhoff's current law.</p>
+    </div></details>
+  </div>
+</div>
+
+<!-- PROBLEM 4 -->
+<div class="problem" id="p4">
+  <h2>Problem 4 — Balancing a chemical equation</h2>
+  <div class="scenario">Balance \(a\,\mathrm{Fe}+b\,\mathrm{O_2}\to c\,\mathrm{Fe_2O_3}\) by
+  equating atom counts.</div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(a)</span>
+      <span class="part-text">The atom-count equations are \(a=2c\) (Fe) and \(2b=3c\) (O).
+      Find the smallest whole-number coefficients \(a,b,c\).</span></div>
+    <div class="answer-row"><label>\(a\)</label><input type="text" id="q4a_a" data-ans="4">
+      <label>\(b\)</label><input type="text" id="q4a_b" data-ans="3">
+      <label>\(c\)</label><input type="text" id="q4a_c" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q4a_a','q4a_b','q4a_c'],'q4a_v')">Check</button><span class="verdict" id="q4a_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(4\,\mathrm{Fe}+3\,\mathrm{O_2}\to2\,\mathrm{Fe_2O_3}\).</span></p>
+      <p>Take \(c=t\): then \(a=2t\) and \(2b=3t\), so \(b=\tfrac{3t}{2}\). The smallest whole
+      numbers come from \(t=2\): \(a=4,\ b=3,\ c=2\). Check: Fe \(4=4\), O \(6=6\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Explain why balancing leaves a free parameter, and how you fix
+      it.</span></div>
+    <div class="text-answer"><label>Your answer</label>
+      <textarea id="q4b_txt" placeholder="What does scaling all coefficients do to a balanced equation?"></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">The system is homogeneous, so any scalar multiple of a solution is also a solution; you fix it by choosing the smallest whole numbers.</span></p>
+      <p>Multiplying every coefficient by the same factor keeps the equation balanced, which
+      is the free parameter. Convention selects the smallest positive integers.</p>
+    </div></details>
+  </div>
+</div>
+
+<div class="footer">MATH&amp; 141 &middot; Centralia College &middot; Week 10 Lab</div>
+</div>
+
+<script>
+  const STORE_KEY='precalc_w10_lab';
+  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea'));}
+  function save(){const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
+  function load(){let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
+  function clearData(){try{localStorage.removeItem(STORE_KEY);}catch(e){}allInputs().forEach(i=>{i.value='';i.classList.remove('ok','no');});document.querySelectorAll('.verdict').forEach(v=>{v.textContent='';v.className='verdict';});}
+  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea'))save();});
+  function parseNum(s){if(s==null)return NaN;s=s.trim().replace(/\s+/g,'').replace(/^\$/,'').replace(/,/g,'');if(s==='')return NaN;if(/^[-+]?\d+\/\d+$/.test(s)){const[a,b]=s.split('/').map(Number);return a/b;}return Number(s);}
+  function checkNum(ids,verdictId,tol){const T=(tol==null?1e-9:tol);let allGood=true,anyBlank=false;ids.forEach(id=>{const el=document.getElementById(id);const target=parseNum(el.dataset.ans);const val=parseNum(el.value);el.classList.remove('ok','no');if(isNaN(val)){anyBlank=true;allGood=false;return;}if(Math.abs(val-target)<=T){el.classList.add('ok');}else{el.classList.add('no');allGood=false;}});const v=document.getElementById(verdictId);if(anyBlank){v.textContent='fill in every box';v.className='verdict no';}else if(allGood){v.textContent='✓ correct';v.className='verdict ok';}else{v.textContent='✗ check again';v.className='verdict no';}}
+  load();
+</script>
+</body>
+</html>
