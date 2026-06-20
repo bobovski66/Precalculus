@@ -46,6 +46,9 @@ The organizing idea is to treat **functions as data** — point clouds with a co
     [Lab](https://bobovski66.github.io/Precalculus/labs/Precalc_Week10_Lab.html)  
     Augmented matrices, row operations, Gaussian elimination, and worked physics applications.
 
+### Solutions to Exercises
+[Solutions](https://bobovski66.github.io/Precalculus/notes/Precalc_Solutions_Manual.pdf)
+
 ## Precalculus Interactive Demos
 
 - [Function Fit Lab](https://bobovski66.github.io/Precalculus/demos/function_fit.html)  
