@@ -535,28 +535,28 @@ function latexInnerExpression(p) {
   const b = latexNum(p.b);
   const hPart = Math.abs(p.h) < 1e-10 ? "x" : (p.h > 0 ? `x-${latexNum(p.h)}` : `x+${latexNum(Math.abs(p.h))}`);
   if (Math.abs(p.b - 1) < 1e-10) return hPart;
-  if (Math.abs(p.b + 1) < 1e-10) return `-\left(${hPart}\right)`;
-  return `${b}\left(${hPart}\right)`;
+  if (Math.abs(p.b + 1) < 1e-10) return `-\\left(${hPart}\\right)`;
+  return `${b}\\left(${hPart}\\right)`;
 }
 
 function transformedFormulaLatex(fam, p) {
   const u = latexInnerExpression(p);
   let body;
-  if (fam.id === "linear") body = `\left(${u}\right)`;
-  else if (fam.id === "quadratic") body = `\left(${u}\right)^2`;
-  else if (fam.id === "cubic") body = `\left(${u}\right)^3`;
-  else if (fam.id === "absolute") body = `\left|${u}\right|`;
-  else if (fam.id === "sqrt") body = `\sqrt{${u}}`;
-  else if (fam.id === "cuberoot") body = `\sqrt[3]{${u}}`;
-  else if (fam.id === "reciprocal") body = `\frac{1}{${u}}`;
-  else if (fam.id === "reciprocal2") body = `\frac{1}{\left(${u}\right)^2}`;
+  if (fam.id === "linear") body = `\\left(${u}\\right)`;
+  else if (fam.id === "quadratic") body = `\\left(${u}\\right)^2`;
+  else if (fam.id === "cubic") body = `\\left(${u}\\right)^3`;
+  else if (fam.id === "absolute") body = `\\left|${u}\\right|`;
+  else if (fam.id === "sqrt") body = `\\sqrt{${u}}`;
+  else if (fam.id === "cuberoot") body = `\\sqrt[3]{${u}}`;
+  else if (fam.id === "reciprocal") body = `\\frac{1}{${u}}`;
+  else if (fam.id === "reciprocal2") body = `\\frac{1}{\\left(${u}\\right)^2}`;
   else if (fam.id === "exponential") body = `e^{${u}}`;
-  else if (fam.id === "log") body = `\ln\left(${u}\right)`;
-  else if (fam.id === "sine") body = `\sin\left(${u}\right)`;
-  else if (fam.id === "cosine") body = `\cos\left(${u}\right)`;
-  else if (fam.id === "tangent") body = `\tan\left(${u}\right)`;
-  else if (fam.id === "arctan") body = `\arctan\left(${u}\right)`;
-  else body = `f\left(${u}\right)`;
+  else if (fam.id === "log") body = `\\ln\\left(${u}\\right)`;
+  else if (fam.id === "sine") body = `\\sin\\left(${u}\\right)`;
+  else if (fam.id === "cosine") body = `\\cos\\left(${u}\\right)`;
+  else if (fam.id === "tangent") body = `\\tan\\left(${u}\\right)`;
+  else if (fam.id === "arctan") body = `\\arctan\\left(${u}\\right)`;
+  else body = `f\\left(${u}\\right)`;
 
   let front;
   if (Math.abs(p.A - 1) < 1e-10) front = body;
@@ -568,16 +568,16 @@ function transformedFormulaLatex(fam, p) {
 
 function transformedFormulaText(fam, p) {
   return transformedFormulaLatex(fam, p)
-    .replaceAll("\left", "")
-    .replaceAll("\right", "")
-    .replaceAll("\frac{1}{", "1/(")
-    .replaceAll("\sqrt[3]{", "∛(")
-    .replaceAll("\sqrt{", "√(")
-    .replaceAll("\ln", "ln")
-    .replaceAll("\sin", "sin")
-    .replaceAll("\cos", "cos")
-    .replaceAll("\tan", "tan")
-    .replaceAll("\arctan", "arctan")
+    .replaceAll("\\left", "")
+    .replaceAll("\\right", "")
+    .replaceAll("\\frac{1}{", "1/(")
+    .replaceAll("\\sqrt[3]{", "∛(")
+    .replaceAll("\\sqrt{", "√(")
+    .replaceAll("\\ln", "ln")
+    .replaceAll("\\sin", "sin")
+    .replaceAll("\\cos", "cos")
+    .replaceAll("\\tan", "tan")
+    .replaceAll("\\arctan", "arctan")
     .replaceAll("{", "(")
     .replaceAll("}", ")");
 }
@@ -586,7 +586,7 @@ function updateFormula() {
   const fam = getFamily(familySelect.value);
   const p = currentParams();
   const el = document.getElementById("currentFormula");
-  el.innerHTML = `\(${transformedFormulaLatex(fam, p)}\)`;
+  el.innerHTML = `\\(${transformedFormulaLatex(fam, p)}\\)`;
   if (window.MathJax && MathJax.typesetPromise) {
     MathJax.typesetPromise([el]).catch(() => {});
   }
@@ -618,7 +618,7 @@ function updateMetric() {
 
   document.getElementById("answer").innerHTML =
     `Hidden family: ${target.fam.name}<br>` +
-    `Hidden model: \(${transformedFormulaLatex(target.fam, target.p)}\)<br>` +
+    `Hidden model: \\(${transformedFormulaLatex(target.fam, target.p)}\\)<br>` +
     `A=${nice(target.p.A)}, b=${nice(target.p.b)}, h=${nice(target.p.h)}, k=${nice(target.p.k)}<br>` +
     `Noise floor RMSE ≈ ${nice(targetNoiseFloor())}<br>` +
     `Your RMSE ≈ ${Number.isFinite(r) ? nice(r) : "invalid domain"}`;
@@ -745,6 +745,8 @@ function drawResiduals(fam,p) {
 function typesetStaticMath() {
   if (window.MathJax && MathJax.typesetPromise) {
     MathJax.typesetPromise(document.body ? [document.body] : []).catch(() => {});
+  } else {
+    setTimeout(typesetStaticMath, 100);
   }
 }
 
