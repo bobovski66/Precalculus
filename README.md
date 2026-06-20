@@ -1,6 +1,6 @@
 # Precalculus I
 
-Course materials, interactive demos, and labs for Precalculus I (college algebra) at Centralia College.
+Course materials, interactive demos, and labs for Precalculus I.
 
 The organizing idea is to treat **functions as data** — point clouds with a constraint — and to introduce each function family through data of a characteristic shape.
 
