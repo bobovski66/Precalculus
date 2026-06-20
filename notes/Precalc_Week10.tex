@@ -5,6 +5,11 @@
 
 \chapter{Matrices and Gaussian Elimination}
 
+Last week, we solved systems by writing and rewriting equations. That method is
+honest, but the variable names $x,y,z$ do not really change while we work. What moves
+are the coefficients. A matrix keeps exactly the information that changes and places
+it in a grid where the bookkeeping is easier to control.
+
 Solving a system by elimination, the variable names $x,y,z$ are carried along
 unchanged through every step; only the coefficients move. A matrix strips away the
 names and keeps the numbers in a grid, so the bookkeeping is done on coefficients
@@ -15,7 +20,9 @@ that grid, and the method, applied systematically, is Gaussian elimination.
 
 A linear system is summarized by its coefficients and right-hand sides, arranged in a
 rectangular array. Each row is an equation; each column before the bar is a variable;
-the column after the bar holds the constants.
+the column after the bar holds the constants. The vertical bar is not a new operation;
+it is only a reminder that the right-hand side has been placed next to the
+coefficients.
 
 \begin{definition}{Augmented matrix}
 The \emph{augmented matrix} of a linear system records each equation's coefficients
@@ -39,10 +46,15 @@ nothing is lost, because the column positions remember which variable each numbe
 belongs to.
 \end{keyidea}
 
+For example, the first column above belongs to $x$, the second to $y$, and the third
+to $z$. A zero coefficient would still need to be written as a zero in its column;
+otherwise the alignment of the variables would be lost.
+
 \section{Row Operations}
 
 The three reversible moves on equations, from the previous chapter, become the three
-elementary row operations. Each leaves the solution set unchanged.
+elementary row operations. Each leaves the solution set unchanged. The guiding rule is
+simple: a row is an equation, so a legal row move must be a legal equation move.
 
 \begin{keyidea}
 \textbf{Elementary row operations.}
@@ -66,12 +78,21 @@ cleared to zero. Reading the bottom row gives one variable; reading upward recov
 the rest.
 \end{visual}
 
+This is the same triangular shape as before, but compressed into a table of numbers.
+The work is not conceptually different from elimination by hand; the notation has just
+become more efficient.
+
 \section{Gaussian Elimination}
 
 Gaussian elimination is the disciplined use of row operations to reach echelon form,
 working one column at a time from left to right: use the leading entry of a row to
 clear all entries below it, then move to the next column. Once the staircase is
 complete, back-substitution finishes the solve.
+
+The method is deliberately mechanical. At each stage, choose a leading entry, use it
+to create zeros below it, and then move down and to the right. This regularity is what
+makes the method reliable, especially when a system is too large to solve comfortably
+by informal substitution.
 
 \begin{example}[a full elimination]
 Solve
@@ -103,6 +124,10 @@ row reads $y-2z=-4$, so $y=2$. The top row reads $x+y+z=6$, so $x=1$. The soluti
 $(1,2,3)$, matching the same system solved by hand in the previous chapter.
 \end{example}
 
+The row operations did not solve the system all at once. They prepared the system so
+that the solution could be read from the bottom upward. This is why echelon form is
+the real target of the method.
+
 \begin{keyidea}
 Gaussian elimination reaches echelon form column by column: pick a leading entry,
 clear everything below it, advance. The procedure is mechanical and always
@@ -129,6 +154,9 @@ leaving a free variable, so infinitely many.
         many}, with a free variable.
 \end{itemize}
 \end{keyidea}
+
+The bottom row is often the most revealing row. It either gives the last variable,
+exposes a contradiction, or disappears into the identity $0=0$.
 
 \begin{example}[a system with no solution]
 Eliminating
@@ -159,6 +187,10 @@ top row gives $x=3-2t$. The solution set is $(3-2t,\,t)$, the whole line, as bef
 \end{example}
 
 \section{Applications}
+
+The applications below use the same method, not a new one. The only new step is the
+translation: choose variables, write one linear equation for each constraint, then use
+the matrix method to solve or describe the resulting system.
 
 \subsection{Currents in a circuit}
 
@@ -206,7 +238,7 @@ I_1-I_2-I_3&=0 &&\text{(junction)},\\
 3I_2+4I_3&=10 &&\text{(right loop)}.
 \end{aligned}
 \]
-The augmented matrix and its elimination:
+The augmented matrix and its elimination are
 \[
 \left[\begin{array}{ccc|c}
 1&-1&-1&0\\ 2&3&0&12\\ 0&3&4&10
@@ -226,6 +258,10 @@ $I_3=1$ amperes; the junction law checks, since $3=2+1$.
 \end{example}
 
 \subsection{Balancing a chemical equation}
+
+Balancing a chemical equation is another conservation problem. The number of atoms of
+each element must be the same on both sides. Those conservation statements become a
+linear system for the coefficients in the balanced equation.
 
 \begin{example}[combustion of propane]
 Balance $a\,\mathrm{C_3H_8}+b\,\mathrm{O_2}\to c\,\mathrm{CO_2}+d\,\mathrm{H_2O}$.
@@ -248,6 +284,10 @@ The free parameter is exactly the freedom to scale a balanced equation up or dow
 \end{example}
 
 \subsection{Flow through a road network}
+
+Network-flow problems have the same conservation structure. At each intersection,
+flow in equals flow out. If the data does not determine every road segment uniquely,
+the matrix will reveal that with a free parameter.
 
 \begin{example}[a one-way traffic grid]
 Four one-way streets meet at four intersections $A,B,C,D$, with the unknown segment

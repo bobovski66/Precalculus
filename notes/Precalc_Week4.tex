@@ -5,18 +5,27 @@
 
 \chapter{Rational Functions}
 
-A rational function is a ratio of two polynomials,
+This week takes the polynomial ideas from Week 3 and adds division. A rational
+function is a ratio of two polynomials,
 \[
-f(x)=\frac{p(x)}{q(x)},
+f(x)=\frac{p(x)}{q(x)}.
 \]
-and its graph is governed by the interplay between the two. Where the numerator
-$p$ is zero the function is zero; where the denominator $q$ is zero the function is
-undefined and the graph runs off toward a vertical line. The relative sizes of the
-two degrees decide what happens at the far ends. As with polynomials, the factored
-form of numerator and denominator displays the information that fixes the shape, and
-the leading terms settle the ends.
+Because both the numerator and denominator can have roots, rational functions have
+more visible features than polynomials. Some roots pull the graph down to the
+$x$-axis. Other roots make the formula undefined and force the graph toward a
+vertical line.
+
+The graph is governed by the interplay between numerator and denominator. Where the
+numerator $p$ is zero, the function is zero. Where the denominator $q$ is zero, the
+function is undefined and the graph can run off toward a vertical asymptote. The
+relative sizes of the two degrees decide what happens at the far ends. As with
+polynomials, factored form displays the local features, and leading terms settle the
+end behavior.
 
 \section{Zeros and Vertical Asymptotes}
+
+The first features to locate are zeros and vertical asymptotes. Both come from roots,
+but they come from different parts of the fraction.
 
 The numerator and denominator each contribute their own roots, and the two kinds
 behave oppositely. A root of the numerator (that is not also a root of the
@@ -58,6 +67,11 @@ cancellation the function is $f(x)=\dfrac{x-2}{x-3}$ with a genuine zero at $x=2
 a vertical asymptote at $x=3$.
 \end{example}
 
+The common factor is important because it tells us that the original formula was
+undefined at $x=-1$, even though the simplified formula has the same values
+elsewhere. Graphically, that leaves a missing point rather than a whole vertical
+asymptote.
+
 \begin{pitfall}
 A factor common to numerator and denominator does not create an asymptote. It
 cancels, leaving a hole, a single point removed from the graph. Always reduce to
@@ -66,6 +80,11 @@ are the asymptotes, the leftover numerator roots are the zeros.
 \end{pitfall}
 
 \subsection{Sign analysis across the features}
+
+Once zeros and vertical asymptotes are marked, the graph is broken into intervals.
+On each interval the function is continuous and keeps one sign. This means the same
+sign-chart idea from polynomials still works, but now the feature points include both
+zeros and vertical asymptotes.
 
 Zeros and vertical asymptotes are the only places a rational function in lowest terms
 can change sign, for the same reason as with polynomials: the value can switch sign
@@ -92,7 +111,16 @@ The graph is above the axis left of $2$, dips below between $2$ and $3$, and ret
 above the axis past the asymptote at $3$.
 \end{example}
 
+This chart gives the side of the $x$-axis but not the exact height of the graph. Near
+$x=3$, the asymptote supplies the missing information: the curve must escape upward
+or downward instead of passing through the vertical line.
+
 \section{End Behavior: Comparing Degrees}
+
+Zeros and vertical asymptotes describe what happens near special finite inputs. End
+behavior asks a different question: what does the graph do far away from the origin?
+For rational functions, the answer comes from comparing the size of the numerator to
+the size of the denominator.
 
 Far from the origin the leading terms of numerator and denominator dominate all
 others, so the end behavior of $p(x)/q(x)$ matches that of the ratio of leading
@@ -118,6 +146,10 @@ $y=\tfrac{3}{2}$, the ratio of the leading coefficients $3$ and $2$. The lower-d
 terms affect the middle of the graph but vanish in the comparison at the ends.
 \end{example}
 
+The horizontal asymptote is not found by plugging in a convenient value of $x$. It is
+a statement about what the graph approaches when $x$ moves far to the left or far to
+the right.
+
 \begin{example}[horizontal asymptote at zero]
 For $f(x)=\dfrac{4x+1}{x^2-9}$ the numerator degree $1$ is below the denominator
 degree $2$, so the ends approach $y=0$. The denominator factors as $(x-3)(x+3)$,
@@ -126,6 +158,11 @@ $x=-\tfrac14$ is the only zero.
 \end{example}
 
 \section{Improper Rational Functions and Long Division}
+
+When the numerator degree is smaller than the denominator degree, the fraction itself
+shrinks toward zero at the ends. When the degrees are equal, the ratio of leading
+coefficients gives a horizontal asymptote. The remaining case is different: the
+numerator is at least as large in degree as the denominator.
 
 When the numerator degree is at least the denominator degree, the function is
 \emph{improper}, and the honest description of its ends comes from polynomial long
@@ -136,7 +173,8 @@ proper remainder term:
 \]
 Far from the origin the remainder term $R(x)/q(x)$ is proper, so it decays to zero,
 and the graph approaches the polynomial $Q(x)$. The quotient $Q$ is the end-behavior
-curve.
+curve. This is the rational-function version of listening to the dominant part of
+the formula at large scale.
 
 \begin{keyidea}
 For an improper rational function, long division gives
@@ -149,7 +187,8 @@ quotient is a line, and that line is the slant asymptote.
 Analyze $f(x)=\dfrac{x^2+x-2}{x-3}$.
 
 The numerator degree $2$ exceeds the denominator degree $1$ by one, so expect a
-slant asymptote. Divide $x^2+x-2$ by $x-3$:
+slant asymptote. The division will separate the function into a line plus a leftover
+fraction that becomes small at the ends. Divide $x^2+x-2$ by $x-3$:
 \[
 \begin{array}{r}
 x+4\phantom{xxxxx}\\
@@ -210,10 +249,19 @@ at the ends. The only zero is $x=0$, and the denominator $x^2+1$ is never zero, 
 there are no vertical asymptotes.
 \end{example}
 
+This example is useful because it separates two ideas that students often connect too
+strongly. A rational function can have a slant asymptote without having any vertical
+asymptotes. Vertical asymptotes come from real roots of the denominator; slant
+asymptotes come from degree comparison and division.
+
 \section{Assembling the Graph}
 
-A faithful sketch of a rational function in lowest terms combines four readings, each
-taken from the factored form or the long division.
+A rational graph can look complicated because different pieces of information are
+happening at once: zeros, holes, vertical asymptotes, end behavior, and signs. The
+way to make the sketch manageable is to read these features one at a time.
+
+A faithful sketch of a rational function in lowest terms combines several readings,
+each taken from the factored form or the long division.
 
 \begin{keyidea}
 \textbf{Sketching a rational function.}
@@ -232,6 +280,10 @@ taken from the factored form or the long division.
 \begin{example}[a complete analysis]
 Analyze $f(x)=\dfrac{x^2-1}{x^2-4}$.
 
+We will read the function in the standard order: reduce first, then locate zeros and
+vertical asymptotes, then determine end behavior, and finally use signs to guide the
+sketch.
+
 \emph{Reduce.} Numerator $(x-1)(x+1)$, denominator $(x-2)(x+2)$; no common factors,
 so no holes.
 
@@ -246,6 +298,11 @@ asymptote is $y=1$.
 testing one point in each places the curve above the axis on the outer intervals
 (approaching $y=1$), with the expected escapes beside $x=\pm2$.
 \end{example}
+
+The sketch is not produced by guessing the curve all at once. It is assembled from
+features. The asymptotes form a frame, the zeros pin the curve to the axis, the
+horizontal asymptote controls the outer branches, and the sign information keeps each
+piece on the correct side of the axis.
 
 \begin{center}
 \begin{tikzpicture}[xscale=0.62,yscale=0.34]
@@ -282,14 +339,20 @@ degree ratio reports the end behavior. Compare how a numerator root drives the c
 to the axis while a denominator root drives it to a vertical
 line.}{https://bobovski66.github.io/Precalculus/demos/rational\_functions.html}
 
+Use the lab to practice reading the graph as a set of features rather than as one
+large drawing problem. Move one zero or one asymptote at a time and watch which part
+of the graph responds.
+
 \section{Exercises}
 
 \begin{exercises}
 \item For $f(x)=\dfrac{(x-4)(x+2)}{(x-1)(x+5)}$, state the zeros and the vertical
 asymptotes, and confirm there are no common factors.
 
-\item Identify the hole, the zeros, and the vertical asymptotes of
-$f(x)=\dfrac{(x-3)(x+2)}{(x+2)(x-5)}$ after reducing to lowest terms.
+\item Identify the hole, the zeros, and the vertical asymptotes after reducing to lowest terms:
+\[
+f(x)=\frac{(x-3)(x+2)}{(x+2)(x-5)}.
+\]
 
 \item Explain, in terms of (small)$/$(ordinary) versus (ordinary)$/$(small), why a
 numerator root produces a zero while a denominator root produces a vertical

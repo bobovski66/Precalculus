@@ -5,22 +5,28 @@
 
 \chapter{Lines and Parabolas}
 
-The two simplest non-constant functions are the line and the parabola, and each
-carries a geometric meaning that the algebra alone hides. A line records a fixed
-rate of change: every step to the right raises the output by the same amount, which
-is the statement that the right triangles riding along the line are all similar. A
-parabola records a focusing property: rays arriving parallel to its axis converge to
-a single point.
+This week studies the two simplest non-constant function shapes: lines and parabolas.
+They are familiar from algebra, but the goal here is to see the geometry that the
+formulas are recording.
+
+A line records a fixed rate of change. Every step to the right raises or lowers the
+output by a constant amount, and geometrically that means the right triangles riding
+along the line are all similar. A parabola records a different kind of structure: it
+is the curve associated with a focus, an axis, and a symmetry that makes parallel rays
+converge to a single point. These two shapes become the basic models for constant
+change and changing change.
 
 \section{Lines as Families of Similar Triangles}
 
-Take any two points on a non-vertical line and drop the right triangle between them:
-run horizontally, then rise vertically to meet the line. Choose a different pair of
-points and build the same triangle. The two triangles have the same angles, because
-the line meets every horizontal at one fixed angle, so they are similar. Similar
-triangles have proportional sides, which means the ratio of rise to run is identical
-no matter which pair of points generated it. That common ratio is the slope.
+Slope is often introduced as a formula, but the reason the formula works is
+geometric. Take any two points on a non-vertical line and drop the right triangle
+between them: run horizontally, then rise vertically to meet the line. Choose a
+different pair of points and build the same kind of triangle.
 
+The two triangles have the same angles, because the line meets every horizontal at
+one fixed angle. Therefore the triangles are similar. Similar triangles have
+proportional sides, so the ratio of rise to run is identical no matter which pair of
+points generated it. That common ratio is the slope.
 \begin{definition}{Slope}
 For two points $(x_1,y_1)$ and $(x_2,y_2)$ with $x_1\neq x_2$, the \emph{slope} of
 the line through them is
@@ -55,10 +61,10 @@ shape of the triangle never changes, only its size.
 \end{tikzpicture}
 \end{center}
 
-The number $b$ enters as the height of the line where it crosses the $y$-axis, the
+Once the slope is known, the line's tilt is known, but the line can still slide up
+or down. The number $b$ records where that tilted line crosses the $y$-axis, the
 output at input $0$. The slope sets the tilt; the intercept sets the height. Together
 they fix the line completely, which is the content of the slope-intercept form.
-
 \begin{keyidea}
 The slope-intercept form of a line is
 \[
@@ -74,6 +80,9 @@ of $3$. It crosses the $y$-axis at $(0,-2)$. From the intercept, stepping right 
 and up $3$ reaches $(4,1)$, a second point on the line.
 \end{example}
 
+The coefficient $\tfrac34$ is therefore not just a number attached to $x$. It is the
+shape of every rise-run triangle on the line.
+
 \begin{pitfall}
 Slope is rise over run, not run over rise. The line $f(x)=\tfrac34x-2$ climbs $3$ for
 every $4$ across, a gentle rise. Inverting the ratio to $\tfrac43$ describes a
@@ -83,17 +92,21 @@ steeper line and a different function.
 \section{Two Points Determine a Line}
 
 A point cloud of exactly two points (with different $x$-coordinates) determines one
-line and only one. The construction runs in three stages: compute the slope from the
-two points, write the point-slope form, then rearrange to slope-intercept.
+line and only one. This is the linear version of fitting a model to data: there are
+two parameters, $m$ and $b$, and two points give enough information to determine them.
 
+The construction runs in three stages. First compute the slope from the two points.
+Then use one of the points to anchor the line in place. Finally rearrange the result
+to slope-intercept form, where the slope and intercept can be read directly.
 The slope comes straight from the definition. With slope and one known point
 $(x_1,y_1)$ in hand, every other point $(x,y)$ on the line must produce that same
 slope against $(x_1,y_1)$:
 \[
 \frac{y-y_1}{x-x_1}=m.
 \]
-Clearing the denominator gives the point-slope form.
-
+Clearing the denominator gives the point-slope form. This form is useful because it
+keeps visible the two pieces of information we actually know: one point and one
+slope.
 \begin{keyidea}
 The point-slope form of the line through $(x_1,y_1)$ with slope $m$ is
 \[
@@ -104,6 +117,9 @@ Solving for $y$ converts it to slope-intercept form $y=mx+b$.
 
 \begin{example}[from two points to $f(x)=mx+b$]
 Find the line through $(2,1)$ and $(6,4)$.
+
+We will separate the work into slope, point-slope form, and slope-intercept form.
+Keeping those stages separate makes the method easier to check.
 
 \emph{Slope.} $\displaystyle m=\frac{4-1}{6-2}=\frac{3}{4}.$
 
@@ -145,20 +161,24 @@ $x_1-x_2$ flips the sign and tilts the line the wrong way.
 
 \begin{example}[a horizontal and a vertical case]
 Through $(1,3)$ and $(5,3)$ the slope is $\tfrac{3-3}{5-1}=0$, giving $f(x)=3$, a
-horizontal line. Through $(2,1)$ and $(2,7)$ the run is $5-5=0$; the slope formula
-divides by zero. The relation $x=2$ is a vertical line, which fails the vertical line
-test and so is not a function.
+horizontal line. A zero slope means the output does not change as the input changes.
+
+Through $(2,1)$ and $(2,7)$ the run is $2-2=0$, so the slope formula divides by
+zero. The relation $x=2$ is a vertical line, which fails the vertical line test and
+so is not a function. This is not a line with an unusual slope; it is a relation that
+cannot be written as $y=f(x)$.
 \end{example}
 
 \section{The Parabola as a Focusing Curve}
 
-A parabola is not merely a bent line. It is the curve defined by a focusing property:
-every ray traveling parallel to its axis reflects off the curve and passes through a
-single point, the focus. This is why headlight reflectors, satellite dishes, and
-solar collectors are built as parabolas; the geometry concentrates parallel incoming
-energy at one point, or, run in reverse, sends energy from the focus out as a
-parallel beam.
+A parabola is not merely a bent line. It is the next basic shape after a line, and
+its geometry is richer. Algebraically, it comes from a quadratic function. Geometrically,
+it is the curve defined by a focusing property: every ray traveling parallel to its
+axis reflects off the curve and passes through a single point, the focus.
 
+This is why headlight reflectors, satellite dishes, and solar collectors are built
+using parabolic geometry. The same curve can concentrate parallel incoming energy at
+one point, or, run in reverse, send energy from the focus out as a parallel beam.
 \begin{visual}
 Parallel rays strike the inside of a parabola and all bounce to the focus. No other
 curve collects parallel rays to a single point. The algebraic parabola $y=ax^2$ and
@@ -180,9 +200,9 @@ the optical reflector are the same object viewed two ways.
 \end{tikzpicture}
 \end{center}
 
-The focusing property has an equivalent point-and-line description, which is the
-formal definition of the parabola.
-
+The focusing property has an equivalent point-and-line description. This definition
+looks different from the optical picture, but it describes the same curve and gives a
+clean way to construct it from distances.
 \begin{definition}{Parabola}
 Fix a point $F$ (the \emph{focus}) and a line $\ell$ not through $F$ (the
 \emph{directrix}). The \emph{parabola} is the set of all points equidistant from $F$
@@ -190,9 +210,10 @@ and $\ell$.
 \end{definition}
 
 So a point and a line determine a parabola through the equidistance condition, just
-as two points determine a line. The vertex sits halfway between focus and directrix,
-and the axis is the perpendicular from the focus to the directrix.
-
+as two points determine a line. A point $P$ lies on the parabola exactly when its
+distance to the focus equals its perpendicular distance to the directrix. The vertex
+sits halfway between focus and directrix, and the axis is the perpendicular line from
+the focus to the directrix.
 \begin{center}
 \begin{tikzpicture}[scale=1.1]
   \draw[pcblue,thick,domain=-2:2,smooth,samples=80] plot (\x,{0.5*\x*\x});
@@ -212,13 +233,14 @@ and the axis is the perpendicular from the focus to the directrix.
 
 A vertical-axis parabola is the graph of a quadratic function
 \[
-f(x)=ax^2+bx+c,\qquad a\neq 0,
+f(x)=ax^2+bx+c,\qquad a\neq 0.
 \]
-which carries three parameters $a$, $b$, $c$. Three points with distinct
-$x$-coordinates impose three conditions, and solving the resulting system fixes the
-three parameters uniquely. So three points determine the quadratic, in the same
-sense that two points determine the line.
+The three numbers $a$, $b$, and $c$ control the parabola, so three pieces of
+independent information are needed to determine them.
 
+Three points with distinct $x$-coordinates give three equations. Solving that system
+fixes the three parameters uniquely. In this sense, three points determine a
+vertical-axis parabola in the same way that two points determine a line.
 \begin{keyidea}
 Two points (distinct $x$) determine a unique line, $f(x)=mx+b$, with two parameters.
 Three points (distinct $x$) determine a unique vertical-axis parabola,
@@ -229,7 +251,8 @@ parameters.
 \begin{example}[fitting a parabola to three points]
 Find the quadratic through $(0,1)$, $(1,0)$, and $(2,3)$.
 
-Substitute each point into $f(x)=ax^2+bx+c$:
+The unknowns are $a$, $b$, and $c$. Each point gives one equation by substituting its
+$x$- and $y$-coordinates into $f(x)=ax^2+bx+c$:
 \[
 \begin{aligned}
 (0,1):&\quad c=1,\\
@@ -245,6 +268,10 @@ f(x)=2x^2-3x+1.
 Check $(2,3)$: $2\cdot4-6+1=3$.
 \end{example}
 
+This example is also a reminder that fitting a quadratic is a linear algebra problem
+in disguise. The equations are linear in the unknown parameters $a$, $b$, and $c$,
+even though the resulting function is quadratic in $x$.
+
 \begin{pitfall}
 The three points must have distinct $x$-coordinates. Two points sharing an
 $x$-value would force two outputs at one input, violating the function condition,
@@ -253,9 +280,9 @@ and the system would have no solution.
 
 \section{Three Forms of a Quadratic}
 
-A quadratic function can be written three ways, each exposing different information.
-The forms describe the same parabola; converting among them is routine algebra.
-
+A quadratic function can be written three common ways. The forms describe the same
+parabola, but each one makes different information easy to see. Part of learning
+quadratics is learning which form to use for the question being asked.
 \begin{center}
 \renewcommand{\arraystretch}{1.6}
 \begin{tabular}{@{}lll@{}}
@@ -269,11 +296,11 @@ Vertex        & $f(x)=a(x-h)^2+k$       & the vertex $(h,k)$\\
 \end{tabular}
 \end{center}
 
-In all three the same $a$ controls the opening: upward for $a>0$, downward for
+In all three forms the same $a$ controls the opening: upward for $a>0$, downward for
 $a<0$, and steeper as $|a|$ grows. The vertex form is the transformation form from
-Week 1 with parent $f(x)=x^2$: $h$ shifts horizontally, $k$ shifts vertically, $a$
-scales and possibly reflects.
-
+Week 1 with parent $f(x)=x^2$: $h$ shifts horizontally, $k$ shifts vertically, and
+$a$ scales and possibly reflects. The same parabola is being viewed through three
+different algebraic windows.
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
   \draw[->] (-3.3,0) -- (3.3,0) node[right] {$x$};
@@ -290,9 +317,11 @@ scales and possibly reflects.
 \subsection{Standard to vertex: completing the square}
 
 Completing the square rewrites $ax^2+bx+c$ as $a(x-h)^2+k$ by reconstructing the
-perfect square hidden in the first two terms. Factor $a$ from the $x$-terms, add and
-subtract the square that completes the bracket, then collect.
+perfect square hidden in the first two terms. The goal is not to change the function,
+but to reveal its vertex.
 
+The procedure is systematic: factor $a$ from the $x$-terms, add and subtract the
+square that completes the bracket, then collect the constant terms.
 \begin{example}[completing the square]
 Convert $f(x)=2x^2-12x+19$ to vertex form.
 
@@ -311,6 +340,10 @@ f(x)=2(x-3)^2-18+19=2(x-3)^2+1.
 The vertex is $(3,1)$ and the parabola opens upward, stretched by $2$.
 \end{example}
 
+The completed square has moved the important geometry to the surface. In
+$2(x-3)^2+1$, the numbers $3$ and $1$ are no longer hidden inside the expanded
+quadratic; they are the coordinates of the vertex.
+
 The vertex coordinates can also be read off a formula that completing the square
 produces in general:
 \[
@@ -324,15 +357,16 @@ vertex is $(3,1)$, agreeing with the completed-square result.
 
 \subsection{Standard to factored: the roots}
 
-The factored form exposes the $x$-intercepts, the inputs where $f(x)=0$. They come
-from factoring directly when possible, or from the quadratic formula in general:
+The factored form exposes the $x$-intercepts, the inputs where $f(x)=0$. These are
+also called roots or zeros. They come from factoring directly when possible, or from
+the quadratic formula in general:
 \[
 r_{1,2}=\frac{-b\pm\sqrt{b^2-4ac}}{2a}.
 \]
 The quantity under the root, $b^2-4ac$, is the \emph{discriminant}. It records how
-many real roots exist: two when positive, one (a doubled root at the vertex) when
-zero, none when negative.
-
+many real roots exist before we even compute them: two when positive, one (a doubled
+root at the vertex) when zero, and none when negative. Geometrically, it tells us
+whether the parabola crosses the $x$-axis twice, touches it once, or misses it.
 \begin{example}[standard to factored]
 Factor $f(x)=x^2-x-6$. Two numbers multiplying to $-6$ and adding to $-1$ are $-3$
 and $2$, so
@@ -354,9 +388,10 @@ $2x^2-3x+1$.
 
 \subsection{Relations among the parameters}
 
-The three forms share structure, and a few relations connect their parameters
-directly.
-
+The three forms are not separate facts to memorize. They share structure, and a few
+relations connect their parameters directly. These relations are useful because they
+let us move from one piece of information to another without always expanding or
+factoring from scratch.
 \begin{keyidea}
 For $f(x)=ax^2+bx+c=a(x-r_1)(x-r_2)=a(x-h)^2+k$:
 \begin{itemize}\setlength{\itemsep}{2pt}
@@ -375,6 +410,10 @@ vertex lies there. Then $k=f\!\left(\tfrac12\right)=\left(\tfrac12-3\right)
 \left(\tfrac12+2\right)=\left(-\tfrac52\right)\!\left(\tfrac52\right)=-\tfrac{25}{4}$.
 The vertex is $\left(\tfrac12,-\tfrac{25}{4}\right)$.
 \end{example}
+
+The averaging step works because the two roots lie symmetrically on either side of
+the axis. Once the axis is known, evaluating the function there gives the height of
+the vertex.
 
 \begin{visual}
 A parabola is symmetric about the vertical line through its vertex. The two roots sit

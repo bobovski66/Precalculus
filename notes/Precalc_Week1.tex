@@ -5,18 +5,34 @@
 
 \chapter{Functions}
 
+This week begins with one of the central habits of precalculus: looking at a set of
+points and asking whether there is a rule behind them. Sometimes the points are just
+a collection of measurements. Sometimes they line up in a pattern clearly enough that
+a formula can describe them. The vocabulary of \emph{relations} and \emph{functions}
+gives us a way to separate those two situations.
+
 A relation is a collection of points. A function is a relation in which each input
-determines a single output, which is precisely the condition that lets you predict.
-Data arrives as a scatter of points, and the work of the subject is to find a
-predictable rule running through it: a function fit to the cloud, reshaped from a
-known curve through $A\,f\!\big(b(x-h)\big)+k$.
+determines a single output. That condition matters because it is the condition that
+makes prediction possible: once the input is known, the output is determined. Much of
+this course is about finding predictable rules in data, recognizing familiar shapes,
+and then reshaping those familiar functions into models of the form
+\[
+  A\,f\!\big(b(x-h)\big)+k.
+\]
+The algebra is important, but the guiding question is geometric: what shape are we
+looking at, and how has it been moved?
 
 \section{Relations as Point Clouds}
 
-Record, for every student in a class, their height and their shoe size. Each
-student becomes a pair of numbers: an input (height) and an output (shoe size).
-Plotted, these pairs form a cloud of dots. The cloud is the raw object of study. It
-carries no formula and no curve; it is the data, exactly as measured.
+Before we start with formulas, it helps to think about data. Record, for every
+student in a class, their height and their shoe size. Each student becomes a pair of
+numbers: an input (height) and an output (shoe size). Plotted, these pairs form a
+cloud of dots.
+
+At this stage there is no formula yet. The cloud is simply the information we have.
+It may suggest a pattern, or it may not. A relation is the mathematical object that
+lets us talk about the cloud before deciding whether it deserves to be called a
+function.
 
 \begin{definition}{Relation}
 A \emph{relation} is any set of ordered pairs $(x,y)$. The set of all first
@@ -25,7 +41,8 @@ coordinates is the \emph{domain}; the set of all second coordinates is the
 \end{definition}
 
 A relation can be specified by a list, a table, an equation, or a graph. These are
-four ways of naming the same set of pairs. The list
+four ways of naming the same set of pairs, and moving among those forms is one of the
+basic skills of the course. The list
 \[
 \{(1,2),\ (3,5),\ (3,-1),\ (4,0)\}
 \]
@@ -64,13 +81,19 @@ $\{0,1,4\}$. The value $4$ appears twice in the range but is listed once; a rang
 is a set, so repeats collapse.
 \end{example}
 
+Notice that the example did not require a formula. A finite list of points is already
+a relation. The formula enters only when we try to describe many points at once, or
+when we want to predict values that were not listed.
+
 \section{When a Relation Is a Function}
 
-Most clouds are unstructured. A few satisfy a strong condition: each input is paired
-with exactly one output. That condition is what makes prediction possible. Given the
-input, there is one permitted output, so the output can be stated. If two outputs
-share an input, prediction fails, because the input no longer selects a single
-value.
+Now we add the extra condition that makes a relation predictable. A general relation
+may pair the same input with several outputs. That is allowed for a relation, but it
+is not allowed for a function.
+
+A function is stricter. Once an input has been chosen, the function gives one output
+and only one output. This is the reason functions are useful as models: they let us
+ask, ``What happens when the input is this?'' and expect a definite answer.
 
 \begin{definition}{Function}
 A \emph{function} is a relation in which each input is paired with exactly one
@@ -80,7 +103,8 @@ output. Equivalently, no two distinct pairs share the same first coordinate.
 The relation $\{(1,2),(3,5),(3,-1),(4,0)\}$ is not a function: the input $3$ is
 paired with both $5$ and $-1$. Deleting either pair makes it a function. The circle
 $x^2+y^2=1$ is not a function either; the input $x=0$ yields both $y=1$ and $y=-1$.
-
+The issue is not whether the relation is interesting or geometric. The issue is
+whether each input selects a single output.
 \begin{keyidea}
 A function assigns to each input exactly one output. The domain is the set of inputs
 for which the assignment is defined; for each such input the output is determined.
@@ -88,8 +112,8 @@ for which the assignment is defined; for each such input the output is determine
 
 When a function is given by a rule, $f(x)$ denotes the output at input $x$. The
 symbol $f(2)$ means the output of $f$ at input $2$, a single number. It does not mean
-$f$ multiplied by $2$.
-
+$f$ multiplied by $2$. This notation is compact, but it is also literal: whatever is
+inside the parentheses is the input being fed into the rule.
 \begin{example}[evaluating a function]
 Let $f(x)=x^2-3x+1$. Then
 \[
@@ -99,6 +123,10 @@ And $f(a+1)=(a+1)^2-3(a+1)+1=a^2-a-1$ after expanding. Evaluating at an expressi
 means substituting the entire expression for $x$.
 \end{example}
 
+The last part is the one to practice slowly. The input is not just the symbol $a$;
+the input is the whole expression $a+1$. Parentheses protect that input while the
+function rule acts on it.
+
 \begin{pitfall}
 $f(a+b)$ is almost never $f(a)+f(b)$. For $f(x)=x^2$, $f(1+2)=f(3)=9$, while
 $f(1)+f(2)=1+4=5$. The function acts on the entire input at once, not on its parts
@@ -107,10 +135,11 @@ separately.
 
 \subsection{The Vertical Line Test}
 
-The function property has a graphical reading. ``Each input gives one output'' means
-that above any point on the $x$-axis the graph has at most one point. A vertical line
-is the set of points sharing one $x$-value, which gives the test directly.
-
+The function property also has a graphical reading. A graph is made of points, and
+points with the same $x$-coordinate lie vertically above one another. So the statement
+``each input gives one output'' means that above any point on the $x$-axis the graph
+has at most one point. A vertical line is exactly the set of points sharing one
+$x$-value, which gives the test directly.
 \begin{keyidea}
 \emph{Vertical line test.} A graph represents a function if and only if no vertical
 line crosses it more than once.
@@ -148,11 +177,15 @@ $x=1$ hits it at $(1,1)$ and $(1,-1)$, so it is not a function.
 
 \section{Fitting a Function to a Cloud}
 
-The two ideas now meet. Real data forms a point cloud with noise; it is almost never
-an exact function. A function can nonetheless be laid through the cloud as a
-\emph{model}: a predictable rule that follows the trend closely enough to forecast,
-summarize, and reason about the data.
+The two ideas now meet. Real data usually forms a point cloud with noise; it is
+almost never an exact function. Two people with the same height may have different
+shoe sizes, and repeated measurements of the same process may not agree perfectly.
+That does not make functions useless. It means we use them carefully.
 
+A function can be laid through the cloud as a \emph{model}: a predictable rule that
+follows the trend closely enough to summarize the data and make reasonable forecasts.
+The model is not a claim that the data points magically lie on a perfect curve. It is
+a controlled simplification, chosen because it captures the main pattern.
 \begin{keyidea}
 A point cloud is the data. A function fit through it is a \emph{model}. The model is
 not the data; it is the predictable rule chosen to represent the data so that one can
@@ -161,9 +194,12 @@ compute and forecast with it.
 
 The first decision is the \emph{shape}. A cloud rising in a straight band calls for a
 linear model. A cloud curving upward like a bowl suggests a parabola. A cloud that
-climbs quickly and then levels off suggests a square-root or logarithmic shape. The
-catalog of basic shapes is the library of \emph{parent functions}, and each can be
-reshaped to fit by the four operations that follow.
+climbs quickly and then levels off suggests a square-root or logarithmic shape. This
+is why we build a catalog of \emph{parent functions}. They are the basic shapes we
+learn to recognize before the algebra becomes complicated.
+
+Once the shape has been chosen, the remaining work is to move and resize it. That is
+where transformations enter.
 
 \demo{A hidden transformed parent function generates a noisy point cloud. Identify
 the parent-function family, then tune $y=A\,f(b(x-h))+k$ until the curve threads the
@@ -181,13 +217,19 @@ cloud.
 
 \section{Transformations: Bending One Curve into Another}
 
+So far, a function has been a rule that assigns one output to each input. Now we use
+functions as shapes. The point is not only to evaluate a formula, but to understand
+how changes in the formula move the graph.
+
 Every function in the library can be reshaped by four operations, all captured in a
 single expression. Given a parent function $f$, form
 \[
 g(x)=A\,f\!\big(b(x-h)\big)+k.
 \]
-Each constant controls one geometric action. Fitting reduces to reading a cloud and
-setting these four numbers.
+Each constant controls one geometric action. When we fit a transformed parent
+function to data, we are usually not inventing a new formula from nothing. We choose
+the parent shape first, then use $A$, $b$, $h$, and $k$ to move and resize it until it
+matches the cloud reasonably well. The constants become geometric controls.
 
 \begin{keyidea}
 \textbf{The four constants of} $\;g(x)=A\,f\!\big(b(x-h)\big)+k$.
@@ -205,12 +247,15 @@ setting these four numbers.
 \subsection{Outside versus inside}
 
 The reliable bookkeeping is the outside/inside rule. Constants applied \emph{outside}
-$f$ ($A$ and $k$) act on the output, so they move the graph \emph{vertically} and
-behave as expected: $+k$ raises it, $A$ scales its height. Constants applied
-\emph{inside} $f$ ($b$ and $h$) act on the input, so they move the graph
-\emph{horizontally} and behave in reverse: $x-h$ shifts \emph{right} by $h$, and
-multiplying the input by $b$ \emph{compresses} by $b$.
+$f$ ($A$ and $k$) act on the output, so they move the graph \emph{vertically}. These
+usually behave the way the notation suggests: $+k$ raises the graph, and $A$ scales
+its height.
 
+Constants applied \emph{inside} $f$ ($b$ and $h$) act on the input before the parent
+function sees it. Because they change the input, they move the graph
+\emph{horizontally}, and the direction can feel backwards at first: $x-h$ shifts
+\emph{right} by $h$, and multiplying the input by $b$ compresses the graph
+horizontally by a factor of $1/|b|$.
 \begin{visual}
 Outside changes act on the picture after it is drawn: raise it, scale its height.
 Inside changes act on the input before $f$ receives it, so they warp the horizontal
@@ -253,6 +298,10 @@ $(0,0)$; the transformed curve begins at $(h,k)=(1,4)$, since the inside is zero
 $x=1$ and the $+k$ raises the value to $4$.
 \end{example}
 
+The useful habit is to look for a landmark point on the parent graph, such as a
+vertex, corner, endpoint, or intercept. Transform that point first. Once a few
+landmarks are in place, the rest of the graph is much easier to sketch.
+
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
   \draw[->] (-0.5,0) -- (6,0) node[right] {$x$};
@@ -268,12 +317,12 @@ $x=1$ and the $+k$ raises the value to $4$.
 
 \subsection{Order of operations on the graph}
 
-When several transformations combine, the correct order mirrors the evaluation of
-$g(x)$ at a number: work from the input outward. Apply the inside first (horizontal:
-the $b$ compression, then the $h$ shift), then the outside (vertical: the $A$
-stretch or reflection, then the $k$ shift). Following one landmark point of the
-parent through each step keeps the order honest.
-
+When several transformations combine, the safest method is to follow one point on
+the graph. The order mirrors the evaluation of $g(x)$ at a number: work from the
+input outward. Apply the inside first (horizontal: the $b$ compression, then the $h$
+shift), then the outside (vertical: the $A$ stretch or reflection, then the $k$
+shift). Following one landmark point of the parent through each step keeps the order
+honest and prevents the horizontal changes from being applied backwards.
 \begin{example}[tracking a point]
 Take $f(x)=\sqrt{x}$ and the landmark $(4,2)$ on it. Apply
 $g(x)=3\sqrt{2(x-1)}+4$ to that point's coordinates:
@@ -294,9 +343,11 @@ $h$ matches the algebra of $b(x-h)$; reversing those two steps misplaces the poi
 
 \section{The Library of Parent Functions}
 
-Fitting is limited by the shapes one knows. The following parents recur throughout
-the course; their graphs should be memorized well enough to recognize in a cloud.
-
+Fitting is limited by the shapes one knows. The following parent functions recur
+throughout the course. The goal is not to memorize them as isolated formulas, but to
+recognize their visual behavior: straight, bowl-shaped, V-shaped, S-shaped,
+flattening, branching, or rapidly growing. Once the rough shape is recognized, the
+transformation parameters can do the more precise fitting.
 \begin{center}
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{@{}lll@{}}
@@ -345,6 +396,9 @@ A cloud lies entirely in the first quadrant, rising steeply near zero and then
 bending to a gentle climb. Among the parents, only $\sqrt{x}$ has this steep-then-
 gentle profile beginning at the origin. Start from $\sqrt{x}$ and fit $A,b,h,k$.
 \end{example}
+
+At this stage, a good first guess is more valuable than a perfect answer. Choose the
+parent family from the overall shape, then adjust the constants to improve the fit.
 
 \section{Exercises}
 

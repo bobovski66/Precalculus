@@ -5,12 +5,18 @@
 
 \chapter{Polynomials and Their Shape}
 
-A polynomial of high degree looks intimidating in expanded form, a long sum of
-powers with no obvious shape. The global shape of its graph is nonetheless forced by
-a small amount of local data: how the function behaves at the far left and far right,
-and what happens at each root. The factored form displays this data. Each factor
-names a root, the exponent on that factor governs whether the graph crosses the axis
-or turns back from it, and the leading term governs both ends.
+In the first two weeks we studied functions by looking for shape: lines have a fixed
+rate of change, parabolas have a vertex and symmetry, and transformations move known
+parent graphs into new positions. This week extends that same way of thinking to
+polynomials of higher degree.
+
+A polynomial of high degree can look intimidating in expanded form, just a long sum
+of powers with no obvious shape. The main point of the week is that the graph is not
+as mysterious as it first appears. A small amount of information controls the rough
+shape: what the graph does at the far left and far right, and what happens at each
+root. The factored form displays this information. Each factor names a root, the
+exponent on that factor governs whether the graph crosses the axis or turns back
+from it, and the leading term governs both ends.
 
 \section{What a Polynomial Is}
 
@@ -24,9 +30,16 @@ $n$, the highest power present; $a_n$ is the \emph{leading coefficient} and $a_0
 the constant term.
 \end{definition}
 
-Lines are degree-one polynomials and parabolas are degree-two. The expanded form
-above is convenient for evaluation and for reading the constant term $a_0=f(0)$, but
-it conceals the shape. The factored form reveals it.
+Lines are degree-one polynomials and parabolas are degree-two, so this chapter is
+not beginning a completely new subject. It is widening a pattern we have already
+seen. A polynomial is built from powers of $x$, and the highest power present is its
+degree.
+
+The expanded form above is convenient for evaluation and for reading the constant
+term $a_0=f(0)$. If someone asks for $f(2)$, expanded form is often efficient. But
+expanded form can conceal the shape of the graph. The factored form reveals the
+places where the graph meets the $x$-axis, and those places are the anchors for a
+sketch.
 
 \begin{keyidea}
 The expanded form of a polynomial is built for arithmetic; the factored form is
@@ -36,6 +49,10 @@ term.
 \end{keyidea}
 
 \section{End Behavior: the Two Ends}
+
+When sketching a polynomial, it is natural to begin with the two ends of the graph.
+The ends tell us the large-scale direction of travel before we worry about the
+middle.
 
 Far from the origin, the highest-degree term dominates every other term, because a
 high power outgrows all lower powers once $|x|$ is large. So the two ends of a
@@ -89,6 +106,10 @@ coefficient. The ends therefore run up on the left and down on the right. No
 factoring is needed; the leading term $-2x^5$ settles both ends by itself.
 \end{example}
 
+This does not mean the lower-degree terms are irrelevant. They can create turns,
+roots, and vertical shifts in the middle of the graph. They simply cannot compete
+with the leading term far out on the left and right.
+
 \begin{pitfall}
 End behavior depends only on the leading term, never on the constant term or the
 middle coefficients. A large constant shifts the graph vertically but does not change
@@ -97,13 +118,19 @@ where the ends go. Reading $a_0$ for end behavior is a common error; read $a_n x
 
 \section{Roots and the Factored Form}
 
+End behavior tells us where the graph is going at the two extremes. Roots tell us
+where the graph is pinned to the $x$-axis. These are the points where the output is
+zero, so they are also the places where the sign of the function may change.
+
 A \emph{root} (or zero) of $f$ is an input $r$ with $f(r)=0$, a point where the graph
 meets the $x$-axis. The factored form lists the roots directly:
 \[
 f(x)=a_n (x-r_1)^{m_1}(x-r_2)^{m_2}\cdots (x-r_k)^{m_k}.
 \]
 Each $r_i$ is a root, and the exponent $m_i$ is its \emph{multiplicity}, the number
-of times that factor is repeated. The multiplicities sum to the degree $n$.
+of times that factor is repeated. The multiplicities sum to the degree $n$. This
+count is useful because it connects the local behavior at the roots to the total
+degree of the polynomial.
 
 \begin{definition}{Multiplicity}
 The \emph{multiplicity} of a root $r$ is the exponent on the factor $(x-r)$ in the
@@ -111,8 +138,10 @@ factored form. A root with multiplicity one is \emph{simple}; higher multiplicit
 are \emph{repeated}.
 \end{definition}
 
-Multiplicity controls how the graph meets the axis at the root, and the rule is a
-parity rule, the same parity idea that governed the ends.
+Multiplicity controls how the graph meets the axis at the root. The rule is a
+parity rule, the same parity idea that governed the ends. Odd powers preserve the
+sign of a factor as it passes through zero, while even powers remove the sign change.
+That algebraic fact is what becomes crossing or touching in the graph.
 
 \begin{keyidea}
 \textbf{Behavior at a root of multiplicity} $m$:
@@ -166,6 +195,10 @@ without crossing. The degree is $1+2+1=4$, even, with positive leading coefficie
 so both ends point up.
 \end{example}
 
+This one example already contains the basic sketching data: two ends, three roots,
+and the crossing-or-touching behavior at each root. A more accurate graph would need
+more information, but a faithful rough sketch begins here.
+
 \demo{Build a polynomial by placing roots and setting each multiplicity, in the form
 $y=(x-r_1)^{m_1}\cdots(x-r_n)^{m_n}$, then fit a hidden target. The fit score weighs
 root locations, multiplicities, and overall agreement. Watch how an even
@@ -173,6 +206,10 @@ multiplicity makes the curve bounce off the axis while an odd multiplicity sends
 through.}{https://bobovski66.github.io/Precalculus/demos/polynomial\_roots.html}
 
 \section{The Sign Chart}
+
+The next step is to decide where the graph lies above the $x$-axis and where it lies
+below. Roots mark possible changes, but they do not by themselves tell us the sign on
+each interval. A sign chart supplies that information.
 
 The roots are the only places a polynomial can change sign, because a polynomial is
 continuous and changes sign only by passing through zero. Between consecutive roots
@@ -195,9 +232,10 @@ point per interval reveals which.
 \begin{example}[building a sign chart]
 Analyze $f(x)=(x+2)(x-1)^2(x-3)$.
 
-The roots $-2,1,3$ divide the line into four intervals. Evaluate the sign of each
-factor at a test point in each interval; the factor $(x-1)^2$ is never negative, so
-it never affects the sign.
+We already know the roots and multiplicities. Now we use the same factored form to
+track the sign of the product. The roots $-2,1,3$ divide the line into four
+intervals. Evaluate the sign of each factor at a test point in each interval; the
+factor $(x-1)^2$ is never negative, so it never affects the sign.
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{@{}lccccc@{}}
@@ -214,6 +252,10 @@ $(3,\infty)$   & $4$  & $+$ & $+$ & $+$ & $+$\\
 The sign stays negative across $x=1$, confirming the even multiplicity: no sign
 change there. It flips at $x=-2$ and at $x=3$, the simple roots.
 \end{example}
+
+The table may look like bookkeeping, but it is doing geometric work. Each plus sign
+places the graph above the axis on an entire interval, and each minus sign places it
+below.
 
 \begin{center}
 \begin{tikzpicture}[scale=1.0]
@@ -241,11 +283,14 @@ axis.
 
 \section{Assembling the Global Sketch}
 
+We can now assemble the sketch. The point is not to plot dozens of values. The point
+is to combine the structural information already available from the formula.
+
 End behavior fixes the two ends. The sign chart fixes which side of the axis the
 curve occupies on every interval. Multiplicity fixes how it meets each root. These
-three pieces of local data determine the global shape up to the heights of the turns,
+three pieces of data determine the global shape up to the heights of the turns,
 which precalculus does not pin down exactly but calculus does. A faithful sketch
-needs only the three pieces.
+needs only these pieces.
 
 \begin{keyidea}
 \textbf{Sketching a polynomial from its factored form.}
@@ -261,6 +306,9 @@ needs only the three pieces.
 \begin{example}[a full sketch]
 Sketch $f(x)=(x+2)(x-1)^2(x-3)$.
 
+We gather the information in the order that makes the graph easiest to draw: ends,
+roots, sign chart, then a smooth connection.
+
 \emph{Ends.} Degree $4$, positive leading coefficient: both ends up.
 
 \emph{Roots.} Cross at $-2$, touch at $1$, cross at $3$.
@@ -272,6 +320,10 @@ The curve descends from the upper left, crosses down at $-2$, runs below the axi
 rises to touch zero at $x=1$ and falls back below, then crosses up at $3$ and climbs
 to the upper right. The touch at $x=1$ is the visual signature of the double root.
 \end{example}
+
+A sketch like this is not claiming exact turning-point heights. It is claiming the
+correct global structure: the right ends, the right intercept behavior, and the right
+side of the axis on every interval.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.95]

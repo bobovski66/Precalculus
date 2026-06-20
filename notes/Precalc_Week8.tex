@@ -6,16 +6,24 @@
 \chapter{Implicit Curves and Conics}
 
 A function assigns one output to each input, and its graph is a curve that passes the
-vertical line test. Most curves in the plane are not of this kind. A circle, an
-ellipse, the orbit of a planet, the locus where two quantities balance, are described
-not by solving for $y$ but by an equation that $x$ and $y$ satisfy together. Such a
-curve is \emph{implicit}: the equation states a condition, and the curve is the set of
-all points meeting it.
+vertical line test. Many important curves in the plane are not of this kind. A circle,
+an ellipse, the orbit of a planet, or the set of points where two quantities balance may
+be easier to describe by an equation that $x$ and $y$ satisfy together. Such a curve is
+\emph{implicit}: the equation states a condition, and the curve is the set of all points
+meeting it.
+
+This week broadens the meaning of ``graph.'' Until now, we have mostly drawn graphs by
+starting with an input $x$ and computing an output $y$. For implicit curves, we instead
+ask which pairs $(x,y)$ satisfy a condition. Sometimes that condition can be solved for
+$y$ as a function of $x$. Often it cannot, and that is not a failure. The implicit
+equation is then the cleaner description.
 
 \section{Curves Defined by an Equation}
 
-An equation in $x$ and $y$ singles out the points whose coordinates satisfy it. That
-set of points is a curve in the plane, whether or not $y$ can be isolated.
+An equation in $x$ and $y$ singles out the points whose coordinates satisfy it. That set
+of points is a curve in the plane, whether or not $y$ can be isolated. This changes the
+job slightly. Instead of asking ``what is the output when the input is $x$?'' we ask
+``does this point belong to the set?''
 
 \begin{definition}{Implicit curve}
 An \emph{implicit curve} is the set of all points $(x,y)$ satisfying an equation
@@ -28,6 +36,7 @@ it, since most vertical lines through the interior cross it twice. Solving for $
 yields $y=\pm\sqrt{1-x^{2}}$, two functions, the upper and lower semicircles, that
 together reconstruct the curve. The implicit equation holds both halves at once.
 
+\newpage
 \begin{keyidea}
 An implicit equation describes a curve as a condition its points satisfy, not as a
 rule producing $y$ from $x$. When $y$ cannot be isolated as a single function, the
@@ -41,10 +50,15 @@ on the curve. Does $(2,3)$? $4+9=13\neq25$, so it is not. Membership is checked 
 substitution into the defining equation, never by solving anything.
 \end{example}
 
+The example shows the basic habit. An implicit equation is a test. Points that pass the
+test are on the curve; points that fail the test are not. A graph is the collection of all
+points that pass.
+
 \section{An Elliptic Curve}
 
-A richer example shows how much structure an implicit equation can carry. The
-equation
+A richer example shows how much structure an implicit equation can carry. The point here
+is not to develop elliptic curves fully, but to see how a short equation can define a
+shape that is not the graph of a function and is not a conic. The equation
 \[
 y^{2}=x^{3}-x
 \]
@@ -88,6 +102,11 @@ line meeting it twice. At $x=\tfrac12$, $x^{3}-x=\tfrac18-\tfrac12=-\tfrac38<0$,
 real point sits above $x=\tfrac12$, confirming the gap.
 \end{example}
 
+This calculation is the implicit viewpoint in action. We do not need a single formula
+$y=f(x)$ to understand the curve. We can read the allowed $x$-values from the condition
+$x^{3}-x\ge0$, and then each allowed $x$ gives the possible $y$-values by taking square
+roots.
+
 \begin{pitfall}
 The symmetry $y\mapsto-y$ in $y^{2}=x^{3}-x$ means every point has a mirror image
 across the $x$-axis. This is exactly why the curve is not a function: each admissible
@@ -96,11 +115,16 @@ $x$ with $x^{3}-x>0$ produces two $y$-values, one positive and one negative.
 
 \section{Conic Sections}
 
-The most important implicit curves are the \emph{conics}, the curves cut from a cone
-by a plane and, equivalently, the curves defined by second-degree equations in $x$
-and $y$. Four shapes arise: the circle, the ellipse, the parabola, and the hyperbola.
-Each has a standard implicit equation in which the parameters read off directly as
-geometric measurements.
+The most important implicit curves in precalculus are the \emph{conics}, the curves cut
+from a cone by a plane and, equivalently, the curves defined by second-degree equations
+in $x$ and $y$. Four shapes arise: the circle, the ellipse, the parabola, and the
+hyperbola. Each has a standard implicit equation in which the parameters read off
+directly as geometric measurements.
+
+Our goal here is recognition and interpretation. We want to look at an equation, name
+the kind of curve it represents, and read the main geometric features. This is the same
+habit used for lines, parabolas, polynomials, and rational functions: the algebra should
+point to the shape.
 
 \begin{keyidea}
 \textbf{The conic sections} are the curves of second degree. In standard position,
@@ -113,6 +137,11 @@ centered or with vertex at a convenient point:
         and right.
 \end{itemize}
 \end{keyidea}
+
+The parabola has already appeared as a graph of a quadratic function. In conic language,
+it is one member of a larger family of second-degree curves. The circle, ellipse, and
+hyperbola are usually most naturally described implicitly, because they generally fail
+the vertical line test.
 
 \subsection{Circle and ellipse}
 
@@ -145,6 +174,11 @@ $x$-axis and $\pm b$ along the $y$-axis.
 \end{tikzpicture}
 \end{center}
 
+The denominators in the ellipse equation measure squared distances to the edge along
+the coordinate axes. A larger denominator lets the curve stretch farther in that
+direction. This is why the square roots of the denominators, not the denominators
+themselves, are the semi-axis lengths.
+
 \begin{example}[reading an ellipse]
 The equation $\dfrac{x^{2}}{9}+\dfrac{y^{2}}{4}=1$ has $a^{2}=9$ and $b^{2}=4$, so
 $a=3$ and $b=2$. The ellipse stretches to $\pm3$ along the $x$-axis and $\pm2$ along
@@ -156,9 +190,12 @@ the intercepts.
 
 Changing the plus sign in the ellipse to a minus produces the hyperbola
 $\dfrac{x^{2}}{a^{2}}-\dfrac{y^{2}}{b^{2}}=1$. The curve has two branches opening left
-and right, and it approaches the diagonal asymptotes $y=\pm\dfrac{b}{a}x$ at the ends,
-because for large $x$ the constant $1$ becomes negligible and the equation approaches
-$\dfrac{x^{2}}{a^{2}}=\dfrac{y^{2}}{b^{2}}$.
+and right. Unlike an ellipse, it does not close up; its branches continue forever while
+approaching diagonal lines called asymptotes.
+
+For large $x$, the constant $1$ becomes negligible and the equation approaches
+$\dfrac{x^{2}}{a^{2}}=\dfrac{y^{2}}{b^{2}}$. Solving that approximate equation gives the
+asymptotes $y=\pm\dfrac{b}{a}x$.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
@@ -183,6 +220,10 @@ The vertices sit at $(\pm4,0)$ and the asymptotes are $y=\pm\tfrac34 x$. The bra
 hug those lines as $x$ grows.
 \end{example}
 
+The vertices come from setting $y=0$, just as the ellipse intercepts did. The
+asymptotes come from the end behavior. A good sketch of a hyperbola should show both:
+where the branches begin and which lines they approach.
+
 \subsection{Recognizing a conic from its equation}
 
 A second-degree equation with no $xy$ term is a conic, and the signs of the squared
@@ -205,6 +246,11 @@ $4x^{2}+4y^{2}=36$ has equal coefficients, a circle (radius $3$ after dividing).
 $x^{2}+9y^{2}=9$ has unequal positive coefficients, an ellipse. $x^{2}-y^{2}=1$ has
 opposite signs, a hyperbola. $y-x^{2}=0$ has a single squared term, a parabola.
 \end{example}
+
+After identifying the type, the next step is usually to rewrite the equation into a
+standard form. Standard form exposes the radius, axes, vertices, or asymptotes. The
+classification tells us what kind of curve to expect; the standard form tells us its
+measurements.
 
 \section{Exercises}
 

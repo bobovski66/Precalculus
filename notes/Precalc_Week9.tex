@@ -5,18 +5,31 @@
 
 \chapter{Systems of Linear Equations}
 
+Until now, most of our attention has gone to one rule at a time: one function, one
+formula, one graph. A system of equations changes the question. Instead of asking
+what one equation says, we ask where several equations are true at the same time.
+That is why systems have both an algebraic life and a geometric life. Algebraically,
+we are solving several conditions together. Geometrically, we are looking for an
+intersection.
+
 A single linear equation in two variables describes a line; a pair of them asks
 where two lines meet. A linear equation in three variables describes a plane; a
 system of them asks where several planes meet. The solution set of a linear system
 is the intersection of these flat objects, and that intersection takes one of exactly
 three forms: a single point, nothing at all, or an entire shared line or plane. The
-geometry decides which, and substitution finds the answer.
+geometry tells us what kind of answer is possible, and the algebra finds the answer
+when one exists.
 
 \section{Two Equations in Two Variables}
 
 Each equation $ax+by=c$ graphs as a line in the plane. A solution of the system is a
 point lying on both lines at once, so the solution set is the intersection of the two
-lines. Two lines in a plane fall into three positions.
+lines. This is the central translation: to solve the system is to find the point, or
+points, shared by the graphs.
+
+Two lines in a plane have very little freedom. They can cross once, never meet, or be
+the same line. Those three pictures become the three possible outcomes for the
+system.
 
 \begin{keyidea}
 \textbf{Two lines in the plane.}
@@ -64,12 +77,21 @@ in a flat object, and the only flat possibilities are a point, the empty set, or
 whole line or plane.
 \end{keyidea}
 
+This fact is useful before any calculation begins. When we solve a system, we are not
+hunting for a mysterious fourth possibility. The algebra will eventually announce one
+of the three outcomes above.
+
 \section{Solving by Substitution}
 
-Substitution solves a system by isolating one variable in one equation and replacing
-it in the other, reducing two equations in two unknowns to one equation in one. The
-single equation is solved directly, and the value is fed back to recover the other
-variable.
+Substitution is the most direct algebraic method for a small system. The idea is that
+an equation gives permission to replace one expression by another equal expression.
+If one equation says $y=7-2x$, then anywhere the other equation contains $y$, we may
+write $7-2x$ instead. That replacement reduces two equations in two unknowns to one
+equation in one unknown.
+
+After the single equation is solved, the value is fed back into one of the original
+equations to recover the other variable. The method is slow for large systems, but it
+is excellent for seeing what a solution means.
 
 \begin{example}[a unique solution by substitution]
 Solve
@@ -79,7 +101,10 @@ Solve
 3x-2y&=0.
 \end{aligned}
 \]
-Isolate $y$ in the first: $y=7-2x$. Substitute into the second:
+This system should have a single solution if the two lines cross. The substitution
+will find the coordinates of that crossing point.
+
+Isolate $y$ in the first equation: $y=7-2x$. Substitute into the second:
 $3x-2(7-2x)=0$, so $3x-14+4x=0$, giving $7x=14$ and $x=2$. Back-substitute:
 $y=7-2(2)=3$. The unique solution is $(2,3)$, the crossing point of the two lines.
 Check: $2(2)+3=7$ and $3(2)-2(3)=0$.
@@ -93,8 +118,11 @@ x-y&=1,\\
 x-y&=4.
 \end{aligned}
 \]
-Substituting $x=y+1$ from the first into the second gives $(y+1)-y=4$, that is
-$1=4$, a false statement. A contradiction signals that the lines are parallel and
+Here the two left sides are identical, but the right sides disagree. The system is
+asking the same expression to equal two different numbers at once.
+
+Substituting $x=y+1$ from the first equation into the second gives $(y+1)-y=4$, that
+is $1=4$, a false statement. A contradiction signals that the lines are parallel and
 distinct: there is no solution.
 \end{example}
 
@@ -106,10 +134,13 @@ x+2y&=3,\\
 2x+4y&=6.
 \end{aligned}
 \]
-The second equation is twice the first, so it carries no new information.
-Substituting $x=3-2y$ into the second gives $2(3-2y)+4y=6$, that is $6=6$, always
-true. Every point on $x+2y=3$ solves the system; the solution set is that entire
-line. Writing $y=t$ as a free parameter, the solutions are $(3-2t,\,t)$ for all $t$.
+The second equation is twice the first, so it carries no new information. The two
+lines are really the same line written in different forms.
+
+Substituting $x=3-2y$ into the second equation gives $2(3-2y)+4y=6$, that is $6=6$,
+always true. Every point on $x+2y=3$ solves the system; the solution set is that
+entire line. Writing $y=t$ as a free parameter, the solutions are $(3-2t,\,t)$ for
+all $t$.
 \end{example}
 
 \begin{keyidea}
@@ -118,12 +149,21 @@ gives a unique solution; a false statement such as $1=4$ signals no solution; an
 identity such as $6=6$ signals infinitely many, described by a free parameter.
 \end{keyidea}
 
+The false statement and the identity are not failures of the method. They are the
+method reporting the geometry: parallel lines give a contradiction, and coincident
+lines give an equation that is automatically true.
+
 \section{Three Equations in Three Variables}
 
 A linear equation $ax+by+cz=d$ in three variables graphs as a plane in space. A
 system of three such equations asks for the points common to three planes, and the
 solution set is their intersection. The same three outcomes appear, now staged by
-planes.
+planes instead of lines.
+
+The pictures are harder to draw accurately, but the logic has not changed. A unique
+solution is one common point. No solution means the planes have no point shared by
+all of them. Infinitely many solutions means the planes share a whole line or a whole
+plane.
 
 \begin{keyidea}
 \textbf{Three planes in space.}
@@ -170,8 +210,13 @@ planes.
 
 A three-variable system is easiest to solve when it is in \emph{triangular form}: the
 first equation involves all three variables, the second only two, the third only
-one. The last equation gives one variable immediately; substituting upward (back-
-substitution) recovers the others one at a time.
+one. The shape of the system has become a staircase. The last equation gives one
+variable immediately; substituting upward (back-substitution) recovers the others one
+at a time.
+
+This is the same idea as working backward through a set of instructions. Once the
+last variable is known, the equation just above it becomes simple. Once two variables
+are known, the top equation becomes simple.
 
 \begin{keyidea}
 A system is in \emph{triangular form} when each successive equation drops a variable,
@@ -196,7 +241,8 @@ solution is $(10,-2,3)$. Each step uses only values already found, moving upward
 The work of solving a general system is to reach triangular form by eliminating
 variables. Adding a multiple of one equation to another removes a chosen variable
 without changing the solution set, because the new equation holds exactly when the
-old ones do.
+old ones do. We are not changing the problem; we are rewriting it into a form whose
+solution can be read from the bottom upward.
 
 \begin{example}[reducing to triangular form, then back-substituting]
 Solve
@@ -207,8 +253,9 @@ x+y+z&=6,\\
 x+2y-z&=2.
 \end{aligned}
 \]
-Subtract twice the first from the second: $(2x-y+z)-2(x+y+z)=3-12$, giving
-$-3y-z=-9$. Subtract the first from the third: $y-2z=-4$. The system is now
+Subtract twice the first equation from the second:
+$(2x-y+z)-2(x+y+z)=3-12$, giving $-3y-z=-9$. Subtract the first equation from the
+third: $y-2z=-4$. The system is now
 \[
 \begin{aligned}
 x+y+z&=6,\\
@@ -216,10 +263,10 @@ x+y+z&=6,\\
 y-2z&=-4.
 \end{aligned}
 \]
-From the last two, eliminate $y$: multiply the third by $3$ to get $3y-6z=-12$ and
-add to the second, giving $-7z=-21$, so $z=3$. Back-substitute into $y-2z=-4$:
-$y=2$. Then the first gives $x=6-2-3=1$. The solution is $(1,2,3)$. Check in all
-three originals: $1+2+3=6$, $2-2+3=3$, $1+4-3=2$.
+From the last two equations, eliminate $y$: multiply the third by $3$ to get
+$3y-6z=-12$ and add to the second, giving $-7z=-21$, so $z=3$. Back-substitute into
+$y-2z=-4$: $y=2$. Then the first equation gives $x=6-2-3=1$. The solution is
+$(1,2,3)$. Check in all three originals: $1+2+3=6$, $2-2+3=3$, $1+4-3=2$.
 \end{example}
 
 \begin{pitfall}
@@ -230,6 +277,11 @@ can manufacture solutions the original system never had.
 \end{pitfall}
 
 \section{An Application}
+
+Applications of systems usually begin as plain-language constraints. Each sentence
+becomes an equation, and each unknown represents a quantity we need to determine. The
+important habit is to name the variables first, then translate each condition without
+trying to solve too early.
 
 \begin{example}[mixing for a target]
 A chemist combines three solutions of $10\%$, $20\%$, and $50\%$ concentration to
@@ -242,10 +294,15 @@ x+y+z&=1 &&\text{(total volume)},\\
 x-2z&=0 &&\text{(twice as much }10\%\text{ as }50\%).
 \end{aligned}
 \]
-From the third, $x=2z$. Substituting into the first two and solving the resulting
-two-variable system gives $z=0.2$, $x=0.4$, and $y=0.4$ liters. Three plain-language
-conditions become three linear equations, and their common solution is the recipe.
+From the third equation, $x=2z$. Substituting into the first two equations and solving
+the resulting two-variable system gives $z=0.2$, $x=0.4$, and $y=0.4$ liters. Three
+plain-language conditions become three linear equations, and their common solution is
+the recipe.
 \end{example}
+
+The point is not that every word problem is secretly about chemistry. The point is
+that a system is a way of making several requirements hold at once: total amount,
+total concentration, and an additional relationship among the ingredients.
 
 \section{Exercises}
 

@@ -5,20 +5,30 @@
 
 \chapter{Inverses and Radicals}
 
-A function sends each input to one output. Two questions about that sending decide
-whether it can be undone: does every input land on a distinct output, and does every
-possible output get hit? The first is the one-to-one property, the second is onto.
-When both hold the function has an inverse, a second function that runs the arrows
-backward, turning outputs into the inputs that produced them. Radicals are the
-inverses of power functions, and they carry the domain restrictions that the
-backward direction forces.
+A function sends inputs forward to outputs. This week we ask when that motion can be
+reversed. If an output remembers exactly which input produced it, then the function can
+be undone. If two different inputs produce the same output, the reverse direction has a
+choice to make, and that choice prevents the reverse relation from being a function.
+
+This idea connects several topics that may at first look separate. Domain and range tell
+us where a function starts and where it lands. One-to-one functions are the functions
+whose outputs do not get shared. Inverses run one-to-one functions backward. Radicals,
+such as square roots and cube roots, are inverses of power functions, so their domains
+come from the same reversing process. The goal is to see these as one story rather than
+as four unrelated rules.
 
 \section{Domain and Range}
 
-The domain is the set of inputs a function accepts; the range is the set of outputs
-it produces. For a function given by a formula, the domain is every input for which
-the formula is defined, and the range is every value the formula attains as the input
-runs over the domain.
+Before a function can be reversed, we need to know its input set and output set. The
+\emph{domain} is the set of inputs the function is allowed to accept. The \emph{range}
+is the set of outputs the function actually produces. These two sets are part of the
+function's meaning. A formula by itself tells us how to compute, but the domain and
+range tell us where the computation is allowed to live.
+
+For a function given by a formula, the natural domain is every real input for which the
+formula is defined. The range is usually read from the graph, from transformations, or
+from the nature of the formula. In this course the most common domain restrictions come
+from two operations: division and even roots.
 
 \begin{definition}{Domain and range}
 The \emph{domain} of $f$ is the set of all inputs $x$ for which $f(x)$ is defined.
@@ -26,26 +36,49 @@ The \emph{range} is the set of all outputs $f(x)$ produced as $x$ ranges over th
 domain.
 \end{definition}
 
-Two operations restrict a domain. Division forbids a zero denominator, and an even
-root forbids a negative radicand. Everything else in this course accepts all real
-inputs.
+Division forbids a zero denominator, because division by zero is not defined. An even
+root forbids a negative radicand, because the even root of a negative number is not real.
+Everything else we use here, such as polynomials, odd roots, and absolute values, accepts
+all real inputs unless an outside restriction is stated.
+
+\begin{keyidea}
+To find a natural domain from a formula, look for forbidden operations:
+\begin{itemize}\setlength{\itemsep}{2pt}
+  \item denominators cannot equal zero;
+  \item radicands under even roots must be nonnegative;
+  \item odd roots, polynomials, and absolute values do not create domain restrictions
+        by themselves.
+\end{itemize}
+The range then records the outputs that actually occur after the domain is chosen.
+\end{keyidea}
 
 \begin{example}[reading the domain from the formula]
 For $f(x)=\dfrac{1}{x-5}$ the denominator vanishes at $x=5$, so the domain is all
 reals except $5$. For $g(x)=\sqrt{x-3}$ the radicand $x-3$ must be nonnegative, so the
-domain is $x\ge 3$. For $h(x)=x^2+1$ no operation restricts anything, so the domain is
+domain is $x\ge 3$. For $h(x)=x^2+1$ no operation restricts the input, so the domain is
 all reals, while the range is $y\ge 1$ because a square is never negative.
 \end{example}
 
+The important point in the example is that the domain is not guessed from the general
+shape. It is forced by the operations in the formula. The range asks a different
+question: after the allowed inputs are used, which outputs appear?
+
 \begin{pitfall}
 Domain restrictions come from the operations, not from the graph's appearance. An odd
-root such as $\sqrt[3]{x}$ accepts negatives, since a cube root of a negative number
-is a real negative number; only \emph{even} roots restrict the radicand.
+root such as $\sqrt[3]{x}$ accepts negatives, since a cube root of a negative number is
+a real negative number; only \emph{even} roots restrict the radicand.
 \end{pitfall}
 
 \section{One-to-One and Onto}
 
-Two properties describe how a function distributes its inputs over its outputs.
+Now we turn from the question ``where is the function defined?'' to the question ``can
+its arrows be reversed?'' A function already has the rule that each input goes to exactly
+one output. For an inverse function, we need the reverse assignment also to be single
+valued: each output must point back to exactly one input.
+
+Two properties describe how a function distributes its inputs over its outputs. The first,
+one-to-one, says that no two inputs share an output. The second, onto, says that every
+output in a chosen target set is hit by the function.
 
 \begin{definition}{One-to-one and onto}
 A function $f$ is \emph{one-to-one} if distinct inputs always give distinct outputs:
@@ -53,8 +86,9 @@ $x_1\neq x_2$ forces $f(x_1)\neq f(x_2)$. It is \emph{onto} a target set of outp
 if every value in that set is attained by some input.
 \end{definition}
 
-One-to-one is the property that no output is shared by two inputs. It has a graphical
-test that mirrors the vertical line test for functions.
+One-to-one is the property that matters most for inverses in this course. If an output is
+shared, the reverse direction cannot decide which input to choose. The graph gives a
+clean test, because a horizontal line collects all points with the same output value.
 
 \begin{keyidea}
 \textbf{Horizontal line test.} A function is one-to-one if and only if no horizontal
@@ -85,22 +119,28 @@ one output, which violates the one-to-one property.
 \end{center}
 
 \begin{example}[applying the horizontal line test]
-The line $f(x)=2x-1$ is one-to-one; every horizontal line meets it once. The
-parabola $f(x)=x^2$ is not; the horizontal line $y=4$ meets it at $x=2$ and $x=-2$,
-two inputs sharing the output $4$. Restricting the parabola to $x\ge0$ removes the
-left half and makes the restricted function one-to-one.
+The line $f(x)=2x-1$ is one-to-one; every horizontal line meets it once. The parabola
+$f(x)=x^2$ is not one-to-one; the horizontal line $y=4$ meets it at $x=2$ and
+$x=-2$, two inputs sharing the output $4$. Restricting the parabola to $x\ge0$ removes
+the left half and makes the restricted function one-to-one.
 \end{example}
 
-Whether a function is onto depends on the target set declared for its outputs. The
-squaring function is onto the nonnegative reals (every nonnegative number is a
-square) but not onto all reals (no input squares to a negative number). Choosing the
-target set to be exactly the range makes any function onto by construction.
+The restriction in the last sentence is not a trick. It is how many inverses are created:
+if the original function repeats outputs, we sometimes choose a domain where the repeats
+are removed. The square root function comes from exactly this choice.
 
+Whether a function is onto depends on the target set declared for its outputs. The
+squaring function is onto the nonnegative reals (every nonnegative number is a square)
+but not onto all reals (no input squares to a negative number). Choosing the target set
+to be exactly the range makes any function onto by construction.
+
+\newpage
 \section{The Inverse Function}
 
-When $f$ is one-to-one, each output came from exactly one input, so the assignment can
-be reversed: send each output back to the input that produced it. That reverse
-assignment is the inverse function $f^{-1}$.
+When $f$ is one-to-one, each output came from exactly one input, so the assignment can be
+reversed: send each output back to the input that produced it. That reverse assignment
+is the inverse function $f^{-1}$. The notation looks like an exponent, but here it means
+``inverse function,'' not reciprocal.
 
 \begin{definition}{Inverse function}
 If $f$ is one-to-one, its \emph{inverse} $f^{-1}$ is the function satisfying
@@ -121,18 +161,27 @@ have no single input to return to.
 \subsection{Finding an inverse}
 
 Because the inverse swaps the roles of input and output, the algebra is: write
-$y=f(x)$, exchange $x$ and $y$, and solve for $y$. The result is $f^{-1}(x)$.
+$y=f(x)$, exchange $x$ and $y$, and solve for $y$. This procedure is not just a formal
+recipe. The swap represents the reversal of the arrows. Solving for $y$ puts the
+reversed rule back into function notation.
 
 \begin{example}[finding an inverse]
 Invert $f(x)=2x-1$. Write $y=2x-1$, swap to $x=2y-1$, and solve:
-$y=\dfrac{x+1}{2}$. So $f^{-1}(x)=\dfrac{x+1}{2}$. Check: $f^{-1}(f(x))
-=\dfrac{(2x-1)+1}{2}=x$.
+\[
+y=\frac{x+1}{2}.
+\]
+So $f^{-1}(x)=\dfrac{x+1}{2}$. Check:
+\[
+f^{-1}(f(x))=\frac{(2x-1)+1}{2}=x.
+\]
+The check confirms that applying $f$ and then $f^{-1}$ brings the input back to where
+it started.
 \end{example}
 
 \begin{visual}
 Swapping $x$ and $y$ reflects the graph across the line $y=x$. The graph of $f^{-1}$
-is the mirror image of the graph of $f$ in that diagonal, because every point
-$(a,b)$ on $f$ becomes the point $(b,a)$ on $f^{-1}$.
+is the mirror image of the graph of $f$ in that diagonal, because every point $(a,b)$
+on $f$ becomes the point $(b,a)$ on $f^{-1}$.
 \end{visual}
 
 \begin{center}
@@ -147,12 +196,18 @@ $(a,b)$ on $f$ becomes the point $(b,a)$ on $f^{-1}$.
 \end{tikzpicture}
 \end{center}
 
+The picture also shows why domain restrictions matter. The full parabola $y=x^2$ would
+reflect to a sideways parabola, which fails the vertical line test. The restricted right
+half reflects to the square-root graph, which is a function.
+
 \section{Radicals as Inverses of Powers}
 
-A radical is the inverse of a power function. The square root inverts squaring, the
-cube root inverts cubing, and in general $\sqrt[n]{x}$ inverts $x^n$. The parity of
-$n$ controls the domains, exactly as it controlled the behavior of roots and ends in
-the polynomial chapter.
+A radical is the inverse of a power function. The square root inverts squaring, the cube
+root inverts cubing, and in general $\sqrt[n]{x}$ inverts $x^n$. The parity of $n$
+decides whether the power function repeats outputs. Odd powers keep moving in one
+direction, so they are one-to-one on all real numbers. Even powers fold the line across
+the $y$-axis, sending $x$ and $-x$ to the same output, so they must be restricted before
+being inverted.
 
 \begin{keyidea}
 \textbf{Radicals and parity.}
@@ -166,16 +221,16 @@ the polynomial chapter.
 \end{keyidea}
 
 \begin{example}[why the square root needs a restriction]
-The function $x^2$ fails the horizontal line test on all reals. Restricted to
-$x\ge0$ it is one-to-one, and its inverse is $\sqrt{x}$, with domain $x\ge0$ and range
+The function $x^2$ fails the horizontal line test on all reals. Restricted to $x\ge0$
+it is one-to-one, and its inverse is $\sqrt{x}$, with domain $x\ge0$ and range
 $y\ge0$. The discarded left half $x\le0$ would have inverted to $-\sqrt{x}$; the two
 halves are the two branches of the sideways parabola, only one of which is a function.
 \end{example}
 
 \begin{example}[an odd root accepts negatives]
-The function $x^3$ is one-to-one on all reals, so $\sqrt[3]{x}$ is defined
-everywhere. For instance $\sqrt[3]{-8}=-2$, since $(-2)^3=-8$. No restriction is
-needed because cubing never repeats an output.
+The function $x^3$ is one-to-one on all reals, so $\sqrt[3]{x}$ is defined everywhere.
+For instance $\sqrt[3]{-8}=-2$, since $(-2)^3=-8$. No restriction is needed because
+cubing never repeats an output.
 \end{example}
 
 \begin{center}
@@ -201,15 +256,20 @@ needed because cubing never repeats an output.
 \subsection{Solving equations with radicals}
 
 A radical equation is solved by isolating the radical and raising both sides to the
-matching power. Raising an even root to an even power can introduce a false solution,
-because the squaring step accepts a sign the original equation forbade, so every
+matching power. The solving step is allowed, but it is not always reversible. Raising an
+even root to an even power can introduce a false solution, because the squaring step
+forgets whether the original right-hand side was nonnegative. That is why every
 candidate must be checked in the original equation.
 
 \begin{example}[solving and checking]
-Solve $\sqrt{x+5}=x-1$. Square both sides: $x+5=x^2-2x+1$, so $x^2-3x-4=0$, giving
-$(x-4)(x+1)=0$ and candidates $x=4$ and $x=-1$. Check in the original: $x=4$ gives
-$\sqrt{9}=3$ and $4-1=3$, valid. $x=-1$ gives $\sqrt{4}=2$ but $-1-1=-2$; the two
-sides disagree, so $x=-1$ is rejected. The only solution is $x=4$.
+Solve $\sqrt{x+5}=x-1$. Square both sides:
+\[
+x+5=x^2-2x+1,
+\]
+so $x^2-3x-4=0$, giving $(x-4)(x+1)=0$ and candidates $x=4$ and $x=-1$. Check in the
+original: $x=4$ gives $\sqrt{9}=3$ and $4-1=3$, valid. $x=-1$ gives $\sqrt{4}=2$ but
+$-1-1=-2$; the two sides disagree, so $x=-1$ is rejected. The only solution is
+$x=4$.
 \end{example}
 
 \begin{pitfall}
@@ -249,8 +309,9 @@ each is the reflection of the other across $y=x$.
 \item Solve and check, discarding any false solutions: (a) $\sqrt{2x+3}=x$;
 (b) $\sqrt{x+7}=x+1$.
 
-\item A function and its inverse meet the line $y=x$. Explain why any intersection of
-$f$ with its inverse must lie on that line, using the reflection picture.
+\item For an increasing one-to-one function, intersections of the graph of $f$ with
+the graph of $f^{-1}$ occur on the line $y=x$. Explain this using the reflection
+picture, and contrast it with a decreasing self-inverse function such as $f(x)=1-x$.
 
 \item The function $f(x)=\sqrt{x-2}+1$ is built from the parent $\sqrt{x}$ by
 transformations. State the domain and range, find the inverse, and confirm the domain

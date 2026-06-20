@@ -5,16 +5,22 @@
 
 \chapter{Logarithms}
 
-A logarithm answers the question the exponential leaves open: given a base $b$ and a
-result $y$, what exponent produces it? That exponent is $\log_b y$. Since the
-exponential $b^{x}$ takes an exponent to a result and the logarithm takes a result
-back to its exponent, the two are inverse functions, and everything about the
-logarithm follows from reading the exponential backward.
+Exponential functions take an exponent and produce a number. Logarithms reverse that
+process. If the base is $b$ and the result is $y$, then $\log_b y$ is the exponent
+that produces $y$. In other words, a logarithm is not a new kind of arithmetic so much
+as a way of asking an exponential question backward.
+
+This week has two main goals. The first is to become fluent moving between exponential
+and logarithmic language: $b^x=y$ and $\log_b y=x$ say the same fact in two different
+orders. The second is to see why logarithms are useful. They turn multiplication into
+addition, let us solve for unknown exponents, and give a natural scale for measuring
+information.
 
 \section{The Logarithm as an Inverse}
 
 The exponential $f(x)=b^{x}$ with $b>0$, $b\neq1$ is one-to-one: distinct exponents
-give distinct results. By the inverse machinery, it has an inverse, and that inverse
+give distinct results. That means the function can be reversed. The inverse takes the
+output of the exponential and returns the exponent that created it. This inverse function
 is the logarithm base $b$.
 
 \begin{definition}{Logarithm}
@@ -27,7 +33,10 @@ must be raised to produce $y$:
 
 The two statements $b^{x}=y$ and $\log_b y=x$ say the same thing in opposite
 directions. Reading one into the other is the single most useful move in the subject.
+When a logarithm looks mysterious, translate it back into an exponential sentence and
+ask what exponent is being named.
 
+\newpage
 \begin{keyidea}
 $\log_b y$ is an exponent: the exponent that turns $b$ into $y$. The exponential and
 logarithm undo each other,
@@ -42,6 +51,11 @@ $\log_2 8 = 3$, because $2^{3}=8$. $\log_{10}1000=3$, because $10^{3}=1000$.
 $\log_5 1=0$, because $5^{0}=1$. $\log_3\tfrac19=-2$, because $3^{-2}=\tfrac19$. Each
 value is found by asking what exponent on the base yields the argument.
 \end{example}
+
+The example is deliberately simple. At this stage, evaluating a logarithm is not about a
+calculator button. It is about hearing the question correctly: ``what exponent on this
+base gives this number?'' Once that question is clear, the calculator only helps when the
+exponent is not one we can recognize mentally.
 
 Because the logarithm is the inverse of the exponential, its graph is the reflection
 of the exponential graph across the line $y=x$, with domain and range swapped. The
@@ -66,6 +80,8 @@ exponent on a positive base produces them.
 The exponential passes through $(0,1)$; reflected, the logarithm passes through
 $(1,0)$, recording that $\log_b 1=0$ for every base. The $y$-axis is a vertical
 asymptote of the logarithm, the reflection of the exponential's horizontal asymptote.
+The graph climbs forever, but slowly. That slow climb is one reason logarithmic scales
+are useful for quantities that range over many orders of magnitude.
 
 \begin{example}[two named bases]
 Base $10$ gives the \emph{common logarithm}, written $\log x$. Base $e$ gives the
@@ -73,6 +89,10 @@ Base $10$ gives the \emph{common logarithm}, written $\log x$. Base $e$ gives th
 previous chapter: $\ln b$ is the exponent that turns $e$ into $b$. So $\ln e=1$ and
 $\ln 1=0$.
 \end{example}
+
+The base changes the unit in which the exponent is measured. Base $10$ measures powers
+of ten, base $2$ measures powers of two, and base $e$ is the natural base that appears
+in continuous growth. The inverse idea is the same in every base.
 
 \demo{In the Function Fit Lab, set the parent function to a logarithm and tune
 $A\,f(b(x-h))+k$ to match a noisy point cloud. The logarithmic shape rises quickly
@@ -82,11 +102,15 @@ data.}{https://bobovski66.github.io/Precalculus/demos/function\_fit.html}
 
 \section{The Laws of Logarithms}
 
-Each exponent rule, read backward through the inverse, becomes a logarithm rule.
-Multiplying powers adds exponents, so a logarithm turns a product into a sum;
-dividing powers subtracts exponents, so a logarithm turns a quotient into a
-difference; raising a power to a power multiplies exponents, so a logarithm turns an
-exponent into a coefficient.
+Logarithm rules are exponent rules seen through the inverse. Multiplying powers adds
+exponents, so a logarithm turns a product into a sum. Dividing powers subtracts
+exponents, so a logarithm turns a quotient into a difference. Raising a power to a power
+multiplies exponents, so a logarithm turns an exponent into a coefficient.
+
+This is the point at which logarithms become a working tool. They let us replace a
+multiplicative expression with an additive one. That does not make the expression
+smaller in every case, but it often makes the structure easier to read and the algebra
+easier to solve.
 
 \begin{keyidea}
 \textbf{Laws of logarithms.} For $b>0$, $b\neq1$, and positive $M,N$,
@@ -113,6 +137,11 @@ Run backward, $2\log x+\log y$ combines to $\log(x^{2}y)$, collapsing a sum of
 logarithms into the logarithm of a product.
 \end{example}
 
+The two directions serve different purposes. Expanding separates the factors so their
+roles are visible. Combining compresses several logarithmic terms into one expression.
+In both directions, the algebra is controlled by multiplication, division, and powers
+inside the logarithm.
+
 \begin{pitfall}
 $\log_b(M+N)$ has no expansion; the laws apply to products, quotients, and powers,
 never to sums. In particular $\log_b(M+N)$ is not $\log_b M+\log_b N$. The right-hand
@@ -121,11 +150,14 @@ side equals $\log_b(MN)$, an entirely different quantity.
 
 \section{Change of Base}
 
-A calculator computes logarithms in base $10$ and base $e$, yet any base is needed in
-practice. The change-of-base formula expresses a logarithm in one base through
-logarithms in another. It follows from the inverse relationship: writing
-$x=\log_b N$ means $b^{x}=N$; taking $\log_c$ of both sides and using the power law
-gives $x\log_c b=\log_c N$.
+A calculator usually computes logarithms in base $10$ and base $e$, yet many questions
+come naturally in other bases. Computer memory uses base $2$. Repeated doubling uses
+base $2$. Repeated tripling uses base $3$. The change-of-base formula lets us express a
+logarithm in any base using logarithms in a base the calculator already knows.
+
+The formula follows from the inverse relationship. Writing $x=\log_b N$ means
+$b^{x}=N$. Taking $\log_c$ of both sides and using the power law gives
+$x\log_c b=\log_c N$, and then solving for $x$ produces the formula.
 
 \begin{keyidea}
 \textbf{Change of base.} For positive bases $b,c\neq1$ and positive $N$,
@@ -145,6 +177,10 @@ So $2^{3.3219}\approx 10$, which checks: $10$ sits between $2^{3}=8$ and $2^{4}=
 closer to $8$.
 \end{example}
 
+The decimal answer is not meant to hide the meaning. It says that $10$ is a little more
+than three doublings from $1$. Change of base gives a numerical value for an exponent
+that does not land exactly on an integer.
+
 \begin{example}[solving an exponential equation]
 Solve $3^{x}=20$. Take the logarithm of both sides and apply the power law:
 \[
@@ -153,14 +189,22 @@ x\log 3=\log 20,\qquad x=\frac{\log 20}{\log 3}=\frac{1.30103}{0.47712}\approx 2
 The logarithm extracts the exponent, which is exactly what it was built to do.
 \end{example}
 
+This same method solves any equation in which the unknown is trapped in an exponent.
+First take a logarithm of both sides; then use the power law to bring the unknown down
+where ordinary algebra can reach it.
+
 \section{Logarithms and Information}
 
-The logarithm base $2$ measures information. Consider a quantity that can take one of
-$N$ equally likely values, and ask how many yes/no questions are needed to identify
-which value occurred. Each question, answered optimally, halves the number of
-remaining possibilities. Starting from $N$ and halving down to $1$ takes $\log_2 N$
-questions, and that count is the number of \emph{bits} of information the answer
-carries.
+Logarithms also measure information. This is not a separate trick from the earlier
+rules. Information is counted by the number of possibilities that have been narrowed
+down, and possibilities multiply. Since logarithms turn multiplication into addition,
+they give the natural additive scale for information.
+
+Consider a quantity that can take one of $N$ equally likely values, and ask how many
+yes/no questions are needed to identify which value occurred. Each question, answered
+optimally, halves the number of remaining possibilities. Starting from $N$ and halving
+down to $1$ takes $\log_2 N$ questions, and that count is the number of \emph{bits} of
+information the answer carries.
 
 \begin{keyidea}
 The information content of selecting one outcome from $N$ equally likely outcomes is
@@ -184,6 +228,10 @@ $p=0.99$ carries $-\log_2 0.99\approx0.0145$ bits: its occurrence is almost no
 surprise, so it conveys almost no information. Rare events are informative; common
 events are not.
 \end{example}
+
+The probability version says the same thing in a different language. A rare event rules
+out many alternatives when it occurs, so it carries more information. A nearly certain
+event rules out almost nothing, so its information content is close to zero.
 
 \begin{visual}
 Information is measured on a logarithmic scale because possibilities multiply while
