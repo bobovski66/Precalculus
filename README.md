@@ -3,9 +3,6 @@ Course materials, interactive demos, and labs for Precalculus I (college algebra
 The organizing idea is to treat **functions as data** — point clouds with a constraint — and to introduce each function family through a real question that produces data of a characteristic shape. The algebra arrives as the model that explains the shape, not as a rule handed down in advance.
 
 ## Lecture Notes
-Compiled notes for each week, one PDF per topic. Each is built from a shared LaTeX
-style file and written in a declarative, example-driven register, with graphs for
-every worked example.
 
 1. [Functions](https://bobovski66.github.io/Precalculus/notes/Precalc_Week1.pdf)  
    Relations as point clouds, the function condition, the vertical line test, fitting a model, and transformations `A f(b(x-h)) + k`.
@@ -29,8 +26,7 @@ every worked example.
     Augmented matrices, row operations, Gaussian elimination, and worked physics applications.
 
 # Precalculus Interactive Demos
-This repository contains browser-based interactive demos for Precalculus topics.  
-Each demo is a standalone HTML file and can be opened directly through GitHub Pages.
+
 - [Function Fit Lab](https://bobovski66.github.io/Precalculus/demos/function_fit.html)  
   Match a transformed parent function to a point cloud using parameters of the form  
   `A f(b(x-h)) + k`.
