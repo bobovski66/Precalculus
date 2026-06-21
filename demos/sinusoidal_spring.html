@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spring Lab — Sinusoidal Functions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root, [data-theme="dark"] {
+    --bg: #0a0d0f;
+    --panel: #11161a;
+    --grid: #1c262b;
+    --teal: #2ee6c8;
+    --amber: #ffb74d;
+    --magenta: #ff5db1;
+    --text: #d6e2e6;
+    --dim: #6f8088;
+    --line: #243036;
+    --rail: #243036;
+    --tick: #3a4a52;
+    --cart-fill: #11161a;
+  }
+  [data-theme="light"] {
+    --bg: #efe9dc;
+    --panel: #ffffff;
+    --grid: #cfc7b4;
+    --teal: #066b5c;
+    --amber: #9a5e08;
+    --magenta: #a3186a;
+    --text: #14181a;
+    --dim: #4a555a;
+    --line: #bcb39d;
+    --rail: #8a8472;
+    --tick: #6b716e;
+    --cart-fill: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    transition: background 0.25s, color 0.25s;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; position: relative; }
+  .eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--amber); letter-spacing: 0.28em; text-transform: uppercase;
+    font-size: 0.82rem; margin: 0 0 6px;
+  }
+  h1 { font-size: 2.2rem; font-weight: 700; margin: 0; letter-spacing: 0.02em; }
+  h1 .sub { color: var(--teal); }
+  p.lede { color: var(--dim); max-width: 62ch; line-height: 1.45; margin: 10px 0 0; }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 860px){ .layout { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 4px; padding: 18px;
+  }
+  .panel h2 {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+    margin: 0 0 14px; font-weight: 400;
+  }
+
+  #stage { width: 100%; height: 250px; display: block; }
+
+  .ctrl { margin-bottom: 16px; }
+  .ctrl label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.85rem;
+    color: var(--text); margin-bottom: 6px;
+  }
+  .ctrl .val { color: var(--teal); }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+    background: var(--grid); border-radius: 2px; outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--teal); cursor: pointer;
+    border: 2px solid var(--bg); box-shadow: 0 0 8px rgba(46,230,200,0.5);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--teal);
+    cursor: pointer; border: 2px solid var(--bg);
+  }
+
+  .btnrow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  button {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.82rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: transparent; color: var(--teal);
+    border: 1px solid var(--teal); border-radius: 3px;
+    padding: 9px 16px; cursor: pointer; transition: all 0.15s;
+  }
+  button:hover { background: var(--teal); color: var(--bg); }
+  button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  button.ghost { color: var(--dim); border-color: var(--line); }
+  button.ghost:hover { background: var(--line); color: var(--text); }
+
+  .toggle {
+    display: flex; align-items: center; gap: 8px; margin-top: 14px;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.82rem; color: var(--dim);
+  }
+  .toggle input { accent-color: var(--magenta); width: 16px; height: 16px; }
+
+  #plot { width: 100%; height: 360px; display: block; }
+
+  .readout {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.95rem;
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
+    color: var(--dim); line-height: 1.7;
+  }
+  .readout .eq { color: var(--amber); font-size: 1.05rem; }
+  .readout b { color: var(--teal); font-weight: 400; }
+  .readout .fit { color: var(--magenta); }
+  .readout .par { color: var(--teal); }
+
+  .themeBtn {
+    position: absolute; top: 0; right: 0;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: transparent; color: var(--dim);
+    border: 1px solid var(--line); border-radius: 3px;
+    padding: 7px 12px; cursor: pointer; transition: all 0.15s;
+  }
+  .themeBtn:hover { color: var(--amber); border-color: var(--amber); }
+  .themeBtn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button class="themeBtn" id="themeBtn">◐ light</button>
+    <p class="eyebrow">MATH&amp; 141 · Lab 07</p>
+    <h1>Spring Lab <span class="sub">— sinusoidal motion</span></h1>
+    <p class="lede">Hang a mass on a spring, pull it down, and let go. It bounces up and down forever (in an ideal world), and its displacement from rest traces a sine wave in time. The pull-back distance sets the amplitude, the spring stiffness sets how fast it cycles, and where you start in the bounce sets the phase.</p>
+  </header>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>Spring &amp; mass</h2>
+      <svg id="stage" viewBox="0 0 520 250" preserveAspectRatio="xMidYMid meet"></svg>
+
+      <div class="ctrl">
+        <label>Amplitude <span class="val" id="aLabel">3.0 cm</span></label>
+        <input type="range" id="aSlider" min="0.5" max="4.5" step="0.1" value="3">
+      </div>
+      <div class="ctrl">
+        <label>Period <span class="val" id="perLabel">2.0 s</span></label>
+        <input type="range" id="perSlider" min="0.8" max="4" step="0.1" value="2">
+      </div>
+      <div class="ctrl">
+        <label>Phase shift <span class="val" id="phLabel">0.00 s</span></label>
+        <input type="range" id="phSlider" min="-1" max="1" step="0.05" value="0">
+      </div>
+
+      <div class="btnrow">
+        <button id="runBtn">▶ Release</button>
+        <button id="clearBtn" class="ghost">Clear data</button>
+      </div>
+
+      <div class="toggle">
+        <input type="checkbox" id="noiseTog" checked>
+        <label for="noiseTog">measurement noise</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="fitTog">
+        <label for="fitTog">show best-fit sine</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="dampTog">
+        <label for="dampTog">add damping (decaying envelope)</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="midTog">
+        <label for="midTog">show midline &amp; amplitude</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Displacement vs. time</h2>
+      <svg id="plot" viewBox="0 0 520 360" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="readout">
+        <div>True model: <span class="eq" id="eqTrue">y(t) = 3.0·sin(2π/2.0·(t − 0.00))</span></div>
+        <div id="fitLine" style="display:none">Best fit: <span class="eq fit" id="eqFit">—</span></div>
+        <div id="stats">Release the mass to record its displacement over time. Amplitude is the peak height; the period is the time for one full bounce.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const svgNS = "http://www.w3.org/2000/svg";
+  const stage = document.getElementById('stage');
+  const plot  = document.getElementById('plot');
+  const aSlider = document.getElementById('aSlider');
+  const perSlider = document.getElementById('perSlider');
+  const phSlider = document.getElementById('phSlider');
+  const aLabel = document.getElementById('aLabel');
+  const perLabel = document.getElementById('perLabel');
+  const phLabel = document.getElementById('phLabel');
+  const noiseTog = document.getElementById('noiseTog');
+  const fitTog = document.getElementById('fitTog');
+  const dampTog = document.getElementById('dampTog');
+  const midTog = document.getElementById('midTog');
+  const eqTrue = document.getElementById('eqTrue');
+  const eqFit = document.getElementById('eqFit');
+  const fitLine = document.getElementById('fitLine');
+  const stats = document.getElementById('stats');
+
+  // plot domain
+  const T_MAX = 8;            // seconds
+  const Y_MAX = 5;            // cm (displacement axis, symmetric ±5)
+  const PAD = {l:46, r:14, t:14, b:34};
+  const PW = 520, PH = 360;
+  const ix = t => PAD.l + (t / T_MAX) * (PW - PAD.l - PAD.r);
+  const iy = y => (PH/2) - (y / Y_MAX) * (PH/2 - PAD.t);   // 0 at vertical centre
+
+  const TAU = 0.18;          // damping decay constant (1/s) when damping on; small = slow decay -> use as rate*time
+
+  let data = [];   // {t, y}
+  let animating = false;
+  let massY = 0;   // current displacement for static draw / theme redraw
+
+  const amp = () => parseFloat(aSlider.value);
+  const period = () => parseFloat(perSlider.value);
+  const phase = () => parseFloat(phSlider.value);
+  const omega = () => 2*Math.PI/period();
+  const damping = () => dampTog.checked;
+  const decayRate = 0.18;    // per second
+
+  // displacement model
+  function yAt(t){
+    const base = amp()*Math.sin(omega()*(t - phase()));
+    return damping() ? base*Math.exp(-decayRate*t) : base;
+  }
+
+  function updateLabels(){
+    aLabel.textContent = amp().toFixed(1) + ' cm';
+    perLabel.textContent = period().toFixed(1) + ' s';
+    phLabel.textContent = phase().toFixed(2) + ' s';
+    const env = damping() ? 'e^(−0.18t)·' : '';
+    eqTrue.textContent = `y(t) = ${env}${amp().toFixed(1)}·sin(2π/${period().toFixed(1)}·(t − ${phase().toFixed(2)}))`;
+  }
+
+  function el(tag, attrs){
+    const e = document.createElementNS(svgNS, tag);
+    for (const kk in attrs) e.setAttribute(kk, attrs[kk]);
+    return e;
+  }
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  function C(){
+    return {
+      rail: css('--rail'), tick: css('--tick'), dim: css('--dim'),
+      teal: css('--teal'), amber: css('--amber'), magenta: css('--magenta'),
+      grid: css('--grid'), axis: css('--tick'), fill: css('--cart-fill')
+    };
+  }
+
+  // ---- Spring + mass scene ----
+  function drawStage(yDisp){
+    massY = yDisp;
+    stage.innerHTML = '';
+    const c = C();
+    const anchorX = 110, anchorY = 24;
+    const restY = 130;              // pixel y of rest position
+    const pxPerCm = 16;
+    const massCY = restY - yDisp*pxPerCm;   // +y = up
+
+    // ceiling
+    stage.appendChild(el('line',{x1:60,y1:anchorY,x2:160,y2:anchorY,stroke:c.rail,'stroke-width':3}));
+    for (let i=0;i<5;i++){
+      stage.appendChild(el('line',{x1:64+i*22,y1:anchorY,x2:56+i*22,y2:anchorY-8,stroke:c.tick,'stroke-width':1.5}));
+    }
+    // spring coils from anchor to mass
+    const coils = 9;
+    const topY = anchorY, botY = massCY-18;
+    let d = `M${anchorX} ${topY} `;
+    const seg = (botY-topY)/coils;
+    for (let i=0;i<coils;i++){
+      const y0 = topY + i*seg;
+      d += `L${anchorX-12} ${y0+seg*0.25} L${anchorX+12} ${y0+seg*0.75} L${anchorX} ${y0+seg} `;
+    }
+    stage.appendChild(el('path',{d, fill:'none', stroke:c.teal,'stroke-width':2}));
+    // mass
+    stage.appendChild(el('rect',{x:anchorX-20,y:massCY-18,width:40,height:36,rx:3,fill:'none',stroke:c.amber,'stroke-width':2}));
+    stage.appendChild(el('circle',{cx:anchorX,cy:massCY,r:3,fill:c.amber}));
+
+    // rest-position reference line + scale
+    stage.appendChild(el('line',{x1:200,y1:restY,x2:470,y2:restY,stroke:c.dim,'stroke-width':1,'stroke-dasharray':'4 4',opacity:0.6}));
+    const rl = el('text',{x:474,y:restY+4,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono'});
+    rl.textContent='rest (y=0)'; stage.appendChild(rl);
+    // displacement scale ticks
+    for (let cm=-4; cm<=4; cm+=2){
+      if (cm===0) continue;
+      const y = restY - cm*pxPerCm;
+      stage.appendChild(el('line',{x1:205,y1:y,x2:215,y2:y,stroke:c.tick,'stroke-width':1.5}));
+      const tx = el('text',{x:220,y:y+3,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono'});
+      tx.textContent=(cm>0?'+':'')+cm; stage.appendChild(tx);
+    }
+    // current displacement marker
+    stage.appendChild(el('line',{x1:anchorX+20,y1:massCY,x2:205,y2:massCY,stroke:c.amber,'stroke-width':1,'stroke-dasharray':'3 3',opacity:0.6}));
+    const yt = el('text',{x:300,y:massCY-6,fill:c.amber,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    yt.textContent=`y = ${yDisp.toFixed(1)} cm`; stage.appendChild(yt);
+  }
+
+  // ---- Plot ----
+  function drawPlot(){
+    plot.innerHTML = '';
+    const c = C();
+    // x grid
+    for (let t=0;t<=T_MAX;t++){
+      const x = ix(t);
+      plot.appendChild(el('line',{x1:x,y1:PAD.t,x2:x,y2:PH-PAD.b,stroke:c.grid,'stroke-width':1}));
+      const tx = el('text',{x:x,y:PH-PAD.b+18,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+      tx.textContent=t; plot.appendChild(tx);
+    }
+    // y grid (symmetric)
+    for (let yv=-4; yv<=4; yv+=2){
+      const y = iy(yv);
+      plot.appendChild(el('line',{x1:PAD.l,y1:y,x2:PW-PAD.r,y2:y,stroke:c.grid,'stroke-width':1}));
+      const tx = el('text',{x:PAD.l-8,y:y+3,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'end'});
+      tx.textContent=(yv>0?'+':'')+yv; plot.appendChild(tx);
+    }
+    // axes: y-axis and centre (midline) x-axis
+    plot.appendChild(el('line',{x1:PAD.l,y1:PAD.t,x2:PAD.l,y2:PH-PAD.b,stroke:c.axis,'stroke-width':1.5}));
+    plot.appendChild(el('line',{x1:PAD.l,y1:iy(0),x2:PW-PAD.r,y2:iy(0),stroke:c.axis,'stroke-width':1.5}));
+    const xl = el('text',{x:PW/2+10,y:PH-2,fill:c.dim,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    xl.textContent='time t (s)'; plot.appendChild(xl);
+    const yl = el('text',{x:14,y:PH/2,fill:c.dim,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle',transform:`rotate(-90 14 ${PH/2})`});
+    yl.textContent='displacement y (cm)'; plot.appendChild(yl);
+
+    // midline + amplitude guides
+    if (midTog.checked){
+      plot.appendChild(el('line',{x1:PAD.l,y1:iy(0),x2:PW-PAD.r,y2:iy(0),stroke:c.teal,'stroke-width':1.5,'stroke-dasharray':'2 3',opacity:0.7}));
+      const A = amp();
+      [A,-A].forEach(v=>{
+        plot.appendChild(el('line',{x1:PAD.l,y1:iy(v),x2:PW-PAD.r,y2:iy(v),stroke:c.teal,'stroke-width':1,'stroke-dasharray':'5 5',opacity:0.45}));
+      });
+      const at = el('text',{x:PW-PAD.r-6,y:iy(A)-5,fill:c.teal,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'end'});
+      at.textContent=`amplitude = ${A.toFixed(1)}`; plot.appendChild(at);
+    }
+
+    // best-fit sine
+    if (fitTog.checked && data.length>=4){
+      const f = fitSine(data);   // {A, w, phi, decay}
+      let d='';
+      for (let t=0;t<=T_MAX+1e-9;t+=0.04){
+        const env = f.decay ? Math.exp(-f.decay*t) : 1;
+        const y = env*f.A*Math.sin(f.w*t + f.phi);
+        const X=ix(t), Y=iy(Math.max(-Y_MAX,Math.min(Y_MAX,y)));
+        d += (d===''?'M':'L') + X.toFixed(1)+' '+Y.toFixed(1)+' ';
+      }
+      plot.appendChild(el('path',{d, fill:'none', stroke:c.magenta,'stroke-width':1.5,'stroke-dasharray':'5 4',opacity:0.9}));
+    }
+
+    // data points
+    data.forEach(p=>{
+      if (p.y<-Y_MAX || p.y>Y_MAX) return;
+      plot.appendChild(el('circle',{cx:ix(p.t),cy:iy(p.y),r:3.5,fill:c.teal,opacity:0.92}));
+    });
+  }
+
+  // Fit y = A sin(w t + phi) (+ optional decay). w is known well from the period
+  // slider context, but to keep the fit honest we estimate it by scanning, then
+  // solve the linear amplitude/phase via least squares (y = a*sin wt + b*cos wt).
+  function fitSine(pts){
+    const useDamp = dampTog.checked;
+    // scan candidate angular frequencies around a plausible range
+    let best=null;
+    for (let w=0.6; w<=9; w+=0.02){
+      // linear LS for a,b in y = a sin(wt)+b cos(wt), optionally with decay folded in
+      let Saa=0,Sab=0,Sbb=0,Say=0,Sby=0;
+      for (const p of pts){
+        const env = useDamp ? Math.exp(decayRate*p.t) : 1; // undo envelope to linearise
+        const yv = p.y*env;
+        const s=Math.sin(w*p.t), cc=Math.cos(w*p.t);
+        Saa+=s*s; Sab+=s*cc; Sbb+=cc*cc; Say+=s*yv; Sby+=cc*yv;
+      }
+      const det = Saa*Sbb - Sab*Sab;
+      if (Math.abs(det)<1e-9) continue;
+      // solve [Saa Sab; Sab Sbb][a;b] = [Say; Sby] via Cramer's rule
+      const a = (Say*Sbb - Sby*Sab)/det;
+      const b = (Saa*Sby - Sab*Say)/det;
+      let err=0;
+      for (const p of pts){
+        const env = useDamp ? Math.exp(-decayRate*p.t) : 1;
+        const pred = env*(a*Math.sin(w*p.t)+b*Math.cos(w*p.t));
+        const e=pred-p.y; err+=e*e;
+      }
+      if (!best||err<best.err) best={w,a,b,err};
+    }
+    const A = Math.hypot(best.a, best.b);
+    const phi = Math.atan2(best.b, best.a);
+    return {A, w:best.w, phi, decay: useDamp?decayRate:0};
+  }
+
+  function gauss(sd){
+    let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random();
+    return sd*Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
+
+  function refreshStats(){
+    if (fitTog.checked && data.length>=4){
+      const f=fitSine(data);
+      fitLine.style.display='block';
+      const perFit = 2*Math.PI/f.w;
+      const env = f.decay ? 'e^(−0.18t)·' : '';
+      eqFit.textContent=`y(t) = ${env}${f.A.toFixed(2)}·sin(${f.w.toFixed(2)}t + ${f.phi.toFixed(2)})`;
+      stats.innerHTML=`Fitted amplitude <b>A</b> = ${f.A.toFixed(2)} cm (true ${amp().toFixed(1)}) · period <span class="par">${perFit.toFixed(2)} s</span> (true ${period().toFixed(1)}) · ${data.length} points`;
+    } else {
+      fitLine.style.display='none';
+      stats.innerHTML = data.length
+        ? `${data.length} points collected. Toggle the best-fit sine to recover amplitude and period from the bounce.`
+        : `Release the mass to record its displacement over time. Amplitude is the peak height; the period is the time for one full bounce.`;
+    }
+  }
+
+  // ---- Trial ----
+  function run(){
+    if (animating) return;
+    animating = true;
+    data = [];
+    const sd = noiseTog.checked ? 0.12 : 0;
+    const dt = 0.12;
+    let t = 0;
+    const interval = setInterval(()=>{
+      const yTrue = yAt(t);
+      const yObs = yTrue + gauss(sd);
+      data.push({t, y:yObs});
+      drawStage(yTrue);
+      drawPlot(); refreshStats();
+      t += dt;
+      if (t > T_MAX + 1e-9){ clearInterval(interval); animating=false; }
+    }, 70);
+  }
+
+  function clearData(){ data=[]; drawStage(yAt(0)); drawPlot(); refreshStats(); }
+
+  function idleRedraw(){ if(!animating){ drawStage(yAt(0)); drawPlot(); refreshStats(); } }
+  aSlider.addEventListener('input', ()=>{updateLabels(); idleRedraw();});
+  perSlider.addEventListener('input', ()=>{updateLabels(); idleRedraw();});
+  phSlider.addEventListener('input', ()=>{updateLabels(); idleRedraw();});
+  document.getElementById('runBtn').addEventListener('click', run);
+  document.getElementById('clearBtn').addEventListener('click', clearData);
+  fitTog.addEventListener('change', ()=>{drawPlot(); refreshStats();});
+  dampTog.addEventListener('change', ()=>{updateLabels(); idleRedraw();});
+  midTog.addEventListener('change', drawPlot);
+
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    themeBtn.textContent = next === 'dark' ? '◐ light' : '◑ dark';
+    drawStage(massY);
+    drawPlot();
+  });
+
+  updateLabels();
+  drawStage(yAt(0));
+  drawPlot();
+  refreshStats();
+})();
+</script>
+</body>
+</html>

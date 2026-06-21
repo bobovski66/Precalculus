@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free-Fall Lab — Square Root Functions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root, [data-theme="dark"] {
+    --bg: #0a0d0f;
+    --panel: #11161a;
+    --grid: #1c262b;
+    --teal: #2ee6c8;
+    --amber: #ffb74d;
+    --magenta: #ff5db1;
+    --text: #d6e2e6;
+    --dim: #6f8088;
+    --line: #243036;
+    --rail: #243036;
+    --tick: #3a4a52;
+    --cart-fill: #11161a;
+  }
+  [data-theme="light"] {
+    --bg: #efe9dc;
+    --panel: #ffffff;
+    --grid: #cfc7b4;
+    --teal: #066b5c;
+    --amber: #9a5e08;
+    --magenta: #a3186a;
+    --text: #14181a;
+    --dim: #4a555a;
+    --line: #bcb39d;
+    --rail: #8a8472;
+    --tick: #6b716e;
+    --cart-fill: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    transition: background 0.25s, color 0.25s;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; position: relative; }
+  .eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--amber); letter-spacing: 0.28em; text-transform: uppercase;
+    font-size: 0.82rem; margin: 0 0 6px;
+  }
+  h1 { font-size: 2.2rem; font-weight: 700; margin: 0; letter-spacing: 0.02em; }
+  h1 .sub { color: var(--teal); }
+  p.lede { color: var(--dim); max-width: 62ch; line-height: 1.45; margin: 10px 0 0; }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 860px){ .layout { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 4px; padding: 18px;
+  }
+  .panel h2 {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+    margin: 0 0 14px; font-weight: 400;
+  }
+
+  #stage { width: 100%; height: 260px; display: block; }
+
+  .ctrl { margin-bottom: 16px; }
+  .ctrl label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.85rem;
+    color: var(--text); margin-bottom: 6px;
+  }
+  .ctrl .val { color: var(--teal); }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+    background: var(--grid); border-radius: 2px; outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--teal); cursor: pointer;
+    border: 2px solid var(--bg); box-shadow: 0 0 8px rgba(46,230,200,0.5);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--teal);
+    cursor: pointer; border: 2px solid var(--bg);
+  }
+
+  .btnrow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  button {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.82rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: transparent; color: var(--teal);
+    border: 1px solid var(--teal); border-radius: 3px;
+    padding: 9px 16px; cursor: pointer; transition: all 0.15s;
+  }
+  button:hover { background: var(--teal); color: var(--bg); }
+  button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  button.ghost { color: var(--dim); border-color: var(--line); }
+  button.ghost:hover { background: var(--line); color: var(--text); }
+
+  .toggle {
+    display: flex; align-items: center; gap: 8px; margin-top: 14px;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.82rem; color: var(--dim);
+  }
+  .toggle input { accent-color: var(--magenta); width: 16px; height: 16px; }
+
+  #plot { width: 100%; height: 360px; display: block; }
+
+  .readout {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.95rem;
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
+    color: var(--dim); line-height: 1.7;
+  }
+  .readout .eq { color: var(--amber); font-size: 1.1rem; }
+  .readout b { color: var(--teal); font-weight: 400; }
+  .readout .fit { color: var(--magenta); }
+
+  .themeBtn {
+    position: absolute; top: 0; right: 0;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: transparent; color: var(--dim);
+    border: 1px solid var(--line); border-radius: 3px;
+    padding: 7px 12px; cursor: pointer; transition: all 0.15s;
+  }
+  .themeBtn:hover { color: var(--amber); border-color: var(--amber); }
+  .themeBtn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button class="themeBtn" id="themeBtn">◐ light</button>
+    <p class="eyebrow">MATH&amp; 141 · Lab 03</p>
+    <h1>Free-Fall Lab <span class="sub">— square root functions</span></h1>
+    <p class="lede">Drop a ball from a chosen height and time how long it takes to hit the ground. Each drop adds one point: fall time vs. drop height. Doubling the height does not double the time — the points trace a square root curve, t = √(2h/g), the inverse of the quadratic free-fall you saw before.</p>
+  </header>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>Drop tower</h2>
+      <svg id="stage" viewBox="0 0 520 260" preserveAspectRatio="xMidYMid meet"></svg>
+
+      <div class="ctrl">
+        <label>Drop height <span class="val" id="hLabel">20.0 m</span></label>
+        <input type="range" id="hSlider" min="1" max="45" step="1" value="20">
+      </div>
+
+      <div class="btnrow">
+        <button id="runBtn">▶ Drop</button>
+        <button id="sweepBtn" class="ghost">Auto-sweep</button>
+        <button id="clearBtn" class="ghost">Clear data</button>
+      </div>
+
+      <div class="toggle">
+        <input type="checkbox" id="noiseTog" checked>
+        <label for="noiseTog">stopwatch noise</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="fitTog">
+        <label for="fitTog">show best-fit √ curve</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="squareTog">
+        <label for="squareTog">straighten: plot t² vs. h</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 id="plotTitle">Fall time vs. drop height</h2>
+      <svg id="plot" viewBox="0 0 520 360" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="readout">
+        <div>True model: <span class="eq" id="eqTrue">t(h) = √(2h / 9.8) ≈ 0.452·√h</span></div>
+        <div id="fitLine" style="display:none">Best fit: <span class="eq fit" id="eqFit">—</span></div>
+        <div id="stats">Drop the ball from different heights to collect data. The curve rises steeply then flattens — that is the square root shape.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const svgNS = "http://www.w3.org/2000/svg";
+  const stage = document.getElementById('stage');
+  const plot  = document.getElementById('plot');
+  const hSlider = document.getElementById('hSlider');
+  const hLabel = document.getElementById('hLabel');
+  const noiseTog = document.getElementById('noiseTog');
+  const fitTog = document.getElementById('fitTog');
+  const squareTog = document.getElementById('squareTog');
+  const eqTrue = document.getElementById('eqTrue');
+  const eqFit = document.getElementById('eqFit');
+  const fitLine = document.getElementById('fitLine');
+  const stats = document.getElementById('stats');
+  const plotTitle = document.getElementById('plotTitle');
+
+  const G = 9.8;
+  const K = Math.sqrt(2/G);       // t = K*sqrt(h), K ≈ 0.4518
+  // plot domain
+  const H_MAX = 50;               // meters (x axis)
+  const T_MAX = 3.5;              // seconds (y axis, sqrt view)
+  const T2_MAX = 11;              // s^2 (y axis, squared view)
+  const P = {l:50, r:14, t:14, b:34};
+  const PW = 520, PH = 360;
+  const ix = h => P.l + (h / H_MAX) * (PW - P.l - P.r);
+  const iyT = t => (PH - P.b) - (t / T_MAX) * (PH - P.t - P.b);
+  const iyT2 = t2 => (PH - P.b) - (t2 / T2_MAX) * (PH - P.t - P.b);
+
+  let data = [];     // {h, t}  (t is observed, possibly noisy)
+  let animating = false;
+  let ballState = {hVal:20, heldFrac:1}; // heldFrac: 1=at release height, 0=landed
+
+  function h(){ return parseFloat(hSlider.value); }
+  function fallTime(hv){ return K*Math.sqrt(hv); }
+
+  function updateLabels(){
+    hLabel.textContent = h().toFixed(1) + ' m';
+  }
+
+  function el(tag, attrs){
+    const e = document.createElementNS(svgNS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  function C(){
+    return {
+      rail: css('--rail'), tick: css('--tick'), dim: css('--dim'),
+      teal: css('--teal'), amber: css('--amber'), magenta: css('--magenta'),
+      grid: css('--grid'), axis: css('--tick'), ballFill: css('--cart-fill')
+    };
+  }
+
+  // ---- Stage: a tower with the ball partway down ----
+  function drawStage(hVal, heldFrac){
+    ballState = {hVal, heldFrac};
+    stage.innerHTML = '';
+    const c = C();
+    const topY = 18, groundY = 232, towerX = 90;
+    // tower upright + height scale
+    stage.appendChild(el('line',{x1:towerX,y1:topY,x2:towerX,y2:groundY,stroke:c.rail,'stroke-width':3}));
+    stage.appendChild(el('line',{x1:40,y1:groundY,x2:480,y2:groundY,stroke:c.rail,'stroke-width':3}));
+    for (let m=0;m<=45;m+=15){
+      const y = groundY - (m/45)*(groundY-topY);
+      stage.appendChild(el('line',{x1:towerX-6,y1:y,x2:towerX,y2:y,stroke:c.tick,'stroke-width':1.5}));
+      const tx = el('text',{x:towerX-10,y:y+3,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'end'});
+      tx.textContent = m; stage.appendChild(tx);
+    }
+    const lbl = el('text',{x:20,y:(topY+groundY)/2,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle',transform:`rotate(-90 20 ${(topY+groundY)/2})`});
+    lbl.textContent='height (m)'; stage.appendChild(lbl);
+
+    // drop-height marker
+    const releaseY = groundY - (hVal/45)*(groundY-topY);
+    stage.appendChild(el('line',{x1:towerX,y1:releaseY,x2:460,y2:releaseY,stroke:c.amber,'stroke-width':1,'stroke-dasharray':'4 4',opacity:0.7}));
+    const dh = el('text',{x:460,y:releaseY-6,fill:c.amber,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'end'});
+    dh.textContent=`drop from ${hVal.toFixed(0)} m`; stage.appendChild(dh);
+
+    // ball position: heldFrac = 1 at release height, 0 at ground
+    const by = releaseY + (1-heldFrac)*(groundY-releaseY);
+    const bx = towerX + 60;
+    stage.appendChild(el('circle',{cx:bx,cy:by,r:9,fill:'none',stroke:c.teal,'stroke-width':2}));
+    stage.appendChild(el('circle',{cx:bx,cy:by,r:3,fill:c.amber}));
+  }
+
+  // ---- Plot ----
+  function drawPlot(){
+    plot.innerHTML = '';
+    const c = C();
+    const squared = squareTog.checked;
+    const iy = squared ? iyT2 : iyT;
+    const yMax = squared ? T2_MAX : T_MAX;
+    const yStep = squared ? 2 : 0.5;
+
+    // grid - x (height)
+    for (let hv=0;hv<=H_MAX;hv+=10){
+      const x = ix(hv);
+      plot.appendChild(el('line',{x1:x,y1:P.t,x2:x,y2:PH-P.b,stroke:c.grid,'stroke-width':1}));
+      const tx = el('text',{x:x,y:PH-P.b+18,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+      tx.textContent = hv; plot.appendChild(tx);
+    }
+    // grid - y
+    for (let yv=0;yv<=yMax+1e-9;yv+=yStep){
+      const y = iy(yv);
+      plot.appendChild(el('line',{x1:P.l,y1:y,x2:PW-P.r,y2:y,stroke:c.grid,'stroke-width':1}));
+      const tx = el('text',{x:P.l-8,y:y+3,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'end'});
+      tx.textContent = squared ? yv.toFixed(0) : yv.toFixed(1); plot.appendChild(tx);
+    }
+    // axes
+    plot.appendChild(el('line',{x1:P.l,y1:P.t,x2:P.l,y2:PH-P.b,stroke:c.axis,'stroke-width':1.5}));
+    plot.appendChild(el('line',{x1:P.l,y1:PH-P.b,x2:PW-P.r,y2:PH-P.b,stroke:c.axis,'stroke-width':1.5}));
+    const xl = el('text',{x:PW/2+10,y:PH-2,fill:c.dim,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    xl.textContent='drop height h (m)'; plot.appendChild(xl);
+    const yl = el('text',{x:14,y:PH/2,fill:c.dim,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle',transform:`rotate(-90 14 ${PH/2})`});
+    yl.textContent = squared ? 'fall time² (s²)' : 'fall time t (s)'; plot.appendChild(yl);
+
+    // best-fit curve
+    if (fitTog.checked && data.length>=2){
+      const f = fitSqrt(data);   // {k} for t = k*sqrt(h)
+      let d='';
+      for (let hv=0;hv<=H_MAX+0.001;hv+=0.5){
+        const tv = f.k*Math.sqrt(hv);
+        const yv = squared ? tv*tv : tv;
+        if (yv>yMax*1.05) continue;
+        const X=ix(hv), Y=iy(yv);
+        d += (d===''?'M':'L') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+      }
+      plot.appendChild(el('path',{d, fill:'none', stroke:c.magenta,'stroke-width':1.5,'stroke-dasharray':'5 4',opacity:0.9}));
+    }
+
+    // data points
+    data.forEach(p=>{
+      const yv = squared ? p.t*p.t : p.t;
+      if (yv<0 || yv>yMax*1.05) return;
+      plot.appendChild(el('circle',{cx:ix(p.h),cy:iy(yv),r:4,fill:c.teal,opacity:0.92}));
+    });
+  }
+
+  // fit t = k*sqrt(h)  -> least squares through origin on (sqrt(h), t)
+  function fitSqrt(pts){
+    let sxy=0,sxx=0;
+    pts.forEach(p=>{const x=Math.sqrt(p.h); sxy+=x*p.t; sxx+=x*x;});
+    return {k: sxx>0 ? sxy/sxx : 0};
+  }
+
+  function gauss(sd){
+    let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random();
+    return sd*Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
+
+  function refreshStats(){
+    if (fitTog.checked && data.length>=2){
+      const f=fitSqrt(data);
+      fitLine.style.display='block';
+      eqFit.textContent=`t(h) = ${f.k.toFixed(3)}·√h`;
+      stats.innerHTML=`Fitted coefficient <b>k</b> = ${f.k.toFixed(3)} (true ≈ ${K.toFixed(3)} = √(2/g)) · ${data.length} points`;
+    } else {
+      fitLine.style.display='none';
+      stats.innerHTML = data.length
+        ? `${data.length} points collected. Toggle the best-fit √ curve, or straighten the plot to see t² rise linearly with h.`
+        : `Drop the ball from different heights to collect data. The curve rises steeply then flattens — that is the square root shape.`;
+    }
+  }
+
+  function recordDrop(hv){
+    const tTrue = fallTime(hv);
+    const sd = noiseTog.checked ? 0.05 : 0;   // ~50 ms human stopwatch error
+    data.push({h:hv, t: Math.max(0, tTrue + gauss(sd))});
+  }
+
+  function animateDrop(hv, done){
+    const tTrue = fallTime(hv);
+    const start = performance.now();
+    const durMs = 700 + tTrue*180;   // visual duration scaled loosely to real time
+    function frame(now){
+      const e = Math.min(1, (now-start)/durMs);
+      // distance fallen ∝ e²; heldFrac counts down from 1 (release) to 0 (ground)
+      const heldFrac = 1 - e*e;
+      drawStage(hv, heldFrac);
+      if (e<1){ requestAnimationFrame(frame); }
+      else { drawStage(hv, 0); if(done) done(); }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function run(){
+    if (animating) return;
+    animating = true;
+    const hv = h();
+    // record and plot the point up front so the data always lands,
+    // then play the fall animation purely for visual effect
+    recordDrop(hv);
+    drawPlot(); refreshStats();
+    animateDrop(hv, ()=>{
+      animating = false;
+      // reload: place the ball back at the current release height
+      setTimeout(()=>{ if(!animating) drawStage(h(), 1); }, 350);
+    });
+  }
+
+  function sweep(){
+    if (animating) return;
+    animating = true;
+    const heights = [3,6,10,15,21,28,36,45];
+    let i=0;
+    function next(){
+      if (i>=heights.length){ animating=false; drawStage(h(), 1); return; }
+      const hv = heights[i++];
+      recordDrop(hv);
+      drawPlot(); refreshStats();
+      animateDrop(hv, ()=>{ setTimeout(next, 120); });
+    }
+    next();
+  }
+
+  function clearData(){ data=[]; drawStage(h(), 1); drawPlot(); refreshStats(); }
+
+  hSlider.addEventListener('input', ()=>{updateLabels(); if(!animating){drawStage(h(), 1);}});
+  document.getElementById('runBtn').addEventListener('click', run);
+  document.getElementById('sweepBtn').addEventListener('click', sweep);
+  document.getElementById('clearBtn').addEventListener('click', clearData);
+  fitTog.addEventListener('change', ()=>{drawPlot(); refreshStats();});
+  squareTog.addEventListener('change', ()=>{
+    plotTitle.textContent = squareTog.checked ? 'Fall time² vs. drop height' : 'Fall time vs. drop height';
+    drawPlot();
+  });
+
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    themeBtn.textContent = next === 'dark' ? '◐ light' : '◑ dark';
+    drawStage(ballState.hVal, ballState.heldFrac);
+    drawPlot();
+  });
+
+  updateLabels();
+  drawStage(h(), 1);
+  drawPlot();
+  refreshStats();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Air Track Lab — Linear Functions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root, [data-theme="dark"] {
+    --bg: #0a0d0f;
+    --panel: #11161a;
+    --grid: #1c262b;
+    --teal: #2ee6c8;
+    --amber: #ffb74d;
+    --magenta: #ff5db1;
+    --text: #d6e2e6;
+    --dim: #6f8088;
+    --line: #243036;
+    /* SVG-specific */
+    --rail: #243036;
+    --tick: #3a4a52;
+    --cart-fill: #11161a;
+  }
+  [data-theme="light"] {
+    --bg: #efe9dc;
+    --panel: #ffffff;
+    --grid: #cfc7b4;
+    --teal: #066b5c;
+    --amber: #9a5e08;
+    --magenta: #a3186a;
+    --text: #14181a;
+    --dim: #4a555a;
+    --line: #bcb39d;
+    --rail: #8a8472;
+    --tick: #6b716e;
+    --cart-fill: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    transition: background 0.25s, color 0.25s;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; }
+  .eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--amber); letter-spacing: 0.28em; text-transform: uppercase;
+    font-size: 0.82rem; margin: 0 0 6px;
+  }
+  h1 { font-size: 2.2rem; font-weight: 700; margin: 0; letter-spacing: 0.02em; }
+  h1 .sub { color: var(--teal); }
+  p.lede { color: var(--dim); max-width: 62ch; line-height: 1.45; margin: 10px 0 0; }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 860px){ .layout { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 4px; padding: 18px;
+  }
+  .panel h2 {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+    margin: 0 0 14px; font-weight: 400;
+  }
+
+  /* Track animation */
+  #track { width: 100%; height: 130px; display: block; }
+
+  /* Controls */
+  .ctrl { margin-bottom: 16px; }
+  .ctrl label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.85rem;
+    color: var(--text); margin-bottom: 6px;
+  }
+  .ctrl .val { color: var(--teal); }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+    background: var(--grid); border-radius: 2px; outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--teal); cursor: pointer;
+    border: 2px solid var(--bg); box-shadow: 0 0 8px rgba(46,230,200,0.5);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--teal);
+    cursor: pointer; border: 2px solid var(--bg);
+  }
+
+  .btnrow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  button {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.82rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: transparent; color: var(--teal);
+    border: 1px solid var(--teal); border-radius: 3px;
+    padding: 9px 16px; cursor: pointer; transition: all 0.15s;
+  }
+  button:hover { background: var(--teal); color: var(--bg); }
+  button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  button.ghost { color: var(--dim); border-color: var(--line); }
+  button.ghost:hover { background: var(--line); color: var(--text); }
+
+  .toggle {
+    display: flex; align-items: center; gap: 8px; margin-top: 14px;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.82rem; color: var(--dim);
+  }
+  .toggle input { accent-color: var(--magenta); width: 16px; height: 16px; }
+
+  #plot { width: 100%; height: 360px; display: block; }
+
+  .readout {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.95rem;
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
+    color: var(--dim); line-height: 1.7;
+  }
+  .readout .eq { color: var(--amber); font-size: 1.1rem; }
+  .readout b { color: var(--teal); font-weight: 400; }
+  .readout .fit { color: var(--magenta); }
+
+  .themeBtn {
+    position: absolute; top: 0; right: 0;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: transparent; color: var(--dim);
+    border: 1px solid var(--line); border-radius: 3px;
+    padding: 7px 12px; cursor: pointer; transition: all 0.15s;
+  }
+  .themeBtn:hover { color: var(--amber); border-color: var(--amber); }
+  .themeBtn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  header { position: relative; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button class="themeBtn" id="themeBtn">◐ light</button>
+    <p class="eyebrow">MATH&amp; 141 · Lab 01</p>
+    <h1>Air Track Lab <span class="sub">— linear motion</span></h1>
+    <p class="lede">A frictionless cart glides at constant velocity. Tag its position at each tick of the clock, watch the points land, and read off the line they trace. Position vs. time is a linear function: the velocity is the slope, the starting position is the y-intercept.</p>
+  </header>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>Apparatus</h2>
+      <svg id="track" viewBox="0 0 520 130" preserveAspectRatio="xMidYMid meet"></svg>
+
+      <div class="ctrl">
+        <label>Velocity <span class="val" id="vLabel">+2.0 m/s</span></label>
+        <input type="range" id="vSlider" min="-4" max="4" step="0.1" value="2">
+      </div>
+      <div class="ctrl">
+        <label>Start position <span class="val" id="x0Label">1.0 m</span></label>
+        <input type="range" id="x0Slider" min="0" max="8" step="0.1" value="1">
+      </div>
+
+      <div class="btnrow">
+        <button id="runBtn">▶ Run trial</button>
+        <button id="clearBtn" class="ghost">Clear data</button>
+      </div>
+
+      <div class="toggle">
+        <input type="checkbox" id="noiseTog" checked>
+        <label for="noiseTog">measurement noise</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="fitTog">
+        <label for="fitTog">show best-fit line</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Position vs. time</h2>
+      <svg id="plot" viewBox="0 0 520 360" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="readout">
+        <div>True model: <span class="eq" id="eqTrue">x(t) = 2.0t + 1.0</span></div>
+        <div id="fitLine" style="display:none">Best fit: <span class="eq fit" id="eqFit">—</span></div>
+        <div id="stats">Run a trial to collect data. Slope <b>m</b> = velocity, intercept <b>b</b> = start position.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const svgNS = "http://www.w3.org/2000/svg";
+  const track = document.getElementById('track');
+  const plot  = document.getElementById('plot');
+  const vSlider = document.getElementById('vSlider');
+  const x0Slider = document.getElementById('x0Slider');
+  const vLabel = document.getElementById('vLabel');
+  const x0Label = document.getElementById('x0Label');
+  const noiseTog = document.getElementById('noiseTog');
+  const fitTog = document.getElementById('fitTog');
+  const eqTrue = document.getElementById('eqTrue');
+  const eqFit = document.getElementById('eqFit');
+  const fitLine = document.getElementById('fitLine');
+  const stats = document.getElementById('stats');
+
+  // plot domain
+  const T_MAX = 5;            // seconds
+  const X_MAX = 14;           // meters (vertical axis)
+  const P = {l:46, r:14, t:14, b:34}; // plot padding
+  const PW = 520, PH = 360;
+  const ix = t => P.l + (t / T_MAX) * (PW - P.l - P.r);
+  const iy = x => (PH - P.b) - (x / X_MAX) * (PH - P.t - P.b);
+
+  let data = [];   // {t, x}
+  let animating = false;
+  let cartFracNow = 0; // remembered so theme redraws keep the cart in place
+
+  function v(){ return parseFloat(vSlider.value); }
+  function x0(){ return parseFloat(x0Slider.value); }
+
+  function updateLabels(){
+    const vv = v();
+    vLabel.textContent = (vv>=0?'+':'') + vv.toFixed(1) + ' m/s';
+    x0Label.textContent = x0().toFixed(1) + ' m';
+    eqTrue.textContent = `x(t) = ${vv.toFixed(1)}t ${x0()>=0?'+':'−'} ${Math.abs(x0()).toFixed(1)}`;
+  }
+
+  function el(tag, attrs){
+    const e = document.createElementNS(svgNS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  // read a CSS custom property so SVG colors follow the theme
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  function C(){
+    return {
+      rail: css('--rail'), tick: css('--tick'), dim: css('--dim'),
+      teal: css('--teal'), amber: css('--amber'), magenta: css('--magenta'),
+      grid: css('--grid'), axis: css('--tick'), cartFill: css('--cart-fill')
+    };
+  }
+
+  // ---- Track rendering ----
+  function drawTrack(cartFrac){
+    cartFracNow = cartFrac;
+    track.innerHTML = '';
+    const c = C();
+    // rail
+    track.appendChild(el('line',{x1:20,y1:90,x2:500,y2:90,stroke:c.rail,'stroke-width':4}));
+    // ticks
+    for (let i=0;i<=8;i++){
+      const x = 20 + (i/8)*480;
+      track.appendChild(el('line',{x1:x,y1:90,x2:x,y2:98,stroke:c.tick,'stroke-width':1.5}));
+      const tx = el('text',{x:x,y:114,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+      tx.textContent = i; track.appendChild(tx);
+    }
+    const lbl = el('text',{x:260,y:128,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    lbl.textContent = 'position (m)'; track.appendChild(lbl);
+    // cart
+    const cx = 20 + cartFrac*480;
+    const g = el('g',{});
+    g.appendChild(el('rect',{x:cx-16,y:62,width:32,height:20,rx:2,fill:'none',stroke:c.teal,'stroke-width':2}));
+    g.appendChild(el('circle',{cx:cx-9,cy:84,r:4,fill:c.cartFill,stroke:c.amber,'stroke-width':1.5}));
+    g.appendChild(el('circle',{cx:cx+9,cy:84,r:4,fill:c.cartFill,stroke:c.amber,'stroke-width':1.5}));
+    track.appendChild(g);
+  }
+
+  // ---- Plot rendering ----
+  function drawPlot(){
+    plot.innerHTML = '';
+    const c = C();
+    // grid
+    for (let i=0;i<=T_MAX;i++){
+      const x = ix(i);
+      plot.appendChild(el('line',{x1:x,y1:P.t,x2:x,y2:PH-P.b,stroke:c.grid,'stroke-width':1}));
+      const tx = el('text',{x:x,y:PH-P.b+18,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+      tx.textContent = i; plot.appendChild(tx);
+    }
+    for (let xv=0;xv<=X_MAX;xv+=2){
+      const y = iy(xv);
+      plot.appendChild(el('line',{x1:P.l,y1:y,x2:PW-P.r,y2:y,stroke:c.grid,'stroke-width':1}));
+      const tx = el('text',{x:P.l-8,y:y+3,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'end'});
+      tx.textContent = xv; plot.appendChild(tx);
+    }
+    // axes
+    plot.appendChild(el('line',{x1:P.l,y1:P.t,x2:P.l,y2:PH-P.b,stroke:c.axis,'stroke-width':1.5}));
+    plot.appendChild(el('line',{x1:P.l,y1:PH-P.b,x2:PW-P.r,y2:PH-P.b,stroke:c.axis,'stroke-width':1.5}));
+    const xl = el('text',{x:(PW)/2+10,y:PH-2,fill:c.dim,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    xl.textContent='time t (s)'; plot.appendChild(xl);
+    const yl = el('text',{x:14,y:PH/2,fill:c.dim,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle',transform:`rotate(-90 14 ${PH/2})`});
+    yl.textContent='position x (m)'; plot.appendChild(yl);
+
+    // best-fit line
+    if (fitTog.checked && data.length>=2){
+      const f = linfit(data);
+      const xA = f.b, xB = f.m*T_MAX + f.b;
+      plot.appendChild(el('line',{x1:ix(0),y1:iy(xA),x2:ix(T_MAX),y2:iy(xB),stroke:c.magenta,'stroke-width':1.5,'stroke-dasharray':'5 4',opacity:0.9}));
+    }
+
+    // data points
+    data.forEach(d=>{
+      if (d.x<0 || d.x>X_MAX) return;
+      plot.appendChild(el('circle',{cx:ix(d.t),cy:iy(d.x),r:4,fill:c.teal,opacity:0.92}));
+    });
+  }
+
+  function linfit(pts){
+    const n=pts.length;
+    let st=0,sx=0,stt=0,stx=0;
+    pts.forEach(p=>{st+=p.t;sx+=p.x;stt+=p.t*p.t;stx+=p.t*p.x;});
+    const m=(n*stx-st*sx)/(n*stt-st*st);
+    const b=(sx-m*st)/n;
+    return {m,b};
+  }
+
+  function gauss(sd){
+    let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random();
+    return sd*Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
+
+  function refreshStats(){
+    if (fitTog.checked && data.length>=2){
+      const f=linfit(data);
+      fitLine.style.display='block';
+      eqFit.textContent=`x(t) = ${f.m.toFixed(2)}t ${f.b>=0?'+':'−'} ${Math.abs(f.b).toFixed(2)}`;
+      stats.innerHTML=`Fitted slope <b>m</b> = ${f.m.toFixed(2)} m/s · intercept <b>b</b> = ${f.b.toFixed(2)} m · ${data.length} points`;
+    } else {
+      fitLine.style.display='none';
+      stats.innerHTML = data.length
+        ? `${data.length} points collected. Toggle the best-fit line to recover m and b from the data.`
+        : `Run a trial to collect data. Slope <b>m</b> = velocity, intercept <b>b</b> = start position.`;
+    }
+  }
+
+  // ---- Trial ----
+  function run(){
+    if (animating) return;
+    animating = true;
+    const vv=v(), x0v=x0();
+    const sd = noiseTog.checked ? 0.35 : 0;
+    const steps = T_MAX*2; // sample every 0.5 s
+    let i=0;
+    const dt = 0.5;
+    const interval = setInterval(()=>{
+      const t = i*dt;
+      const xTrue = vv*t + x0v;
+      const xObs = xTrue + gauss(sd);
+      data.push({t, x:xObs});
+      // cart frac on 0..8 m visible track (clamp)
+      const frac = Math.max(0, Math.min(1, xTrue/8));
+      drawTrack(frac);
+      drawPlot(); refreshStats();
+      i++;
+      if (i>steps){ clearInterval(interval); animating=false; }
+    }, 130);
+  }
+
+  function clearData(){ data=[]; drawTrack(x0()/8); drawPlot(); refreshStats(); }
+
+  vSlider.addEventListener('input', ()=>{updateLabels(); if(!animating) drawTrack(x0()/8);});
+  x0Slider.addEventListener('input', ()=>{updateLabels(); if(!animating) drawTrack(x0()/8);});
+  document.getElementById('runBtn').addEventListener('click', run);
+  document.getElementById('clearBtn').addEventListener('click', clearData);
+  fitTog.addEventListener('change', ()=>{drawPlot(); refreshStats();});
+
+  // theme toggle
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    themeBtn.textContent = next === 'dark' ? '◐ light' : '◑ dark';
+    drawTrack(cartFracNow);
+    drawPlot();
+  });
+
+  // init
+  updateLabels();
+  drawTrack(x0()/8);
+  drawPlot();
+  refreshStats();
+})();
+</script>
+</body>
+</html>

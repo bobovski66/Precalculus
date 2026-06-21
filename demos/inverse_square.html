@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inverse-Square Lab — Light Intensity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root, [data-theme="dark"] {
+    --bg: #0a0d0f;
+    --panel: #11161a;
+    --grid: #1c262b;
+    --teal: #2ee6c8;
+    --amber: #ffb74d;
+    --magenta: #ff5db1;
+    --text: #d6e2e6;
+    --dim: #6f8088;
+    --line: #243036;
+    --rail: #243036;
+    --tick: #3a4a52;
+    --cart-fill: #11161a;
+  }
+  [data-theme="light"] {
+    --bg: #efe9dc;
+    --panel: #ffffff;
+    --grid: #cfc7b4;
+    --teal: #066b5c;
+    --amber: #9a5e08;
+    --magenta: #a3186a;
+    --text: #14181a;
+    --dim: #4a555a;
+    --line: #bcb39d;
+    --rail: #8a8472;
+    --tick: #6b716e;
+    --cart-fill: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    transition: background 0.25s, color 0.25s;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; position: relative; }
+  .eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--amber); letter-spacing: 0.28em; text-transform: uppercase;
+    font-size: 0.82rem; margin: 0 0 6px;
+  }
+  h1 { font-size: 2.2rem; font-weight: 700; margin: 0; letter-spacing: 0.02em; }
+  h1 .sub { color: var(--teal); }
+  p.lede { color: var(--dim); max-width: 62ch; line-height: 1.45; margin: 10px 0 0; }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 860px){ .layout { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 4px; padding: 18px;
+  }
+  .panel h2 {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+    margin: 0 0 14px; font-weight: 400;
+  }
+
+  #stage { width: 100%; height: 230px; display: block; }
+
+  .ctrl { margin-bottom: 16px; }
+  .ctrl label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.85rem;
+    color: var(--text); margin-bottom: 6px;
+  }
+  .ctrl .val { color: var(--teal); }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+    background: var(--grid); border-radius: 2px; outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--teal); cursor: pointer;
+    border: 2px solid var(--bg); box-shadow: 0 0 8px rgba(46,230,200,0.5);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--teal);
+    cursor: pointer; border: 2px solid var(--bg);
+  }
+
+  .btnrow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  button {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.82rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: transparent; color: var(--teal);
+    border: 1px solid var(--teal); border-radius: 3px;
+    padding: 9px 16px; cursor: pointer; transition: all 0.15s;
+  }
+  button:hover { background: var(--teal); color: var(--bg); }
+  button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  button.ghost { color: var(--dim); border-color: var(--line); }
+  button.ghost:hover { background: var(--line); color: var(--text); }
+
+  .toggle {
+    display: flex; align-items: center; gap: 8px; margin-top: 14px;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.82rem; color: var(--dim);
+  }
+  .toggle input { accent-color: var(--magenta); width: 16px; height: 16px; }
+
+  #plot { width: 100%; height: 360px; display: block; }
+
+  .readout {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.95rem;
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
+    color: var(--dim); line-height: 1.7;
+  }
+  .readout .eq { color: var(--amber); font-size: 1.1rem; }
+  .readout b { color: var(--teal); font-weight: 400; }
+  .readout .fit { color: var(--magenta); }
+  .readout .asy { color: var(--magenta); }
+
+  .themeBtn {
+    position: absolute; top: 0; right: 0;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: transparent; color: var(--dim);
+    border: 1px solid var(--line); border-radius: 3px;
+    padding: 7px 12px; cursor: pointer; transition: all 0.15s;
+  }
+  .themeBtn:hover { color: var(--amber); border-color: var(--amber); }
+  .themeBtn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button class="themeBtn" id="themeBtn">◐ light</button>
+    <p class="eyebrow">MATH&amp; 141 · Lab 06</p>
+    <h1>Inverse-Square Lab <span class="sub">— light intensity</span></h1>
+    <p class="lede">Point a light meter at a bulb and slide it away. The same light now spreads over a larger sphere, so the reading falls off as the square of the distance: I = k / d². Move twice as far and the intensity drops to a quarter, not a half. Plot intensity vs. distance and the points trace an inverse-square curve — much steeper near the source than a plain 1/d, and flattening fast as it recedes.</p>
+  </header>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>Light meter</h2>
+      <svg id="stage" viewBox="0 0 520 230" preserveAspectRatio="xMidYMid meet"></svg>
+
+      <div class="ctrl">
+        <label>Distance <span class="val" id="dLabel">2.0 m</span></label>
+        <input type="range" id="dSlider" min="0.5" max="6" step="0.1" value="2">
+      </div>
+      <div class="ctrl">
+        <label>Source power (k) <span class="val" id="kLabel">12.0 W·m²</span></label>
+        <input type="range" id="kSlider" min="4" max="20" step="0.5" value="12">
+      </div>
+
+      <div class="btnrow">
+        <button id="runBtn">▶ Measure here</button>
+        <button id="sweepBtn" class="ghost">Auto-sweep</button>
+        <button id="clearBtn" class="ghost">Clear data</button>
+      </div>
+
+      <div class="toggle">
+        <input type="checkbox" id="noiseTog" checked>
+        <label for="noiseTog">meter noise</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="fitTog">
+        <label for="fitTog">show best-fit k / d²</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="asyTog">
+        <label for="asyTog">show asymptotes</label>
+      </div>
+      <div class="toggle">
+        <input type="checkbox" id="straightTog">
+        <label for="straightTog">straighten: plot I vs. 1/d²</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 id="plotTitle">Intensity vs. distance</h2>
+      <svg id="plot" viewBox="0 0 520 360" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="readout">
+        <div>True model: <span class="eq" id="eqTrue">I(d) = 12.0 / d²</span></div>
+        <div id="fitLine" style="display:none">Best fit: <span class="eq fit" id="eqFit">—</span></div>
+        <div id="stats">Measure at several distances to collect data. As d → 0 intensity diverges; as d grows, intensity → 0. Doubling d quarters the reading.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const svgNS = "http://www.w3.org/2000/svg";
+  const stage = document.getElementById('stage');
+  const plot  = document.getElementById('plot');
+  const dSlider = document.getElementById('dSlider');
+  const kSlider = document.getElementById('kSlider');
+  const dLabel = document.getElementById('dLabel');
+  const kLabel = document.getElementById('kLabel');
+  const noiseTog = document.getElementById('noiseTog');
+  const fitTog = document.getElementById('fitTog');
+  const asyTog = document.getElementById('asyTog');
+  const straightTog = document.getElementById('straightTog');
+  const eqTrue = document.getElementById('eqTrue');
+  const eqFit = document.getElementById('eqFit');
+  const fitLine = document.getElementById('fitLine');
+  const stats = document.getElementById('stats');
+  const plotTitle = document.getElementById('plotTitle');
+
+  // plot domain
+  const D_MAX = 6;            // metres (x axis, I vs d view)
+  const I_MAX = 16;           // W/m² (y axis)
+  const INVD2_MAX = 4;        // 1/d² axis max (straightened); 1/0.5² = 4
+  const PAD = {l:50, r:14, t:14, b:34};
+  const PW = 520, PH = 360;
+  const ixD = d => PAD.l + (d / D_MAX) * (PW - PAD.l - PAD.r);
+  const ixID = id => PAD.l + (id / INVD2_MAX) * (PW - PAD.l - PAD.r);
+  const iy = I => (PH - PAD.b) - (I / I_MAX) * (PH - PAD.t - PAD.b);
+
+  let data = [];   // {d, I}
+  let animating = false;
+  let meterDist = 2;
+
+  const dist = () => parseFloat(dSlider.value);
+  const k    = () => parseFloat(kSlider.value);
+  const intensityAt = d => k() / (d*d);
+
+  function updateLabels(){
+    dLabel.textContent = dist().toFixed(1) + ' m';
+    kLabel.textContent = k().toFixed(1) + ' W·m²';
+    eqTrue.textContent = `I(d) = ${k().toFixed(1)} / d²`;
+  }
+
+  function el(tag, attrs){
+    const e = document.createElementNS(svgNS, tag);
+    for (const kk in attrs) e.setAttribute(kk, attrs[kk]);
+    return e;
+  }
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  function C(){
+    return {
+      rail: css('--rail'), tick: css('--tick'), dim: css('--dim'),
+      teal: css('--teal'), amber: css('--amber'), magenta: css('--magenta'),
+      grid: css('--grid'), axis: css('--tick'), fill: css('--cart-fill')
+    };
+  }
+
+  // ---- Light meter scene ----
+  function drawStage(d){
+    meterDist = d;
+    stage.innerHTML = '';
+    const c = C();
+    const bulbX = 60, baseY = 150, trackX0 = 60, trackX1 = 480;
+    // optical bench rail
+    stage.appendChild(el('line',{x1:trackX0,y1:baseY,x2:trackX1,y2:baseY,stroke:c.rail,'stroke-width':3}));
+    for (let m=0;m<=6;m++){
+      const x = trackX0 + (m/6)*(trackX1-trackX0);
+      stage.appendChild(el('line',{x1:x,y1:baseY,x2:x,y2:baseY+8,stroke:c.tick,'stroke-width':1.5}));
+      const tx = el('text',{x:x,y:baseY+22,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+      tx.textContent=m; stage.appendChild(tx);
+    }
+    const lbl = el('text',{x:270,y:baseY+38,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    lbl.textContent='distance (m)'; stage.appendChild(lbl);
+
+    // bulb with glow rings (brightness ~ source)
+    const glow = Math.min(1, k()/20);
+    for (let r=22;r>=8;r-=7){
+      stage.appendChild(el('circle',{cx:bulbX,cy:baseY-34,r:r,fill:c.amber,opacity:0.10+0.10*glow}));
+    }
+    stage.appendChild(el('circle',{cx:bulbX,cy:baseY-34,r:7,fill:c.amber}));
+    const bl = el('text',{x:bulbX,y:baseY-58,fill:c.amber,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    bl.textContent='source'; stage.appendChild(bl);
+
+    // light cone toward meter
+    const meterX = trackX0 + (d/6)*(trackX1-trackX0);
+    stage.appendChild(el('line',{x1:bulbX,y1:baseY-34,x2:meterX,y2:baseY-50,stroke:c.amber,'stroke-width':1,opacity:0.35}));
+    stage.appendChild(el('line',{x1:bulbX,y1:baseY-34,x2:meterX,y2:baseY-18,stroke:c.amber,'stroke-width':1,opacity:0.35}));
+
+    // meter (sensor panel); fill opacity tracks intensity
+    const I = intensityAt(d);
+    const lit = Math.max(0.06, Math.min(1, I/I_MAX));
+    stage.appendChild(el('rect',{x:meterX-4,y:baseY-52,width:8,height:36,rx:1,fill:c.teal,opacity:lit}));
+    stage.appendChild(el('rect',{x:meterX-4,y:baseY-52,width:8,height:36,rx:1,fill:'none',stroke:c.teal,'stroke-width':1.5}));
+    // readout box
+    const rb = el('text',{x:meterX,y:baseY-60,fill:c.teal,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    rb.textContent=`${I.toFixed(1)} W/m²`; stage.appendChild(rb);
+    // distance bracket
+    stage.appendChild(el('line',{x1:bulbX,y1:baseY-6,x2:meterX,y2:baseY-6,stroke:c.dim,'stroke-width':1,'stroke-dasharray':'3 3',opacity:0.7}));
+    const dt = el('text',{x:(bulbX+meterX)/2,y:baseY-10,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    dt.textContent=`d = ${d.toFixed(1)} m`; stage.appendChild(dt);
+  }
+
+  // ---- Plot ----
+  function drawPlot(){
+    plot.innerHTML = '';
+    const c = C();
+    const straight = straightTog.checked;
+    const xMax = straight ? INVD2_MAX : D_MAX;
+    const ix = straight ? ixID : ixD;
+    const xStep = straight ? 0.5 : 1;
+
+    for (let xv=0; xv<=xMax+1e-9; xv+=xStep){
+      const x = ix(xv);
+      plot.appendChild(el('line',{x1:x,y1:PAD.t,x2:x,y2:PH-PAD.b,stroke:c.grid,'stroke-width':1}));
+      const tx = el('text',{x:x,y:PH-PAD.b+18,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'middle'});
+      tx.textContent = straight ? xv.toFixed(1) : xv.toFixed(0); plot.appendChild(tx);
+    }
+    for (let iv=0; iv<=I_MAX; iv+=2){
+      const y = iy(iv);
+      plot.appendChild(el('line',{x1:PAD.l,y1:y,x2:PW-PAD.r,y2:y,stroke:c.grid,'stroke-width':1}));
+      const tx = el('text',{x:PAD.l-8,y:y+3,fill:c.dim,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'end'});
+      tx.textContent = iv; plot.appendChild(tx);
+    }
+    plot.appendChild(el('line',{x1:PAD.l,y1:PAD.t,x2:PAD.l,y2:PH-PAD.b,stroke:c.axis,'stroke-width':1.5}));
+    plot.appendChild(el('line',{x1:PAD.l,y1:PH-PAD.b,x2:PW-PAD.r,y2:PH-PAD.b,stroke:c.axis,'stroke-width':1.5}));
+    const xl = el('text',{x:PW/2+10,y:PH-2,fill:c.dim,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle'});
+    xl.textContent = straight ? 'inverse square 1/d² (1/m²)' : 'distance d (m)'; plot.appendChild(xl);
+    const yl = el('text',{x:14,y:PH/2,fill:c.dim,'font-size':11,'font-family':'Share Tech Mono','text-anchor':'middle',transform:`rotate(-90 14 ${PH/2})`});
+    yl.textContent='intensity I (W/m²)'; plot.appendChild(yl);
+
+    // asymptotes (only in I vs d view)
+    if (asyTog.checked && !straight){
+      plot.appendChild(el('line',{x1:PAD.l,y1:PAD.t,x2:PAD.l,y2:PH-PAD.b,stroke:c.magenta,'stroke-width':1.5,'stroke-dasharray':'4 4',opacity:0.8}));
+      plot.appendChild(el('line',{x1:PAD.l,y1:PH-PAD.b,x2:PW-PAD.r,y2:PH-PAD.b,stroke:c.magenta,'stroke-width':1.5,'stroke-dasharray':'4 4',opacity:0.8}));
+      const vt = el('text',{x:PAD.l+6,y:PAD.t+14,fill:c.magenta,'font-size':10,'font-family':'Share Tech Mono'});
+      vt.textContent='d → 0: I → ∞'; plot.appendChild(vt);
+      const ht = el('text',{x:PW-PAD.r-6,y:PH-PAD.b-6,fill:c.magenta,'font-size':10,'font-family':'Share Tech Mono','text-anchor':'end'});
+      ht.textContent='d → ∞: I → 0'; plot.appendChild(ht);
+    }
+
+    // best-fit curve
+    if (fitTog.checked && data.length>=2){
+      const kf = fitK(data);   // I = kf / d²
+      let d='';
+      if (straight){
+        const X0=ixID(0), Y0=iy(0);
+        const X1=ixID(INVD2_MAX), Y1=iy(Math.min(I_MAX, kf*INVD2_MAX));
+        d = `M${X0.toFixed(1)} ${Y0.toFixed(1)} L${X1.toFixed(1)} ${Y1.toFixed(1)}`;
+      } else {
+        let started=false;
+        for (let dd=0.05; dd<=D_MAX+1e-9; dd+=0.025){
+          const I = kf/(dd*dd);
+          if (I>I_MAX) continue;
+          const X=ixD(dd), Y=iy(I);
+          d += (started?'L':'M') + X.toFixed(1) + ' ' + Y.toFixed(1) + ' ';
+          started=true;
+        }
+      }
+      if (d) plot.appendChild(el('path',{d, fill:'none', stroke:c.magenta,'stroke-width':1.5,'stroke-dasharray':'5 4',opacity:0.9}));
+    }
+
+    // data points
+    data.forEach(p=>{
+      if (p.I<0 || p.I>I_MAX) return;
+      const X = straight ? ixID(1/(p.d*p.d)) : ixD(p.d);
+      if (straight && 1/(p.d*p.d) > INVD2_MAX) return;
+      plot.appendChild(el('circle',{cx:X,cy:iy(p.I),r:4,fill:c.teal,opacity:0.92}));
+    });
+  }
+
+  // fit I = k / d²  -> linear through origin in x = 1/d²
+  function fitK(pts){
+    let sxy=0,sxx=0;
+    pts.forEach(p=>{const x=1/(p.d*p.d); sxy+=x*p.I; sxx+=x*x;});
+    return sxx>0 ? sxy/sxx : 0;
+  }
+
+  function gauss(sd){
+    let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random();
+    return sd*Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
+
+  function refreshStats(){
+    if (fitTog.checked && data.length>=2){
+      const kf=fitK(data);
+      fitLine.style.display='block';
+      eqFit.textContent=`I(d) = ${kf.toFixed(2)} / d²`;
+      stats.innerHTML=`Fitted constant <b>k</b> = ${kf.toFixed(2)} W·m² (true ${k().toFixed(1)}) · <span class="asy">d=0 and I=0 are the asymptotes</span> · ${data.length} points`;
+    } else {
+      fitLine.style.display='none';
+      stats.innerHTML = data.length
+        ? `${data.length} points collected. Toggle the best-fit k/d², or straighten the plot to see I fall on a line through the origin vs. 1/d².`
+        : `Measure at several distances to collect data. As d → 0 intensity diverges; as d grows, intensity → 0. Doubling d quarters the reading.`;
+    }
+  }
+
+  function recordMeasure(d){
+    const Itrue = intensityAt(d);
+    const sd = noiseTog.checked ? 0.04*Itrue + 0.05 : 0;
+    data.push({d, I: Math.max(0, Itrue + gauss(sd))});
+  }
+
+  function run(){
+    if (animating) return;
+    recordMeasure(dist());
+    drawStage(dist());
+    drawPlot(); refreshStats();
+  }
+
+  function sweep(){
+    if (animating) return;
+    animating = true;
+    const ds = [0.9,1,1.2,1.5,2,2.5,3,4,5,6];
+    let i=0;
+    const interval = setInterval(()=>{
+      if (i>=ds.length){ clearInterval(interval); animating=false; drawStage(dist()); return; }
+      const d = ds[i++];
+      recordMeasure(d);
+      drawStage(d);
+      drawPlot(); refreshStats();
+    }, 230);
+  }
+
+  function clearData(){ data=[]; drawStage(dist()); drawPlot(); refreshStats(); }
+
+  function idleRedraw(){ if(!animating){ drawStage(dist()); drawPlot(); refreshStats(); } }
+  dSlider.addEventListener('input', ()=>{updateLabels(); idleRedraw();});
+  kSlider.addEventListener('input', ()=>{updateLabels(); idleRedraw();});
+  document.getElementById('runBtn').addEventListener('click', run);
+  document.getElementById('sweepBtn').addEventListener('click', sweep);
+  document.getElementById('clearBtn').addEventListener('click', clearData);
+  fitTog.addEventListener('change', ()=>{drawPlot(); refreshStats();});
+  asyTog.addEventListener('change', drawPlot);
+  straightTog.addEventListener('change', ()=>{
+    plotTitle.textContent = straightTog.checked ? 'Intensity vs. inverse square distance' : 'Intensity vs. distance';
+    drawPlot();
+  });
+
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    themeBtn.textContent = next === 'dark' ? '◐ light' : '◑ dark';
+    drawStage(meterDist);
+    drawPlot();
+  });
+
+  updateLabels();
+  drawStage(dist());
+  drawPlot();
+  refreshStats();
+})();
+</script>
+</body>
+</html>
