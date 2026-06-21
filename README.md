@@ -63,3 +63,41 @@ The organizing idea is to treat **functions as data** — point clouds with a co
 
 - [Transformations Lab](https://bobovski66.github.io/Precalculus/demos/transformations.html)  
   Practice graph transformations using shifts, stretches, compressions, and reflections.
+
+## Physics Scatterplot Labs
+
+Each lab runs a simple physics simulation that produces a point cloud of the shape of one
+function family — turn a knob, run a trial, and the data lands on a scatterplot. Most include
+a best-fit overlay and a "straightening" toggle that linearizes the curve by transforming an
+axis. Every lab has a dark/light theme toggle and optional measurement noise.
+
+- [Linear — Air Track](https://bobovski66.github.io/Precalculus/demos/linear_motion.html)  
+  A cart glides at constant velocity; position vs. time is a line whose slope is the velocity
+  and intercept is the starting position.
+
+- [Quadratic — Projectile](https://bobovski66.github.io/Precalculus/demos/quadratic_motion.html)  
+  A launched ball's height vs. time traces a parabola; the fitted leading coefficient recovers
+  −½g, and the peak is the vertex.
+
+- [Square Root — Free Fall](https://bobovski66.github.io/Precalculus/demos/sqrt_freefall.html)  
+  Fall time vs. drop height follows `t = √(2h/g)`; straightening with `t²` recovers a line.
+
+- [Absolute Value — Sensor](https://bobovski66.github.io/Precalculus/demos/absval_sensor.html)  
+  A cart passes a fixed sensor; distance vs. time is a V, with the corner at the moment of
+  closest approach and the slope equal to the speed.
+
+- [Rational — Boyle's Law](https://bobovski66.github.io/Precalculus/demos/rational_boyles.html)  
+  Gas pressure vs. volume at fixed temperature follows `P = k/V`, with both asymptotes;
+  straightening against `1/V` recovers a line.
+
+- [Inverse Square — Light Intensity](https://bobovski66.github.io/Precalculus/demos/inverse_square.html)  
+  Light intensity vs. distance follows `I = k/d²` — doubling distance quarters intensity;
+  straightening against `1/d²` recovers a line.
+
+- [Sinusoidal — Spring](https://bobovski66.github.io/Precalculus/demos/sinusoidal_spring.html)  
+  A mass on a spring oscillates; displacement vs. time is a sine wave, with amplitude, period,
+  and phase as controls and an optional damped envelope.
+
+- [Exponential — Radioactive Decay](https://bobovski66.github.io/Precalculus/demos/exponential_decay.html)  
+  Atoms decay at random, so counts scatter around `N = N₀e^(−λt)`; straightening with `ln(N)`
+  recovers a line of slope −λ, and the half-life is marked.
