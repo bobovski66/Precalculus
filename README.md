@@ -2,7 +2,7 @@
 
 Course materials, interactive demos, and labs for Precalculus I.
 
-The organizing idea is to treat **functions as data** — point clouds with a constraint — and to introduce each function family through data of a characteristic shape.
+The organizing idea is to treat **functions as data** and to introduce each function family through data of a characteristic shape.
 
 ## Lecture Notes and Labs
 
@@ -67,9 +67,7 @@ The organizing idea is to treat **functions as data** — point clouds with a co
 ## Physics Scatterplot Labs
 
 Each lab runs a simple physics simulation that produces a point cloud of the shape of one
-function family — turn a knob, run a trial, and the data lands on a scatterplot. Most include
-a best-fit overlay and a "straightening" toggle that linearizes the curve by transforming an
-axis. Every lab has a dark/light theme toggle and optional measurement noise.
+function family.
 
 - [Linear — Air Track](https://bobovski66.github.io/Precalculus/demos/linear_motion.html)  
   A cart glides at constant velocity; position vs. time is a line whose slope is the velocity
