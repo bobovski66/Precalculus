@@ -2,27 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Precalculus Function Fit Lab v2</title>
+<title>Precalculus Function Fit Lab</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style>
   :root {
     --bg: #f7f7fb;
     --card: #ffffff;
     --ink: #1f2937;
+    --ink-strong: #111827;
     --muted: #6b7280;
     --accent: #2563eb;
-    --accent2: #10b981;
+    --accent-soft: #eef2ff;
+    --accent-ink: #1d4ed8;
+    --curve: #2563eb;
+    --target: #10b981;
     --bad: #ef4444;
     --warn: #f59e0b;
+    --good: #10b981;
     --grid: #e5e7eb;
+    --line: #e5e7eb;
+    --panel-bg: #f9fafb;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--bg);
     color: var(--ink);
   }
+
   header {
     padding: 18px 22px 8px;
     max-width: 1220px;
@@ -30,77 +38,85 @@
   }
   h1 {
     margin: 0 0 6px;
-    font-size: clamp(1.35rem, 3vw, 2.1rem);
+    font-size: clamp(1.4rem, 3vw, 2.1rem);
+    color: var(--ink-strong);
+    letter-spacing: -0.01em;
   }
   .subtitle {
     margin: 0;
     color: var(--muted);
-    line-height: 1.35;
+    line-height: 1.4;
+    max-width: 72ch;
   }
-  .math {
-    font-family: Cambria Math, STIX Two Math, Georgia, serif;
-    color: #111827;
-    font-weight: 650;
-    white-space: nowrap;
-  }
+
   main {
     max-width: 1220px;
     margin: 0 auto;
     padding: 12px 22px 28px;
     display: grid;
-    grid-template-columns: minmax(340px, 1fr) 360px;
+    grid-template-columns: minmax(340px, 1fr) 380px;
     gap: 18px;
+    align-items: start;
   }
+
   .card {
     background: var(--card);
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--line);
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(15,23,42,.06);
+    box-shadow: 0 10px 30px rgba(15,23,42,.05);
   }
-  .plot-card {
-    padding: 14px;
-  }
+
+  .plot-card { padding: 14px; }
   canvas {
     width: 100%;
-    height: min(62vh, 650px);
-    min-height: 400px;
+    height: min(72vh, 720px);
+    min-height: 460px;
     border-radius: 12px;
     background: white;
     display: block;
     border: 1px solid #eef2f7;
   }
+
   .formula-card {
     margin-top: 12px;
     padding: 12px 14px;
     border-radius: 12px;
     background: #f8fafc;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--line);
   }
   .formula-label {
     color: var(--muted);
-    font-size: .86rem;
-    margin-bottom: 5px;
+    font-size: .82rem;
+    margin-bottom: 6px;
     font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .formula-wrap {
+    text-align: center;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 4px 0 6px;
   }
   #currentFormula {
-    font-size: clamp(1.05rem, 2.2vw, 1.45rem);
-    color: #111827;
-    overflow-wrap: anywhere;
-    min-height: 2.2rem;
+    display: inline-block;
+    min-height: 2.6rem;
+    white-space: nowrap;
   }
+
   .panel {
     padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
+    position: sticky;
+    top: 14px;
   }
+
   label {
     font-size: .9rem;
     color: #374151;
-    font-weight: 650;
-  }
-  select, button, input[type="number"] {
-    font: inherit;
+    font-weight: 600;
   }
   select, input[type="number"] {
     width: 100%;
@@ -108,19 +124,22 @@
     border-radius: 10px;
     border: 1px solid #d1d5db;
     background: white;
+    font: inherit;
   }
-  .row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
-    align-items: center;
+  select:focus, input:focus {
+    outline: 2px solid var(--accent-soft);
+    outline-offset: -1px;
+    border-color: var(--accent);
   }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+
   .slider-group {
     display: grid;
-    gap: 6px;
-    padding: 10px;
-    border-radius: 12px;
-    background: #f9fafb;
+    gap: 5px;
+    padding: 9px 11px;
+    border-radius: 11px;
+    background: var(--panel-bg);
     border: 1px solid #eef2f7;
   }
   .slider-head {
@@ -130,54 +149,41 @@
     align-items: baseline;
   }
   .slider-head code {
-    font-size: .9rem;
-    background: #eef2ff;
-    padding: 2px 6px;
+    font-size: .88rem;
+    background: var(--accent-soft);
+    padding: 2px 8px;
     border-radius: 7px;
-    color: #1d4ed8;
+    color: var(--accent-ink);
+    font-family: ui-monospace, "DM Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    min-width: 3.4em;
+    text-align: center;
   }
   input[type="range"] {
     width: 100%;
+    accent-color: var(--accent);
   }
-  .buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  button {
-    border: 0;
-    border-radius: 11px;
-    padding: 10px 12px;
-    cursor: pointer;
-    background: #e5e7eb;
-    color: #111827;
-    font-weight: 700;
-  }
-  button.primary {
-    background: var(--accent);
-    color: white;
-  }
-  button.good {
-    background: var(--accent2);
-    color: white;
-  }
-  button.ghost {
-    background: white;
-    border: 1px solid #d1d5db;
-  }
+
   .metric {
-    border-radius: 14px;
-    padding: 12px;
+    border-radius: 12px;
+    padding: 11px 12px;
     background: #f8fafc;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--line);
   }
-  .metric strong {
-    display: block;
-    font-size: 1.05rem;
-    margin-bottom: 4px;
+  .metric-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: .9rem;
+    color: #374151;
+    font-weight: 600;
+  }
+  .metric-head strong {
+    font-size: 1.15rem;
+    color: var(--ink-strong);
+    font-family: ui-monospace, "DM Mono", monospace;
   }
   .meter {
-    height: 13px;
+    height: 10px;
     border-radius: 999px;
     background: #e5e7eb;
     overflow: hidden;
@@ -186,71 +192,164 @@
   .fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--bad), var(--warn), var(--accent2));
-    transition: width .2s;
+    background: linear-gradient(90deg, var(--bad), var(--warn), var(--good));
+    transition: width .18s ease;
   }
+
   .status {
-    padding: 11px 12px;
-    border-radius: 12px;
-    font-weight: 800;
+    padding: 10px 12px;
+    border-radius: 11px;
+    font-weight: 700;
     text-align: center;
+    font-size: .95rem;
     background: #fee2e2;
     color: #991b1b;
   }
-  .status.close {
-    background: #fef3c7;
-    color: #92400e;
+  .status.close { background: #fef3c7; color: #92400e; }
+  .status.win   { background: #d1fae5; color: #065f46; }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
   }
-  .status.win {
-    background: #d1fae5;
-    color: #065f46;
+  button {
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 10px 8px;
+    cursor: pointer;
+    background: white;
+    color: var(--ink-strong);
+    font: inherit;
+    font-weight: 600;
+    transition: background 140ms ease, border-color 140ms ease;
   }
-  .small {
-    color: var(--muted);
-    font-size: .88rem;
-    line-height: 1.35;
+  button:hover { background: #f5f5f7; border-color: var(--accent); }
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
   }
-  .teacher {
-    border-top: 1px solid #e5e7eb;
-    padding-top: 12px;
-  }
-  .hidden-answer {
-    display: none;
-    background: #f1f5f9;
-    border: 1px dashed #94a3b8;
-    padding: 10px;
-    border-radius: 12px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: .9rem;
-    line-height: 1.45;
-  }
+  button.primary:hover { background: #1e4fd1; border-color: #1e4fd1; }
+
   .toggles {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
+    font-size: .88rem;
+    color: var(--muted);
   }
-  @media (max-width: 900px) {
+  .toggles label { display: flex; align-items: center; gap: 6px; font-weight: 500; }
+
+  .no-trig {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .88rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .hidden-answer {
+    display: none;
+    background: #f1f5f9;
+    border: 1px dashed #94a3b8;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: .92rem;
+    line-height: 1.55;
+  }
+  .hidden-answer .row-line { margin-bottom: 4px; }
+  .hidden-answer .row-line:last-child { margin-bottom: 0; }
+  .hidden-answer .k {
+    color: var(--muted);
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .hidden-answer .mono {
+    font-family: ui-monospace, "DM Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .88rem;
+    color: #334155;
+  }
+
+  /* ------- pure HTML math rendering ------- */
+  .math-inline, .math-display {
+    font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", "Times New Roman", serif;
+    color: var(--ink-strong);
+  }
+  .math-inline { font-size: 1.02em; }
+  .math-inline i, .math-display i { font-style: italic; }
+
+  .math-display {
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    line-height: 2.4;
+    font-weight: 500;
+  }
+
+  .frac {
+    display: inline-block;
+    vertical-align: -0.55em;
+    text-align: center;
+    font-size: 0.88em;
+    margin: 0 0.15em;
+  }
+  .frac > .n, .frac > .d {
+    display: block;
+    padding: 0 0.4em;
+    line-height: 1.15;
+  }
+  .frac > .n { padding-bottom: 2px; }
+  .frac > .d {
+    padding-top: 2px;
+    border-top: 1.3px solid currentColor;
+  }
+
+  .sqrt {
+    display: inline-flex;
+    align-items: baseline;
+    margin: 0 0.1em;
+  }
+  .sqrt > .r {
+    font-size: 1.15em;
+    line-height: 1;
+    padding-right: 1px;
+  }
+  .sqrt > .i {
+    border-top: 1.3px solid currentColor;
+    padding: 1px 0.25em 0;
+    margin-left: -0.15em;
+  }
+
+  .abs {
+    display: inline-block;
+    padding: 0 0.35em;
+    border-left: 1.4px solid currentColor;
+    border-right: 1.4px solid currentColor;
+  }
+
+  sup.exp {
+    font-size: 0.68em;
+    vertical-align: super;
+    line-height: 0;
+  }
+
+  @media (max-width: 940px) {
     main { grid-template-columns: 1fr; }
-    canvas { height: 58vh; }
+    canvas { height: 58vh; min-height: 360px; }
+    .panel { position: static; }
   }
 </style>
-
-<script>
-window.MathJax = {
-  tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
-  svg: { fontCache: 'global' },
-  startup: { typeset: false }
-};
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-
 </head>
 <body>
 <header>
   <h1>Precalculus Function Fit Lab</h1>
   <p class="subtitle">
-    A hidden transformed parent function makes the data. Pick a parent function and tune
-    \(y = A f(b(x-h))+k\) until your curve fits the point cloud.
+    A hidden transformed parent function generated the point cloud. Pick a family and tune
+    <span class="math-inline"><i>y</i> = <i>A</i>·<i>f</i>(<i>b</i>(<i>x</i>&nbsp;−&nbsp;<i>h</i>)) + <i>k</i></span>
+    until your curve fits.
   </p>
 </header>
 
@@ -259,41 +358,57 @@ window.MathJax = {
     <canvas id="plot"></canvas>
     <div class="formula-card">
       <div class="formula-label">Current model</div>
-      <div id="currentFormula">\(y=f(x)\)</div>
+      <div class="formula-wrap">
+        <div class="math-display" id="currentFormula"><i>y</i> = <i>x</i></div>
+      </div>
     </div>
   </section>
 
   <aside class="card panel">
-    <div>
-      <label for="family">Parent function \(f(x)\)</label>
+    <div class="field">
+      <label for="family">Parent function <span class="math-inline"><i>f</i>(<i>x</i>)</span></label>
       <select id="family"></select>
     </div>
 
-    <label class="small">
+    <label class="no-trig">
       <input type="checkbox" id="noTrigMode">
       No trigonometry mode
     </label>
 
     <div class="slider-group">
-      <div class="slider-head"><label for="A">Vertical scale \(A\)</label><code id="Aval"></code></div>
+      <div class="slider-head">
+        <label for="A">Vertical scale <span class="math-inline"><i>A</i></span></label>
+        <code id="Aval">1.00</code>
+      </div>
       <input id="A" type="range" min="-5" max="5" step="0.05" value="1">
     </div>
     <div class="slider-group">
-      <div class="slider-head"><label for="b">Horizontal scale \(b\)</label><code id="bval"></code></div>
+      <div class="slider-head">
+        <label for="b">Horizontal scale <span class="math-inline"><i>b</i></span></label>
+        <code id="bval">1.00</code>
+      </div>
       <input id="b" type="range" min="-5" max="5" step="0.05" value="1">
     </div>
     <div class="slider-group">
-      <div class="slider-head"><label for="h">Horizontal shift \(h\)</label><code id="hval"></code></div>
+      <div class="slider-head">
+        <label for="h">Horizontal shift <span class="math-inline"><i>h</i></span></label>
+        <code id="hval">0.00</code>
+      </div>
       <input id="h" type="range" min="-8" max="8" step="0.05" value="0">
     </div>
     <div class="slider-group">
-      <div class="slider-head"><label for="k">Vertical shift \(k\)</label><code id="kval"></code></div>
+      <div class="slider-head">
+        <label for="k">Vertical shift <span class="math-inline"><i>k</i></span></label>
+        <code id="kval">0.00</code>
+      </div>
       <input id="k" type="range" min="-8" max="8" step="0.05" value="0">
     </div>
 
     <div class="metric">
-      <strong>Fit score: <span id="score">0%</span></strong>
-      <span class="small">Score is based on the root mean squared error between your curve and the noisy data.</span>
+      <div class="metric-head">
+        <span>Fit score</span>
+        <strong id="score">0%</strong>
+      </div>
       <div class="meter"><div class="fill" id="fill"></div></div>
     </div>
 
@@ -301,50 +416,44 @@ window.MathJax = {
 
     <div class="buttons">
       <button class="primary" id="newData">New cloud</button>
-      <button class="ghost" id="resetGuess">Reset guess</button>
-      <button class="good" id="checkFit">Check fit</button>
-      <button class="ghost" id="toggleAnswer">Teacher key</button>
+      <button id="resetGuess">Reset</button>
+      <button id="toggleAnswer">Teacher key</button>
     </div>
 
     <div class="toggles">
-      <label class="small"><input type="checkbox" id="showResiduals"> residuals</label>
-      <label class="small"><input type="checkbox" id="showTarget"> target curve</label>
+      <label><input type="checkbox" id="showResiduals"> residuals</label>
+      <label><input type="checkbox" id="showTarget"> target curve</label>
     </div>
 
-    <div class="teacher">
-      <p class="small">
-        Class use: have students identify the parent-function family first, then tune shifts, stretches,
-        reflections, and, when trig mode is on, period/frequency. The hidden answer is intentionally approximate
-        because the point cloud includes noise.
-      </p>
-      <div id="answer" class="hidden-answer"></div>
-    </div>
+    <div id="answer" class="hidden-answer"></div>
   </aside>
 </main>
 
 <script>
+// ============ families ============
 const families = [
-  { id:"linear", name:"Linear: f(x)=x", formula:"x", f:t=>t, domain:t=>true, xmin:-8, xmax:8 },
-  { id:"quadratic", name:"Quadratic: f(x)=x²", formula:"x²", f:t=>t*t, domain:t=>true, xmin:-6, xmax:6 },
-  { id:"cubic", name:"Cubic: f(x)=x³", formula:"x³", f:t=>t*t*t, domain:t=>true, xmin:-4, xmax:4 },
-  { id:"absolute", name:"Absolute value: f(x)=|x|", formula:"|x|", f:t=>Math.abs(t), domain:t=>true, xmin:-7, xmax:7 },
-  { id:"sqrt", name:"Square root: f(x)=√x", formula:"√x", f:t=>Math.sqrt(t), domain:t=>t>=0, xmin:-2, xmax:10 },
-  { id:"cuberoot", name:"Cube root: f(x)=∛x", formula:"∛x", f:t=>Math.sign(t)*Math.pow(Math.abs(t),1/3), domain:t=>true, xmin:-8, xmax:8 },
-  { id:"reciprocal", name:"Reciprocal: f(x)=1/x", formula:"1/x", f:t=>1/t, domain:t=>Math.abs(t)>0.08, xmin:-8, xmax:8, avoidZero:true },
-  { id:"reciprocal2", name:"Squared reciprocal: f(x)=1/x²", formula:"1/x²", f:t=>1/(t*t), domain:t=>Math.abs(t)>0.12, xmin:-8, xmax:8, avoidZero:true },
-  { id:"exponential", name:"Exponential: f(x)=eˣ", formula:"eˣ", f:t=>Math.exp(t), domain:t=>t<4.2, xmin:-5, xmax:5 },
-  { id:"log", name:"Logarithmic: f(x)=ln(x)", formula:"ln(x)", f:t=>Math.log(t), domain:t=>t>0.08, xmin:-1, xmax:10 },
-  { id:"sine", name:"Sine: f(x)=sin(x)", formula:"sin(x)", trig:true, f:t=>Math.sin(t), domain:t=>true, xmin:-8, xmax:8 },
-  { id:"cosine", name:"Cosine: f(x)=cos(x)", formula:"cos(x)", trig:true, f:t=>Math.cos(t), domain:t=>true, xmin:-8, xmax:8 },
-  { id:"tangent", name:"Tangent: f(x)=tan(x)", formula:"tan(x)", trig:true, f:t=>Math.tan(t), domain:t=>Math.abs(Math.cos(t))>0.18 && Math.abs(Math.tan(t))<8, xmin:-5, xmax:5 },
-  { id:"arctan", name:"Arctangent: f(x)=arctan(x)", formula:"arctan(x)", trig:true, f:t=>Math.atan(t), domain:t=>true, xmin:-8, xmax:8 }
+  { id:"linear",      name:"Linear:  f(x) = x",          f:t=>t,                             domain:t=>true, xmin:-8, xmax:8 },
+  { id:"quadratic",   name:"Quadratic:  f(x) = x²",      f:t=>t*t,                           domain:t=>true, xmin:-6, xmax:6 },
+  { id:"cubic",       name:"Cubic:  f(x) = x³",          f:t=>t*t*t,                         domain:t=>true, xmin:-4, xmax:4 },
+  { id:"absolute",    name:"Absolute value:  f(x) = |x|", f:t=>Math.abs(t),                  domain:t=>true, xmin:-7, xmax:7 },
+  { id:"sqrt",        name:"Square root:  f(x) = √x",    f:t=>Math.sqrt(t),                  domain:t=>t>=0, xmin:-2, xmax:10 },
+  { id:"cuberoot",    name:"Cube root:  f(x) = ∛x",      f:t=>Math.sign(t)*Math.pow(Math.abs(t),1/3), domain:t=>true, xmin:-8, xmax:8 },
+  { id:"reciprocal",  name:"Reciprocal:  f(x) = 1/x",    f:t=>1/t,                           domain:t=>Math.abs(t)>0.08, xmin:-8, xmax:8 },
+  { id:"reciprocal2", name:"Squared reciprocal:  f(x) = 1/x²", f:t=>1/(t*t),                 domain:t=>Math.abs(t)>0.12, xmin:-8, xmax:8 },
+  { id:"exponential", name:"Exponential:  f(x) = eˣ",    f:t=>Math.exp(t),                   domain:t=>t<4.2, xmin:-5, xmax:5 },
+  { id:"log",         name:"Logarithmic:  f(x) = ln(x)", f:t=>Math.log(t),                   domain:t=>t>0.08, xmin:-1, xmax:10 },
+  { id:"sine",        name:"Sine:  f(x) = sin(x)",       trig:true, f:t=>Math.sin(t),        domain:t=>true, xmin:-8, xmax:8 },
+  { id:"cosine",      name:"Cosine:  f(x) = cos(x)",     trig:true, f:t=>Math.cos(t),        domain:t=>true, xmin:-8, xmax:8 },
+  { id:"tangent",     name:"Tangent:  f(x) = tan(x)",    trig:true, f:t=>Math.tan(t),        domain:t=>Math.abs(Math.cos(t))>0.18 && Math.abs(Math.tan(t))<8, xmin:-5, xmax:5 },
+  { id:"arctan",      name:"Arctangent:  f(x) = arctan(x)", trig:true, f:t=>Math.atan(t),    domain:t=>true, xmin:-8, xmax:8 }
 ];
+
+const familySelect = document.getElementById("family");
 
 function activeFamilies() {
   const noTrig = document.getElementById("noTrigMode")?.checked;
   return noTrig ? families.filter(f => !f.trig) : families;
 }
-
 function populateFamilySelect() {
   const current = familySelect.value;
   familySelect.innerHTML = "";
@@ -357,8 +466,6 @@ function populateFamilySelect() {
   if (activeFamilies().some(f => f.id === current)) familySelect.value = current;
   else familySelect.value = activeFamilies()[0].id;
 }
-
-const familySelect = document.getElementById("family");
 populateFamilySelect();
 
 const sliders = ["A","b","h","k"].map(id => document.getElementById(id));
@@ -374,7 +481,6 @@ function choice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 function normalish(scale=1){
   return scale*(Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()-3)/3;
 }
-
 function getFamily(id){ return families.find(f=>f.id===id); }
 
 function transformY(fam, x, p) {
@@ -385,6 +491,7 @@ function transformY(fam, x, p) {
   return y;
 }
 
+// ============ target + data ============
 function makeTarget() {
   const fam = choice(activeFamilies());
   let p = {};
@@ -443,12 +550,10 @@ function generateData() {
     const y = y0 + noise;
     if (Number.isFinite(y) && Math.abs(y)<10) data.push({x,y,y0});
   }
-  if (data.length < 25) {
-    generateData();
-    return;
-  }
+  if (data.length < 25) { generateData(); return; }
   setView();
   resetGuess();
+  document.getElementById("answer").style.display = "none";
   update();
 }
 
@@ -468,7 +573,6 @@ function currentParams() {
     k: parseFloat(document.getElementById("k").value)
   };
 }
-
 function resetGuess() {
   document.getElementById("A").value = "1";
   document.getElementById("b").value = "1";
@@ -478,6 +582,7 @@ function resetGuess() {
   update();
 }
 
+// ============ fit metric ============
 function rmseFor(fam, p) {
   let s = 0, n = 0, invalid = 0;
   for (const d of data) {
@@ -489,13 +594,11 @@ function rmseFor(fam, p) {
   if (n < Math.max(8, data.length*0.65)) return Infinity;
   return Math.sqrt(s/n) + invalid*0.15;
 }
-
 function targetNoiseFloor() {
   let s=0;
   for (const d of data) s += (d.y-d.y0)*(d.y-d.y0);
   return Math.sqrt(s/data.length);
 }
-
 function scoreFromRmse(rmse) {
   if (!Number.isFinite(rmse)) return 0;
   const floor = targetNoiseFloor();
@@ -503,13 +606,92 @@ function scoreFromRmse(rmse) {
   return Math.max(0, Math.min(100, 100 * Math.exp(-Math.max(0, rmse-floor)/scale)));
 }
 
+// ============ number formatting ============
 function nice(x) {
   const ax = Math.abs(x);
   if (ax >= 10) return x.toFixed(1);
   if (ax >= 1) return x.toFixed(2);
   return x.toFixed(3);
 }
+function niceNum(v) {
+  if (Math.abs(v) < 1e-9) return "0";
+  return String(Number(nice(v)));
+}
+function niceAbs(v) {
+  return niceNum(Math.abs(v));
+}
 
+// ============ pure HTML math renderer ============
+function fmtInner(b, h) {
+  const b1  = Math.abs(b - 1) < 1e-9;
+  const bn1 = Math.abs(b + 1) < 1e-9;
+  const h0  = Math.abs(h) < 1e-9;
+  const xh = h0
+    ? "<i>x</i>"
+    : (h > 0 ? `<i>x</i> − ${niceAbs(h)}` : `<i>x</i> + ${niceAbs(h)}`);
+  if (b1)  return xh;
+  if (bn1) return h0 ? "−<i>x</i>" : `−(${xh})`;
+  const bstr = b < 0 ? `−${niceAbs(b)}` : niceNum(b);
+  return h0 ? `${bstr}<i>x</i>` : `${bstr}(${xh})`;
+}
+
+function fmtCoeff(A) {
+  if (Math.abs(A - 1) < 1e-9) return "";
+  if (Math.abs(A + 1) < 1e-9) return "−";
+  const s = niceAbs(A);
+  return (A < 0) ? `−${s}·` : `${s}·`;
+}
+
+function needsLinearWrap(A, b, h) {
+  if (Math.abs(A - 1) < 1e-9) return false;
+  const absBOne = Math.abs(Math.abs(b) - 1) < 1e-9;
+  if (!absBOne) return false;
+  return Math.abs(h) > 1e-9 || Math.abs(b + 1) < 1e-9;
+}
+
+function fmtBody(famId, inner, A, b, h) {
+  switch (famId) {
+    case "linear":
+      return needsLinearWrap(A, b, h) ? `(${inner})` : inner;
+    case "quadratic":
+      return `(${inner})<sup class="exp">2</sup>`;
+    case "cubic":
+      return `(${inner})<sup class="exp">3</sup>`;
+    case "absolute":
+      return `<span class="abs">${inner}</span>`;
+    case "sqrt":
+      return `<span class="sqrt"><span class="r">√</span><span class="i">${inner}</span></span>`;
+    case "cuberoot":
+      return `<span class="sqrt"><span class="r">∛</span><span class="i">${inner}</span></span>`;
+    case "reciprocal":
+      return `<span class="frac"><span class="n">1</span><span class="d">${inner}</span></span>`;
+    case "reciprocal2":
+      return `<span class="frac"><span class="n">1</span><span class="d">(${inner})<sup class="exp">2</sup></span></span>`;
+    case "exponential":
+      return `<i>e</i><sup class="exp">${inner}</sup>`;
+    case "log":     return `ln(${inner})`;
+    case "sine":    return `sin(${inner})`;
+    case "cosine":  return `cos(${inner})`;
+    case "tangent": return `tan(${inner})`;
+    case "arctan":  return `arctan(${inner})`;
+  }
+  return inner;
+}
+
+function fmtTail(k) {
+  if (Math.abs(k) < 1e-9) return "";
+  return k > 0 ? ` + ${niceAbs(k)}` : ` − ${niceAbs(k)}`;
+}
+
+function renderModel(fam, p) {
+  const coef = fmtCoeff(p.A);
+  const inner = fmtInner(p.b, p.h);
+  const body = fmtBody(fam.id, inner, p.A, p.b, p.h);
+  const tail = fmtTail(p.k);
+  return `<i>y</i> = ${coef}${body}${tail}`;
+}
+
+// ============ update loop ============
 function updateLabels() {
   const p = currentParams();
   document.getElementById("Aval").textContent = nice(p.A);
@@ -518,116 +700,42 @@ function updateLabels() {
   document.getElementById("kval").textContent = nice(p.k);
 }
 
-
-
-function latexNum(v) {
-  const n = Number(nice(v));
-  if (Math.abs(n) < 1e-10) return "0";
-  return String(n);
-}
-
-function latexSigned(v) {
-  if (Math.abs(v) < 1e-10) return "";
-  return v < 0 ? ` - ${latexNum(Math.abs(v))}` : ` + ${latexNum(v)}`;
-}
-
-function latexInnerExpression(p) {
-  const b = latexNum(p.b);
-  const hPart = Math.abs(p.h) < 1e-10 ? "x" : (p.h > 0 ? `x-${latexNum(p.h)}` : `x+${latexNum(Math.abs(p.h))}`);
-  if (Math.abs(p.b - 1) < 1e-10) return hPart;
-  if (Math.abs(p.b + 1) < 1e-10) return `-\\left(${hPart}\\right)`;
-  return `${b}\\left(${hPart}\\right)`;
-}
-
-function transformedFormulaLatex(fam, p) {
-  const u = latexInnerExpression(p);
-  let body;
-  if (fam.id === "linear") body = `\\left(${u}\\right)`;
-  else if (fam.id === "quadratic") body = `\\left(${u}\\right)^2`;
-  else if (fam.id === "cubic") body = `\\left(${u}\\right)^3`;
-  else if (fam.id === "absolute") body = `\\left|${u}\\right|`;
-  else if (fam.id === "sqrt") body = `\\sqrt{${u}}`;
-  else if (fam.id === "cuberoot") body = `\\sqrt[3]{${u}}`;
-  else if (fam.id === "reciprocal") body = `\\frac{1}{${u}}`;
-  else if (fam.id === "reciprocal2") body = `\\frac{1}{\\left(${u}\\right)^2}`;
-  else if (fam.id === "exponential") body = `e^{${u}}`;
-  else if (fam.id === "log") body = `\\ln\\left(${u}\\right)`;
-  else if (fam.id === "sine") body = `\\sin\\left(${u}\\right)`;
-  else if (fam.id === "cosine") body = `\\cos\\left(${u}\\right)`;
-  else if (fam.id === "tangent") body = `\\tan\\left(${u}\\right)`;
-  else if (fam.id === "arctan") body = `\\arctan\\left(${u}\\right)`;
-  else body = `f\\left(${u}\\right)`;
-
-  let front;
-  if (Math.abs(p.A - 1) < 1e-10) front = body;
-  else if (Math.abs(p.A + 1) < 1e-10) front = `-${body}`;
-  else front = `${latexNum(p.A)}${body}`;
-
-  return `y = ${front}${latexSigned(p.k)}`;
-}
-
-function transformedFormulaText(fam, p) {
-  return transformedFormulaLatex(fam, p)
-    .replaceAll("\\left", "")
-    .replaceAll("\\right", "")
-    .replaceAll("\\frac{1}{", "1/(")
-    .replaceAll("\\sqrt[3]{", "∛(")
-    .replaceAll("\\sqrt{", "√(")
-    .replaceAll("\\ln", "ln")
-    .replaceAll("\\sin", "sin")
-    .replaceAll("\\cos", "cos")
-    .replaceAll("\\tan", "tan")
-    .replaceAll("\\arctan", "arctan")
-    .replaceAll("{", "(")
-    .replaceAll("}", ")");
-}
-
 function updateFormula() {
   const fam = getFamily(familySelect.value);
   const p = currentParams();
-  const el = document.getElementById("currentFormula");
-  el.innerHTML = `\\(${transformedFormulaLatex(fam, p)}\\)`;
-  if (window.MathJax && MathJax.typesetPromise) {
-    MathJax.typesetPromise([el]).catch(() => {});
-  }
+  document.getElementById("currentFormula").innerHTML = renderModel(fam, p);
 }
 
 function updateMetric() {
   const fam = getFamily(familySelect.value);
   const p = currentParams();
-  const r = rmseFor(fam,p);
+  const r = rmseFor(fam, p);
   const score = scoreFromRmse(r);
   document.getElementById("score").textContent = Math.round(score) + "%";
   document.getElementById("fill").style.width = score + "%";
-  const status = document.getElementById("status");
 
+  const status = document.getElementById("status");
   const sameFamily = fam.id === target.fam.id;
   const achieved = score >= 92 && sameFamily;
   const close = score >= 78;
 
   status.className = "status" + (achieved ? " win" : close ? " close" : "");
-  if (achieved) {
-    status.textContent = "Best fit achieved. Nice!";
-  } else if (close && sameFamily) {
-    status.textContent = "Very close — tune the parameters.";
-  } else if (close && !sameFamily) {
-    status.textContent = "Numerically close, but wrong parent family.";
-  } else {
-    status.textContent = "Keep fitting.";
-  }
+  if (achieved) status.textContent = "Fit achieved.";
+  else if (close && sameFamily) status.textContent = "Close; keep tuning.";
+  else if (close && !sameFamily) status.textContent = "Close, but wrong parent family.";
+  else status.textContent = "Keep tuning.";
 
-  document.getElementById("answer").innerHTML =
-    `Hidden family: ${target.fam.name}<br>` +
-    `Hidden model: \\(${transformedFormulaLatex(target.fam, target.p)}\\)<br>` +
-    `A=${nice(target.p.A)}, b=${nice(target.p.b)}, h=${nice(target.p.h)}, k=${nice(target.p.k)}<br>` +
-    `Noise floor RMSE ≈ ${nice(targetNoiseFloor())}<br>` +
-    `Your RMSE ≈ ${Number.isFinite(r) ? nice(r) : "invalid domain"}`;
   const ans = document.getElementById("answer");
-  if (ans.style.display === "block" && window.MathJax && MathJax.typesetPromise) {
-    MathJax.typesetPromise([ans]).catch(() => {});
-  }
+  const targetModel = renderModel(target.fam, target.p);
+  const yourRmse = Number.isFinite(r) ? nice(r) : "invalid domain";
+  ans.innerHTML =
+    `<div class="row-line"><span class="k">Family</span>${target.fam.name}</div>` +
+    `<div class="row-line math-inline"><span class="k">Target</span>${targetModel}</div>` +
+    `<div class="row-line mono"><span class="k">Params</span>A = ${nice(target.p.A)}, b = ${nice(target.p.b)}, h = ${nice(target.p.h)}, k = ${nice(target.p.k)}</div>` +
+    `<div class="row-line mono"><span class="k">RMSE</span>noise floor ≈ ${nice(targetNoiseFloor())}  ·  your fit ≈ ${yourRmse}</div>`;
 }
 
+// ============ canvas drawing ============
 function resizeCanvas() {
   const ratio = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
@@ -635,7 +743,6 @@ function resizeCanvas() {
   canvas.height = Math.round(rect.height * ratio);
   ctx.setTransform(ratio,0,0,ratio,0,0);
 }
-
 function X(x) {
   const rect = canvas.getBoundingClientRect();
   return (x-view.xmin)/(view.xmax-view.xmin)*rect.width;
@@ -643,6 +750,21 @@ function X(x) {
 function Y(y) {
   const rect = canvas.getBoundingClientRect();
   return rect.height - (y-view.ymin)/(view.ymax-view.ymin)*rect.height;
+}
+
+function chooseStep(span) {
+  const raw = span / 8;
+  const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+  const m = raw / pow;
+  if (m < 1.5) return pow;
+  if (m < 3.5) return 2*pow;
+  if (m < 7.5) return 5*pow;
+  return 10*pow;
+}
+function formatTick(v) {
+  if (Math.abs(v) < 1e-9) return "0";
+  if (Math.abs(v) >= 10) return v.toFixed(0);
+  return Number(v.toFixed(1)).toString();
 }
 
 function drawGrid() {
@@ -675,21 +797,6 @@ function drawGrid() {
   if (view.xmin < 0 && view.xmax > 0) {
     ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),rect.height); ctx.stroke();
   }
-}
-
-function chooseStep(span) {
-  const raw = span / 8;
-  const pow = Math.pow(10, Math.floor(Math.log10(raw)));
-  const m = raw / pow;
-  if (m < 1.5) return pow;
-  if (m < 3.5) return 2*pow;
-  if (m < 7.5) return 5*pow;
-  return 10*pow;
-}
-function formatTick(v) {
-  if (Math.abs(v) < 1e-9) return "0";
-  if (Math.abs(v) >= 10) return v.toFixed(0);
-  return Number(v.toFixed(1)).toString();
 }
 
 function drawCurve(fam, p, style) {
@@ -742,14 +849,6 @@ function drawResiduals(fam,p) {
   }
 }
 
-function typesetStaticMath() {
-  if (window.MathJax && MathJax.typesetPromise) {
-    MathJax.typesetPromise(document.body ? [document.body] : []).catch(() => {});
-  } else {
-    setTimeout(typesetStaticMath, 100);
-  }
-}
-
 function update() {
   if (!target) return;
   resizeCanvas();
@@ -767,6 +866,7 @@ function update() {
   updateMetric();
 }
 
+// ============ events ============
 for (const s of sliders) s.addEventListener("input", update);
 familySelect.addEventListener("change", update);
 document.getElementById("noTrigMode").addEventListener("change", () => {
@@ -777,7 +877,6 @@ document.getElementById("showResiduals").addEventListener("change", update);
 document.getElementById("showTarget").addEventListener("change", update);
 document.getElementById("newData").addEventListener("click", generateData);
 document.getElementById("resetGuess").addEventListener("click", resetGuess);
-document.getElementById("checkFit").addEventListener("click", updateMetric);
 document.getElementById("toggleAnswer").addEventListener("click", () => {
   const el = document.getElementById("answer");
   el.style.display = (el.style.display === "block") ? "none" : "block";
@@ -785,7 +884,6 @@ document.getElementById("toggleAnswer").addEventListener("click", () => {
 window.addEventListener("resize", update);
 
 generateData();
-window.addEventListener("load", () => setTimeout(typesetStaticMath, 150));
 </script>
 </body>
 </html>
