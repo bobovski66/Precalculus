@@ -184,274 +184,597 @@ const BANK = [
 /* ============================ WEEK 1 ============================ */
 {ch:1, topic:"Relations, domain and range",
 q:`For the relation ${m("{(&minus;1, 3), (0, 0), (2, 3), (2, &minus;3), (5, 1)}")}, state the domain and the range, and decide whether the relation is a function. Justify your answer.`,
-s:`<p>Domain ${m("{&minus;1, 0, 2, 5}")}; range ${m("{3, 0, &minus;3, 1}")}.</p>
-<p><strong>Not a function:</strong> the input ${m("2")} is paired with both ${m("3")} and ${m("&minus;3")}, so one input determines two outputs, violating the function condition.</p>`},
+s:`<p><strong>Step 1: Find the domain.</strong> The domain is the set of all input values, so read the first coordinate from every ordered pair:</p>
+<p>${m("&minus;1, 0, 2, 2, 5")}.</p>
+<p>Because a set lists each value only once, the domain is ${m("{&minus;1, 0, 2, 5}")}.</p>
+<p><strong>Step 2: Find the range.</strong> The range is the set of all output values, so read the second coordinate from every ordered pair:</p>
+<p>${m("3, 0, 3, &minus;3, 1")}.</p>
+<p>Removing the repeated ${m("3")}, the range is ${m("{3, 0, &minus;3, 1}")}.</p>
+<p><strong>Step 3: Decide whether the relation is a function.</strong> A relation is a function only when every input is paired with exactly one output. Here the input ${m("2")} is paired with both ${m("3")} and ${m("&minus;3")}.</p>
+<p><strong>Conclusion:</strong> The relation is <strong>not a function</strong> because one input has two different outputs.</p>`},
 
 {ch:1, topic:"Vertical line test",
 q:`Decide whether each graph could pass the vertical line test, and say what the test is checking:
 <ol><li>a circle</li><li>a downward-opening parabola</li><li>the letter &ldquo;S&rdquo; lying on its back</li><li>a single steep upward line</li></ol>`,
-s:`<ol>
-<li>Circle: <strong>fails</strong> &mdash; a vertical line through its interior meets it twice.</li>
-<li>Downward parabola: <strong>passes</strong> &mdash; every vertical line meets it once.</li>
-<li>Sideways S: <strong>fails</strong> &mdash; some vertical lines meet it three times.</li>
-<li>Steep line: <strong>passes</strong>.</li></ol>
-<p>The test checks the defining property of a function: each input has exactly one output, since a vertical line collects all points sharing one ${m("x")}-value.</p>`},
+s:`<p><strong>The vertical line test asks:</strong> for each fixed input ${m("x")}, is there at most one point on the graph? If a vertical line meets a graph more than once, that one input has more than one output, so the graph is not a function.</p>
+<ol>
+<li><strong>Circle: fails.</strong> A vertical line through most of the circle meets it once on the upper half and once on the lower half. Thus one ${m("x")}-value produces two ${m("y")}-values.</li>
+<li><strong>Downward-opening parabola: passes.</strong> Every vertical line meets the parabola at no more than one point, so every allowed input has one output.</li>
+<li><strong>Sideways letter S: fails.</strong> Some vertical lines cut through several parts of the curve, giving several outputs for the same input.</li>
+<li><strong>Single steep upward line: passes.</strong> As long as the line is not vertical, each vertical line meets it at most once.</li>
+</ol>
+<p><strong>Conclusion:</strong> The downward-opening parabola and the steep nonvertical line represent functions; the circle and sideways S do not.</p>`},
 
 {ch:1, topic:"Evaluating a function",
 q:`Let ${m("f(x) = 2x<sup>2</sup> &minus; x + 3")}. Compute ${m("f(0)")}, ${m("f(&minus;2)")}, and ${m("f(t + 1)")}, simplifying the last completely.`,
-s:`<p>${m("f(0) = 3")}.</p>
-<p>${m("f(&minus;2) = 2(4) &minus; (&minus;2) + 3 = 8 + 2 + 3 = 13")}.</p>
-<p>${m("f(t+1) = 2(t+1)<sup>2</sup> &minus; (t+1) + 3 = 2t<sup>2</sup> + 4t + 2 &minus; t &minus; 1 + 3 = 2t<sup>2</sup> + 3t + 4")}.</p>
-<p>The input is the whole expression ${m("t + 1")}; parentheses protect it while the rule acts.</p>`},
+s:`<p>Use the rule ${m("f(x) = 2x<sup>2</sup> &minus; x + 3")} and replace every ${m("x")} by the stated input.</p>
+<p><strong>1. Compute ${m("f(0)")}.</strong></p>
+<p>${m("f(0) = 2(0)<sup>2</sup> &minus; 0 + 3 = 3")}.</p>
+<p><strong>2. Compute ${m("f(&minus;2)")}.</strong> Parentheses are important because the input is negative:</p>
+<p>${m("f(&minus;2) = 2(&minus;2)<sup>2</sup> &minus; (&minus;2) + 3")}.</p>
+<p>${m("= 2(4) + 2 + 3 = 8 + 2 + 3 = 13")}.</p>
+<p><strong>3. Compute ${m("f(t+1)")}.</strong> Replace every ${m("x")} by the entire expression ${m("(t+1)")}:</p>
+<p>${m("f(t+1) = 2(t+1)<sup>2</sup> &minus; (t+1) + 3")}.</p>
+<p>First expand ${m("(t+1)<sup>2</sup> = t<sup>2</sup> + 2t + 1")}:</p>
+<p>${m("= 2(t<sup>2</sup> + 2t + 1) &minus; t &minus; 1 + 3")}</p>
+<p>${m("= 2t<sup>2</sup> + 4t + 2 &minus; t &minus; 1 + 3")}</p>
+<p>${m("= 2t<sup>2</sup> + 3t + 4")}.</p>
+<p><strong>Answers:</strong> ${m("f(0)=3")}, ${m("f(&minus;2)=13")}, and ${m("f(t+1)=2t<sup>2</sup>+3t+4")}.</p>`},
 
 {ch:1, topic:"Building a transformation",
 q:`Starting from ${m("f(x) = x<sup>2</sup>")}, write the rule for the function obtained by shifting left 4, stretching vertically by 3, and shifting down 1. Then state the vertex.`,
-s:`<p>Left 4 means ${m("h = &minus;4")}; vertical stretch 3 means ${m("A = 3")}; down 1 means ${m("k = &minus;1")}:</p>
-<p>${m("g(x) = 3(x + 4)<sup>2</sup> &minus; 1")}.</p>
-<p>The vertex of ${m("x<sup>2</sup>")} at the origin maps to ${m("(h, k) = (&minus;4, &minus;1)")}.</p>`},
+s:`<p>Start with the transformation form ${m("g(x)=A(x-h)<sup>2</sup>+k")}.</p>
+<p><strong>Step 1: Shift left 4.</strong> A left shift uses the opposite sign inside the parentheses, so replace ${m("x")} by ${m("x+4")}. Equivalently, ${m("h=&minus;4")}.</p>
+<p><strong>Step 2: Stretch vertically by 3.</strong> Multiply the entire squared expression by ${m("3")}, so ${m("A=3")}.</p>
+<p><strong>Step 3: Shift down 1.</strong> Subtract ${m("1")} outside the function, so ${m("k=&minus;1")}.</p>
+<p>Putting the three transformations together gives</p>
+<p>${m("g(x)=3(x+4)<sup>2</sup>&minus;1")}.</p>
+<p>The parent parabola ${m("y=x<sup>2</sup>")} has vertex ${m("(0,0)")}. A left shift of 4 and a downward shift of 1 move the vertex to ${m("(&minus;4,&minus;1)")}. The vertical stretch changes the steepness but not the vertex location.</p>
+<p><strong>Answer:</strong> ${m("g(x)=3(x+4)<sup>2</sup>&minus;1")}, with vertex ${m("(&minus;4,&minus;1)")}.</p>`},
 
 {ch:1, topic:"Reading a transformation",
 q:`Describe in words every transformation taking ${m("f(x) = |x|")} to ${m("g(x) = &minus;")}${fr("1","2")}${m("|x + 2| + 5")}, in the correct order, and give the coordinates of the corner of ${m("g")}.`,
-s:`<p>Read ${m("A = &minus;")}${fr("1","2")}, ${m("h = &minus;2")}, ${m("k = 5")}. In order:</p>
-<ol><li>shift left 2;</li><li>compress vertically by ${fr("1","2")} and reflect across the ${m("x")}-axis (since ${m("A &lt; 0")});</li><li>shift up 5.</li></ol>
-<p>The corner of ${m("|x|")} at the origin lands at ${m("(&minus;2, 5)")}.</p>`},
+s:`<p>Compare the function with the form ${m("g(x)=A|x-h|+k")}.</p>
+<p>Here ${m("A=&minus;")}${fr("1","2")}, ${m("h=&minus;2")}, and ${m("k=5")} because ${m("x+2=x-(&minus;2)")}.</p>
+<ol>
+<li><strong>Shift left 2.</strong> The expression ${m("|x+2|")} moves the parent graph ${m("|x|")} two units left.</li>
+<li><strong>Compress vertically by ${fr("1","2")}.</strong> Multiplying all outputs by ${fr("1","2")} makes every height half as large.</li>
+<li><strong>Reflect across the ${m("x")}-axis.</strong> The negative sign changes every output to its opposite, turning the V upside down.</li>
+<li><strong>Shift up 5.</strong> Adding ${m("5")} raises every point five units.</li>
+</ol>
+<p>The corner of the parent graph begins at ${m("(0,0)")}. After shifting left 2 and up 5, it is at ${m("(&minus;2,5)")}. The compression and reflection do not move the corner because its vertical distance from the corner is zero.</p>
+<p><strong>Answer:</strong> left 2, vertical compression by ${fr("1","2")}, reflection across the ${m("x")}-axis, then up 5; corner ${m("(&minus;2,5)")}.</p>`},
 
 {ch:1, topic:"Tracking a landmark point",
 q:`The point ${m("(9, 3)")} lies on ${m("f(x) = ")}${rt("x")}. Find where it lands under ${m("g(x) = 2")}${rt("x &minus; 1")}${m(" + 4")} by tracking the coordinates through each step, then confirm by direct substitution.`,
-s:`<p>The inside is ${m("x &minus; 1")}, so the parent's input 9 corresponds to ${m("g")}'s input ${m("9 + 1 = 10")}.</p>
-<p>The output transforms by the outside: ${m("y: 3 &rarr; 2(3) + 4 = 10")}.</p>
-<p>So ${m("(9, 3) &rarr; (10, 10)")}. Confirm: ${m("g(10) = 2")}${rt("9")}${m(" + 4 = 2(3) + 4 = 10")}. &check;</p>`},
+s:`<p>The parent point ${m("(9,3)")} means that when the square-root function receives input ${m("9")}, it gives output ${m("3")}.</p>
+<p><strong>Step 1: Track the input.</strong> In ${m("g(x)=2")}${rt("x&minus;1")}${m("+4")}, the square-root function receives the inside input ${m("x&minus;1")}. To make that inside input equal the parent input ${m("9")}, solve</p>
+<p>${m("x&minus;1=9")}.</p>
+<p>Adding 1 gives ${m("x=10")}. Thus the new ${m("x")}-coordinate is ${m("10")}.</p>
+<p><strong>Step 2: Track the output.</strong> The parent output ${m("3")} is multiplied by ${m("2")} and then increased by ${m("4")}:</p>
+<p>${m("y=2(3)+4=6+4=10")}.</p>
+<p>Therefore the point transformation is ${m("(9,3)&rarr;(10,10)")}.</p>
+<p><strong>Step 3: Verify directly.</strong></p>
+<p>${m("g(10)=2")}${rt("10&minus;1")}${m("+4=2")}${rt("9")}${m("+4=2(3)+4=10")}.</p>
+<p><strong>Answer:</strong> The landmark point lands at ${m("(10,10)")}.</p>`},
 
 {ch:1, topic:"Outside vs. inside",
 q:`Explain, using the outside/inside rule, why ${m("f(x &minus; 3)")} shifts the graph <em>right</em> while ${m("f(x) + 3")} shifts it <em>up</em>. Why do the two &ldquo;+3&rdquo; moves go in such different directions?`,
-s:`<p>Constants outside ${m("f")} act on the <em>output</em> and move the graph vertically as expected: ${m("f(x) + 3")} raises every output by 3.</p>
-<p>Constants inside ${m("f")} act on the <em>input</em> before the function sees it, and run in reverse: ${m("f(x &minus; 3)")} reaches the parent's value at input 0 when ${m("x &minus; 3 = 0")}, i.e. at ${m("x = 3")}, so the graph shifts right.</p>
-<p>One &ldquo;+3&rdquo; adjusts the output after the function acts; the other adjusts the input before it acts.</p>`},
+s:`<p>The key distinction is whether the constant acts <em>after</em> the function has produced an output or <em>before</em> the function receives its input.</p>
+<p><strong>Outside change: ${m("f(x)+3")}.</strong> First calculate ${m("f(x)")}; then add ${m("3")} to the output. A point ${m("(x,y)")} on the original graph becomes ${m("(x,y+3)")}. The ${m("x")}-coordinate stays the same, and the graph moves up 3 units.</p>
+<p><strong>Inside change: ${m("f(x&minus;3)")}.</strong> The function now receives the input ${m("x&minus;3")}. To obtain the old output ${m("f(a)")}, the new graph must satisfy</p>
+<p>${m("x&minus;3=a")}.</p>
+<p>Solving gives ${m("x=a+3")}. Thus the point that used to occur at input ${m("a")} now occurs three units farther right.</p>
+<p>For example, the old value ${m("f(0)")} appears in the new graph when ${m("x&minus;3=0")}, which occurs at ${m("x=3")}.</p>
+<p><strong>Conclusion:</strong> Outside additions change outputs in the expected direction; inside changes alter which input reaches the same old location, so their horizontal direction is reversed.</p>`},
 
 {ch:1, topic:"Choosing a parent for a fit",
 q:`A point cloud opens upward like a bowl with its lowest point near ${m("(2, &minus;3)")}. Propose a parent function and initial values of ${m("A, b, h, k")} to start a fit, and explain each choice.`,
-s:`<p>A bowl suggests the parent ${m("f(x) = x<sup>2</sup>")}.</p>
-<p>Start with ${m("A = 1")} (upward, unstretched), ${m("b = 1")}, ${m("h = 2")} (vertex ${m("x")}), ${m("k = &minus;3")} (vertex ${m("y")}).</p>
-<p>The model's vertex then sits at ${m("(2, &minus;3)")}, matching the cloud's lowest point; ${m("A")} is tuned afterward to match how steeply the cloud rises.</p>`},
+s:`<p><strong>Step 1: Choose the parent family.</strong> A bowl-shaped point cloud with one lowest point suggests a quadratic parent, so begin with ${m("f(x)=x<sup>2</sup>")}.</p>
+<p>Use the transformed model ${m("g(x)=A f(b(x-h))+k")}, or in this case</p>
+<p>${m("g(x)=A[b(x-h)]<sup>2</sup>+k")}.</p>
+<p><strong>Step 2: Place the vertex.</strong> The lowest point is near ${m("(2,&minus;3)")}, so choose ${m("h=2")} and ${m("k=&minus;3")}. This moves the parent vertex from ${m("(0,0)")} to ${m("(2,&minus;3)")}.</p>
+<p><strong>Step 3: Choose the opening direction.</strong> The cloud opens upward, so ${m("A")} must be positive. A simple initial choice is ${m("A=1")}.</p>
+<p><strong>Step 4: Begin without a horizontal rescaling.</strong> Choose ${m("b=1")} until the data show that the graph must be made narrower or wider.</p>
+<p>The initial model is therefore</p>
+<p>${m("g(x)=(x&minus;2)<sup>2</sup>&minus;3")}.</p>
+<p>After placing the vertex, adjust ${m("A")} or ${m("b")} to match the cloud's steepness. Because both parameters affect width for a quadratic, it is usually simplest to leave ${m("b=1")} and tune ${m("A")} first.</p>`},
 
 /* ============================ WEEK 2 ============================ */
 {ch:2, topic:"Line through two points",
 q:`Find the equation of the line through ${m("(&minus;1, 2)")} and ${m("(3, &minus;6)")}. Carry it through slope, point-slope, and slope-intercept form, and verify with both points.`,
-s:`<p><strong>Slope.</strong> ${m("m = ")}${fr("&minus;6 &minus; 2","3 &minus; (&minus;1)")}${m(" = ")}${fr("&minus;8","4")}${m(" = &minus;2")}.</p>
-<p><strong>Point-slope</strong> through ${m("(&minus;1, 2)")}: ${m("y &minus; 2 = &minus;2(x + 1)")}.</p>
-<p><strong>Slope-intercept.</strong> ${m("y = &minus;2x &minus; 2 + 2 = &minus;2x")}, so ${m("f(x) = &minus;2x")}.</p>
-<p>Check: ${m("f(&minus;1) = 2")} &check; and ${m("f(3) = &minus;6")} &check;.</p>`},
+s:`<p><strong>Step 1: Compute the slope.</strong> Use</p>
+<p>${m("m=")}${fr("y<sub>2</sub>&minus;y<sub>1</sub>","x<sub>2</sub>&minus;x<sub>1</sub>")}.</p>
+<p>With ${m("(x<sub>1</sub>,y<sub>1</sub>)=(&minus;1,2)")} and ${m("(x<sub>2</sub>,y<sub>2</sub>)=(3,&minus;6)")}:</p>
+<p>${m("m=")}${fr("&minus;6&minus;2","3&minus;(&minus;1)")}${m("=")}${fr("&minus;8","4")}${m("=&minus;2")}.</p>
+<p><strong>Step 2: Write point-slope form.</strong> Using ${m("y&minus;y<sub>1</sub>=m(x&minus;x<sub>1</sub>)")} and the point ${m("(&minus;1,2)")}:</p>
+<p>${m("y&minus;2=&minus;2(x&minus;(&minus;1))")}.</p>
+<p>Therefore</p>
+<p>${m("y&minus;2=&minus;2(x+1)")}.</p>
+<p><strong>Step 3: Convert to slope-intercept form.</strong></p>
+<p>${m("y&minus;2=&minus;2x&minus;2")}</p>
+<p>${m("y=&minus;2x")}.</p>
+<p><strong>Step 4: Verify both points.</strong></p>
+<p>For ${m("x=&minus;1")}, ${m("y=&minus;2(&minus;1)=2")}, so ${m("(&minus;1,2)")} lies on the line.</p>
+<p>For ${m("x=3")}, ${m("y=&minus;2(3)=&minus;6")}, so ${m("(3,&minus;6)")} also lies on the line.</p>
+<p><strong>Answer:</strong> Point-slope form ${m("y&minus;2=&minus;2(x+1)")}; slope-intercept form ${m("y=&minus;2x")}.</p>`},
 
 {ch:2, topic:"Point-slope and intercepts",
 q:`A line passes through ${m("(4, 1)")} with slope ${m("&minus;")}${fr("2","3")}. Write its point-slope and slope-intercept forms, and find its ${m("x")}- and ${m("y")}-intercepts.`,
-s:`<p>Point-slope: ${m("y &minus; 1 = &minus;")}${fr("2","3")}${m("(x &minus; 4)")}.</p>
-<p>Slope-intercept: ${m("y = &minus;")}${fr("2","3")}${m("x + ")}${fr("8","3")}${m(" + 1 = &minus;")}${fr("2","3")}${m("x + ")}${fr("11","3")}.</p>
-<p>The ${m("y")}-intercept is ${fr("11","3")}. The ${m("x")}-intercept solves ${m("0 = &minus;")}${fr("2","3")}${m("x + ")}${fr("11","3")}, giving ${m("x = ")}${fr("11","2")}.</p>`},
+s:`<p><strong>Step 1: Write point-slope form.</strong> The point is ${m("(4,1)")} and the slope is ${m("&minus;")}${fr("2","3")}, so</p>
+<p>${m("y&minus;1=&minus;")}${fr("2","3")}${m("(x&minus;4)")}.</p>
+<p><strong>Step 2: Convert to slope-intercept form.</strong> Distribute the slope:</p>
+<p>${m("y&minus;1=&minus;")}${fr("2","3")}${m("x+")}${fr("8","3")}.</p>
+<p>Add ${m("1=")}${fr("3","3")} to both sides:</p>
+<p>${m("y=&minus;")}${fr("2","3")}${m("x+")}${fr("8","3")}${m("+")}${fr("3","3")}</p>
+<p>${m("y=&minus;")}${fr("2","3")}${m("x+")}${fr("11","3")}.</p>
+<p><strong>Step 3: Find the ${m("y")}-intercept.</strong> Set ${m("x=0")}:</p>
+<p>${m("y=&minus;")}${fr("2","3")}${m("(0)+")}${fr("11","3")}${m("=")}${fr("11","3")}.</p>
+<p>Thus the ${m("y")}-intercept is ${m("(0,")}${fr("11","3")}${m(")")}.</p>
+<p><strong>Step 4: Find the ${m("x")}-intercept.</strong> Set ${m("y=0")}:</p>
+<p>${m("0=&minus;")}${fr("2","3")}${m("x+")}${fr("11","3")}.</p>
+<p>Multiply by ${m("3")}: ${m("0=&minus;2x+11")}. Then ${m("2x=11")}, so ${m("x=")}${fr("11","2")}.</p>
+<p>Thus the ${m("x")}-intercept is ${m("(")}${fr("11","2")}${m(",0)")}.</p>`},
 
 {ch:2, topic:"Which lines are functions?",
 q:`Decide whether each relation is a function and, if so, give its slope:
 <ol><li>the line through ${m("(2, 5)")} and ${m("(2, &minus;1)")}</li><li>the line through ${m("(0, 4)")} and ${m("(7, 4)")}</li><li>the line through ${m("(1, 1)")} and ${m("(3, 5)")}</li></ol>`,
-s:`<ol>
-<li>The run is 0, so the slope is undefined; this is the vertical line ${m("x = 2")}, <strong>not a function</strong>.</li>
-<li>Slope 0, a function: the horizontal line ${m("y = 4")}.</li>
-<li>Slope ${fr("5 &minus; 1","3 &minus; 1")}${m(" = 2")}, a function.</li></ol>`},
+s:`<p>A nonvertical line is a function because every input ${m("x")} has exactly one output ${m("y")}. A vertical line is not a function because the same ${m("x")}-value occurs with many ${m("y")}-values.</p>
+<ol>
+<li><strong>Through ${m("(2,5)")} and ${m("(2,&minus;1)")}:</strong> both points have ${m("x=2")}, so the run is ${m("2&minus;2=0")}. The slope formula would require division by zero, so the slope is undefined. The equation is the vertical line ${m("x=2")}, which is <strong>not a function</strong>.</li>
+<li><strong>Through ${m("(0,4)")} and ${m("(7,4)")}:</strong>
+${m("m=")}${fr("4&minus;4","7&minus;0")}${m("=")}${fr("0","7")}${m("=0")}.
+This is the horizontal line ${m("y=4")}. It is a function because each ${m("x")} gives the one output ${m("4")}.</li>
+<li><strong>Through ${m("(1,1)")} and ${m("(3,5)")}:</strong>
+${m("m=")}${fr("5&minus;1","3&minus;1")}${m("=")}${fr("4","2")}${m("=2")}.
+The line is nonvertical, so it is a function with slope ${m("2")}.</li>
+</ol>`},
 
 {ch:2, topic:"Fitting a parabola to three points",
 q:`Find the quadratic ${m("f(x) = ax<sup>2</sup> + bx + c")} through ${m("(&minus;1, 6)")}, ${m("(0, 1)")}, and ${m("(2, 3)")} by setting up and solving the linear system.`,
-s:`<p>From ${m("(0, 1)")}: ${m("c = 1")}. From ${m("(&minus;1, 6)")}: ${m("a &minus; b + 1 = 6")}, so ${m("a &minus; b = 5")}. From ${m("(2, 3)")}: ${m("4a + 2b + 1 = 3")}, so ${m("2a + b = 1")}.</p>
-<p>Adding ${m("a &minus; b = 5")} and ${m("2a + b = 1")}: ${m("3a = 6")}, so ${m("a = 2")}, then ${m("b = &minus;3")}.</p>
-<p>${m("f(x) = 2x<sup>2</sup> &minus; 3x + 1")}. Check ${m("(&minus;1)")}: ${m("2 + 3 + 1 = 6")} &check;.</p>`},
+s:`<p>Substitute each point into ${m("f(x)=ax<sup>2</sup>+bx+c")}. Each point produces one linear equation in ${m("a,b,c")}.</p>
+<p><strong>Step 1: Use ${m("(&minus;1,6)")}.</strong></p>
+<p>${m("6=a(&minus;1)<sup>2</sup>+b(&minus;1)+c")}</p>
+<p>${m("6=a&minus;b+c")}.</p>
+<p><strong>Step 2: Use ${m("(0,1)")}.</strong></p>
+<p>${m("1=a(0)<sup>2</sup>+b(0)+c")}, so ${m("c=1")}.</p>
+<p><strong>Step 3: Use ${m("(2,3)")}.</strong></p>
+<p>${m("3=a(2)<sup>2</sup>+b(2)+c")}</p>
+<p>${m("3=4a+2b+c")}.</p>
+<p>Substitute ${m("c=1")} into the first and third equations:</p>
+<p>${m("a&minus;b+1=6")}, so ${m("a&minus;b=5")}.</p>
+<p>${m("4a+2b+1=3")}, so ${m("4a+2b=2")}, and dividing by 2 gives ${m("2a+b=1")}.</p>
+<p><strong>Step 4: Solve the two-equation system.</strong></p>
+<p>${m("a&minus;b=5")}</p>
+<p>${m("2a+b=1")}</p>
+<p>Add the equations to eliminate ${m("b")}:</p>
+<p>${m("3a=6")}, so ${m("a=2")}.</p>
+<p>Substitute into ${m("2a+b=1")}:</p>
+<p>${m("2(2)+b=1")}, so ${m("4+b=1")} and ${m("b=&minus;3")}.</p>
+<p>Therefore ${m("a=2")}, ${m("b=&minus;3")}, and ${m("c=1")}.</p>
+<p><strong>Answer:</strong> ${m("f(x)=2x<sup>2</sup>&minus;3x+1")}.</p>
+<p>A check with all three inputs gives ${m("f(&minus;1)=6")}, ${m("f(0)=1")}, and ${m("f(2)=3")}.</p>`},
 
 {ch:2, topic:"Completing the square",
 q:`Convert ${m("f(x) = 3x<sup>2</sup> + 12x + 7")} to vertex form by completing the square, and confirm the vertex with the formula ${m("h = &minus;")}${fr("b","2a")}.`,
-s:`<p>Factor 3 from the variable terms: ${m("3(x<sup>2</sup> + 4x) + 7")}. Half of 4, squared, is 4:</p>
-<p>${m("3(x<sup>2</sup> + 4x + 4 &minus; 4) + 7 = 3(x + 2)<sup>2</sup> &minus; 12 + 7 = 3(x + 2)<sup>2</sup> &minus; 5")}.</p>
-<p>The vertex is ${m("(&minus;2, &minus;5)")}. By formula, ${m("h = &minus;")}${fr("12","6")}${m(" = &minus;2")}, agreeing.</p>`},
+s:`<p>We want to rewrite ${m("3x<sup>2</sup>+12x+7")} in the form ${m("a(x-h)<sup>2</sup>+k")}.</p>
+<p><strong>Step 1: Factor the leading coefficient from the variable terms.</strong></p>
+<p>${m("3x<sup>2</sup>+12x+7=3(x<sup>2</sup>+4x)+7")}.</p>
+<p><strong>Step 2: Complete the square inside the parentheses.</strong> Take half of ${m("4")} and square it:</p>
+<p>${m("(")}${fr("4","2")}${m(")<sup>2</sup>=2<sup>2</sup>=4")}.</p>
+<p>Add and subtract ${m("4")} inside the same parentheses so the expression does not change:</p>
+<p>${m("3(x<sup>2</sup>+4x+4&minus;4)+7")}.</p>
+<p>The first three terms form a perfect square:</p>
+<p>${m("3((x+2)<sup>2</sup>&minus;4)+7")}.</p>
+<p><strong>Step 3: Distribute and combine constants.</strong></p>
+<p>${m("3(x+2)<sup>2</sup>&minus;12+7")}</p>
+<p>${m("=3(x+2)<sup>2</sup>&minus;5")}.</p>
+<p>Thus the vertex form is ${m("f(x)=3(x+2)<sup>2</sup>&minus;5")}, so the vertex is ${m("(&minus;2,&minus;5)")}.</p>
+<p><strong>Formula check.</strong> In standard form, ${m("a=3")} and ${m("b=12")}. Therefore</p>
+<p>${m("h=&minus;")}${fr("b","2a")}${m("=&minus;")}${fr("12","2(3)")}${m("=&minus;2")}.</p>
+<p>This agrees with the vertex form.</p>`},
 
 {ch:2, topic:"Roots, vertex, intercept",
 q:`For ${m("f(x) = x<sup>2</sup> &minus; 2x &minus; 15")}, find the roots by factoring, the vertex by averaging the roots, and the ${m("y")}-intercept. Describe the sketch with all three labeled.`,
-s:`<p>Factor: ${m("(x &minus; 5)(x + 3)")}, roots ${m("5")} and ${m("&minus;3")}.</p>
-<p>Axis of symmetry: ${m("x = ")}${fr("5 + (&minus;3)","2")}${m(" = 1")}. Vertex height: ${m("f(1) = 1 &minus; 2 &minus; 15 = &minus;16")}, so the vertex is ${m("(1, &minus;16)")}.</p>
-<p>${m("y")}-intercept: ${m("f(0) = &minus;15")}.</p>
-<p>Sketch: upward parabola crossing at ${m("&minus;3")} and ${m("5")}, vertex ${m("(1, &minus;16)")}, ${m("y")}-intercept ${m("(0, &minus;15)")}.</p>`},
+s:`<p><strong>Step 1: Find the roots.</strong> Factor the quadratic:</p>
+<p>${m("x<sup>2</sup>&minus;2x&minus;15=(x&minus;5)(x+3)")}.</p>
+<p>Set each factor equal to zero:</p>
+<p>${m("x&minus;5=0")}, so ${m("x=5")};</p>
+<p>${m("x+3=0")}, so ${m("x=&minus;3")}.</p>
+<p>The ${m("x")}-intercepts are ${m("(5,0)")} and ${m("(&minus;3,0)")}.</p>
+<p><strong>Step 2: Find the axis of symmetry.</strong> The axis lies halfway between the roots:</p>
+<p>${m("x=")}${fr("5+(&minus;3)","2")}${m("=")}${fr("2","2")}${m("=1")}.</p>
+<p><strong>Step 3: Find the vertex height.</strong> Evaluate the function at ${m("x=1")}:</p>
+<p>${m("f(1)=1<sup>2</sup>&minus;2(1)&minus;15=1&minus;2&minus;15=&minus;16")}.</p>
+<p>Therefore the vertex is ${m("(1,&minus;16)")}.</p>
+<p><strong>Step 4: Find the ${m("y")}-intercept.</strong> Set ${m("x=0")}:</p>
+<p>${m("f(0)=0&minus;0&minus;15=&minus;15")}.</p>
+<p>Thus the ${m("y")}-intercept is ${m("(0,&minus;15)")}.</p>
+<p><strong>Sketch description:</strong> Since the leading coefficient is positive, the parabola opens upward. Plot the roots ${m("(&minus;3,0)")} and ${m("(5,0)")}, the vertex ${m("(1,&minus;16)")}, and the ${m("y")}-intercept ${m("(0,&minus;15)")}; then draw a curve symmetric about ${m("x=1")}.</p>`},
 
 {ch:2, topic:"The discriminant",
 q:`Use the discriminant to determine the number of real roots of each; for any with real roots, give them:
 <ol><li>${m("x<sup>2</sup> &minus; 4x + 4")}</li><li>${m("2x<sup>2</sup> + x + 3")}</li><li>${m("x<sup>2</sup> &minus; 5x + 2")}</li></ol>`,
-s:`<ol>
-<li>${m("16 &minus; 16 = 0")}: one (doubled) real root, ${m("x = 2")}.</li>
-<li>${m("1 &minus; 24 = &minus;23 &lt; 0")}: no real roots.</li>
-<li>${m("25 &minus; 8 = 17 &gt; 0")}: two real roots, ${m("x = ")}${fr("5 <span class='pm'>&plusmn;</span> &radic;17","2")}${m(" &asymp; 4.56")} and ${m("0.44")}.</li></ol>`},
+s:`<p>For ${m("ax<sup>2</sup>+bx+c")}, compute the discriminant ${m("D=b<sup>2</sup>&minus;4ac")}.</p>
+<p>If ${m("D&gt;0")}, there are two distinct real roots. If ${m("D=0")}, there is one repeated real root. If ${m("D&lt;0")}, there are no real roots.</p>
+<ol>
+<li><strong>${m("x<sup>2</sup>&minus;4x+4")}:</strong> ${m("a=1")}, ${m("b=&minus;4")}, ${m("c=4")}.
+<p>${m("D=(&minus;4)<sup>2</sup>&minus;4(1)(4)=16&minus;16=0")}.</p>
+<p>There is one repeated real root. Using the quadratic formula,</p>
+<p>${m("x=")}${fr("&minus;(&minus;4)","2(1)")}${m("=")}${fr("4","2")}${m("=2")}.</p></li>
+<li><strong>${m("2x<sup>2</sup>+x+3")}:</strong> ${m("a=2")}, ${m("b=1")}, ${m("c=3")}.
+<p>${m("D=1<sup>2</sup>&minus;4(2)(3)=1&minus;24=&minus;23")}.</p>
+<p>Because ${m("D&lt;0")}, there are no real roots.</p></li>
+<li><strong>${m("x<sup>2</sup>&minus;5x+2")}:</strong> ${m("a=1")}, ${m("b=&minus;5")}, ${m("c=2")}.
+<p>${m("D=(&minus;5)<sup>2</sup>&minus;4(1)(2)=25&minus;8=17")}.</p>
+<p>Because ${m("D&gt;0")}, there are two real roots:</p>
+<p>${m("x=")}${fr("&minus;(&minus;5)<span class='pm'>&plusmn;</span>&radic;17","2(1)")}${m("=")}${fr("5<span class='pm'>&plusmn;</span>&radic;17","2")}.</p>
+<p>Approximately, the roots are ${m("x&asymp;4.56")} and ${m("x&asymp;0.44")}.</p></li>
+</ol>`},
 
 {ch:2, topic:"Three forms of a quadratic",
 q:`A quadratic has roots ${m("&minus;4")} and ${m("2")} and passes through ${m("(0, &minus;16)")}. Determine ${m("a")}, then write the function in all three forms.`,
-s:`<p>${m("f(x) = a(x + 4)(x &minus; 2)")}. Then ${m("f(0) = a(4)(&minus;2) = &minus;8a = &minus;16")}, so ${m("a = 2")}.</p>
-<p>Factored: ${m("2(x + 4)(x &minus; 2)")}. Standard: ${m("2x<sup>2</sup> + 4x &minus; 16")}.</p>
-<p>Vertex: ${m("h = ")}${fr("&minus;4 + 2","2")}${m(" = &minus;1")}, ${m("k = f(&minus;1) = 2 &minus; 4 &minus; 16 = &minus;18")}, so ${m("2(x + 1)<sup>2</sup> &minus; 18")}.</p>`},
+s:`<p><strong>Step 1: Begin with factored form.</strong> Roots at ${m("&minus;4")} and ${m("2")} require factors ${m("(x+4)")} and ${m("(x&minus;2)")}:</p>
+<p>${m("f(x)=a(x+4)(x&minus;2)")}.</p>
+<p><strong>Step 2: Use the point ${m("(0,&minus;16)")} to find ${m("a")}.</strong></p>
+<p>${m("&minus;16=a(0+4)(0&minus;2)=a(4)(&minus;2)=&minus;8a")}.</p>
+<p>Divide by ${m("&minus;8")}: ${m("a=2")}.</p>
+<p>Therefore the <strong>factored form</strong> is</p>
+<p>${m("f(x)=2(x+4)(x&minus;2)")}.</p>
+<p><strong>Step 3: Expand to standard form.</strong></p>
+<p>${m("(x+4)(x&minus;2)=x<sup>2</sup>+2x&minus;8")}.</p>
+<p>Multiplying by ${m("2")} gives the <strong>standard form</strong></p>
+<p>${m("f(x)=2x<sup>2</sup>+4x&minus;16")}.</p>
+<p><strong>Step 4: Find the vertex.</strong> The axis of symmetry is halfway between the roots:</p>
+<p>${m("h=")}${fr("&minus;4+2","2")}${m("=")}${fr("&minus;2","2")}${m("=&minus;1")}.</p>
+<p>Evaluate the function at ${m("x=&minus;1")}:</p>
+<p>${m("k=f(&minus;1)=2(&minus;1)<sup>2</sup>+4(&minus;1)&minus;16=2&minus;4&minus;16=&minus;18")}.</p>
+<p>So the vertex is ${m("(&minus;1,&minus;18)")}. With ${m("a=2")}, the <strong>vertex form</strong> is</p>
+<p>${m("f(x)=2(x+1)<sup>2</sup>&minus;18")}.</p>`},
 
 /* ============================ WEEK 3 ============================ */
 {ch:3, topic:"End behavior",
 q:`State the end behavior of each polynomial from its leading term alone:
 <ol><li>${m("f(x) = 3x<sup>4</sup> &minus; x + 5")}</li><li>${m("f(x) = &minus;x<sup>3</sup> + 2x<sup>2</sup>")}</li><li>${m("f(x) = &minus;4x<sup>6</sup> + x<sup>5</sup>")}</li><li>${m("f(x) = x<sup>5</sup> &minus; 3x<sup>2</sup> + 1")}</li></ol>`,
-s:`<ol>
-<li>${m("3x<sup>4</sup>")}: even degree, positive lead &mdash; both ends up.</li>
-<li>${m("&minus;x<sup>3</sup>")}: odd, negative lead &mdash; up on the left, down on the right.</li>
-<li>${m("&minus;4x<sup>6</sup>")}: even, negative lead &mdash; both ends down.</li>
-<li>${m("x<sup>5</sup>")}: odd, positive lead &mdash; down on the left, up on the right.</li></ol>`},
+s:`<p>For polynomial end behavior, only the leading term matters because it dominates all lower-degree terms when ${m("|x|")} is large.</p>
+<ol>
+<li><strong>${m("3x<sup>4</sup>&minus;x+5")}:</strong> the leading term is ${m("3x<sup>4</sup>")}. The degree is even, so both ends point in the same direction. The leading coefficient is positive, so both ends point up:
+<p>as ${m("x&rarr;&minus;&infin;")}, ${m("f(x)&rarr;&infin;")}; as ${m("x&rarr;&infin;")}, ${m("f(x)&rarr;&infin;")}.</p></li>
+<li><strong>${m("&minus;x<sup>3</sup>+2x<sup>2</sup>")}:</strong> the leading term is ${m("&minus;x<sup>3</sup>")}. The degree is odd, so the ends point in opposite directions. The leading coefficient is negative, so the left end is up and the right end is down:
+<p>as ${m("x&rarr;&minus;&infin;")}, ${m("f(x)&rarr;&infin;")}; as ${m("x&rarr;&infin;")}, ${m("f(x)&rarr;&minus;&infin;")}.</p></li>
+<li><strong>${m("&minus;4x<sup>6</sup>+x<sup>5</sup>")}:</strong> the leading term is ${m("&minus;4x<sup>6</sup>")}. Even degree gives matching ends; negative leading coefficient sends both down.</li>
+<li><strong>${m("x<sup>5</sup>&minus;3x<sup>2</sup>+1")}:</strong> the leading term is ${m("x<sup>5</sup>")}. Odd degree gives opposite ends; positive leading coefficient gives left down and right up.</li>
+</ol>`},
 
 {ch:3, topic:"Roots and multiplicities",
 q:`For ${m("f(x) = (x + 1)(x &minus; 2)<sup>3</sup>(x &minus; 4)")}, list the roots with their multiplicities, state the degree, and say at each root whether the graph crosses or touches.`,
-s:`<p>Roots: ${m("&minus;1")} (multiplicity 1), ${m("2")} (multiplicity 3), ${m("4")} (multiplicity 1). Degree ${m("1 + 3 + 1 = 5")}.</p>
-<p>The graph <strong>crosses</strong> at all three, since every multiplicity is odd; at ${m("x = 2")} the crossing flattens against the axis because the multiplicity is 3.</p>`},
+s:`<p>The roots come from setting each factor equal to zero.</p>
+<p><strong>Root ${m("x=&minus;1")}:</strong> the factor ${m("(x+1)")} appears once, so the multiplicity is ${m("1")}.</p>
+<p><strong>Root ${m("x=2")}:</strong> the factor ${m("(x&minus;2)<sup>3</sup>")} has exponent ${m("3")}, so the multiplicity is ${m("3")}.</p>
+<p><strong>Root ${m("x=4")}:</strong> the factor ${m("(x&minus;4)")} appears once, so the multiplicity is ${m("1")}.</p>
+<p>The degree is the sum of the factor degrees, or equivalently the sum of the multiplicities:</p>
+<p>${m("1+3+1=5")}.</p>
+<p>An odd multiplicity causes the graph to change sign and cross the ${m("x")}-axis. Therefore the graph crosses at all three roots. At ${m("x=2")}, the multiplicity is ${m("3")}, so the graph crosses while flattening along the axis before continuing through it.</p>
+<p><strong>Answer:</strong> roots ${m("&minus;1")} (mult. 1), ${m("2")} (mult. 3), and ${m("4")} (mult. 1); degree ${m("5")}; crossing at each root.</p>`},
 
 {ch:3, topic:"Sign chart, simple roots",
 q:`Build a complete sign chart for ${m("f(x) = (x + 3)(x &minus; 1)(x &minus; 2)")}, with a test point in each interval and the sign of every factor recorded.`,
-s:`<p>Roots ${m("&minus;3, 1, 2")} split the line into four intervals. Testing ${m("x = &minus;4, 0, 1.5, 3")}:</p>
+s:`<p><strong>Step 1: Locate the critical numbers.</strong> The factors are zero at ${m("x=&minus;3")}, ${m("x=1")}, and ${m("x=2")}. These divide the number line into four intervals.</p>
+<p><strong>Step 2: Choose one test point in each interval.</strong> We may use ${m("&minus;4,0,1.5,3")}.</p>
 <ol>
-<li>${m("(&minus;&infin;, &minus;3)")}: factors ${m("&minus;, &minus;, &minus;")} &rarr; ${m("f")} negative.</li>
-<li>${m("(&minus;3, 1)")}: ${m("+, &minus;, &minus;")} &rarr; ${m("f")} positive.</li>
-<li>${m("(1, 2)")}: ${m("+, +, &minus;")} &rarr; ${m("f")} negative.</li>
-<li>${m("(2, &infin;)")}: ${m("+, +, +")} &rarr; ${m("f")} positive.</li></ol>
-<p>The sign changes at each root, since all are simple.</p>`},
+<li><strong>${m("(&minus;&infin;,&minus;3)")}, test ${m("x=&minus;4")}:</strong>
+${m("x+3=&minus;1")} is negative, ${m("x&minus;1=&minus;5")} is negative, and ${m("x&minus;2=&minus;6")} is negative. Three negative factors give a negative product, so ${m("f(x)&lt;0")}.</li>
+<li><strong>${m("(&minus;3,1)")}, test ${m("x=0")}:</strong>
+${m("x+3=3")} is positive, ${m("x&minus;1=&minus;1")} is negative, and ${m("x&minus;2=&minus;2")} is negative. Two negatives multiply to a positive, and then multiplying by the positive factor remains positive. Thus ${m("f(x)&gt;0")}.</li>
+<li><strong>${m("(1,2)")}, test ${m("x=1.5")}:</strong>
+${m("x+3")} is positive, ${m("x&minus;1")} is positive, and ${m("x&minus;2")} is negative. The product is negative, so ${m("f(x)&lt;0")}.</li>
+<li><strong>${m("(2,&infin;)")}, test ${m("x=3")}:</strong>
+all three factors are positive, so ${m("f(x)&gt;0")}.</li>
+</ol>
+<p><strong>Sign chart:</strong> ${m("&minus;, +, &minus;, +")} across the four intervals. Because every root has multiplicity 1, the sign changes at every root.</p>`},
 
 {ch:3, topic:"Sign chart with a double root",
 q:`Build a sign chart for ${m("f(x) = &minus;(x + 1)<sup>2</sup>(x &minus; 3)")}. Identify where the sign does and does not change, and connect each to a multiplicity.`,
-s:`<p>Roots: ${m("&minus;1")} (multiplicity 2), ${m("3")} (multiplicity 1).</p>
-<p>${m("f")} is positive on ${m("(&minus;&infin;, &minus;1)")}, positive on ${m("(&minus;1, 3)")}, negative on ${m("(3, &infin;)")}.</p>
-<p>No sign change at ${m("x = &minus;1")} (even multiplicity: a touch); a sign change at ${m("x = 3")} (odd multiplicity: a crossing). The leading ${m("&minus;1")} makes the overall lead negative.</p>`},
+s:`<p><strong>Step 1: Identify roots and multiplicities.</strong></p>
+<p>${m("x=&minus;1")} comes from ${m("(x+1)<sup>2</sup>")} and has multiplicity ${m("2")}. The root ${m("x=3")} comes from ${m("(x&minus;3)")} and has multiplicity ${m("1")}.</p>
+<p><strong>Step 2: Divide the number line.</strong> The intervals are ${m("(&minus;&infin;,&minus;1)")}, ${m("(&minus;1,3)")}, and ${m("(3,&infin;)")}.</p>
+<p><strong>Step 3: Test each interval.</strong></p>
+<ol>
+<li>For ${m("x=&minus;2")}, ${m("(x+1)<sup>2</sup>&gt;0")} and ${m("(x&minus;3)&lt;0")}. Their product is negative, and the leading negative sign makes ${m("f(x)&gt;0")}.</li>
+<li>For ${m("x=0")}, ${m("(x+1)<sup>2</sup>&gt;0")} and ${m("(x&minus;3)&lt;0")}. Again the inside product is negative, so the outside negative makes ${m("f(x)&gt;0")}.</li>
+<li>For ${m("x=4")}, both ${m("(x+1)<sup>2</sup>")} and ${m("(x&minus;3)")} are positive. Their product is positive, and the outside negative makes ${m("f(x)&lt;0")}.</li>
+</ol>
+<p><strong>Sign chart:</strong> positive on ${m("(&minus;&infin;,&minus;1)")}, positive on ${m("(&minus;1,3)")}, and negative on ${m("(3,&infin;)")}.</p>
+<p>The sign does not change at ${m("x=&minus;1")} because its multiplicity is even, so the graph touches the axis and turns. The sign changes at ${m("x=3")} because its multiplicity is odd, so the graph crosses the axis.</p>`},
 
 {ch:3, topic:"Full sketch from factored form",
 q:`Sketch ${m("f(x) = (x &minus; 1)(x + 2)<sup>2</sup>")} from its factored form: state the ends, mark the roots with crossing or touching behavior, use the sign chart, and describe a shape consistent with all three.`,
-s:`<p><strong>Ends.</strong> Degree 3, positive lead: down on the left, up on the right.</p>
-<p><strong>Roots.</strong> Cross at ${m("1")} (simple), touch at ${m("&minus;2")} (double).</p>
-<p><strong>Signs.</strong> Negative on ${m("(&minus;&infin;, &minus;2)")}, negative on ${m("(&minus;2, 1)")}, positive on ${m("(1, &infin;)")}.</p>
-<p>The curve rises from the lower left, touches the axis at ${m("x = &minus;2")} and turns back down, continues below to cross up at ${m("x = 1")}, then climbs to the upper right.</p>`},
+s:`<p><strong>Step 1: Determine end behavior.</strong> The polynomial has degree ${m("1+2=3")} and positive leading coefficient. An odd-degree polynomial with positive leading coefficient goes down on the left and up on the right.</p>
+<p><strong>Step 2: Identify the roots and their behavior.</strong></p>
+<p>${m("x=1")} has multiplicity 1, so the graph crosses the ${m("x")}-axis there.</p>
+<p>${m("x=&minus;2")} has multiplicity 2, so the graph touches the ${m("x")}-axis and turns there.</p>
+<p><strong>Step 3: Make a sign chart.</strong></p>
+<p>For ${m("x&lt;&minus;2")}, ${m("(x&minus;1)&lt;0")} and ${m("(x+2)<sup>2</sup>&gt;0")}, so ${m("f(x)&lt;0")}.</p>
+<p>For ${m("&minus;2&lt;x&lt;1")}, ${m("(x&minus;1)&lt;0")} and the squared factor is still positive, so ${m("f(x)&lt;0")}.</p>
+<p>For ${m("x&gt;1")}, both factors are positive, so ${m("f(x)&gt;0")}.</p>
+<p><strong>Step 4: Assemble the sketch.</strong> Begin in the lower-left quadrant. Rise to the axis at ${m("x=&minus;2")}, touch it, and turn back below the axis because the sign remains negative. Continue below the axis until ${m("x=1")}; cross there because the sign changes from negative to positive. Then rise toward the upper right.</p>`},
 
 {ch:3, topic:"Lowest possible degree",
 q:`A polynomial has even degree and negative leading coefficient, with simple roots at ${m("&minus;1")} and ${m("4")} and a double root at ${m("2")}. Determine the lowest possible degree, then describe a graph consistent with all stated features.`,
-s:`<p>Multiplicities sum to at least ${m("1 + 1 + 2 = 4")}, so the lowest possible degree is <strong>4</strong> (even, consistent).</p>
-<p>With negative lead, both ends point down. The curve comes up from the lower left, crosses at ${m("&minus;1")}, rises, touches at ${m("2")} and turns, crosses at ${m("4")}, and falls to the lower right.</p>`},
+s:`<p>The degree of a factored polynomial must be at least the sum of the stated multiplicities.</p>
+<p>The simple root at ${m("&minus;1")} contributes degree ${m("1")}. The double root at ${m("2")} contributes degree ${m("2")}. The simple root at ${m("4")} contributes degree ${m("1")}.</p>
+<p>Thus the least possible degree is</p>
+<p>${m("1+2+1=4")}.</p>
+<p>This degree is even, as required. A specific polynomial with all the requested features is</p>
+<p>${m("f(x)=&minus;(x+1)(x&minus;2)<sup>2</sup>(x&minus;4)")}.</p>
+<p>The negative sign gives a negative leading coefficient, so both ends point downward. The graph crosses at ${m("x=&minus;1")}, touches and turns at ${m("x=2")}, and crosses again at ${m("x=4")}.</p>
+<p><strong>Answer:</strong> lowest possible degree ${m("4")}.</p>`},
 
 {ch:3, topic:"From sign pattern to factored form",
 q:`A polynomial is positive on ${m("(&minus;&infin;, &minus;1)")}, negative on ${m("(&minus;1, 2)")}, and positive on ${m("(2, &infin;)")}, with no other sign changes. Determine the multiplicity parity at each of ${m("&minus;1")} and ${m("2")}, and give a possible factored form of lowest degree.`,
-s:`<p>The sign changes at ${m("&minus;1")} (from ${m("+")} to ${m("&minus;")}) and at ${m("2")} (from ${m("&minus;")} to ${m("+")}), so both roots have <strong>odd multiplicity</strong>.</p>
-<p>The lowest-degree form uses simple roots: ${m("f(x) = (x + 1)(x &minus; 2)")} (up to a positive constant); its sign pattern ${m("+, &minus;, +")} matches.</p>`},
+s:`<p>A polynomial changes sign at a root of odd multiplicity and keeps the same sign at a root of even multiplicity.</p>
+<p>At ${m("x=&minus;1")}, the sign changes from positive to negative. Therefore ${m("&minus;1")} must have <strong>odd multiplicity</strong>.</p>
+<p>At ${m("x=2")}, the sign changes from negative to positive. Therefore ${m("2")} must also have <strong>odd multiplicity</strong>.</p>
+<p>To obtain the lowest possible degree, use the smallest odd multiplicity, namely multiplicity ${m("1")}, at each root:</p>
+<p>${m("f(x)=A(x+1)(x&minus;2)")}.</p>
+<p>For large positive ${m("x")}, both factors are positive. The required sign on ${m("(2,&infin;)")} is positive, so choose ${m("A&gt;0")}. The simplest choice is ${m("A=1")}.</p>
+<p><strong>Answer:</strong> ${m("f(x)=(x+1)(x&minus;2)")} is a lowest-degree example. Its signs are positive, negative, positive on the three stated intervals.</p>`},
 
 /* ============================ WEEK 4 ============================ */
 {ch:4, topic:"Zeros and vertical asymptotes",
 q:`For ${m("f(x) = ")}${fr("(x &minus; 4)(x + 2)","(x &minus; 1)(x + 5)")}, state the zeros and the vertical asymptotes, and confirm there are no common factors.`,
-s:`<p>Zeros at ${m("x = 4")} and ${m("x = &minus;2")} (numerator roots); vertical asymptotes at ${m("x = 1")} and ${m("x = &minus;5")} (denominator roots).</p>
-<p>No factor is shared between numerator and denominator, so there are no holes and no cancellation.</p>`},
+s:`<p>For a rational function in lowest terms, numerator zeros produce zeros of the function, while denominator zeros produce vertical asymptotes.</p>
+<p><strong>Step 1: Check for common factors.</strong> The numerator factors are ${m("(x&minus;4)")} and ${m("(x+2)")}. The denominator factors are ${m("(x&minus;1)")} and ${m("(x+5)")}. No factor appears in both places, so nothing cancels and there are no holes.</p>
+<p><strong>Step 2: Find the zeros.</strong> Set the numerator equal to zero:</p>
+<p>${m("(x&minus;4)(x+2)=0")}.</p>
+<p>Thus ${m("x=4")} or ${m("x=&minus;2")}. The ${m("x")}-intercepts are ${m("(4,0)")} and ${m("(&minus;2,0)")}.</p>
+<p><strong>Step 3: Find the vertical asymptotes.</strong> Set the denominator equal to zero:</p>
+<p>${m("(x&minus;1)(x+5)=0")}.</p>
+<p>Thus ${m("x=1")} or ${m("x=&minus;5")}. Since neither factor canceled, both are vertical asymptotes.</p>`},
 
 {ch:4, topic:"Holes vs. asymptotes",
 q:`Identify the hole, the zeros, and the vertical asymptotes after reducing to lowest terms:
 <p style="margin-top:.5rem">${m("f(x) = ")}${fr("(x &minus; 3)(x + 2)","(x + 2)(x &minus; 5)")}</p>`,
-s:`<p>The factor ${m("(x + 2)")} is common, so it cancels, leaving ${fr("x &minus; 3","x &minus; 5")} with a <strong>hole at ${m("x = &minus;2")}</strong>.</p>
-<p>The zero is ${m("x = 3")} and the vertical asymptote is ${m("x = 5")}.</p>`},
+s:`<p><strong>Step 1: Factor and reduce.</strong></p>
+<p>${m("f(x)=")}${fr("(x&minus;3)(x+2)","(x+2)(x&minus;5)")}.</p>
+<p>The common factor ${m("(x+2)")} cancels algebraically, giving</p>
+<p>${m("g(x)=")}${fr("x&minus;3","x&minus;5")}.</p>
+<p>However, the original function was undefined at ${m("x=&minus;2")}. Cancellation does not restore that missing input, so the graph of ${m("f")} has a hole there.</p>
+<p><strong>Step 2: Find the hole's ${m("y")}-coordinate.</strong> Substitute ${m("x=&minus;2")} into the reduced expression:</p>
+<p>${m("g(&minus;2)=")}${fr("&minus;2&minus;3","&minus;2&minus;5")}${m("=")}${fr("&minus;5","&minus;7")}${m("=")}${fr("5","7")}.</p>
+<p>Therefore the hole is at ${m("(&minus;2,")}${fr("5","7")}${m(")")}.</p>
+<p><strong>Step 3: Find the zero.</strong> The remaining numerator is zero when ${m("x&minus;3=0")}, so ${m("x=3")}.</p>
+<p><strong>Step 4: Find the vertical asymptote.</strong> The remaining denominator is zero when ${m("x&minus;5=0")}, so ${m("x=5")}.</p>`},
 
 {ch:4, topic:"Horizontal asymptotes",
 q:`Give the horizontal asymptote, if any, of each:
 <ol><li>${fr("2x + 1","x &minus; 7")}</li><li>${fr("5x<sup>2</sup> &minus; 3","x<sup>2</sup> + 4")}</li><li>${fr("x + 6","x<sup>3</sup> &minus; 1")}</li><li>${fr("x<sup>3</sup>","x + 2")}</li></ol>`,
-s:`<ol>
-<li>Equal degrees: ${m("y = 2")}.</li>
-<li>Equal degrees: ${m("y = 5")}.</li>
-<li>Numerator degree below denominator: ${m("y = 0")}.</li>
-<li>Numerator degree above denominator: no horizontal asymptote.</li></ol>`},
+s:`<p>Compare the degree of the numerator with the degree of the denominator.</p>
+<ol>
+<li>${fr("2x+1","x&minus;7")}: both numerator and denominator have degree 1. For equal degrees, divide the leading coefficients: ${fr("2","1")}${m("=2")}. The horizontal asymptote is ${m("y=2")}.</li>
+<li>${fr("5x<sup>2</sup>&minus;3","x<sup>2</sup>+4")}: both have degree 2. The ratio of leading coefficients is ${fr("5","1")}${m("=5")}. The horizontal asymptote is ${m("y=5")}.</li>
+<li>${fr("x+6","x<sup>3</sup>&minus;1")}: the numerator has degree 1 and the denominator has degree 3. The denominator grows much faster, so the fraction approaches 0. The horizontal asymptote is ${m("y=0")}.</li>
+<li>${fr("x<sup>3</sup>","x+2")}: the numerator degree 3 is greater than the denominator degree 1. Therefore there is no horizontal asymptote. Polynomial division would instead reveal a degree-2 polynomial asymptote.</li>
+</ol>`},
 
 {ch:4, topic:"Full feature read",
 q:`For ${m("f(x) = ")}${fr("6x<sup>2</sup> + x","3x<sup>2</sup> &minus; 12")}, find the horizontal asymptote from the leading coefficients, the zeros, and the vertical asymptotes.`,
-s:`<p>Equal degrees, so ${m("y = ")}${fr("6","3")}${m(" = 2")}.</p>
-<p>Zeros from ${m("x(6x + 1) = 0")}: ${m("x = 0")} and ${m("x = &minus;")}${fr("1","6")}.</p>
-<p>Vertical asymptotes from ${m("3(x<sup>2</sup> &minus; 4) = 0")}: ${m("x = 2")} and ${m("x = &minus;2")}.</p>`},
+s:`<p>First factor where possible:</p>
+<p>${m("f(x)=")}${fr("x(6x+1)","3(x&minus;2)(x+2)")}.</p>
+<p>No numerator factor matches a denominator factor, so there are no cancellations or holes.</p>
+<p><strong>Horizontal asymptote.</strong> The numerator and denominator both have degree 2. Divide the leading coefficients:</p>
+<p>${m("y=")}${fr("6","3")}${m("=2")}.</p>
+<p><strong>Zeros.</strong> Set the numerator equal to zero:</p>
+<p>${m("x(6x+1)=0")}.</p>
+<p>Thus ${m("x=0")} or ${m("6x+1=0")}, giving ${m("x=&minus;")}${fr("1","6")}.</p>
+<p><strong>Vertical asymptotes.</strong> Set the denominator equal to zero:</p>
+<p>${m("3(x&minus;2)(x+2)=0")}.</p>
+<p>Thus ${m("x=2")} and ${m("x=&minus;2")}. Since neither factor cancels, both are vertical asymptotes.</p>`},
 
 {ch:4, topic:"Slant asymptote by long division",
 q:`Use long division to write ${m("f(x) = ")}${fr("x<sup>2</sup> &minus; 5x + 6","x &minus; 1")} in the form ${m("Q(x) + ")}${fr("R","x &minus; 1")}, and state the slant asymptote.`,
-s:`<p>Dividing ${m("x<sup>2</sup> &minus; 5x + 6")} by ${m("x &minus; 1")}: quotient ${m("x &minus; 4")}, remainder ${m("2")}, so</p>
-<p>${m("f(x) = x &minus; 4 + ")}${fr("2","x &minus; 1")}.</p>
-<p>The slant asymptote is ${m("y = x &minus; 4")}: the remainder term is proper and decays at the ends, so the graph hugs the quotient line.</p>`},
+s:`<p>Divide ${m("x<sup>2</sup>&minus;5x+6")} by ${m("x&minus;1")}.</p>
+<p><strong>Step 1:</strong> Divide the first terms: ${m("x<sup>2</sup>&divide;x=x")}. Put ${m("x")} in the quotient.</p>
+<p>Multiply back:</p>
+<p>${m("x(x&minus;1)=x<sup>2</sup>&minus;x")}.</p>
+<p>Subtract from the dividend:</p>
+<p>${m("(x<sup>2</sup>&minus;5x+6)&minus;(x<sup>2</sup>&minus;x)=&minus;4x+6")}.</p>
+<p><strong>Step 2:</strong> Divide ${m("&minus;4x")} by ${m("x")}: the next quotient term is ${m("&minus;4")}.</p>
+<p>Multiply back:</p>
+<p>${m("&minus;4(x&minus;1)=&minus;4x+4")}.</p>
+<p>Subtract:</p>
+<p>${m("(&minus;4x+6)&minus;(&minus;4x+4)=2")}.</p>
+<p>Therefore the quotient is ${m("x&minus;4")} and the remainder is ${m("2")}:</p>
+<p>${m("f(x)=x&minus;4+")}${fr("2","x&minus;1")}.</p>
+<p>As ${m("|x|")} becomes large, the remainder term approaches zero, so the graph approaches the line</p>
+<p><strong>${m("y=x&minus;4")}</strong>, the slant asymptote.</p>`},
 
 {ch:4, topic:"Slant asymptote, zeros, VA",
 q:`Find the slant asymptote of ${m("f(x) = ")}${fr("2x<sup>2</sup> + 3x &minus; 1","x + 2")} by long division, and give the zeros and the vertical asymptote.`,
-s:`<p>Dividing: quotient ${m("2x &minus; 1")}, remainder ${m("1")}, so the slant asymptote is ${m("y = 2x &minus; 1")}.</p>
-<p>Vertical asymptote: ${m("x = &minus;2")}.</p>
-<p>Zeros solve ${m("2x<sup>2</sup> + 3x &minus; 1 = 0")}: ${m("x = ")}${fr("&minus;3 <span class='pm'>&plusmn;</span> &radic;17","4")}${m(" &asymp; 0.28")} and ${m("&minus;1.78")}.</p>`},
+s:`<p><strong>Step 1: Perform polynomial division.</strong> Divide ${m("2x<sup>2</sup>+3x&minus;1")} by ${m("x+2")}.</p>
+<p>${m("2x<sup>2</sup>&divide;x=2x")}. Multiply: ${m("2x(x+2)=2x<sup>2</sup>+4x")}. Subtract to obtain ${m("&minus;x&minus;1")}.</p>
+<p>Next, ${m("&minus;x&divide;x=&minus;1")}. Multiply: ${m("&minus;1(x+2)=&minus;x&minus;2")}. Subtract to obtain remainder ${m("1")}.</p>
+<p>Thus</p>
+<p>${m("f(x)=2x&minus;1+")}${fr("1","x+2")}.</p>
+<p>The proper fraction approaches zero at the ends, so the <strong>slant asymptote</strong> is ${m("y=2x&minus;1")}.</p>
+<p><strong>Step 2: Find the vertical asymptote.</strong> The denominator is zero at ${m("x+2=0")}, so ${m("x=&minus;2")}. The numerator is not zero there, so no cancellation occurs.</p>
+<p><strong>Step 3: Find the zeros.</strong> Set the numerator equal to zero:</p>
+<p>${m("2x<sup>2</sup>+3x&minus;1=0")}.</p>
+<p>Using the quadratic formula with ${m("a=2")}, ${m("b=3")}, ${m("c=&minus;1")}:</p>
+<p>${m("x=")}${fr("&minus;3<span class='pm'>&plusmn;</span>&radic;(3<sup>2</sup>&minus;4(2)(&minus;1))","2(2)")}${m("=")}${fr("&minus;3<span class='pm'>&plusmn;</span>&radic;17","4")}.</p>
+<p>Approximately, the zeros are ${m("x&asymp;0.28")} and ${m("x&asymp;&minus;1.78")}.</p>`},
 
 {ch:4, topic:"Rational sign chart",
 q:`Build a complete sign chart for ${m("f(x) = ")}${fr("x &minus; 1","(x + 2)(x &minus; 3)")} over its zeros and vertical asymptotes, recording the sign of each factor in each interval.`,
-s:`<p>Feature points: zero at ${m("1")}, asymptotes at ${m("&minus;2")} and ${m("3")}. Testing ${m("x = &minus;3, 0, 2, 4")}:</p>
+s:`<p><strong>Step 1: Mark every zero and undefined point.</strong> The numerator is zero at ${m("x=1")}. The denominator is zero at ${m("x=&minus;2")} and ${m("x=3")}, producing vertical asymptotes. These three numbers split the line into four intervals.</p>
+<p><strong>Step 2: Test one value in each interval.</strong></p>
 <ol>
-<li>${m("(&minus;&infin;, &minus;2)")}: ${m("&minus;, &minus;, &minus;")} &rarr; ${m("f")} negative.</li>
-<li>${m("(&minus;2, 1)")}: ${m("&minus;, +, &minus;")} &rarr; ${m("f")} positive.</li>
-<li>${m("(1, 3)")}: ${m("+, +, &minus;")} &rarr; ${m("f")} negative.</li>
-<li>${m("(3, &infin;)")}: ${m("+, +, +")} &rarr; ${m("f")} positive.</li></ol>
-<p>Sign changes occur at the zero <em>and</em> beside each vertical asymptote.</p>`},
+<li><strong>${m("(&minus;&infin;,&minus;2)")}, test ${m("x=&minus;3")}:</strong>
+${m("x&minus;1&lt;0")}, ${m("x+2&lt;0")}, and ${m("x&minus;3&lt;0")}. The denominator is positive because it is a product of two negatives; a negative numerator divided by a positive denominator is negative.</li>
+<li><strong>${m("(&minus;2,1)")}, test ${m("x=0")}:</strong>
+${m("x&minus;1&lt;0")}, ${m("x+2&gt;0")}, and ${m("x&minus;3&lt;0")}. The denominator is negative, so negative divided by negative is positive.</li>
+<li><strong>${m("(1,3)")}, test ${m("x=2")}:</strong>
+${m("x&minus;1&gt;0")}, ${m("x+2&gt;0")}, and ${m("x&minus;3&lt;0")}. The denominator is negative, so positive divided by negative is negative.</li>
+<li><strong>${m("(3,&infin;)")}, test ${m("x=4")}:</strong>
+all three factors are positive, so the quotient is positive.</li>
+</ol>
+<p><strong>Sign chart:</strong> negative, positive, negative, positive. The function is zero at ${m("x=1")} and undefined at ${m("x=&minus;2,3")}.</p>`},
 
 {ch:4, topic:"Constructing a rational function",
 q:`A rational function has zeros at ${m("x = 0")} and ${m("x = 3")}, vertical asymptotes at ${m("x = &minus;1")} and ${m("x = 2")}, and a horizontal asymptote at ${m("y = 1")}. Construct a factored formula meeting all four conditions, and explain how you chose the degrees.`,
-s:`<p>Zeros need numerator factors ${m("x(x &minus; 3)")}; asymptotes need denominator factors ${m("(x + 1)(x &minus; 2)")}.</p>
-<p>The horizontal asymptote ${m("y = 1")} requires equal degrees with equal leading coefficients, which holds: both degree 2, lead 1. So</p>
-<p>${m("f(x) = ")}${fr("x(x &minus; 3)","(x + 1)(x &minus; 2)")}.</p>`},
+s:`<p>Build the numerator from the required zeros and the denominator from the required vertical asymptotes.</p>
+<p><strong>Step 1: Encode the zeros.</strong> A zero at ${m("x=0")} requires a factor ${m("x")}. A zero at ${m("x=3")} requires a factor ${m("(x&minus;3)")}. Thus the numerator can be ${m("x(x&minus;3)")}.</p>
+<p><strong>Step 2: Encode the vertical asymptotes.</strong> An asymptote at ${m("x=&minus;1")} requires a denominator factor ${m("(x+1)")}. An asymptote at ${m("x=2")} requires ${m("(x&minus;2)")}. Thus the denominator can be ${m("(x+1)(x&minus;2)")}.</p>
+<p><strong>Step 3: Check the horizontal asymptote.</strong> Both numerator and denominator have degree 2. Their leading coefficients are both ${m("1")}, so the ratio of leading coefficients is ${m("1")}. Therefore the horizontal asymptote is ${m("y=1")}.</p>
+<p>No factors cancel, so the zeros and vertical asymptotes remain in place.</p>
+<p><strong>Answer:</strong></p>
+<p>${m("f(x)=")}${fr("x(x&minus;3)","(x+1)(x&minus;2)")}.</p>`},
 
 /* ============================ WEEK 5 ============================ */
 {ch:5, topic:"Reading domains from formulas",
 q:`State the domain of each:
 <ol><li>${fr("x","x<sup>2</sup> &minus; 9")}</li><li>${rt("2x &minus; 6")}</li><li>${cbrt("x + 1")}</li><li>${fr("1",rt("x &minus; 4"))}</li></ol>`,
-s:`<ol>
-<li>All reals except ${m("x = <span class='pm'>&plusmn;</span>3")} (denominator roots).</li>
-<li>Need ${m("2x &minus; 6 &ge; 0")}, so ${m("x &ge; 3")}.</li>
-<li>All reals: an odd root accepts negatives.</li>
-<li>Need ${m("x &minus; 4 &gt; 0")} strictly (to avoid both a negative radicand and a zero denominator), so ${m("x &gt; 4")}.</li></ol>`},
+s:`<p>The domain contains every real input for which the formula produces a real, defined output.</p>
+<ol>
+<li><strong>${fr("x","x<sup>2</sup>&minus;9")}:</strong> a denominator may not equal zero.
+<p>${m("x<sup>2</sup>&minus;9=(x&minus;3)(x+3)=0")}, so ${m("x=&minus;3")} and ${m("x=3")} must be excluded.</p>
+<p>Domain: ${m("(&minus;&infin;,&minus;3)&cup;(&minus;3,3)&cup;(3,&infin;)")}.</p></li>
+<li><strong>${rt("2x&minus;6")}:</strong> an even-root radicand must be nonnegative.
+<p>${m("2x&minus;6&ge;0")}, so ${m("2x&ge;6")} and ${m("x&ge;3")}.</p>
+<p>Domain: ${m("[3,&infin;)")}.</p></li>
+<li><strong>${cbrt("x+1")}:</strong> cube roots accept positive, zero, and negative radicands.
+<p>Domain: all real numbers, ${m("(&minus;&infin;,&infin;)")}.</p></li>
+<li><strong>${fr("1",rt("x&minus;4"))}:</strong> the radicand must be nonnegative, but the square root is also in a denominator and therefore cannot equal zero. Thus we need
+<p>${m("x&minus;4&gt;0")}, so ${m("x&gt;4")}.</p>
+<p>Domain: ${m("(4,&infin;)")}.</p></li>
+</ol>`},
 
 {ch:5, topic:"Ranges with reasons",
 q:`Give the range of each, with a reason:
 <ol><li>${m("f(x) = x<sup>2</sup> &minus; 4")}</li><li>${m("f(x) = ")}${rt("x")}${m(" + 2")}</li><li>${m("f(x) = &minus;|x|")}</li></ol>`,
-s:`<ol>
-<li>A square is ${m("&ge; 0")}, so the range is ${m("y &ge; &minus;4")}.</li>
-<li>${rt("x")}${m(" &ge; 0")}, so the range is ${m("y &ge; 2")}.</li>
-<li>${m("|x| &ge; 0")}, so ${m("&minus;|x| &le; 0")}; range ${m("y &le; 0")}.</li></ol>`},
+s:`<p>To find a range, determine which output values the formula can produce.</p>
+<ol>
+<li><strong>${m("f(x)=x<sup>2</sup>&minus;4")}:</strong> every square satisfies ${m("x<sup>2</sup>&ge;0")}. Therefore
+<p>${m("x<sup>2</sup>&minus;4&ge;&minus;4")}.</p>
+<p>The minimum output ${m("&minus;4")} occurs at ${m("x=0")}, and every larger value occurs. Range: ${m("[&minus;4,&infin;)")}.</p></li>
+<li><strong>${m("f(x)=")}${rt("x")}${m("+2")}:</strong> the square root satisfies ${rt("x")}${m("&ge;0")}. Adding 2 gives
+<p>${m("f(x)&ge;2")}.</p>
+<p>The minimum output ${m("2")} occurs at ${m("x=0")}. Range: ${m("[2,&infin;)")}.</p></li>
+<li><strong>${m("f(x)=&minus;|x|")}:</strong> absolute value satisfies ${m("|x|&ge;0")}. Multiplying by ${m("&minus;1")} reverses the inequality:
+<p>${m("&minus;|x|&le;0")}.</p>
+<p>The maximum output ${m("0")} occurs at ${m("x=0")}, and the outputs decrease without bound. Range: ${m("(&minus;&infin;,0]")}.</p></li>
+</ol>`},
 
 {ch:5, topic:"Horizontal line test",
 q:`Apply the horizontal line test to decide which are one-to-one:
 <ol><li>${m("f(x) = 3x + 2")}</li><li>${m("f(x) = x<sup>2</sup> &minus; 1")}</li><li>${m("f(x) = x<sup>3</sup>")}</li><li>${m("f(x) = |x|")}</li></ol>`,
-s:`<ol>
-<li>Yes &mdash; a non-horizontal line is met once by every horizontal.</li>
-<li>No &mdash; a horizontal line above the vertex meets it twice.</li>
-<li>Yes.</li>
-<li>No &mdash; the V is met twice by horizontals above the vertex.</li></ol>`},
+s:`<p>The horizontal line test asks whether any horizontal line meets the graph more than once. Passing the test means each output comes from at most one input, so the function is one-to-one.</p>
+<ol>
+<li><strong>${m("f(x)=3x+2")} passes.</strong> This is a nonhorizontal line. Every horizontal line intersects it once, so the function is one-to-one.</li>
+<li><strong>${m("f(x)=x<sup>2</sup>&minus;1")} fails.</strong> Horizontal lines above the vertex usually meet the parabola twice. For example, ${m("y=3")} gives ${m("x<sup>2</sup>&minus;1=3")}, so ${m("x=&plusmn;2")}. Two inputs give the same output.</li>
+<li><strong>${m("f(x)=x<sup>3</sup>")} passes.</strong> The cubic is strictly increasing, so each horizontal line meets it exactly once.</li>
+<li><strong>${m("f(x)=|x|")} fails.</strong> For example, ${m("|x|=2")} has two solutions, ${m("x=&minus;2")} and ${m("x=2")}. Thus one output comes from two inputs.</li>
+</ol>
+<p><strong>Conclusion:</strong> ${m("3x+2")} and ${m("x<sup>3</sup>")} are one-to-one; ${m("x<sup>2</sup>&minus;1")} and ${m("|x|")} are not.</p>`},
 
 {ch:5, topic:"Finding inverses",
 q:`Find the inverse of each and state its domain:
 <ol><li>${m("f(x) = 3x &minus; 7")}</li><li>${m("f(x) = ")}${fr("x + 2","5")}</li><li>${m("f(x) = x<sup>3</sup> + 1")}</li></ol>`,
-s:`<ol>
-<li>${m("f<sup>&minus;1</sup>(x) = ")}${fr("x + 7","3")}, domain all reals.</li>
-<li>${m("f<sup>&minus;1</sup>(x) = 5x &minus; 2")}, domain all reals.</li>
-<li>${m("f<sup>&minus;1</sup>(x) = ")}${cbrt("x &minus; 1")}, domain all reals.</li></ol>
-<p>Each comes from writing ${m("y = f(x)")}, swapping ${m("x")} and ${m("y")}, and solving for ${m("y")}.</p>`},
+s:`<p>For each function, write ${m("y=f(x)")}, interchange ${m("x")} and ${m("y")}, then solve for ${m("y")}.</p>
+<ol>
+<li><strong>${m("f(x)=3x&minus;7")}:</strong>
+<p>${m("y=3x&minus;7")}.</p>
+<p>Swap: ${m("x=3y&minus;7")}.</p>
+<p>Add 7: ${m("x+7=3y")}.</p>
+<p>Divide by 3: ${m("y=")}${fr("x+7","3")}.</p>
+<p>Therefore ${m("f<sup>&minus;1</sup>(x)=")}${fr("x+7","3")}. Its domain is all real numbers because the original function's range is all real numbers.</p></li>
+<li><strong>${m("f(x)=")}${fr("x+2","5")}:</strong>
+<p>${m("y=")}${fr("x+2","5")}.</p>
+<p>Swap: ${m("x=")}${fr("y+2","5")}.</p>
+<p>Multiply by 5: ${m("5x=y+2")}.</p>
+<p>Subtract 2: ${m("y=5x&minus;2")}.</p>
+<p>Thus ${m("f<sup>&minus;1</sup>(x)=5x&minus;2")}, with domain all real numbers.</p></li>
+<li><strong>${m("f(x)=x<sup>3</sup>+1")}:</strong>
+<p>${m("y=x<sup>3</sup>+1")}.</p>
+<p>Swap: ${m("x=y<sup>3</sup>+1")}.</p>
+<p>Subtract 1: ${m("x&minus;1=y<sup>3</sup>")}.</p>
+<p>Take the cube root: ${m("y=")}${cbrt("x&minus;1")}.</p>
+<p>Thus ${m("f<sup>&minus;1</sup>(x)=")}${cbrt("x&minus;1")}, with domain all real numbers.</p></li>
+</ol>`},
 
 {ch:5, topic:"Restricting to invert",
 q:`For ${m("f(x) = x<sup>2</sup>")} restricted to ${m("x &ge; 0")}, find ${m("f<sup>&minus;1</sup>")}, verify ${m("f<sup>&minus;1</sup>(f(x)) = x")} on the restricted domain, and state the domain and range of ${m("f<sup>&minus;1</sup>")}.`,
-s:`<p>The restriction makes ${m("f")} one-to-one, with inverse ${m("f<sup>&minus;1</sup>(x) = ")}${rt("x")}.</p>
-<p>Check: ${m("f<sup>&minus;1</sup>(f(x)) = ")}${rt("x<sup>2</sup>")}${m(" = |x| = x")} for ${m("x &ge; 0")}.</p>
-<p>The inverse has domain ${m("x &ge; 0")} (the range of ${m("f")}) and range ${m("y &ge; 0")} (the domain of ${m("f")}).</p>`},
+s:`<p>The unrestricted function ${m("x<sup>2</sup>")} is not one-to-one because ${m("x")} and ${m("&minus;x")} have the same square. Restricting to ${m("x&ge;0")} keeps only the right half of the parabola, where the function is one-to-one.</p>
+<p><strong>Step 1: Find the inverse.</strong></p>
+<p>${m("y=x<sup>2</sup>")}, with ${m("x&ge;0")}.</p>
+<p>Swap ${m("x")} and ${m("y")}:</p>
+<p>${m("x=y<sup>2</sup>")}.</p>
+<p>Solving gives ${m("y=&plusmn;")}${rt("x")}, but the inverse outputs must lie in the original domain ${m("y&ge;0")}. Therefore choose the nonnegative branch:</p>
+<p>${m("f<sup>&minus;1</sup>(x)=")}${rt("x")}.</p>
+<p><strong>Step 2: Verify the composition.</strong></p>
+<p>${m("f<sup>&minus;1</sup>(f(x))=")}${rt("x<sup>2</sup>")}${m("=|x|")}.</p>
+<p>On the restricted domain ${m("x&ge;0")}, ${m("|x|=x")}. Thus ${m("f<sup>&minus;1</sup>(f(x))=x")} as required.</p>
+<p>The original function has domain ${m("[0,&infin;)")} and range ${m("[0,&infin;)")}. Therefore the inverse also has domain ${m("[0,&infin;)")} and range ${m("[0,&infin;)")}.</p>`},
 
 {ch:5, topic:"Radical equation with a check",
 q:`Solve and check, discarding any false solutions: ${m("&nbsp;")}${rt("2x + 3")}${m(" = x")}.`,
-s:`<p>Square: ${m("2x + 3 = x<sup>2</sup>")}, so ${m("x<sup>2</sup> &minus; 2x &minus; 3 = 0")}, giving ${m("(x &minus; 3)(x + 1) = 0")}; candidates ${m("3")} and ${m("&minus;1")}.</p>
-<p>Check: ${m("x = 3")} gives ${rt("9")}${m(" = 3")} &check;. ${m("x = &minus;1")} gives ${rt("1")}${m(" = 1 &ne; &minus;1")}, rejected &mdash; squaring forgot the sign.</p>
-<p>Solution: ${m("x = 3")}.</p>`},
+s:`<p><strong>Step 1: Note the sign restriction.</strong> The left side is a square root, so it is always nonnegative. Therefore any solution must satisfy ${m("x&ge;0")}.</p>
+<p><strong>Step 2: Square both sides.</strong></p>
+<p>${rt("2x+3")}${m("=x")}</p>
+<p>${m("2x+3=x<sup>2</sup>")}.</p>
+<p>Move all terms to one side:</p>
+<p>${m("x<sup>2</sup>&minus;2x&minus;3=0")}.</p>
+<p><strong>Step 3: Factor.</strong></p>
+<p>${m("(x&minus;3)(x+1)=0")}.</p>
+<p>The algebraic candidates are ${m("x=3")} and ${m("x=&minus;1")}.</p>
+<p><strong>Step 4: Check each candidate in the original equation.</strong></p>
+<p>For ${m("x=3")}:</p>
+<p>${rt("2(3)+3")}${m("=")}${rt("9")}${m("=3")}, which equals the right side. Thus ${m("3")} is a solution.</p>
+<p>For ${m("x=&minus;1")}:</p>
+<p>${rt("2(&minus;1)+3")}${m("=")}${rt("1")}${m("=1")}, but the right side is ${m("&minus;1")}. The equation is false, so ${m("&minus;1")} is extraneous.</p>
+<p><strong>Solution:</strong> ${m("x=3")}.</p>`},
 
 {ch:5, topic:"Radical equation with a check",
 q:`Solve and check, discarding any false solutions: ${m("&nbsp;")}${rt("x + 7")}${m(" = x + 1")}.`,
-s:`<p>Square: ${m("x + 7 = x<sup>2</sup> + 2x + 1")}, so ${m("x<sup>2</sup> + x &minus; 6 = 0")}, giving ${m("(x + 3)(x &minus; 2) = 0")}; candidates ${m("&minus;3")} and ${m("2")}.</p>
-<p>Check: ${m("x = 2")} gives ${rt("9")}${m(" = 3 = 2 + 1")} &check;. ${m("x = &minus;3")} gives ${rt("4")}${m(" = 2 &ne; &minus;2")}, rejected.</p>
-<p>Solution: ${m("x = 2")}.</p>`},
+s:`<p><strong>Step 1: Note the sign restriction.</strong> Since the square root is nonnegative, the right side must also be nonnegative:</p>
+<p>${m("x+1&ge;0")}, so ${m("x&ge;&minus;1")}.</p>
+<p><strong>Step 2: Square both sides.</strong></p>
+<p>${rt("x+7")}${m("=x+1")}</p>
+<p>${m("x+7=(x+1)<sup>2</sup>")}.</p>
+<p>Expand the square:</p>
+<p>${m("x+7=x<sup>2</sup>+2x+1")}.</p>
+<p>Move all terms to one side:</p>
+<p>${m("0=x<sup>2</sup>+x&minus;6")}.</p>
+<p><strong>Step 3: Factor.</strong></p>
+<p>${m("(x+3)(x&minus;2)=0")}.</p>
+<p>The candidates are ${m("x=&minus;3")} and ${m("x=2")}.</p>
+<p><strong>Step 4: Check in the original equation.</strong></p>
+<p>For ${m("x=2")}:</p>
+<p>${rt("2+7")}${m("=")}${rt("9")}${m("=3")}, and ${m("2+1=3")}. This works.</p>
+<p>For ${m("x=&minus;3")}:</p>
+<p>${rt("&minus;3+7")}${m("=")}${rt("4")}${m("=2")}, but ${m("&minus;3+1=&minus;2")}. This does not work. It also violates the earlier requirement ${m("x&ge;&minus;1")}.</p>
+<p><strong>Solution:</strong> ${m("x=2")}.</p>`},
 
 {ch:5, topic:"Transformed radical and its inverse",
 q:`The function ${m("f(x) = ")}${rt("x &minus; 2")}${m(" + 1")} is built from the parent ${rt("x")} by transformations. State the domain and range, find the inverse, and confirm the domain of the inverse equals the range of ${m("f")}.`,
-s:`<p>Domain: ${m("x &ge; 2")} (radicand ${m("&ge; 0")}). Range: ${m("y &ge; 1")} (the root is ${m("&ge; 0")}, shifted up 1).</p>
-<p>Inverse: from ${m("y = ")}${rt("x &minus; 2")}${m(" + 1")}, swap and solve: ${m("x &minus; 1 = ")}${rt("y &minus; 2")}, so ${m("y = (x &minus; 1)<sup>2</sup> + 2")}, giving</p>
-<p>${m("f<sup>&minus;1</sup>(x) = (x &minus; 1)<sup>2</sup> + 2")} with domain ${m("x &ge; 1")}.</p>
-<p>The inverse's domain ${m("x &ge; 1")} equals the range of ${m("f")}, as required.</p>`},
+s:`<p><strong>Step 1: Find the domain of ${m("f")}.</strong> The square-root radicand must be nonnegative:</p>
+<p>${m("x&minus;2&ge;0")}, so ${m("x&ge;2")}.</p>
+<p>Thus the domain is ${m("[2,&infin;)")}.</p>
+<p><strong>Step 2: Find the range of ${m("f")}.</strong> Since ${rt("x&minus;2")}${m("&ge;0")}, adding 1 gives ${m("f(x)&ge;1")}. The minimum occurs at ${m("x=2")}, where ${m("f(2)=1")}. Thus the range is ${m("[1,&infin;)")}.</p>
+<p><strong>Step 3: Find the inverse.</strong></p>
+<p>${m("y=")}${rt("x&minus;2")}${m("+1")}.</p>
+<p>Swap ${m("x")} and ${m("y")}:</p>
+<p>${m("x=")}${rt("y&minus;2")}${m("+1")}.</p>
+<p>Subtract 1:</p>
+<p>${m("x&minus;1=")}${rt("y&minus;2")}.</p>
+<p>Because the square root is nonnegative, this equation requires ${m("x&ge;1")}; that will be the inverse's domain.</p>
+<p>Square both sides:</p>
+<p>${m("(x&minus;1)<sup>2</sup>=y&minus;2")}.</p>
+<p>Add 2:</p>
+<p>${m("y=(x&minus;1)<sup>2</sup>+2")}.</p>
+<p>Therefore</p>
+<p>${m("f<sup>&minus;1</sup>(x)=(x&minus;1)<sup>2</sup>+2")}, with domain ${m("[1,&infin;)")}.</p>
+<p>The inverse's domain ${m("[1,&infin;)")} is exactly the original function's range, as it must be. Its range is ${m("[2,&infin;)")}, the original function's domain.</p>`},
 ];
 
 /* ---------------------------- APP LOGIC ---------------------------- */
