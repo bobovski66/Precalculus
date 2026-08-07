@@ -1,58 +1,102 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Precalculus I — Week 6 Student Lab</title>
-<style>body{font-family:system-ui,sans-serif;background:#f6f7fb;color:#222;margin:0}.loading{max-width:720px;margin:15vh auto;padding:28px;background:white;border:1px solid #d9deea;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.06)}.loading h1{margin-top:0}.error{color:#922}</style></head>
-<body><div class="loading"><h1>Week 6 Lab — Exponential Functions</h1><p>Loading the current course lab and preparing your student workspace…</p><p class="error" id="err"></p></div>
+<style>
+:root{color-scheme:light dark}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f6fb;color:#172033;margin:0}
+.loading{max-width:760px;margin:15vh auto;padding:30px;background:#fff;border:1px solid #d8dfeb;border-radius:18px;box-shadow:0 14px 38px rgba(25,42,70,.08)}
+.loading h1{margin-top:0;color:#173b69}.loading p{line-height:1.55}.error{color:#a33}
+</style></head>
+<body><div class="loading"><h1>Week 6 Lab — Exponential Functions</h1><p>Loading the current course lab and preparing the guided student workspace…</p><p class="error" id="err"></p></div>
 <script>
 (async()=>{
  const SOURCE="https://raw.githubusercontent.com/bobovski66/Precalculus/main/labs/Precalc_Week6_Lab.html";
  const WEEK=6;
+ const META={"title": "Exponential Functions", "big": "Linear change adds the same amount each step; exponential change multiplies by the same factor. That difference between additive and multiplicative change is the central idea of the week.", "questions": "Look for ratios, not just differences. Interpret each exponent as accumulated multiplicative change over time."};
+ const GUIDES={"1": {"goal": "Distinguish additive change from multiplicative change using tables of values.", "calc": "Constant first differences signal a line; constant successive ratios signal an exponential. These are discrete fingerprints of two fundamentally different kinds of change.", "notice": "A percentage growth rate is multiplicative, so equal time steps should produce equal ratios rather than equal increases."}, "2": {"goal": "Interpret and evaluate a continuous exponential growth model.", "calc": "In A(t)=A_0 e^{rt}, the exponent rt is accumulated growth over time. Evaluating the model translates a rate and elapsed time into a concrete amount.", "notice": "The number e is useful because continuous percentage change becomes especially simple: the rate appears directly in the exponent."}, "3": {"goal": "Use half-life to model repeated multiplicative decay and read time from an exponential expression.", "calc": "Each half-life multiplies the amount by 1/2. The exponent t/10 counts how many 10-year half-life intervals have elapsed, including fractional intervals.", "notice": "Exponential decay never subtracts a fixed amount each period; the absolute loss becomes smaller because the same fraction acts on a smaller quantity."}};
  try{
   const r=await fetch(SOURCE,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
   const text=await r.text(); const p=new DOMParser(); const doc=p.parseFromString(text,'text/html');
   const style=doc.createElement('style'); style.textContent=`
-    :root{--student-shadow:0 8px 22px rgba(31,50,80,.08)}
-    html{scroll-behavior:smooth} body{padding-top:0!important}
-    .student-topbar{position:sticky;top:0;z-index:1000;background:rgba(252,251,248,.96);backdrop-filter:blur(9px);border-bottom:1px solid var(--rule,#d8d3c8);box-shadow:0 3px 12px rgba(0,0,0,.04)}
-    .student-topbar-inner{max-width:960px;margin:auto;padding:9px 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .student-topbar button{font:600 12px/1.2 var(--mono,ui-monospace,monospace);padding:8px 11px;border-radius:7px;border:1px solid var(--rule,#d8d3c8);background:#fff;cursor:pointer;color:var(--ink,#222)}
-    .student-topbar button.primary{background:var(--blue,#2a4d7a);color:white;border-color:var(--blue,#2a4d7a)}
-    .student-topbar .status{margin-left:auto;font:12px var(--mono,ui-monospace,monospace);color:#667085}
-    .student-start{background:#fff;border:1px solid var(--blue-rule,#bcccdf);border-radius:12px;padding:16px 18px;margin:18px 0 20px;box-shadow:var(--student-shadow)}
-    .student-start h2{font-size:18px;margin:0 0 7px;color:var(--blue,#2a4d7a)}
-    .student-start p{margin:6px 0} .student-start label{display:block;font:12px var(--mono,ui-monospace,monospace);color:#555;margin-top:12px}
-    .student-start input{width:min(340px,100%);font:16px inherit;padding:8px 10px;border:1px solid var(--rule,#ccc);border-radius:7px;background:#fff}
-    .problem{scroll-margin-top:72px} .problem-goal{margin:8px 0 12px;padding:8px 12px;border-left:3px solid var(--green,#1f6b46);background:var(--green-bg,#edf5ef);font-size:16px}
-    input:focus,textarea:focus,select:focus{outline:3px solid rgba(42,77,122,.16)!important;outline-offset:1px;border-color:var(--blue,#2a4d7a)!important}
-    .wrap{max-width:900px!important} .toolbar{display:none!important}
-    @media(max-width:650px){body{font-size:17px!important}.wrap{padding:20px 16px 60px!important}.answer-row,.text-answer,details{margin-left:0!important}.answer-row input[type=text]{width:100px!important}.student-topbar .status{width:100%;margin-left:0}}
-    @media print{.student-topbar,.student-start .save-note{display:none!important}.student-start{box-shadow:none}details.locked{opacity:1!important}}
+    :root{
+      --ink:#172033;--paper:#f4f6fb;--card:#ffffff;--field:#ffffff;--rule:#d8dfeb;
+      --muted:#617086;--blue:#245b96;--blue-bg:#edf4fc;--blue-rule:#c9dbef;
+      --green:#21704c;--green-bg:#eef8f2;--green-rule:#bfdfcb;--amber:#946400;
+      --amber-bg:#fff8e6;--red:#a53a3a;--red-bg:#fff0f0;--shadow:0 8px 24px rgba(30,50,80,.075);
+      --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    }
+    body[data-theme="dark"]{
+      --ink:#edf2f8;--paper:#0c1220;--card:#151e2f;--field:#0f1728;--rule:#334158;
+      --muted:#a9b6c9;--blue:#91bdf0;--blue-bg:#17283e;--blue-rule:#345678;
+      --green:#8bd0aa;--green-bg:#173126;--green-rule:#355e49;--amber:#f2c66d;
+      --amber-bg:#332a13;--red:#ffaaaa;--red-bg:#3a2023;--shadow:0 8px 24px rgba(0,0,0,.18);
+    }
+    html{scroll-behavior:smooth} body{background:var(--paper)!important;color:var(--ink)!important;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-size:17px!important;line-height:1.6!important;padding-top:0!important;transition:background .15s,color .15s}
+    .wrap{max-width:960px!important;margin:0 auto!important;padding:30px 24px 90px!important}
+    header{border:0!important;margin:12px 0 18px!important;padding:26px 28px!important;border-radius:18px!important;background:linear-gradient(135deg,var(--blue-bg),var(--card))!important;box-shadow:var(--shadow)!important;border:1px solid var(--blue-rule)!important}
+    header h1{font-family:inherit!important;font-size:clamp(26px,4vw,36px)!important;line-height:1.15!important;color:var(--ink)!important;margin:0 0 6px!important}
+    header .sub{font-family:inherit!important;color:var(--muted)!important;font-style:normal!important}
+    .intro{display:none!important}.toolbar{display:none!important}
+    .objectives,.student-start,.lab-story,.problem{background:var(--card)!important;border:1px solid var(--rule)!important;border-radius:16px!important;box-shadow:var(--shadow)!important}
+    .objectives{padding:18px 22px!important;margin:0 0 18px!important}.objectives h2{font-family:inherit!important;color:var(--blue)!important;font-size:13px!important;letter-spacing:.08em!important}.objectives li{margin:6px 0!important}
+    .student-topbar{position:sticky;top:0;z-index:1000;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);box-shadow:0 3px 12px rgba(0,0,0,.05)}
+    .student-topbar-inner{max-width:1040px;margin:auto;padding:9px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .student-topbar button{font:650 12px/1.2 var(--mono);padding:8px 11px;border-radius:8px;border:1px solid var(--rule);background:var(--field);cursor:pointer;color:var(--ink)}
+    .student-topbar button:hover{border-color:var(--blue)}.student-topbar button.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .student-topbar .status{margin-left:auto;font:12px var(--mono);color:var(--muted)}
+    .student-start{padding:18px 22px;margin:0 0 18px}.student-start h2,.lab-story h2{font-size:18px;margin:0 0 8px;color:var(--blue)!important}.student-start p,.lab-story p{margin:7px 0}
+    .student-start label{display:block;font:12px var(--mono);color:var(--muted);margin-top:13px}.student-start input{width:min(360px,100%)}
+    .lab-story{padding:18px 22px;margin:0 0 26px}.lab-story .question-line{color:var(--muted);font-size:15px;margin-top:10px}
+    .workflow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 2px}.workflow div{padding:11px 12px;border-radius:11px;background:var(--blue-bg);border:1px solid var(--blue-rule);font-size:14px}.workflow strong{display:block;color:var(--blue);margin-bottom:2px}
+    .problem{margin:0 0 24px!important;padding:22px 24px!important;scroll-margin-top:76px}.problem>h2{font-family:inherit!important;font-size:22px!important;line-height:1.25!important;margin:0 0 10px!important;border:0!important;padding:0!important;color:var(--ink)!important}
+    .problem-guide{margin:10px 0 14px;border:1px solid var(--blue-rule);border-radius:13px;overflow:hidden;background:var(--blue-bg)}
+    .problem-guide .guide-goal{padding:11px 14px;border-bottom:1px solid var(--blue-rule)}.problem-guide .guide-goal strong{color:var(--blue)}
+    .guide-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:0}.guide-grid>div{padding:12px 14px}.guide-grid>div+div{border-left:1px solid var(--blue-rule)}.guide-label{display:block;font:650 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--blue);margin-bottom:4px}
+    .scenario{background:var(--card)!important;border:0!important;border-left:4px solid var(--blue)!important;border-radius:0 8px 8px 0!important;padding:11px 14px!important;margin:12px 0 16px!important;color:var(--ink)!important;box-shadow:inset 0 0 0 1px var(--rule)}
+    .part{margin:0!important;padding:16px 0!important;border-top:1px solid var(--rule)}.part:first-of-type{border-top:0}.part-stem{gap:9px!important}.part-label{color:var(--blue)!important}.part-text{color:var(--ink)!important}
+    .answer-row,.text-answer,details{margin-left:28px!important}.answer-row label,.text-answer label{color:var(--muted)!important}.answer-row input[type=text],.answer-row input[type=number],.text-answer textarea,.student-start input,select{background:var(--field)!important;color:var(--ink)!important;border:1px solid var(--rule)!important;border-radius:8px!important;padding:8px 10px!important;font-family:var(--mono)!important}.text-answer textarea{font-family:inherit!important;min-height:86px!important}
+    .answer-row input.ok{border-color:var(--green)!important;background:var(--green-bg)!important}.answer-row input.no{border-color:var(--red)!important;background:var(--red-bg)!important}
+    .check-btn{background:var(--blue)!important;color:#fff!important;border-radius:8px!important;padding:8px 12px!important}.check-btn:hover{filter:brightness(.96)}
+    .verdict.ok{color:var(--green)!important}.verdict.no{color:var(--red)!important}summary{color:var(--green)!important;font-family:var(--mono)!important}.solution{background:var(--green-bg)!important;color:var(--ink)!important;border-left-color:var(--green)!important}.solution .ans{color:var(--green)!important}
+    .note{color:var(--muted)!important}.demo-link{background:var(--amber-bg)!important;border-color:color-mix(in srgb,var(--amber) 35%,var(--rule))!important;color:var(--ink)!important}.demo-link a{color:var(--amber)!important}.footer{color:var(--muted)!important;border-color:var(--rule)!important}
+    input:focus,textarea:focus,select:focus{outline:3px solid color-mix(in srgb,var(--blue) 22%,transparent)!important;outline-offset:1px;border-color:var(--blue)!important}
+    .meaning-checkpoint{margin-top:10px;padding:10px 13px;border-radius:10px;background:var(--green-bg);border:1px solid var(--green-rule);font-size:14px}.meaning-checkpoint strong{color:var(--green)}
+    @media(max-width:720px){.wrap{padding:20px 14px 70px!important}.workflow,.guide-grid{grid-template-columns:1fr}.guide-grid>div+div{border-left:0;border-top:1px solid var(--blue-rule)}.problem{padding:18px 16px!important}.answer-row,.text-answer,details{margin-left:0!important}.answer-row input[type=text]{width:96px!important}.student-topbar .status{width:100%;margin-left:0}}
+    @media print{body{--ink:#111;--paper:#fff;--card:#fff;--field:#fff;--rule:#bbb;--muted:#444;--blue:#234e7b;--blue-bg:#f4f7fb;--blue-rule:#ccd8e5;--green:#215b3e;--green-bg:#f2f8f4;--green-rule:#c5d8cc;--amber:#7a5600;--amber-bg:#fffaf0;--red:#922;--red-bg:#fff;--shadow:none;background:#fff!important}.student-topbar,.student-start .save-note{display:none!important}.wrap{max-width:none!important;padding:0!important}.problem,.objectives,.student-start,.lab-story,header{box-shadow:none!important;break-inside:avoid}.check-btn{display:none!important}details{display:block!important}details>summary{display:none!important}.solution{display:block!important}.problem{margin-bottom:14px!important}}
   `; doc.head.appendChild(style);
   const body=doc.body; body.setAttribute('data-student-lab','precalc-week-'+WEEK);
+  body.dataset.theme=localStorage.getItem('precalc_lab_theme')||'light';
   const oldToolbar=body.querySelector('.toolbar'); if(oldToolbar) oldToolbar.remove();
-  const bar=doc.createElement('div'); bar.className='student-topbar'; bar.innerHTML=`<div class="student-topbar-inner"><button class="primary" onclick="saveFilledHTML()">Save filled HTML</button><button onclick="window.print()">Print / Save PDF</button><button onclick="jumpNext()">Next problem</button><button onclick="clearStudentData()">Clear answers</button><span class="status"><span id="studentProgress">0% started</span> · <span id="saveStatus">autosave ready</span></span></div>`; body.insertBefore(bar,body.firstChild);
+  const bar=doc.createElement('div'); bar.className='student-topbar'; bar.innerHTML=`<div class="student-topbar-inner"><button class="primary" onclick="saveFilledHTML()">Save filled HTML</button><button onclick="window.print()">Print / Save PDF</button><button onclick="jumpNext()">Next problem</button><button id="themeToggle" onclick="toggleStudentTheme()">Theme</button><button onclick="clearStudentData()">Clear answers</button><span class="status"><span id="studentProgress">0% started</span> · <span id="saveStatus">autosave ready</span></span></div>`; body.insertBefore(bar,body.firstChild);
   const wrap=body.querySelector('.wrap')||body; const header=wrap.querySelector('header');
-  const start=doc.createElement('section'); start.className='student-start'; start.innerHTML=`<h2>How to complete this lab</h2><p>Work in order. Try each part before opening its solution. Use <em>Check</em> on numerical answers; for explanation and sketching questions, compare your reasoning only after you have made a serious attempt.</p><p class="save-note">Your work autosaves in this browser. <strong>Save filled HTML</strong> makes a portable copy with your current answers embedded, so you can reopen it or submit it later. <strong>Print / Save PDF</strong> makes a frozen copy.</p><label for="studentName">Student name</label><input id="studentName" data-student-field="name" autocomplete="name" placeholder="Your name"></section>`;
+  const start=doc.createElement('section'); start.className='student-start'; start.innerHTML=`<h2>How to work this lab</h2><p>Work in order, but do not treat the answer boxes as the destination. For each problem, first identify what mathematical feature you are trying to uncover, then do the calculation, then say to yourself what the result tells you about the graph, model, or system.</p><div class="workflow"><div><strong>1 · Predict</strong>What should the answer roughly look like, and why?</div><div><strong>2 · Calculate</strong>Carry out the algebra and use Check for numerical work.</div><div><strong>3 · Interpret</strong>Connect the result back to shape, rate, structure, or context.</div></div><p class="save-note">Your work autosaves in this browser. <strong>Save filled HTML</strong> makes a portable copy with your current answers embedded. <strong>Print / Save PDF</strong> creates a frozen classroom or submission copy.</p><label for="studentName">Student name</label><input id="studentName" data-student-field="name" autocomplete="name" placeholder="Your name"></section>`;
   if(header) header.insertAdjacentElement('afterend',start); else wrap.insertBefore(start,wrap.firstChild);
-  body.querySelectorAll('.problem').forEach((el,i)=>{const h=el.querySelector('h2'); if(!h)return; const g=doc.createElement('div');g.className='problem-goal'; const topic=h.textContent.replace(/^Problem\\s*\\d+\\s*[—–-]?\\s*/i,'').trim();g.innerHTML='<strong>Goal:</strong> '+topic+'.';h.insertAdjacentElement('afterend',g);});
+  const obj=wrap.querySelector('.objectives'); const story=doc.createElement('section'); story.className='lab-story'; story.innerHTML=`<h2>Big idea for Week ${WEEK}</h2><p>${META.big}</p><p class="question-line"><strong>Keep this question in view:</strong> ${META.questions}</p>`; if(obj)obj.insertAdjacentElement('afterend',story); else start.insertAdjacentElement('afterend',story);
+  body.querySelectorAll('.problem').forEach((el,i)=>{
+    const h=el.querySelector('h2'); if(!h)return; const guide=GUIDES[String(i+1)]; if(!guide)return;
+    const g=doc.createElement('div');g.className='problem-guide';g.innerHTML=`<div class="guide-goal"><strong>Goal:</strong> ${guide.goal}</div><div class="guide-grid"><div><span class="guide-label">Calculation → meaning</span>${guide.calc}</div><div><span class="guide-label">What to notice</span>${guide.notice}</div></div>`;h.insertAdjacentElement('afterend',g);
+    const checkpoint=doc.createElement('div');checkpoint.className='meaning-checkpoint';checkpoint.innerHTML=`<strong>Before you move on:</strong> be able to explain, without looking at the solution, what the main calculation in this problem tells you—not only what number or formula you obtained.`;el.appendChild(checkpoint);
+  });
   const sc=doc.createElement('script'); sc.textContent=`
   (function(){
-    const BASE='precalc_student_week_6';
+    const BASE='precalc_student_week_${WEEK}';
     let copyId=document.body.dataset.copyId||'working';
     const key=()=>BASE+'_'+copyId;
     const fields=()=>[...document.querySelectorAll('input,textarea,select')].filter(e=>!e.closest('.solution'));
     const answers=()=>fields().filter(e=>e.id!=='studentName' && (e.matches('textarea')||e.matches('select')||e.matches('input[type=text],input[type=number]')));
-    function embeddedHasValue(e){ if(e.type==='checkbox'||e.type==='radio') return e.checked; return String(e.value||'').trim()!==''; }
-    function load(){ try{ const data=JSON.parse(localStorage.getItem(key())||'{}'); fields().forEach(e=>{ if(data[e.id]!==undefined && !embeddedHasValue(e)){ if(e.type==='checkbox'||e.type==='radio')e.checked=!!data[e.id]; else e.value=data[e.id]; }); }catch(e){} update(); }
-    function persist(){ const data={}; fields().forEach(e=>{if(!e.id)return;data[e.id]=(e.type==='checkbox'||e.type==='radio')?e.checked:e.value}); try{localStorage.setItem(key(),JSON.stringify(data));}catch(e){} const s=document.getElementById('saveStatus');if(s)s.textContent='saved in browser';update(); }
-    function update(){ const a=answers(), done=a.filter(embeddedHasValue).length, pct=a.length?Math.round(100*done/a.length):0; const p=document.getElementById('studentProgress');if(p)p.textContent=pct+'% started'; }
-    window.clearStudentData=function(){ if(!confirm('Clear the answers saved in this copy of the lab?'))return; try{localStorage.removeItem(key())}catch(e){} fields().forEach(e=>{if(e.id==='studentName')e.value='';else if(e.type==='checkbox'||e.type==='radio')e.checked=false;else e.value=''}); document.querySelectorAll('.verdict').forEach(v=>v.textContent='');update(); };
-    window.jumpNext=function(){ const probs=[...document.querySelectorAll('.problem')]; const y=scrollY+90; let next=probs.find(p=>p.offsetTop>y); (next||probs[0])?.scrollIntoView({behavior:'smooth',block:'start'}); };
-    window.saveFilledHTML=function(){ persist(); const clone=document.documentElement.cloneNode(true); const newId=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2)); clone.querySelector('body').dataset.copyId=newId; const live=fields(), copied=[...clone.querySelectorAll('input,textarea,select')].filter(e=>!e.closest('.solution')); live.forEach((e,i)=>{const c=copied[i];if(!c)return;if(e.type==='checkbox'||e.type==='radio'){if(e.checked)c.setAttribute('checked','');else c.removeAttribute('checked')}else if(e.tagName==='TEXTAREA'){c.textContent=e.value}else if(e.tagName==='SELECT'){[...c.options].forEach((o,j)=>{if(j===e.selectedIndex)o.setAttribute('selected','');else o.removeAttribute('selected')})}else c.setAttribute('value',e.value)}); const html='<!DOCTYPE html>\\n'+clone.outerHTML; const blob=new Blob([html],{type:'text/html'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); const nm=(document.getElementById('studentName')?.value||'Student').trim().replace(/[^a-z0-9_-]+/gi,'_'); a.download='Precalc_Week_6_Lab_'+(nm||'Student')+'.html'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); const s=document.getElementById('saveStatus');if(s)s.textContent='filled HTML downloaded'; };
-    document.addEventListener('input',persist); document.addEventListener('change',persist); window.addEventListener('load',load); if(document.readyState!=='loading')load();
+    function embeddedHasValue(e){if(e.type==='checkbox'||e.type==='radio')return e.checked;return String(e.value||'').trim()!=='';}
+    function updateThemeButton(){const b=document.getElementById('themeToggle');if(b)b.textContent=document.body.dataset.theme==='dark'?'☀ Light':'☾ Dark';}
+    window.toggleStudentTheme=function(){const next=document.body.dataset.theme==='dark'?'light':'dark';document.body.dataset.theme=next;try{localStorage.setItem('precalc_lab_theme',next)}catch(e){}updateThemeButton();};
+    function load(){try{const data=JSON.parse(localStorage.getItem(key())||'{}');fields().forEach(e=>{if(data[e.id]!==undefined&&!embeddedHasValue(e)){if(e.type==='checkbox'||e.type==='radio')e.checked=!!data[e.id];else e.value=data[e.id];}});}catch(e){}updateThemeButton();update();}
+    function persist(){const data={};fields().forEach(e=>{if(!e.id)return;data[e.id]=(e.type==='checkbox'||e.type==='radio')?e.checked:e.value});try{localStorage.setItem(key(),JSON.stringify(data));}catch(e){}const s=document.getElementById('saveStatus');if(s)s.textContent='saved in browser';update();}
+    function update(){const a=answers(),done=a.filter(embeddedHasValue).length,pct=a.length?Math.round(100*done/a.length):0;const p=document.getElementById('studentProgress');if(p)p.textContent=pct+'% started';}
+    window.clearStudentData=function(){if(!confirm('Clear the answers saved in this copy of the lab?'))return;try{localStorage.removeItem(key())}catch(e){}fields().forEach(e=>{if(e.id==='studentName')e.value='';else if(e.type==='checkbox'||e.type==='radio')e.checked=false;else e.value=''});document.querySelectorAll('.verdict').forEach(v=>v.textContent='');update();};
+    window.jumpNext=function(){const probs=[...document.querySelectorAll('.problem')];const y=scrollY+90;let next=probs.find(p=>p.offsetTop>y);(next||probs[0])?.scrollIntoView({behavior:'smooth',block:'start'});};
+    window.saveFilledHTML=function(){persist();const clone=document.documentElement.cloneNode(true);const newId=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));clone.querySelector('body').dataset.copyId=newId;const live=fields(),copied=[...clone.querySelectorAll('input,textarea,select')].filter(e=>!e.closest('.solution'));live.forEach((e,i)=>{const c=copied[i];if(!c)return;if(e.type==='checkbox'||e.type==='radio'){if(e.checked)c.setAttribute('checked','');else c.removeAttribute('checked')}else if(e.tagName==='TEXTAREA'){c.textContent=e.value}else if(e.tagName==='SELECT'){[...c.options].forEach((o,j)=>{if(j===e.selectedIndex)o.setAttribute('selected','');else o.removeAttribute('selected')})}else c.setAttribute('value',e.value)});const html='<!DOCTYPE html>\\n'+clone.outerHTML;const blob=new Blob([html],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);const nm=(document.getElementById('studentName')?.value||'Student').trim().replace(/[^a-z0-9_-]+/gi,'_');a.download='Precalc_Week_${WEEK}_Lab_'+(nm||'Student')+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);const s=document.getElementById('saveStatus');if(s)s.textContent='filled HTML downloaded';};
+    document.addEventListener('input',persist);document.addEventListener('change',persist);window.addEventListener('load',load);if(document.readyState!=='loading')load();
   })();`;
   body.appendChild(sc);
-  document.open(); document.write('<!DOCTYPE html>'+doc.documentElement.outerHTML); document.close();
+  document.open();document.write('<!DOCTYPE html>'+doc.documentElement.outerHTML);document.close();
  }catch(e){document.getElementById('err').textContent='The lab could not be loaded. Check your internet connection and reopen this file. ('+e.message+')';}
 })();
 </script></body></html>
