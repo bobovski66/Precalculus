@@ -56,7 +56,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 8 · Application</div><h1>Conics in Action: Orbits and Reflectors</h1><p>The focus of a conic becomes a physical organizing point in orbital and optical models.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
@@ -71,7 +119,7 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 </div>
 <div class="grid2">
 <div class="canvas-wrap"><canvas id="orbit"></canvas></div>
-<div><div class="math" id="orbitMath"></div><div class="note" style="margin-top:12px">For an ellipse, c=ae and b=a√(1−e²). One focus can be occupied by the central body. The orbit’s closest and farthest distances from that focus are a(1−e) and a(1+e).</div></div>
+<div><div class="math" id="orbitMath"></div><div class="note" style="margin-top:12px">For an ellipse, \(c=ae\) and \(b=a\sqrt{1-e^2}\). One focus can be occupied by the central body. The orbit’s closest and farthest distances from that focus are \(a(1-e)\) and \(a(1+e)\).</div></div>
 </div>
 <div class="question"><p>For the current orbit, what is the closest distance from the focus to the ellipse?</p><input id="periAns" step="any" type="number"/><div class="feedback" id="periAnsFb"></div><button onclick="checkPeri()">Check</button></div>
 </section>
@@ -82,7 +130,7 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 <div class="canvas-wrap"><canvas id="reflector"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>conic</span><span class="legend-item"><span class="legend-line neutral"></span>incoming ray</span><span class="legend-item"><span class="legend-line green"></span>reflected toward focus</span><span class="legend-item"><span class="legend-dot gold"></span>focus</span></div>
 <div><div class="math" id="parMath"></div><div class="note" style="margin-top:12px">Incoming rays parallel to the axis reflect through the focus. Reversing the path, a source at the focus reflects into a parallel beam—the geometry behind dishes, headlights, and reflecting telescopes.</div></div>
 </div>
-<div class="question"><p>For y=x²/(4p), what is the y-coordinate of the focus?</p><input id="focusAns" step="any" type="number"/><div class="feedback" id="focusAnsFb"></div><button onclick="checkFocus()">Check</button></div>
+<div class="question"><p>For \(y=\dfrac{x^2}{4p}\), what is the \(y\)-coordinate of the focus?</p><input id="focusAns" step="any" type="number"/><div class="feedback" id="focusAnsFb"></div><button onclick="checkFocus()">Check</button></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
@@ -129,13 +177,13 @@ let peri=2.5,focusY=1.5;
 function drawOrbit(){
  const a=Number(oa.value),e=Number(oe.value),c=a*e,b=a*Math.sqrt(1-e*e);peri=a*(1-e);
  oav.textContent='a = '+nice(a);oev.textContent='e = '+nice(e,2);
- orbitMath.innerHTML=`c = ae = ${nice(c,2)}<br>b = a√(1−e²) = ${nice(b,2)}<br><strong>closest = ${nice(peri,2)}, farthest = ${nice(a*(1+e),2)}</strong>`;
+ orbitMath.innerHTML=`\\(c=ae=${nice(c,2)}\\)<br>\\(b=a\\sqrt{1-e^2}=${nice(b,2)}\\)<br>\\(r_{\\min}=${nice(peri,2)},\\quad r_{\\max}=${nice(a*(1+e),2)}\\)`;
  const f=plotFrame(orbit,-8,8,-6,6),{ctx,X,Y}=f;ctx.beginPath();ctx.strokeStyle=activityCss('--curve-blue');ctx.lineWidth=3;
  for(let th=0;th<=Math.PI*2+.02;th+=.02){let x=a*Math.cos(th),y=b*Math.sin(th);th===0?ctx.moveTo(X(x),Y(y)):ctx.lineTo(X(x),Y(y))}ctx.stroke();
  point(f,-c,0,'focus / central body',activityCss('--curve-gold'));point(f,c,0,'focus',activityCss('--curve-gold'));point(f,-a,0,'closest',activityCss('--curve-green'));
 }
 function drawReflector(){
- const p=Number(pp.value);focusY=p;ppv.textContent='p = '+nice(p,2);parMath.innerHTML=`<strong>y = x² / ${nice(4*p,2)}</strong><br>focus = (0, ${nice(p,2)})`;
+ const p=Number(pp.value);focusY=p;ppv.textContent='p = '+nice(p,2);parMath.innerHTML=`\\(y=\\dfrac{x^2}{${nice(4*p,2)}}\\)<br>focus \\((0,${nice(p,2)})\\)`;
  const f=plotFrame(reflector,-6,6,-1,7),{ctx,X,Y}=f;curve(f,x=>x*x/(4*p),-6,6,activityCss('--curve-blue'),3,.02);point(f,0,p,'focus',activityCss('--curve-gold'));
  // incoming rays and reflected segments
  [-4,-2.5,-1,1,2.5,4].forEach(x=>{

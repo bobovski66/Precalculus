@@ -56,7 +56,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 2 · Interactive Demo</div><h1>Quadratic Forms Explorer</h1><p>Move among vertex, expanded, and intercept descriptions without changing the underlying parabola.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
@@ -135,11 +183,11 @@ function upd(){
  let A=Number(a.value),H=Number(h.value),K=Number(k.value); if(Math.abs(A)<.01){A=.25;a.value=.25}
  currentB=-2*A*H; const C=A*H*H+K;
  av.textContent='a = '+nice(A);hv.textContent='h = '+nice(H);kv.textContent='k = '+nice(K);
- vertexForm.innerHTML=`Vertex form: <strong>y = ${nice(A)}(x − ${nice(H)})² + ${nice(K)}</strong><br>Vertex: (${nice(H)}, ${nice(K)})`;
- expandedForm.innerHTML=`Expanded form: <strong>y = ${nice(A)}x² ${currentB>=0?'+':'−'} ${nice(Math.abs(currentB))}x ${C>=0?'+':'−'} ${nice(Math.abs(C))}</strong><br>y-intercept: (0, ${nice(C)})`;
+ vertexForm.innerHTML=`Vertex form: \\(y=${nice(A)}(x-${nice(H)})^2+${nice(K)}\\)<br>Vertex: \\(( ${nice(H)},${nice(K)} )\\)`;
+ expandedForm.innerHTML=`Expanded form: \\(y=${nice(A)}x^2 ${currentB>=0?'+':'-'} ${nice(Math.abs(currentB))}x ${C>=0?'+':'-'} ${nice(Math.abs(C))}\\)<br>\\(y\\)-intercept: \\((0,${nice(C)})\\)`;
  const disc=currentB*currentB-4*A*C;
  if(disc>=-1e-9){let r1=(-currentB-Math.sqrt(Math.max(0,disc)))/(2*A),r2=(-currentB+Math.sqrt(Math.max(0,disc)))/(2*A);
-  rootInfo.innerHTML=`Real x-intercepts: <strong>x = ${nice(r1)}, ${nice(r2)}</strong>`;}
+  rootInfo.innerHTML=`Real \\(x\\)-intercepts: \\(x=${nice(r1)},\\ ${nice(r2)}\\)`;}
  else rootInfo.innerHTML='This parabola has <strong>no real x-intercepts</strong>.';
  const f=plotFrame(plot,-7,7,-8,8); curve(f,x=>A*(x-H)*(x-H)+K,-7,7);point(f,H,K,'vertex',activityCss('--curve-gold'));
  if(disc>=0){let r1=(-currentB-Math.sqrt(disc))/(2*A),r2=(-currentB+Math.sqrt(disc))/(2*A);point(f,r1,0,'root',activityCss('--curve-green'));point(f,r2,0,'root',activityCss('--curve-green'))}

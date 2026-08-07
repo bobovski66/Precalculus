@@ -56,7 +56,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 9 · Interactive Demo</div><h1>Systems Geometry Explorer</h1><p>A system of equations is a question about where geometric objects meet.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
@@ -65,10 +113,10 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 <p>Adjust the slopes and intercepts. The classification and intersection update automatically.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change slopes and intercepts for two lines.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Watch the equations move among intersecting, parallel, and identical configurations.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Translate the geometry into the algebraic language of one, none, or infinitely many solutions.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card"><h2>Systems geometry explorer</h2>
 <div class="controls">
-<div class="control"><label>Line 1 slope m₁</label><input id="m1" max="3" min="-3" step=".25" type="range" value="1"/><div class="value" id="m1v"></div></div>
-<div class="control"><label>Line 1 intercept b₁</label><input id="b1" max="5" min="-5" step=".25" type="range" value="1"/><div class="value" id="b1v"></div></div>
-<div class="control"><label>Line 2 slope m₂</label><input id="m2" max="3" min="-3" step=".25" type="range" value="-1"/><div class="value" id="m2v"></div></div>
-<div class="control"><label>Line 2 intercept b₂</label><input id="b2" max="5" min="-5" step=".25" type="range" value="3"/><div class="value" id="b2v"></div></div>
+<div class="control"><label>Line 1 slope \(m_1\)</label><input id="m1" max="3" min="-3" step=".25" type="range" value="1"/><div class="value" id="m1v"></div></div>
+<div class="control"><label>Line 1 intercept \(b_1\)</label><input id="b1" max="5" min="-5" step=".25" type="range" value="1"/><div class="value" id="b1v"></div></div>
+<div class="control"><label>Line 2 slope \(m_2\)</label><input id="m2" max="3" min="-3" step=".25" type="range" value="-1"/><div class="value" id="m2v"></div></div>
+<div class="control"><label>Line 2 intercept \(b_2\)</label><input id="b2" max="5" min="-5" step=".25" type="range" value="3"/><div class="value" id="b2v"></div></div>
 </div>
 <div class="pills"><button onclick="preset('one')">Preset: one solution</button><button onclick="preset('none')">Preset: no solution</button><button onclick="preset('many')">Preset: infinitely many</button></div>
 <div class="grid2">
@@ -125,11 +173,11 @@ function fmtLine(m,b){return `y = ${nice(m)}x ${b>=0?'+':'−'} ${nice(Math.abs(
 function upd(){
  const M1=Number(m1.value),B1=Number(b1.value),M2=Number(m2.value),B2=Number(b2.value);
  m1v.textContent='m₁ = '+nice(M1);b1v.textContent='b₁ = '+nice(B1);m2v.textContent='m₂ = '+nice(M2);b2v.textContent='b₂ = '+nice(B2);
- systemEq.innerHTML=`<strong>${fmtLine(M1,B1)}</strong><br><strong>${fmtLine(M2,B2)}</strong>`;
+ systemEq.innerHTML=`\\(${fmtLine(M1,B1).replace('y = ','y=').replace(' − ','-').replace(' + ','+')}\\)<br>\\(${fmtLine(M2,B2).replace('y = ','y=').replace(' − ','-').replace(' + ','+')}\\)`;
  const sameSlope=Math.abs(M1-M2)<1e-9;
  if(sameSlope&&Math.abs(B1-B2)<1e-9){currentX=null;classify.innerHTML='<strong>Infinitely many solutions.</strong> The equations describe the same line.'}
  else if(sameSlope){currentX=null;classify.innerHTML='<strong>No solution.</strong> The lines are parallel and distinct.'}
- else{currentX=(B2-B1)/(M1-M2);let y=M1*currentX+B1;classify.innerHTML=`<strong>One solution:</strong> (${nice(currentX,2)}, ${nice(y,2)}). The coordinates satisfy both equations.`}
+ else{currentX=(B2-B1)/(M1-M2);let y=M1*currentX+B1;classify.innerHTML=`<strong>One solution:</strong> \\(( ${nice(currentX,2)},${nice(y,2)} )\\). The coordinates satisfy both equations.`}
  const f=plotFrame(plot,-7,7,-7,7);curve(f,x=>M1*x+B1,-7,7,activityCss('--curve-blue'),3,.03);curve(f,x=>M2*x+B2,-7,7,activityCss('--curve-green'),3,.03);
  if(currentX!==null){let y=M1*currentX+B1;if(currentX>=-7&&currentX<=7&&y>=-7&&y<=7)point(f,currentX,y,'solution',activityCss('--curve-gold'))}
 }

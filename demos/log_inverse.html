@@ -56,21 +56,69 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 7 · Interactive Demo</div><h1>Exponential–Logarithm Inverse Explorer</h1><p>The log graph is the exponential graph with its coordinates exchanged.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
 <section class="card"><h2>Exponentials and logarithms undo each other</h2>
-<div class="goal"><strong>Goal:</strong> See y=b<sup>x</sup> and y=log<sub>b</sub>(x) as inverse graphs reflected across y=x.</div><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change the base and exponent; follow a paired point on the exponential and logarithm.</p></div><div class="activity-step"><strong>2. Observe</strong><p>The two curves reflect across y=x because the coordinates of corresponding points are exchanged.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Read log_b(y)=x as the same fact as b^x=y, written in the reverse direction.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
+<div class="goal"><strong>Goal:</strong> See \(y=b^x\) and \(y=\log_b(x)\) as inverse graphs reflected across \(y=x\).</div><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change the base and exponent; follow a paired point on the exponential and logarithm.</p></div><div class="activity-step"><strong>2. Observe</strong><p>The two curves reflect across y=x because the coordinates of corresponding points are exchanged.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Read \(\log_b(y)=x\) as the same fact as \(b^x=y\), written in the reverse direction.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card"><h2>Logarithm mirror</h2>
 <div class="controls">
 <div class="control"><label>Base b</label><input id="base" max="6" min="1.2" step=".1" type="range" value="2"/><div class="value" id="basev"></div></div>
 <div class="control"><label>Exponent x</label><input id="expo" max="3" min="-2" step=".1" type="range" value="2"/><div class="value" id="expov"></div></div>
 </div>
-<div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend" aria-label="Graph key"><span class="legend-item"><span class="legend-line blue"></span>y = b<sup>x</sup></span><span class="legend-item"><span class="legend-line green"></span>y = log<sub>b</sub>(x)</span><span class="legend-item"><span class="legend-line neutral"></span>y = x</span><span class="legend-item"><span class="legend-dot gold"></span>paired exponential point</span><span class="legend-item"><span class="legend-dot green"></span>paired inverse point</span></div></div><div><div class="math" id="pair"></div><div class="note" style="margin-top:12px">The equation <strong>b<sup>x</sup>=y</strong> and the equation <strong>log<sub>b</sub>(y)=x</strong> say exactly the same thing in two coordinate languages.</div></div></div>
+<div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend" aria-label="Graph key"><span class="legend-item"><span class="legend-line blue"></span>\(y=b^x\)</span><span class="legend-item"><span class="legend-line green"></span>\(y=\log_b(x)\)</span><span class="legend-item"><span class="legend-line neutral"></span>\(y=x\)</span><span class="legend-item"><span class="legend-dot gold"></span>paired exponential point</span><span class="legend-item"><span class="legend-dot green"></span>paired inverse point</span></div></div><div><div class="math" id="pair"></div><div class="note" style="margin-top:12px">The equations \(b^x=y\) and \(\log_b(y)=x\) say exactly the same thing in two coordinate languages.</div></div></div>
 </section>
 <section class="card"><h2>Check the inverse statement</h2>
-<p>The current exponential point is shown above. What is log<sub>b</sub>(y)?</p><div class="grid2"><input id="logAns" step="any" type="number"/><div><button class="primary" onclick="checkLog()">Check</button><div class="feedback" id="logAnsFb"></div></div></div>
+<p>The current exponential point is shown above. What is \(\log_b(y)\)?</p><div class="grid2"><input id="logAns" step="any" type="number"/><div><button class="primary" onclick="checkLog()">Check</button><div class="feedback" id="logAnsFb"></div></div></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
@@ -115,7 +163,7 @@ function checkNum(id,expected,tol=.01,msg=''){
 
 let target=2;
 function upd(){let b=Number(base.value),x=Number(expo.value),y=Math.pow(b,x);target=x;basev.textContent='b = '+nice(b,1);expov.textContent='x = '+nice(x,1);
- pair.innerHTML=`${nice(b,1)}<sup>${nice(x,1)}</sup> = <strong>${nice(y,3)}</strong><br>so log<sub>${nice(b,1)}</sub>(${nice(y,3)}) = <strong>${nice(x,1)}</strong>`;
+ pair.innerHTML=`\\(${nice(b,1)}^{${nice(x,1)}}=${nice(y,3)}\\)<br>so \\(\\log_{${nice(b,1)}}(${nice(y,3)})=${nice(x,1)}\\)`;
  let f=plotFrame(plot,-4,8,-4,8);curve(f,z=>Math.pow(b,z),-4,3,activityCss('--curve-blue'),3,.02);curve(f,z=>Math.log(z)/Math.log(b),.03,8,activityCss('--curve-green'),3,.02);curve(f,z=>z,-4,8,activityCss('--curve-neutral'),1.5,.05);point(f,x,y,'',activityCss('--curve-gold'));point(f,y,x,'',activityCss('--curve-green'));
 }
 function checkLog(){checkNum('logAns',target,.02,'The logarithm returns the exponent.')}

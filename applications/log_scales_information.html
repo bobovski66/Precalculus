@@ -56,7 +56,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 7 · Application</div><h1>Logarithmic Scales: Sound and Information</h1><p>Logarithms measure how many multiplicative steps separate one scale from another.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
@@ -65,14 +113,14 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 <p>This activity compares two places logarithms arise naturally: sound intensity and information.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Move through powers of ten for sound and powers of two for information.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Notice that multiplication in the original quantity becomes addition on a logarithmic scale.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Translate a logarithmic answer back into a statement about intensity ratios or possible states.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card">
 <h2>Part A. Decibels</h2>
-<p>For an intensity ratio R relative to a reference level, the decibel difference is <strong>D = 10 log<sub>10</sub>(R)</strong>.</p>
+<p>For an intensity ratio R relative to a reference level, the decibel difference is \(D=10\log_{10}(R)\).</p>
 <div class="controls"><div class="control"><label>Intensity ratio R = 10^q</label><input id="q" max="8" min="0" step=".1" type="range" value="3"/><div class="value" id="qv"></div></div></div>
 <div class="grid2"><div class="canvas-wrap"><canvas id="dbPlot"></canvas></div><div><div class="math" id="dbMath"></div><div class="note" style="margin-top:12px">Every multiplication of intensity by 10 adds 10 dB. Logarithms turn multiplication into addition.</div></div></div>
 <div class="question"><p>An intensity is 1000 times the reference intensity. How many decibels above the reference is it?</p><input id="dbAns" type="number"/><div class="feedback" id="dbAnsFb"></div><button onclick="checkNum('dbAns',30,.01)">Check</button></div>
 </section>
 <section class="card">
 <h2>Part B. Information in bits</h2>
-<p>If N equally likely states must be distinguished, the number of bits is <strong>I = log<sub>2</sub>(N)</strong>.</p>
+<p>If N equally likely states must be distinguished, the number of bits is \(I=\log_2(N)\).</p>
 <div class="controls"><div class="control"><label>Bits I</label><input id="bits" max="16" min="0" step="1" type="range" value="10"/><div class="value" id="bitsv"></div></div></div>
 <div class="grid2"><div><div class="math" id="bitsMath"></div><div class="note" style="margin-top:12px">Adding one bit doubles the number of distinguishable states. The logarithm asks: “How many doublings did it take to get here?”</div></div><div class="canvas-wrap"><canvas id="bitPlot"></canvas></div></div>
 <div class="question"><p>How many bits are needed to distinguish 1024 equally likely states?</p><input id="bitAns" type="number"/><div class="feedback" id="bitAnsFb"></div><button onclick="checkNum('bitAns',10,.01)">Check</button></div>
@@ -118,9 +166,9 @@ function checkNum(id,expected,tol=.01,msg=''){
 }
 
 
-function updDb(){let qq=Number(q.value),R=Math.pow(10,qq),D=10*qq;qv.textContent=`R = 10^${nice(qq,1)} ≈ ${R.toExponential(2)}`;dbMath.innerHTML=`D = 10 log₁₀(${R.toExponential(2)}) = <strong>${nice(D,1)} dB</strong>`;
+function updDb(){let qq=Number(q.value),R=Math.pow(10,qq),D=10*qq;qv.textContent=`R = 10^${nice(qq,1)} ≈ ${R.toExponential(2)}`;dbMath.innerHTML=`\\(D=10\\log_{10}(${R.toExponential(2)})=${nice(D,1)}\\,\\mathrm{dB}\\)`;
  let f=plotFrame(dbPlot,0,8,0,80);curve(f,x=>10*x,0,8,activityCss('--curve-blue'),3,.02);point(f,qq,D,'current',activityCss('--curve-gold'));}
-function updBits(){let b=Number(bits.value),N=Math.pow(2,b);bitsv.textContent=`I = ${b} bits`;bitsMath.innerHTML=`N = 2<sup>${b}</sup> = <strong>${N.toLocaleString()}</strong> states`;
+function updBits(){let b=Number(bits.value),N=Math.pow(2,b);bitsv.textContent=`I = ${b} bits`;bitsMath.innerHTML=`\\(N=2^{${b}}=${N.toLocaleString()}\\text{ states}\\)`;
  let f=plotFrame(bitPlot,0,16,0,16);curve(f,x=>x,0,16,activityCss('--curve-green'),3,.05);point(f,b,b,`${b} bits`,activityCss('--curve-gold'));}
 q.addEventListener('input',updDb);bits.addEventListener('input',updBits);window.addEventListener('resize',()=>{updDb();updBits()});updDb();updBits();
 </script></body></html>

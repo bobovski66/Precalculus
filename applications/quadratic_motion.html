@@ -55,7 +55,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link rel="stylesheet" href="../assets/activity-theme.css"><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link rel="stylesheet" href="../assets/activity-theme.css"><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 2 · Application</div><h1>Quadratic Motion — Projectile</h1><p>Gravity creates constant vertical acceleration, so height becomes a quadratic function of time.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button type="button" data-theme-toggle>☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap"><section class="card"><h2>Application: a parabola in motion</h2><div class="goal"><strong>Goal:</strong> Connect the vertex and concavity of a quadratic graph with the peak of a projectile.</div><div class="activity-guide" aria-label="How to use this activity">
@@ -63,8 +111,8 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 <div class="activity-step"><strong>2. Observe</strong><p>Watch how the whole trajectory changes while the graph remains a downward-opening parabola.</p></div>
 <div class="activity-step"><strong>3. Interpret</strong><p>Use the vertex to interpret maximum height and the leading coefficient to interpret downward acceleration.</p></div>
 </div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, explain what the graph or calculation tells you about the situation—not only which number you obtained.</div></section><section class="card"><h2>Launch the projectile</h2><div class="controls">
-<div class="control"><label>Initial height h₀ (m)</label><input id="h0" type="range" min="0" max="20" step="1" value="2"><div class="value" id="h0v"></div></div>
-<div class="control"><label>Initial vertical velocity v₀ (m/s)</label><input id="v0" type="range" min="2" max="30" step="1" value="18"><div class="value" id="v0v"></div></div>
+<div class="control"><label>Initial height \(h_0\) (m)</label><input id="h0" type="range" min="0" max="20" step="1" value="2"><div class="value" id="h0v"></div></div>
+<div class="control"><label>Initial vertical velocity \(v_0\) (m/s)</label><input id="v0" type="range" min="2" max="30" step="1" value="18"><div class="value" id="v0v"></div></div>
 <div class="control"><label>Time t (s)</label><input id="time" type="range" min="0" max="7" step=".05" value="1.5"><div class="value" id="tv"></div></div></div>
 <div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>height h(t)</span><span class="legend-item"><span class="legend-dot green"></span>vertex / peak</span><span class="legend-item"><span class="legend-dot gold"></span>current time</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
 <section class="card"><h2>Why the vertex matters</h2><p>The projectile is still moving horizontally at its peak, but its vertical velocity is momentarily zero. Explain why that makes the vertex of the height graph physically special.</p><textarea></textarea></section><p class="footer">MATH&amp; 141 · Precalculus I</p></main>
@@ -97,4 +145,4 @@ function dashedLine(f,x1,y1,x2,y2,stroke=activityCss('--curve-neutral')){const {
 function nice(n,d=2){if(!Number.isFinite(n))return '—';let s=Number(n).toFixed(d);return s.replace(/\.?0+$/,'')}
 function checkNum(id,expected,tol=.02,msg=''){const el=document.getElementById(id),fb=document.getElementById(id+'Fb'),v=Number(el.value);if(el.value.trim()!==''&&Number.isFinite(v)&&Math.abs(v-expected)<=tol){fb.className='feedback ok';fb.textContent='Correct.'+(msg?' '+msg:'');return true}fb.className='feedback no';fb.textContent='Not yet. Use the displayed model and try again.';return false}
 
-let peakT=0;function upd(){const H=Number(h0.value),V=Number(v0.value),t=Number(time.value);peakT=V/9.8;const peak=H+V*peakT-4.9*peakT*peakT;const ht=H+V*t-4.9*t*t;h0v.textContent=`h₀ = ${nice(H)} m`;v0v.textContent=`v₀ = ${nice(V)} m/s`;tv.textContent=`t = ${nice(t,2)} s`;eq.innerHTML=`<strong>h(t)=−4.9t²+${nice(V)}t+${nice(H)}</strong><br>peak at t=${nice(peakT,2)} s, h=${nice(peak,2)} m`;meaning.innerHTML=`The negative quadratic coefficient bends the graph downward. The vertex gives the maximum height because the model changes from increasing to decreasing there.`;const ymax=Math.max(20,Math.ceil((peak+10)/10)*10);const f=plotFrame(plot,0,7,0,ymax,1,10);curve(f,z=>H+V*z-4.9*z*z,0,7);point(f,peakT,peak,'',activityCss('--curve-green'));if(ht>=0)point(f,t,ht,'');} [h0,v0,time].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+let peakT=0;function upd(){const H=Number(h0.value),V=Number(v0.value),t=Number(time.value);peakT=V/9.8;const peak=H+V*peakT-4.9*peakT*peakT;const ht=H+V*t-4.9*t*t;h0v.textContent=`h₀ = ${nice(H)} m`;v0v.textContent=`v₀ = ${nice(V)} m/s`;tv.textContent=`t = ${nice(t,2)} s`;eq.innerHTML=`\\(h(t)=-4.9t^2+${nice(V)}t+${nice(H)}\\)<br>peak at \\(t=${nice(peakT,2)}\\,\\mathrm{s}\\), \\(h=${nice(peak,2)}\\,\\mathrm{m}\\)`;meaning.innerHTML=`The negative quadratic coefficient bends the graph downward. The vertex gives the maximum height because the model changes from increasing to decreasing there.`;const ymax=Math.max(20,Math.ceil((peak+10)/10)*10);const f=plotFrame(plot,0,7,0,ymax,1,10);curve(f,z=>H+V*z-4.9*z*z,0,7);point(f,peakT,peak,'',activityCss('--curve-green'));if(ht>=0)point(f,t,ht,'');} [h0,v0,time].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>

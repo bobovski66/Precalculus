@@ -56,7 +56,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 6 · Interactive Demo</div><h1>Exponential Constant-Ratio Explorer</h1><p>Use tables and graphs together to see why the base is a repeated multiplier.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
@@ -117,7 +165,7 @@ function checkNum(id,expected,tol=.01,msg=''){
 let ratio=1.5;
 function upd(){
  let a=Number(A.value),b=Number(B.value);ratio=b;Av.textContent='A = '+nice(a,1);Bv.textContent='b = '+nice(b,2);
- formula.innerHTML=`<strong>y = ${nice(a,1)}(${nice(b,2)})<sup>x</sup></strong>`;
+ formula.innerHTML=`\\(y=${nice(a,1)}(${nice(b,2)})^x\\)`;
  kind.innerHTML=b>1?'<strong>Growth:</strong> each unit step multiplies by a factor greater than 1.':b<1?'<strong>Decay:</strong> each unit step multiplies by a factor between 0 and 1.':'<strong>Constant:</strong> b=1 is the boundary between exponential growth and decay.';
  tbl.innerHTML=[0,1,2,3,4].map((x,i)=>`<tr><td>${x}</td><td>${nice(a*Math.pow(b,x),3)}</td><td>${i?'× '+nice(b,3):'—'}</td></tr>`).join('');
  let ymax=Math.max(12,a*Math.pow(b,4)*1.15);let f=plotFrame(plot,-3,5,0,ymax);curve(f,x=>a*Math.pow(b,x),-3,5,activityCss('--curve-blue'),3,.02);

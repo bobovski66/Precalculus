@@ -56,13 +56,61 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 5 · Interactive Demo</div><h1>Inverse Reflection Explorer</h1><p>Watch inverse functions appear as mirror images across the line y = x.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
 <section class="card"><h2>What you are exploring</h2>
 <div class="goal"><strong>Goal:</strong> Understand an inverse geometrically: swap every point (x,y) to (y,x), which reflects the graph across y=x.</div>
-<p>Choose a family and move the sample-point slider. The orange point lies on f; the green point is the corresponding point on f<sup>−1</sup>.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Choose a function family and move a point on the original graph.</p></div><div class="activity-step"><strong>2. Observe</strong><p>The inverse point swaps coordinates and reflects across y=x; domain and range trade roles.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Use the geometry to decide when an inverse relation is actually an inverse function.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
+<p>Choose a family and move the sample-point slider. The orange point lies on \(f\); the green point is the corresponding point on \(f^{-1}\).</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Choose a function family and move a point on the original graph.</p></div><div class="activity-step"><strong>2. Observe</strong><p>The inverse point swaps coordinates and reflects across \(y=x\); domain and range trade roles.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Use the geometry to decide when an inverse relation is actually an inverse function.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card"><h2>Inverse-function mirror</h2>
 <div class="controls">
 <div class="control"><label>Function family</label><select id="fam"><option value="linear">Linear</option><option value="cubic">Cubic</option><option value="square">Restricted square x≥0</option><option value="sqrt">Square root x≥0</option></select></div>
@@ -70,10 +118,10 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 </div>
 <div class="grid2"><div class="canvas-wrap"><canvas id="plot"></canvas></div>
 <div><div class="math" id="eq"></div><div class="note" id="swap" style="margin-top:12px"></div>
-<div class="warn" style="margin-top:12px"><strong>Why restrict x²?</strong> On all real numbers, x² fails the horizontal-line test. Restricting its domain to x≥0 makes the inverse relation a function: √x.</div></div></div>
+<div class="warn" style="margin-top:12px"><strong>Why restrict \(x^2\)?</strong> On all real numbers, \(x^2\) fails the horizontal-line test. Restricting its domain to \(x\ge 0\) makes the inverse relation a function: \(\sqrt{x}\).</div></div></div>
 </section>
 <section class="card"><h2>Check the swap</h2>
-<p>If the current point on f is <span id="pText"></span>, what point must lie on f<sup>−1</sup>?</p>
+<p>If the current point on f is <span id="pText"></span>, what point must lie on \(f^{-1}\)?</p>
 <div class="grid2"><input id="invPt" placeholder="(x,y)" type="text"/><div><button class="primary" onclick="checkPt()">Check</button><div class="feedback" id="invPtFb"></div></div></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
@@ -124,8 +172,8 @@ function label(){return {linear:'f(x)=1.5x−1',cubic:'f(x)=0.18x³',square:'f(x
 function upd(){
  let [lo,hi]=domain(); sx.min=lo;sx.max=hi;if(Number(sx.value)<lo||Number(sx.value)>hi)sx.value=(lo+hi)/2;
  let x=Number(sx.value),y=fn(x);cur=[x,y];sxv.textContent='x = '+nice(x,1);
- eq.innerHTML=`<strong>${label()}</strong><br>The inverse graph is produced by swapping coordinates, not by “moving” the curve independently.`;
- swap.innerHTML=`Current pair: <strong>(${nice(x,2)}, ${nice(y,2)}) → (${nice(y,2)}, ${nice(x,2)})</strong>. Domain and range exchange roles.`;
+ eq.innerHTML=`\\(${label().replaceAll('−','-').replace('³','^3').replace('²','^2').replace('√x','\\\\sqrt{x}').replace('x≥0','x\\\\ge0')}\\)<br>The inverse graph is produced by swapping coordinates, not by “moving” the curve independently.`;
+ swap.innerHTML=`Current pair: \\(( ${nice(x,2)},${nice(y,2)} )\\to( ${nice(y,2)},${nice(x,2)} )\\). Domain and range exchange roles.`;
  pText.textContent=`(${nice(x,2)}, ${nice(y,2)})`;
  let f=plotFrame(plot,-5,8,-5,8);curve(f,fn,lo,hi,activityCss('--curve-blue'),3,.02);
  // inverse by parametric coordinate swap

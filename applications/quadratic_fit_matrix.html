@@ -56,13 +56,61 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 10 · Application</div><h1>Quadratic Fit by Matrix</h1><p>Use Gaussian elimination to recover a quadratic model from three observed points.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
 <section class="card"><h2>Capstone application: fit a quadratic through three data points</h2>
 <div class="goal"><strong>Goal:</strong> Use a matrix to solve the same “three points determine a parabola” problem from Week 2. Gaussian elimination becomes a function-fitting tool.</div>
-<p>For y=ax²+bx+c, each data point contributes one linear equation in the unknown coefficients a, b, and c.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change the three data points, then solve the resulting 3×3 system for a, b, and c.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Each point contributes one linear constraint on the coefficients of y=ax²+bx+c.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Interpret row reduction as a method for recovering a function from data, not merely reducing a matrix.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
+<p>For \(y=ax^2+bx+c\), each data point contributes one linear equation in the unknown coefficients \(a\), \(b\), and \(c\).</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change the three data points, then solve the resulting 3×3 system for a, b, and c.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Each point contributes one linear constraint on the coefficients of \(y=ax^2+bx+c\).</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Interpret row reduction as a method for recovering a function from data, not merely reducing a matrix.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card"><h2>Current data</h2>
 <div class="pills"><button onclick="newData()">New data set</button></div>
 <div class="grid2">
@@ -130,8 +178,8 @@ function newData(){
 }
 function render(){
  ptsTable.innerHTML=pts.map(p=>`<tr><td>${p[0]}</td><td>${p[1]}</td></tr>`).join('');
- system.innerHTML=pts.map(([x,y])=>`${x*x}a ${x>=0?'+':'−'} ${Math.abs(x)}b + c = ${y}`).join('<br>');
- matrix.innerHTML='<strong>Augmented matrix</strong><br>'+pts.map(([x,y])=>`[ ${x*x} &nbsp; ${x} &nbsp; 1 &nbsp; | &nbsp; ${y} ]`).join('<br>');
+ system.innerHTML=pts.map(([x,y])=>`\\(${x*x}a ${x>=0?'+':'-'} ${Math.abs(x)}b+c=${y}\\)`).join('<br>');
+ matrix.innerHTML='<strong>Augmented matrix</strong><br>'+pts.map(([x,y])=>`\\(\\left[\\begin{array}{ccc|c}${x*x}&${x}&1&${y}\\end{array}\\right]\\)`).join('<br>');
  draw(false);
 }
 function draw(show){
@@ -140,8 +188,8 @@ function draw(show){
 function checkModel(){
  let vals=[Number(aa.value),Number(bb.value),Number(cc.value)],ok=vals.every((v,i)=>Number.isFinite(v)&&Math.abs(v-co[i])<.02);
  modelFb.className='feedback '+(ok?'ok':'no');
- if(ok){modelFb.textContent='Correct. The matrix coefficients reconstruct the quadratic exactly.';modelResult.style.display='block';modelResult.innerHTML=`Recovered model: <strong>y = ${co[0]}x² ${co[1]>=0?'+':'−'} ${Math.abs(co[1])}x ${co[2]>=0?'+':'−'} ${Math.abs(co[2])}</strong>. The blue curve passes through all three data points.`;draw(true)}
- else modelFb.textContent='Not yet. Substitute each point into ax²+bx+c, then eliminate systematically. Check signs in the x-column carefully.';
+ if(ok){modelFb.textContent='Correct. The matrix coefficients reconstruct the quadratic exactly.';modelResult.style.display='block';modelResult.innerHTML=`Recovered model: \\(y=${co[0]}x^2 ${co[1]>=0?'+':'-'} ${Math.abs(co[1])}x ${co[2]>=0?'+':'-'} ${Math.abs(co[2])}\\). The blue curve passes through all three data points.`;draw(true)}
+ else modelFb.innerHTML='Not yet. Substitute each point into \\(ax^2+bx+c\\), then eliminate systematically. Check signs in the \\(x\\)-column carefully.';
 }
 window.addEventListener('resize',()=>draw(modelResult.style.display!=='none'));newData();
 </script></body></html>

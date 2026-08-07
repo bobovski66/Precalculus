@@ -56,7 +56,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 3 · Application</div><h1>Open-Box Polynomial Model</h1><p>A real design constraint turns three linear factors into a cubic volume model.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
@@ -135,7 +183,7 @@ function drawBox(){
 function drawPlot(){
  const f=plotFrame(plot,0,10,0,1600);curve(f,V,0,10,activityCss('--curve-blue'),3,.02);let x=Number(xcut.value);point(f,x,V(x),`x=${nice(x,1)}`,activityCss('--curve-gold'));
 }
-function upd(){let x=Number(xcut.value),l=30-2*x,w=20-2*x,v=V(x);xv.textContent=`x = ${nice(x,1)} cm`;dims.innerHTML=`Folded dimensions: <strong>${nice(l,1)} × ${nice(w,1)} × ${nice(x,1)} cm</strong>`;vol.innerHTML=`Current volume: <strong>${nice(v,1)} cm³</strong>`;drawBox();drawPlot()}
+function upd(){let x=Number(xcut.value),l=30-2*x,w=20-2*x,v=V(x);xv.textContent=`x = ${nice(x,1)} cm`;dims.innerHTML=`Folded dimensions: \\(${nice(l,1)}\\times${nice(w,1)}\\times${nice(x,1)}\\,\\mathrm{cm}\\)`;vol.innerHTML=`Current volume: \\(${nice(v,1)}\\,\\mathrm{cm^3}\\)`;drawBox();drawPlot()}
 function checkZeros(){let nums=(zeros.value.match(/-?\d+(\.\d+)?/g)||[]).map(Number).sort((a,b)=>a-b),ok=nums.length>=3&&Math.abs(nums[0]-0)<.01&&Math.abs(nums[1]-10)<.01&&Math.abs(nums[2]-15)<.01;zerosFb.className='feedback '+(ok?'ok':'no');zerosFb.textContent=ok?'Correct: each factor gives a zero.':'Not yet. Set each factor x, 30−2x, and 20−2x equal to zero.'}
 function checkDomain(){let s=domain.value.replace(/\s/g,'').toLowerCase(),ok=s.includes('0<x<10')||s.includes('(0,10)');domainFb.className='feedback '+(ok?'ok':'no');domainFb.textContent=ok?'Correct. x must be positive and smaller than half the shorter side.':'Not yet. The cut must be positive, and the 20 cm side must remain positive after removing 2x.'}
 xcut.addEventListener('input',upd);window.addEventListener('resize',upd);upd();

@@ -56,7 +56,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 8 · Interactive Demo</div><h1>Conic Sections Explorer</h1><p>Move the parameters in standard form and watch the geometry update immediately.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
@@ -129,29 +177,29 @@ function upd(){
  const f=plotFrame(plot,-8,8,-7,7), neutral=activityCss('--curve-neutral');
  if(t==='circle'){
    const pts=[];for(let th=0;th<=Math.PI*2+.02;th+=.02)pts.push([h+a*Math.cos(th),k+a*Math.sin(th)]);drawPath(f,pts);
-   eq.innerHTML=`<strong>(x−${nice(h)})² + (y−${nice(k)})² = ${nice(a*a)}</strong>`;
+   eq.innerHTML=`\\((x-${nice(h)})^2+(y-${nice(k)})^2=${nice(a*a)}\\)`;
    features.innerHTML=`Center (${nice(h)}, ${nice(k)}), radius ${nice(a)}. Every point on the circle stays exactly ${nice(a)} units from the center.`;
  }
  if(t==='ellipse'){
    const c=Math.sqrt(Math.max(0,a*a-b*b)),pts=[];for(let th=0;th<=Math.PI*2+.02;th+=.02)pts.push([h+a*Math.cos(th),k+b*Math.sin(th)]);drawPath(f,pts);
    point(f,h-c,k,'',activityCss('--curve-gold'));point(f,h+c,k,'',activityCss('--curve-gold'));
-   eq.innerHTML=`<strong>(x−${nice(h)})²/${nice(a*a)} + (y−${nice(k)})²/${nice(b*b)} = 1</strong>`;
-   features.innerHTML=`Center (${nice(h)}, ${nice(k)}). Horizontal semi-axis a=${nice(a)}, vertical semi-axis b=${nice(b)}, and c=√(a²−b²)=${nice(c)}. The foci are (${nice(h-c)}, ${nice(k)}) and (${nice(h+c)}, ${nice(k)}).`;
+   eq.innerHTML=`\\(\\dfrac{(x-${nice(h)})^2}{${nice(a*a)}}+\\dfrac{(y-${nice(k)})^2}{${nice(b*b)}}=1\\)`;
+   features.innerHTML=`Center \\(( ${nice(h)},${nice(k)} )\\). Horizontal semi-axis \\(a=${nice(a)}\\), vertical semi-axis \\(b=${nice(b)}\\), and \\(c=\\sqrt{a^2-b^2}=${nice(c)}\\). The foci are \\(( ${nice(h-c)},${nice(k)} )\\) and \\(( ${nice(h+c)},${nice(k)} )\\).`;
  }
  if(t==='parabola'){
    const p=b,pts=[];for(let x=-8;x<=8;x+=.025)pts.push([x,k+(x-h)*(x-h)/(4*p)]);drawPath(f,pts);
    drawPath(f,[[f.xmin,k-p],[f.xmax,k-p]],neutral,1.6,[6,5]);
    point(f,h,k,'',activityCss('--curve-green'));point(f,h,k+p,'',activityCss('--curve-gold'));
-   eq.innerHTML=`<strong>(x−${nice(h)})² = ${nice(4*p)}(y−${nice(k)})</strong>`;
-   features.innerHTML=`Vertex (${nice(h)}, ${nice(k)}), focus (${nice(h)}, ${nice(k+p)}), directrix y=${nice(k-p)}. The vertex lies halfway between the focus and directrix.`;
+   eq.innerHTML=`\\((x-${nice(h)})^2=${nice(4*p)}(y-${nice(k)})\\)`;
+   features.innerHTML=`Vertex \\(( ${nice(h)},${nice(k)} )\\), focus \\(( ${nice(h)},${nice(k+p)} )\\), directrix \\(y=${nice(k-p)}\\). The vertex lies halfway between the focus and directrix.`;
  }
  if(t==='hyperbola'){
    const c=Math.sqrt(a*a+b*b),right=[],left=[];for(let u=-2.3;u<=2.3;u+=.02){right.push([h+a*Math.cosh(u),k+b*Math.sinh(u)]);left.push([h-a*Math.cosh(u),k+b*Math.sinh(u)])}drawPath(f,right);drawPath(f,left);
    drawPath(f,[[f.xmin,k+(b/a)*(f.xmin-h)],[f.xmax,k+(b/a)*(f.xmax-h)]],neutral,1.5,[6,5]);
    drawPath(f,[[f.xmin,k-(b/a)*(f.xmin-h)],[f.xmax,k-(b/a)*(f.xmax-h)]],neutral,1.5,[6,5]);
    point(f,h-c,k,'',activityCss('--curve-gold'));point(f,h+c,k,'',activityCss('--curve-gold'));
-   eq.innerHTML=`<strong>(x−${nice(h)})²/${nice(a*a)} − (y−${nice(k)})²/${nice(b*b)} = 1</strong>`;
-   features.innerHTML=`Center (${nice(h)}, ${nice(k)}), vertices (${nice(h-a)}, ${nice(k)}) and (${nice(h+a)}, ${nice(k)}), c=√(a²+b²)=${nice(c)}, with asymptotes y−k=±(b/a)(x−h).`;
+   eq.innerHTML=`\\(\\dfrac{(x-${nice(h)})^2}{${nice(a*a)}}-\\dfrac{(y-${nice(k)})^2}{${nice(b*b)}}=1\\)`;
+   features.innerHTML=`Center \\(( ${nice(h)},${nice(k)} )\\), vertices \\(( ${nice(h-a)},${nice(k)} )\\) and \\(( ${nice(h+a)},${nice(k)} )\\), \\(c=\\sqrt{a^2+b^2}=${nice(c)}\\), with asymptotes \\(y-k=\\pm\\frac{b}{a}(x-h)\\).`;
  }
 }
 [type,hh,kk,aa,bb].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();

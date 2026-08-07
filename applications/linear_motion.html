@@ -55,18 +55,66 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link rel="stylesheet" href="../assets/activity-theme.css"><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link rel="stylesheet" href="../assets/activity-theme.css"><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 1 · Application</div><h1>Linear Motion — Air Track</h1><p>Constant velocity turns motion into a line: slope becomes velocity and intercept becomes starting position.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button type="button" data-theme-toggle>☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
-<main class="wrap"><section class="card"><h2>Application: motion as a linear function</h2><div class="goal"><strong>Goal:</strong> Connect the equation x(t)=vt+x₀ with the geometry of a line and the physical meaning of slope and intercept.</div><div class="activity-guide" aria-label="How to use this activity">
+<main class="wrap"><section class="card"><h2>Application: motion as a linear function</h2><div class="goal"><strong>Goal:</strong> Connect the equation \(x(t)=vt+x_0\) with the geometry of a line and the physical meaning of slope and intercept.</div><div class="activity-guide" aria-label="How to use this activity">
 <div class="activity-step"><strong>1. Manipulate</strong><p>Change velocity, starting position, and time.</p></div>
 <div class="activity-step"><strong>2. Observe</strong><p>Watch the line pivot when velocity changes and shift when the starting position changes.</p></div>
 <div class="activity-step"><strong>3. Interpret</strong><p>Translate slope and intercept into statements about motion.</p></div>
 </div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, explain what the graph or calculation tells you about the situation—not only which number you obtained.</div></section><section class="card"><h2>Build the motion model</h2><div class="controls">
 <div class="control"><label>Velocity v (m/s)</label><input id="v" type="range" min="-4" max="4" step=".25" value="2"><div class="value" id="vv"></div></div>
-<div class="control"><label>Starting position x₀ (m)</label><input id="x0" type="range" min="-4" max="6" step=".25" value="1"><div class="value" id="x0v"></div></div>
+<div class="control"><label>Starting position \(x_0\) (m)</label><input id="x0" type="range" min="-4" max="6" step=".25" value="1"><div class="value" id="x0v"></div></div>
 <div class="control"><label>Time t (s)</label><input id="time" type="range" min="0" max="5" step=".1" value="2"><div class="value" id="tv"></div></div></div>
-<div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>position x(t)</span><span class="legend-item"><span class="legend-dot gold"></span>current time</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
+<div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>position \(x(t)\)</span><span class="legend-item"><span class="legend-dot gold"></span>current time</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
 <section class="card"><h2>Read slope and intercept in context</h2><div class="question"><p>If the line has slope equal to the current velocity, what physical quantity is changing by that amount each second?</p><textarea placeholder="Explain in one or two sentences."></textarea></div></section><p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
 function fitCanvas(c){
@@ -97,4 +145,4 @@ function dashedLine(f,x1,y1,x2,y2,stroke=activityCss('--curve-neutral')){const {
 function nice(n,d=2){if(!Number.isFinite(n))return '—';let s=Number(n).toFixed(d);return s.replace(/\.?0+$/,'')}
 function checkNum(id,expected,tol=.02,msg=''){const el=document.getElementById(id),fb=document.getElementById(id+'Fb'),v=Number(el.value);if(el.value.trim()!==''&&Number.isFinite(v)&&Math.abs(v-expected)<=tol){fb.className='feedback ok';fb.textContent='Correct.'+(msg?' '+msg:'');return true}fb.className='feedback no';fb.textContent='Not yet. Use the displayed model and try again.';return false}
 
-function upd(){const V=Number(v.value),b=Number(x0.value),t=Number(time.value),pos=V*t+b;vv.textContent=`v = ${nice(V,2)} m/s`;x0v.textContent=`x₀ = ${nice(b,2)} m`;tv.textContent=`t = ${nice(t,1)} s`;eq.innerHTML=`<strong>x(t) = ${nice(V,2)}t ${b>=0?'+':'−'} ${nice(Math.abs(b),2)}</strong><br>x(${nice(t,1)}) = <strong>${nice(pos,2)} m</strong>`;meaning.innerHTML=`The slope ${nice(V,2)} is the velocity: every 1-second step changes position by ${nice(V,2)} m. The intercept ${nice(b,2)} is the position at t=0.`;const f=plotFrame(plot,0,5,-8,24,1,4);curve(f,z=>V*z+b,0,5);point(f,t,pos,'');} [v,x0,time].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+function upd(){const V=Number(v.value),b=Number(x0.value),t=Number(time.value),pos=V*t+b;vv.textContent=`v = ${nice(V,2)} m/s`;x0v.textContent=`x₀ = ${nice(b,2)} m`;tv.textContent=`t = ${nice(t,1)} s`;eq.innerHTML=`\\(x(t)=${nice(V,2)}t ${b>=0?'+':'-'} ${nice(Math.abs(b),2)}\\)<br>\\(x(${nice(t,1)})=${nice(pos,2)}\\,\\mathrm{m}\\)`;meaning.innerHTML=`The slope \\(${nice(V,2)}\\) is the velocity: every 1-second step changes position by \\(${nice(V,2)}\\,\\mathrm{m}\\). The intercept \\(${nice(b,2)}\\) is the position at \\(t=0\\).`;const f=plotFrame(plot,0,5,-8,24,1,4);curve(f,z=>V*z+b,0,5);point(f,t,pos,'');} [v,x0,time].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>

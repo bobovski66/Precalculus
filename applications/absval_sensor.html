@@ -55,7 +55,55 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style><link rel="stylesheet" href="../assets/activity-theme.css"><script src="../assets/activity-common.js"></script></head><body>
+mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
+</style><link rel="stylesheet" href="../assets/activity-theme.css"><script src="../assets/activity-common.js"></script>
+<script id="site-mathjax-config">
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  chtml: { scale: 1.0, mtextInheritFont: true },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      window.dispatchEvent(new Event('mathjax-ready'));
+    }
+  }
+};
+window.typesetMath = function(nodes){
+  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
+  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
+  return MathJax.typesetPromise(els).catch(()=>{});
+};
+(function(){
+  let timer = null;
+  function needsMath(node){
+    const el = node && node.nodeType===1 ? node : node?.parentElement;
+    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
+    const t = el.textContent || '';
+    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    const observer = new MutationObserver(ms=>{
+      const targets=[];
+      for(const m of ms){
+        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
+        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
+      }
+      if(!targets.length) return;
+      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
+    });
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+})();
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head><body>
 <header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 1 · Application</div><h1>Absolute Value — Distance Sensor</h1><p>A sensor reports distance, not signed position, so left and right positions fold onto the same V-shaped graph.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button type="button" data-theme-toggle>☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap"><section class="card"><h2>Application: position becomes distance</h2><div class="goal"><strong>Goal:</strong> Understand absolute value as a physical loss of direction information: distance remembers how far but not which side.</div><div class="activity-guide" aria-label="How to use this activity">
@@ -65,7 +113,7 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 </div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, explain what the graph or calculation tells you about the situation—not only which number you obtained.</div></section><section class="card"><h2>Distance-to-sensor model</h2><div class="controls">
 <div class="control"><label>Sensor position s</label><input id="sensor" type="range" min="-4" max="4" step=".25" value="1"><div class="value" id="sv"></div></div>
 <div class="control"><label>Object position x</label><input id="obj" type="range" min="-8" max="8" step=".25" value="5"><div class="value" id="ov"></div></div></div>
-<div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>d(x)=|x−s|</span><span class="legend-item"><span class="legend-dot gold"></span>current object</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
+<div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>\(d(x)=|x-s|\)</span><span class="legend-item"><span class="legend-dot gold"></span>current object</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
 <section class="card"><h2>Interpret the V-shape</h2><p>Why do two object positions equally far to the left and right of the sensor give the same output?</p><textarea placeholder="Connect symmetry of the graph with physical distance."></textarea></section><p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
 function fitCanvas(c){
@@ -96,4 +144,4 @@ function dashedLine(f,x1,y1,x2,y2,stroke=activityCss('--curve-neutral')){const {
 function nice(n,d=2){if(!Number.isFinite(n))return '—';let s=Number(n).toFixed(d);return s.replace(/\.?0+$/,'')}
 function checkNum(id,expected,tol=.02,msg=''){const el=document.getElementById(id),fb=document.getElementById(id+'Fb'),v=Number(el.value);if(el.value.trim()!==''&&Number.isFinite(v)&&Math.abs(v-expected)<=tol){fb.className='feedback ok';fb.textContent='Correct.'+(msg?' '+msg:'');return true}fb.className='feedback no';fb.textContent='Not yet. Use the displayed model and try again.';return false}
 
-function upd(){const s=Number(sensor.value),x=Number(obj.value),d=Math.abs(x-s);sv.textContent=`s = ${nice(s)}`;ov.textContent=`x = ${nice(x)}`;eq.innerHTML=`<strong>d(x)=|x−${nice(s)}|</strong><br>d(${nice(x)})=<strong>${nice(d)}</strong>`;meaning.innerHTML=`The vertex occurs at the sensor itself, x=${nice(s)}, where distance is 0. Moving one unit left or right increases the reading by one unit.`;const f=plotFrame(plot,-8,8,0,10,2,2);curve(f,z=>Math.abs(z-s),-8,8);point(f,x,d,'');} [sensor,obj].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+function upd(){const s=Number(sensor.value),x=Number(obj.value),d=Math.abs(x-s);sv.textContent=`s = ${nice(s)}`;ov.textContent=`x = ${nice(x)}`;eq.innerHTML=`\\(d(x)=|x-${nice(s)}|\\)<br>\\(d(${nice(x)})=${nice(d)}\\)`;meaning.innerHTML=`The vertex occurs at the sensor itself, \\(x=${nice(s)}\\), where distance is \\(0\\). Moving one unit left or right increases the reading by one unit.`;const f=plotFrame(plot,-8,8,0,10,2,2);curve(f,z=>Math.abs(z-s),-8,8);point(f,x,d,'');} [sensor,obj].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
