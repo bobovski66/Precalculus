@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Precalculus I — Week 6 Student Lab</title>
+<style>body{font-family:system-ui,sans-serif;background:#f6f7fb;color:#222;margin:0}.loading{max-width:720px;margin:15vh auto;padding:28px;background:white;border:1px solid #d9deea;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.06)}.loading h1{margin-top:0}.error{color:#922}</style></head>
+<body><div class="loading"><h1>Week 6 Lab — Exponential Functions</h1><p>Loading the current course lab and preparing your student workspace…</p><p class="error" id="err"></p></div>
+<script>
+(async()=>{
+ const SOURCE="https://raw.githubusercontent.com/bobovski66/Precalculus/main/labs/Precalc_Week6_Lab.html";
+ const WEEK=6;
+ try{
+  const r=await fetch(SOURCE,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+  const text=await r.text(); const p=new DOMParser(); const doc=p.parseFromString(text,'text/html');
+  const style=doc.createElement('style'); style.textContent=`
+    :root{--student-shadow:0 8px 22px rgba(31,50,80,.08)}
+    html{scroll-behavior:smooth} body{padding-top:0!important}
+    .student-topbar{position:sticky;top:0;z-index:1000;background:rgba(252,251,248,.96);backdrop-filter:blur(9px);border-bottom:1px solid var(--rule,#d8d3c8);box-shadow:0 3px 12px rgba(0,0,0,.04)}
+    .student-topbar-inner{max-width:960px;margin:auto;padding:9px 18px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .student-topbar button{font:600 12px/1.2 var(--mono,ui-monospace,monospace);padding:8px 11px;border-radius:7px;border:1px solid var(--rule,#d8d3c8);background:#fff;cursor:pointer;color:var(--ink,#222)}
+    .student-topbar button.primary{background:var(--blue,#2a4d7a);color:white;border-color:var(--blue,#2a4d7a)}
+    .student-topbar .status{margin-left:auto;font:12px var(--mono,ui-monospace,monospace);color:#667085}
+    .student-start{background:#fff;border:1px solid var(--blue-rule,#bcccdf);border-radius:12px;padding:16px 18px;margin:18px 0 20px;box-shadow:var(--student-shadow)}
+    .student-start h2{font-size:18px;margin:0 0 7px;color:var(--blue,#2a4d7a)}
+    .student-start p{margin:6px 0} .student-start label{display:block;font:12px var(--mono,ui-monospace,monospace);color:#555;margin-top:12px}
+    .student-start input{width:min(340px,100%);font:16px inherit;padding:8px 10px;border:1px solid var(--rule,#ccc);border-radius:7px;background:#fff}
+    .problem{scroll-margin-top:72px} .problem-goal{margin:8px 0 12px;padding:8px 12px;border-left:3px solid var(--green,#1f6b46);background:var(--green-bg,#edf5ef);font-size:16px}
+    input:focus,textarea:focus,select:focus{outline:3px solid rgba(42,77,122,.16)!important;outline-offset:1px;border-color:var(--blue,#2a4d7a)!important}
+    .wrap{max-width:900px!important} .toolbar{display:none!important}
+    @media(max-width:650px){body{font-size:17px!important}.wrap{padding:20px 16px 60px!important}.answer-row,.text-answer,details{margin-left:0!important}.answer-row input[type=text]{width:100px!important}.student-topbar .status{width:100%;margin-left:0}}
+    @media print{.student-topbar,.student-start .save-note{display:none!important}.student-start{box-shadow:none}details.locked{opacity:1!important}}
+  `; doc.head.appendChild(style);
+  const body=doc.body; body.setAttribute('data-student-lab','precalc-week-'+WEEK);
+  const oldToolbar=body.querySelector('.toolbar'); if(oldToolbar) oldToolbar.remove();
+  const bar=doc.createElement('div'); bar.className='student-topbar'; bar.innerHTML=`<div class="student-topbar-inner"><button class="primary" onclick="saveFilledHTML()">Save filled HTML</button><button onclick="window.print()">Print / Save PDF</button><button onclick="jumpNext()">Next problem</button><button onclick="clearStudentData()">Clear answers</button><span class="status"><span id="studentProgress">0% started</span> · <span id="saveStatus">autosave ready</span></span></div>`; body.insertBefore(bar,body.firstChild);
+  const wrap=body.querySelector('.wrap')||body; const header=wrap.querySelector('header');
+  const start=doc.createElement('section'); start.className='student-start'; start.innerHTML=`<h2>How to complete this lab</h2><p>Work in order. Try each part before opening its solution. Use <em>Check</em> on numerical answers; for explanation and sketching questions, compare your reasoning only after you have made a serious attempt.</p><p class="save-note">Your work autosaves in this browser. <strong>Save filled HTML</strong> makes a portable copy with your current answers embedded, so you can reopen it or submit it later. <strong>Print / Save PDF</strong> makes a frozen copy.</p><label for="studentName">Student name</label><input id="studentName" data-student-field="name" autocomplete="name" placeholder="Your name"></section>`;
+  if(header) header.insertAdjacentElement('afterend',start); else wrap.insertBefore(start,wrap.firstChild);
+  body.querySelectorAll('.problem').forEach((el,i)=>{const h=el.querySelector('h2'); if(!h)return; const g=doc.createElement('div');g.className='problem-goal'; const topic=h.textContent.replace(/^Problem\\s*\\d+\\s*[—–-]?\\s*/i,'').trim();g.innerHTML='<strong>Goal:</strong> '+topic+'.';h.insertAdjacentElement('afterend',g);});
+  const sc=doc.createElement('script'); sc.textContent=`
+  (function(){
+    const BASE='precalc_student_week_6';
+    let copyId=document.body.dataset.copyId||'working';
+    const key=()=>BASE+'_'+copyId;
+    const fields=()=>[...document.querySelectorAll('input,textarea,select')].filter(e=>!e.closest('.solution'));
+    const answers=()=>fields().filter(e=>e.id!=='studentName' && (e.matches('textarea')||e.matches('select')||e.matches('input[type=text],input[type=number]')));
+    function embeddedHasValue(e){ if(e.type==='checkbox'||e.type==='radio') return e.checked; return String(e.value||'').trim()!==''; }
+    function load(){ try{ const data=JSON.parse(localStorage.getItem(key())||'{}'); fields().forEach(e=>{ if(data[e.id]!==undefined && !embeddedHasValue(e)){ if(e.type==='checkbox'||e.type==='radio')e.checked=!!data[e.id]; else e.value=data[e.id]; }); }catch(e){} update(); }
+    function persist(){ const data={}; fields().forEach(e=>{if(!e.id)return;data[e.id]=(e.type==='checkbox'||e.type==='radio')?e.checked:e.value}); try{localStorage.setItem(key(),JSON.stringify(data));}catch(e){} const s=document.getElementById('saveStatus');if(s)s.textContent='saved in browser';update(); }
+    function update(){ const a=answers(), done=a.filter(embeddedHasValue).length, pct=a.length?Math.round(100*done/a.length):0; const p=document.getElementById('studentProgress');if(p)p.textContent=pct+'% started'; }
+    window.clearStudentData=function(){ if(!confirm('Clear the answers saved in this copy of the lab?'))return; try{localStorage.removeItem(key())}catch(e){} fields().forEach(e=>{if(e.id==='studentName')e.value='';else if(e.type==='checkbox'||e.type==='radio')e.checked=false;else e.value=''}); document.querySelectorAll('.verdict').forEach(v=>v.textContent='');update(); };
+    window.jumpNext=function(){ const probs=[...document.querySelectorAll('.problem')]; const y=scrollY+90; let next=probs.find(p=>p.offsetTop>y); (next||probs[0])?.scrollIntoView({behavior:'smooth',block:'start'}); };
+    window.saveFilledHTML=function(){ persist(); const clone=document.documentElement.cloneNode(true); const newId=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2)); clone.querySelector('body').dataset.copyId=newId; const live=fields(), copied=[...clone.querySelectorAll('input,textarea,select')].filter(e=>!e.closest('.solution')); live.forEach((e,i)=>{const c=copied[i];if(!c)return;if(e.type==='checkbox'||e.type==='radio'){if(e.checked)c.setAttribute('checked','');else c.removeAttribute('checked')}else if(e.tagName==='TEXTAREA'){c.textContent=e.value}else if(e.tagName==='SELECT'){[...c.options].forEach((o,j)=>{if(j===e.selectedIndex)o.setAttribute('selected','');else o.removeAttribute('selected')})}else c.setAttribute('value',e.value)}); const html='<!DOCTYPE html>\\n'+clone.outerHTML; const blob=new Blob([html],{type:'text/html'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); const nm=(document.getElementById('studentName')?.value||'Student').trim().replace(/[^a-z0-9_-]+/gi,'_'); a.download='Precalc_Week_6_Lab_'+(nm||'Student')+'.html'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); const s=document.getElementById('saveStatus');if(s)s.textContent='filled HTML downloaded'; };
+    document.addEventListener('input',persist); document.addEventListener('change',persist); window.addEventListener('load',load); if(document.readyState!=='loading')load();
+  })();`;
+  body.appendChild(sc);
+  document.open(); document.write('<!DOCTYPE html>'+doc.documentElement.outerHTML); document.close();
+ }catch(e){document.getElementById('err').textContent='The lab could not be loaded. Check your internet connection and reopen this file. ('+e.message+')';}
+})();
+</script></body></html>
