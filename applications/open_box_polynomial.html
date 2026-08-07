@@ -137,20 +137,26 @@ function fitCanvas(c){
  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return [ctx,w,h];
 }
+function niceStep(span,targetTicks=8){
+ const raw=span/targetTicks; const p=Math.pow(10,Math.floor(Math.log10(raw||1))); const m=raw/p;
+ const nice = m<=1 ? 1 : m<=2 ? 2 : m<=5 ? 5 : 10; return nice*p;
+}
 function plotFrame(c,xmin,xmax,ymin,ymax){
  const [ctx,w,h]=fitCanvas(c), pad=42;
  ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
  const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const xstep = niceStep(xmax-xmin, 10);
+ const ystep = niceStep(ymax-ymin, 8);
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
  if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
  if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
  ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
- if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
+ if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){if(Math.abs(x)>1e-9)ctx.fillText(nice(x,0),X(x)-6,Y(0)+16)}}
+ if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){if(Math.abs(y)>1e-9)ctx.fillText(nice(y,0),X(0)+6,Y(y)+4)}}
  return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
 }
 function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
