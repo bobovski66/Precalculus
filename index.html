@@ -1,46 +1,652 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Precalculus I — Student Course</title>
-<script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']]},svg:{fontCache:'global'}};</script><script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MATH& 141 — Precalculus I Course</title>
 <style>
-:root{--bg:#f5f6fa;--panel:#fff;--ink:#1e2430;--muted:#687386;--line:#dce1ea;--nav:#18253d;--navink:#eef4ff;--accent:#315f93;--accent2:#eaf1fa;--good:#26734d;--goodbg:#eaf6ef;--bad:#a13a3a;--warn:#9a6a00;--shadow:0 10px 28px rgba(21,35,58,.07)}
-[data-theme=dark]{--bg:#111722;--panel:#192231;--ink:#edf2f8;--muted:#9eabbc;--line:#314055;--nav:#0b111c;--navink:#eef4ff;--accent:#87b8ed;--accent2:#21344b;--good:#83d4aa;--goodbg:#173629;--bad:#f09a9a;--warn:#e1bc66;--shadow:none}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}.skip{position:absolute;left:-9999px}.skip:focus{left:10px;top:10px;background:#fff;padding:8px;z-index:9999}.layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}.sidebar{background:var(--nav);color:var(--navink);padding:24px 18px;position:sticky;top:0;height:100vh}.brand{font-size:1.15rem;font-weight:780;margin:0 0 3px}.course-code{font-size:.82rem;color:#b9c7dc;margin-bottom:24px}.navbtn{display:block;width:100%;text-align:left;border:0;background:transparent;color:#dce7f6;padding:10px 11px;border-radius:9px;font:inherit;cursor:pointer;margin:3px 0}.navbtn.active,.navbtn:hover{background:#263955;color:white}.side-progress{margin-top:24px;border-top:1px solid #31445f;padding-top:16px}.side-progress .bar{background:#31445f;height:8px;border-radius:99px;overflow:hidden}.side-progress .bar span{display:block;height:100%;background:#9bc4ef;width:0}.side-small{font-size:.78rem;color:#bac6d8;margin:7px 0}.main{min-width:0}.topbar{background:var(--panel);border-bottom:1px solid var(--line);padding:13px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}.topbar .grow{flex:1}.topbar input{max-width:260px;width:34vw;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}button,.button{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:8px 11px;border-radius:9px;cursor:pointer;font:600 .87rem inherit;text-decoration:none;display:inline-block}button.primary,.button.primary{background:var(--accent);color:white;border-color:var(--accent)}main{max-width:1120px;margin:auto;padding:28px 28px 70px}.view{display:none}.view.active{display:block}h1{font-size:clamp(1.8rem,3.5vw,2.7rem);margin:0 0 6px;letter-spacing:-.025em}h2{margin-top:0}h3{margin-bottom:7px}.lede{color:var(--muted);max-width:820px;margin-top:0}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}.card,.module,.assessment{background:var(--panel);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.card{padding:18px}.metric{font-size:1.8rem;font-weight:800}.metric-label{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.next{padding:20px;margin:18px 0}.next h2{font-size:1.15rem;margin-bottom:6px}.module{margin:16px 0;overflow:hidden}.module-head{padding:18px 20px;background:linear-gradient(90deg,var(--accent2),transparent);display:flex;gap:16px;align-items:flex-start}.weeknum{font-weight:800;color:var(--accent);white-space:nowrap}.module-head h2{font-size:1.25rem;margin:0}.module-head p{color:var(--muted);margin:5px 0 0}.resource-grid{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line)}.resource{padding:15px;border-right:1px solid var(--line);min-width:0}.resource:last-child{border-right:0}.resource h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 8px}.links a{display:block;color:var(--accent);text-decoration:none;margin:4px 0;overflow-wrap:anywhere}.links a:hover{text-decoration:underline}.checkline{display:flex;gap:7px;align-items:flex-start;margin-top:10px;font-size:.82rem;color:var(--muted)}.quiz{border-top:1px solid var(--line);padding:18px 20px}.quiz h3{margin-top:0}.question{padding:13px 0;border-top:1px solid var(--line)}.question:first-of-type{border-top:0}.qtext{margin-bottom:8px}.qrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.qrow select,.qrow input{padding:8px 9px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;min-width:180px}.feedback{font-size:.82rem;min-height:1.2em;margin-top:6px;color:var(--muted)}.mastered{background:var(--goodbg);border-radius:9px;padding-left:10px;padding-right:10px}.mastered .feedback{color:var(--good)}.assessment{padding:21px;margin:18px 0}.grade-table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}.grade-table th,.grade-table td{padding:11px;border-bottom:1px solid var(--line);text-align:left}.grade-table th{color:var(--muted);font-size:.78rem;text-transform:uppercase}.callout{background:var(--accent2);border-left:4px solid var(--accent);padding:13px 15px;border-radius:0 10px 10px 0;margin:14px 0}.helpgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.helpgrid .card h2{font-size:1.1rem}.footer-note{color:var(--muted);font-size:.8rem;margin-top:28px}.mobile-menu{display:none}.import{display:none}.pill{display:inline-block;font-size:.72rem;padding:3px 7px;border-radius:99px;background:var(--accent2);color:var(--accent)}
-@media(max-width:950px){.resource-grid{grid-template-columns:1fr 1fr}.resource{border-bottom:1px solid var(--line)}.cards{grid-template-columns:1fr 1fr}}
-@media(max-width:720px){.layout{display:block}.sidebar{display:none;position:fixed;z-index:40;width:260px;left:0;top:0}.sidebar.open{display:block}.mobile-menu{display:inline-block}.topbar{padding:10px 12px}.topbar input{width:42vw}main{padding:22px 14px 60px}.cards{grid-template-columns:1fr 1fr}.resource-grid,.helpgrid{grid-template-columns:1fr}.resource{border-right:0}.module-head{display:block}}
-@media(max-width:450px){.cards{grid-template-columns:1fr}.topbar input{width:45vw}.metric{font-size:1.5rem}}
-@media print{.sidebar,.topbar,button,.button,.checkline{display:none!important}.layout{display:block}main{max-width:none;padding:0}.view{display:block!important}.module,.card,.assessment{box-shadow:none;break-inside:avoid}}
-</style></head><body><a class="skip" href="#content">Skip to course content</a><div class="layout"><aside class="sidebar" id="sidebar"><div class="brand">Precalculus I</div><div class="course-code">MATH 141 · Student Course</div><button class="navbtn active" data-view="dashboard">Dashboard</button><button class="navbtn" data-view="modules">Modules</button><button class="navbtn" data-view="grades">Grades</button><button class="navbtn" data-view="help">Course Help</button><div class="side-progress"><div class="side-small">Course completion</div><div class="bar"><span id="sideBar"></span></div><div class="side-small" id="sideText">0% complete</div></div></aside><div class="main"><header class="topbar"><button class="mobile-menu" id="menuBtn" aria-label="Open course navigation">☰</button><label for="studentName" style="font-size:.78rem;color:var(--muted)">Student</label><input id="studentName" placeholder="Your name" autocomplete="name"><span class="grow"></span><button id="themeBtn" aria-label="Toggle light or dark mode">Theme</button></header><main id="content">
-<section class="view active" id="dashboard"><span class="pill">10-week course</span><h1>Precalculus I</h1><p class="lede">Work through the course one week at a time. The notes develop the mathematics, demos let you experiment with shape and structure, labs give guided practice, applications connect functions to physical data, and weekly quizzes stay open until you master every question.</p><div class="next card"><div class="metric-label">Continue your work</div><h2 id="nextTitle">Week 1 · Functions</h2><p id="nextText">Start with the Week 1 reading.</p><button class="primary" onclick="goNext()">Continue</button></div><div class="cards"><div class="card"><div class="metric" id="gradeMetric">—</div><div class="metric-label">Current grade</div></div><div class="card"><div class="metric" id="completeMetric">0%</div><div class="metric-label">Completion</div></div><div class="card"><div class="metric" id="quizMetric">0/10</div><div class="metric-label">Weekly quizzes mastered</div></div><div class="card"><div class="metric" id="assessMetric">0%</div><div class="metric-label">Assessment mastery</div></div></div><div class="card"><h2>How grading works</h2><p>Weekly modules make up 60% of the course grade, the midterm 15%, and the final 25%. Within a week, Readings, Demos, Weekly Lab, Applications, and Weekly Quiz are weighted equally. A quiz earns its category credit only after every question is correct.</p><p class="lede">Your current grade uses only work you have started. Future untouched weeks do not lower it.</p></div><div class="card"><h2>Course sequence</h2><p id="sequence"></p></div></section>
-<section class="view" id="modules"><h1>Modules</h1><p class="lede">Open course resources in a new tab so this page stays available. Check off non-quiz work when you have completed it. Numerical and multiple-choice quizzes can be retried as many times as you need; correct answers lock.</p><div id="moduleList"></div><div class="assessment" id="midtermBox"><h2>Midterm · Weeks 1–4</h2><p class="lede">Five mastery questions covering functions, transformations, quadratics, polynomials, and rational functions.</p><div id="midtermQuiz"></div></div><div class="assessment" id="finalBox"><h2>Final · Comprehensive</h2><p class="lede">Ten closed-response questions across the course. Retry missed questions until all are mastered.</p><div id="finalQuiz"></div></div></section>
-<section class="view" id="grades"><h1>Grades</h1><p class="lede">This gradebook is stored only in this browser unless you export it. It is intended to give you a clear picture of your own progress through the course.</p><div class="cards"><div class="card"><div class="metric" id="gradeMetric2">—</div><div class="metric-label">Current grade</div></div><div class="card"><div class="metric" id="letterMetric">—</div><div class="metric-label">Letter grade</div></div></div><table class="grade-table"><thead><tr><th>Item</th><th>Status</th><th>Score</th></tr></thead><tbody id="gradeRows"></tbody></table></section>
-<section class="view" id="help"><h1>Course Help</h1><div class="helpgrid"><div class="card"><h2>Saving lab work</h2><p>Each improved weekly lab autosaves in the current browser. Use “Save filled HTML” inside the lab to download a portable copy containing your answers. Use “Print / Save PDF” when you want a frozen copy.</p></div><div class="card"><h2>Quiz feedback</h2><p>A missed quiz answer stays open. Change it and try again. A correct answer is saved and locked. There is no penalty for retries.</p></div><div class="card"><h2>Progress backup</h2><p>Export your LMS progress if you may switch browsers or computers. Import that file later to restore checkboxes and quiz mastery.</p><p><button onclick="exportProgress()">Export progress</button> <button onclick="document.getElementById('importFile').click()">Import progress</button><input class="import" type="file" id="importFile" accept="application/json"></p></div><div class="card"><h2>Course resources</h2><p><a class="button" target="_blank" rel="noopener" href="https://github.com/bobovski66/Precalculus">Course repository</a></p><p class="lede">Interactive demos are for exploration and intuition-building. The weekly labs and mastery checks are where you consolidate the mathematics.</p></div></div><p class="footer-note">Progress and grades are local to your browser; nothing on this page sends student data to a server.</p></section>
-</main></div></div><script>
-const WEEKS=[{"n": 1, "title": "Functions", "summary": "Relations, domain and range, function notation, the vertical line test, and transformations.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week1.pdf", "lab": "labs/Precalc_Week1_Lab_Student.html", "demos": [["Function Fit", "https://bobovski66.github.io/Precalculus/demos/function_fit.html"], ["Transformations", "https://bobovski66.github.io/Precalculus/demos/transformations.html"]], "apps": [["Linear motion: air track", "https://bobovski66.github.io/Precalculus/demos/linear_motion.html"], ["Absolute value: sensor", "https://bobovski66.github.io/Precalculus/demos/absval_sensor.html"]], "quiz": [{"q": "Which relation is a function?", "type": "choice", "options": ["{(1,2),(1,3)}", "{(1,2),(2,2)}", "{(0,1),(0,-1),(2,3)}"], "a": "{(1,2),(2,2)}"}, {"q": "If $f(x)=2x^2-3$, what is $f(2)$?", "type": "number", "a": "5", "tol": 1e-09}, {"q": "In $g(x)=f(x-4)+2$, the graph of $f$ moves…", "type": "choice", "options": ["left 4, up 2", "right 4, up 2", "right 2, up 4"], "a": "right 4, up 2"}]}, {"n": 2, "title": "Lines and Parabolas", "summary": "Slope as a constant rate of change, linear models, quadratic forms, vertices, and completing the square.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week2.pdf", "lab": "labs/Precalc_Week2_Lab_Student.html", "demos": [["Function Fit", "https://bobovski66.github.io/Precalculus/demos/function_fit.html"], ["Transformations", "https://bobovski66.github.io/Precalculus/demos/transformations.html"]], "apps": [["Quadratic motion: projectile", "https://bobovski66.github.io/Precalculus/demos/quadratic_motion.html"]], "quiz": [{"q": "The slope through $(1,3)$ and $(5,11)$ is…", "type": "number", "a": "2", "tol": 1e-09}, {"q": "The vertex of $2(x-3)^2+1$ is…", "type": "choice", "options": ["(3,1)", "(-3,1)", "(3,-1)"], "a": "(3,1)"}, {"q": "For $y=-3(x+2)^2+5$, the parabola opens…", "type": "choice", "options": ["up", "down"], "a": "down"}]}, {"n": 3, "title": "Polynomials and Their Shape", "summary": "Degree, end behavior, roots, multiplicity, sign changes, and global graph shape.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week3.pdf", "lab": "labs/Precalc_Week3_Lab_Student.html", "demos": [["Polynomial Roots & Multiplicity", "https://bobovski66.github.io/Precalculus/demos/polynomial_roots.html"]], "apps": [["Function Fit", "https://bobovski66.github.io/Precalculus/demos/function_fit.html"]], "quiz": [{"q": "What is the degree of $(x+2)(x-1)^2(x-3)$?", "type": "number", "a": "4", "tol": 1e-09}, {"q": "At a root of even multiplicity, a polynomial graph usually…", "type": "choice", "options": ["crosses the axis", "touches and turns", "has a vertical asymptote"], "a": "touches and turns"}, {"q": "A positive-leading-coefficient polynomial of even degree has which end behavior?", "type": "choice", "options": ["both ends up", "left down/right up", "both ends down"], "a": "both ends up"}]}, {"n": 4, "title": "Rational Functions", "summary": "Zeros, holes, vertical asymptotes, end behavior, horizontal asymptotes, and slant asymptotes.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week4.pdf", "lab": "labs/Precalc_Week4_Lab_Student.html", "demos": [["Rational Functions", "https://bobovski66.github.io/Precalculus/demos/rational_functions.html"]], "apps": [["Boyle's Law", "https://bobovski66.github.io/Precalculus/demos/rational_boyles.html"], ["Inverse-square light", "https://bobovski66.github.io/Precalculus/demos/inverse_square.html"]], "quiz": [{"q": "A denominator factor that cancels with the numerator creates a…", "type": "choice", "options": ["hole", "vertical asymptote", "horizontal asymptote"], "a": "hole"}, {"q": "For $(3x^2-1)/(2x^2+x+5)$, the horizontal asymptote is $y=$", "type": "number", "a": "1.5", "tol": 1e-09}, {"q": "A denominator zero that survives cancellation produces a…", "type": "choice", "options": ["vertical asymptote", "hole", "x-intercept"], "a": "vertical asymptote"}]}, {"n": 5, "title": "Inverses and Radicals", "summary": "One-to-one functions, inverse functions, domain/range exchange, and radical functions as inverses of powers.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week5.pdf", "lab": "labs/Precalc_Week5_Lab_Student.html", "demos": [["Function Fit", "https://bobovski66.github.io/Precalculus/demos/function_fit.html"]], "apps": [["Square-root free fall", "https://bobovski66.github.io/Precalculus/demos/sqrt_freefall.html"]], "quiz": [{"q": "A function must pass which test to have an inverse that is also a function?", "type": "choice", "options": ["horizontal line test", "vertical line test only", "midpoint test"], "a": "horizontal line test"}, {"q": "If $f(3)=7$, then $f^{-1}(7)=$", "type": "number", "a": "3", "tol": 1e-09}, {"q": "Over the real numbers, $\\sqrt{x}$ requires…", "type": "choice", "options": ["x ≥ 0", "x > 0 only", "any real x"], "a": "x ≥ 0"}]}, {"n": 6, "title": "Exponential Functions", "summary": "Constant-ratio growth and decay, negative exponents, continuous growth, e, change of base, and half-life.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week6.pdf", "lab": "labs/Precalc_Week6_Lab_Student.html", "demos": [["Function Fit", "https://bobovski66.github.io/Precalculus/demos/function_fit.html"]], "apps": [["Radioactive decay", "https://bobovski66.github.io/Precalculus/demos/exponential_decay.html"]], "quiz": [{"q": "A table with a constant ratio between successive outputs suggests…", "type": "choice", "options": ["exponential behavior", "linear behavior", "quadratic behavior"], "a": "exponential behavior"}, {"q": "If $A(t)=1000e^{0.04t}$, then $A(0)=$", "type": "number", "a": "1000", "tol": 1e-09}, {"q": "For exponential decay, a base between 0 and 1 produces…", "type": "choice", "options": ["decreasing outputs", "increasing outputs", "a line"], "a": "decreasing outputs"}]}, {"n": 7, "title": "Logarithms", "summary": "Logarithms as inverses, logarithm laws, change of base, solving exponential equations, and base-2 information.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week7.pdf", "lab": "labs/Precalc_Week7_Lab_Student.html", "demos": [["Exponential decay / log linearization", "https://bobovski66.github.io/Precalculus/demos/exponential_decay.html"]], "apps": [["Function Fit: inverse viewpoint", "https://bobovski66.github.io/Precalculus/demos/function_fit.html"]], "quiz": [{"q": "$\\log_b(MN)$ equals…", "type": "choice", "options": ["$\\log_bM+\\log_bN$", "$\\log_bM-\\log_bN$", "$\\log_b(M+N)$"], "a": "$\\log_bM+\\log_bN$"}, {"q": "$\\log_2 8=$", "type": "number", "a": "3", "tol": 1e-09}, {"q": "Which expression is generally invalid?", "type": "choice", "options": ["$\\log(M+N)=\\log M+\\log N$", "$\\log(MN)=\\log M+\\log N$", "$\\log(M/N)=\\log M-\\log N$"], "a": "$\\log(M+N)=\\log M+\\log N$"}]}, {"n": 8, "title": "Implicit Curves and Conics", "summary": "Implicit equations, an elliptic-curve example, and the geometry of circles, ellipses, parabolas, and hyperbolas.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week8.pdf", "lab": "labs/Precalc_Week8_Lab_Student.html", "demos": [["Transformations", "https://bobovski66.github.io/Precalculus/demos/transformations.html"]], "apps": [["Conic reading practice", "#week-8-quiz"]], "quiz": [{"q": "For $x^2/25+y^2/16=1$, the positive x-intercept is…", "type": "number", "a": "5", "tol": 1e-09}, {"q": "An equation containing both $x$ and $y$ need not define $y$ as a function of $x$ because…", "type": "choice", "options": ["one x may correspond to two y-values", "all equations are functions", "implicit curves have no points"], "a": "one x may correspond to two y-values"}, {"q": "Which conic has two disconnected branches?", "type": "choice", "options": ["hyperbola", "ellipse", "circle"], "a": "hyperbola"}]}, {"n": 9, "title": "Systems of Linear Equations", "summary": "Solution sets as intersections, substitution, triangular systems, and back-substitution in two and three variables.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week9.pdf", "lab": "labs/Precalc_Week9_Lab_Student.html", "demos": [["Linear motion: revisit slope and intersections", "https://bobovski66.github.io/Precalculus/demos/linear_motion.html"]], "apps": [["Systems geometry practice", "#week-9-quiz"]], "quiz": [{"q": "Two distinct nonparallel lines in the plane have…", "type": "choice", "options": ["one intersection", "two intersections", "infinitely many intersections"], "a": "one intersection"}, {"q": "From $3z=9$, $z=$", "type": "number", "a": "3", "tol": 1e-09}, {"q": "A linear system can have…", "type": "choice", "options": ["0, 1, or infinitely many solutions", "exactly 2 solutions", "only 1 solution"], "a": "0, 1, or infinitely many solutions"}]}, {"n": 10, "title": "Matrices and Gaussian Elimination", "summary": "Augmented matrices, elementary row operations, echelon form, Gaussian elimination, and solution classification.", "reading": "https://bobovski66.github.io/Precalculus/notes/Precalc_Week10.pdf", "lab": "labs/Precalc_Week10_Lab_Student.html", "demos": [["Course function-shape gallery", "https://github.com/bobovski66/Precalculus/tree/main/demos"]], "apps": [["Gaussian elimination practice", "#week-10-quiz"]], "quiz": [{"q": "The row $[0\\;0\\mid 3]$ represents…", "type": "choice", "options": ["no solution", "infinitely many solutions", "a unique solution"], "a": "no solution"}, {"q": "The row operation $R_2\\leftarrow R_2-2R_1$ is used to…", "type": "choice", "options": ["eliminate an entry", "swap variables", "take a determinant"], "a": "eliminate an entry"}, {"q": "A zero row $[0\\;0\\mid0]$ can indicate…", "type": "choice", "options": ["a free variable and infinitely many solutions", "a contradiction", "always a unique solution"], "a": "a free variable and infinitely many solutions"}]}]; const MIDTERM=[{"q": "A finite relation is a function exactly when each input occurs with only one output.", "type": "choice", "options": ["True", "False"], "a": "True"}, {"q": "The vertex of $2x^2-12x+19$ is $(3,1)$.", "type": "choice", "options": ["True", "False"], "a": "True"}, {"q": "For $g(x)=-f(x-2)+1$, the first transformation of the input is a shift…", "type": "choice", "options": ["right 2", "left 2", "up 2"], "a": "right 2"}, {"q": "For $(x+2)(x-1)^2(x-3)$, how many distinct real zeros are shown in the factorization?", "type": "number", "a": "3", "tol": 1e-09}, {"q": "If a rational function has a denominator factor $(x-4)$ that does not cancel, $x=4$ is a…", "type": "choice", "options": ["vertical asymptote", "hole", "horizontal asymptote"], "a": "vertical asymptote"}]; const FINAL=[{"q": "If $f(2)=9$, then the point on $f^{-1}$ is…", "type": "choice", "options": ["(9,2)", "(2,9)", "(-2,-9)"], "a": "(9,2)"}, {"q": "A polynomial root of multiplicity 3 causes the graph to…", "type": "choice", "options": ["cross the x-axis", "touch and turn", "create a vertical asymptote"], "a": "cross the x-axis"}, {"q": "For equal numerator and denominator degrees, a rational function’s horizontal asymptote comes from…", "type": "choice", "options": ["the ratio of leading coefficients", "the constant terms", "the zeros"], "a": "the ratio of leading coefficients"}, {"q": "$\\log_5 125=$", "type": "number", "a": "3", "tol": 1e-09}, {"q": "A constant output ratio is characteristic of…", "type": "choice", "options": ["exponential functions", "linear functions", "circles"], "a": "exponential functions"}, {"q": "The real domain of $\\sqrt{x-4}$ begins at…", "type": "number", "a": "4", "tol": 1e-09}, {"q": "$x^2/9+y^2/4=1$ is a…", "type": "choice", "options": ["ellipse", "hyperbola", "parabola"], "a": "ellipse"}, {"q": "Two coincident lines give a system with…", "type": "choice", "options": ["infinitely many solutions", "no solutions", "exactly two solutions"], "a": "infinitely many solutions"}, {"q": "The augmented row $[0\\;0\\mid5]$ means…", "type": "choice", "options": ["inconsistent system", "free variable", "unique solution"], "a": "inconsistent system"}, {"q": "The purpose of Gaussian elimination is to transform a system into a form that is…", "type": "choice", "options": ["easier to solve by back-substitution", "more nonlinear", "graphically curved"], "a": "easier to solve by back-substitution"}]; const STORE='precalc_lms_v1';
-let state={name:'',theme:'light',tasks:{},mastery:{},attempts:{}};
-function load(){try{state={...state,...JSON.parse(localStorage.getItem(STORE)||'{}')}}catch(e){} document.documentElement.dataset.theme=state.theme||'light';document.getElementById('studentName').value=state.name||'';}
-function save(){localStorage.setItem(STORE,JSON.stringify(state));renderMetrics()}
-const esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-function taskKey(w,k){return `w${w}_${k}`}
-function quizKey(scope,i){return `${scope}_q${i}`}
-function linkList(arr){return arr.map(([t,u])=>`<a href="${esc(u)}" ${u.startsWith('#')?'':'target="_blank" rel="noopener"'}>${esc(t)}</a>`).join('')}
-function taskBox(w,k){let key=taskKey(w,k);return `<label class="checkline"><input type="checkbox" data-task="${key}" ${state.tasks[key]?'checked':''}> Mark complete</label>`}
-function renderModules(){const host=document.getElementById('moduleList');host.innerHTML=WEEKS.map(w=>`<article class="module" id="week-${w.n}"><div class="module-head"><div class="weeknum">WEEK ${w.n}</div><div><h2>${esc(w.title)}</h2><p>${esc(w.summary)}</p></div></div><div class="resource-grid"><div class="resource"><h3>Readings</h3><div class="links"><a target="_blank" rel="noopener" href="${w.reading}">Week ${w.n} notes (PDF)</a></div>${taskBox(w.n,'reading')}</div><div class="resource"><h3>Demos</h3><div class="links">${linkList(w.demos)}</div>${taskBox(w.n,'demo')}</div><div class="resource"><h3>Weekly Lab</h3><div class="links"><a target="_blank" rel="noopener" href="${w.lab}">Open Week ${w.n} lab</a></div>${taskBox(w.n,'lab')}</div><div class="resource"><h3>Applications</h3><div class="links">${linkList(w.apps)}</div>${taskBox(w.n,'app')}</div><div class="resource"><h3>Weekly Quiz</h3><div class="links"><a href="#week-${w.n}-quiz" onclick="event.preventDefault();document.getElementById('week-${w.n}-quiz').scrollIntoView({behavior:'smooth'})">Go to mastery quiz</a></div><div class="checkline">Complete when all quiz questions are mastered.</div></div></div><div class="quiz" id="week-${w.n}-quiz"><h3>Week ${w.n} mastery quiz</h3><div id="quiz_w${w.n}"></div></div></article>`).join('');
- document.querySelectorAll('[data-task]').forEach(x=>x.addEventListener('change',e=>{state.tasks[e.target.dataset.task]=e.target.checked;save()})); WEEKS.forEach(w=>renderQuiz(`w${w.n}`,w.quiz,`quiz_w${w.n}`)); renderQuiz('midterm',MIDTERM,'midtermQuiz');renderQuiz('final',FINAL,'finalQuiz'); if(window.MathJax?.typesetPromise)MathJax.typesetPromise().catch(()=>{});}
-function renderQuiz(scope,qs,hostId){const host=document.getElementById(hostId);host.innerHTML=qs.map((q,i)=>{const k=quizKey(scope,i),ok=!!state.mastery[k];const control=q.type==='choice'?`<select id="${k}_input" ${ok?'disabled':''}><option value="">Choose…</option>${q.options.map(o=>`<option value="${esc(o)}">${o}</option>`).join('')}</select>`:`<input id="${k}_input" inputmode="decimal" placeholder="Enter a value" ${ok?'disabled':''}>`;return `<div class="question ${ok?'mastered':''}" id="${k}_box"><div class="qtext">${i+1}. ${q.q}</div><div class="qrow">${control}<button ${ok?'disabled':''} onclick="checkQ('${scope}',${i})">${ok?'Mastered':'Check'}</button></div><div class="feedback" id="${k}_fb">${ok?'Correct — mastered.':''}</div></div>`}).join('')}
-function checkQ(scope,i){const qs=scope==='midterm'?MIDTERM:scope==='final'?FINAL:WEEKS[Number(scope.slice(1))-1].quiz;const q=qs[i],k=quizKey(scope,i),el=document.getElementById(k+'_input'),fb=document.getElementById(k+'_fb');let ok=false;if(q.type==='number'){const x=Number(String(el.value).trim()),a=Number(q.a);ok=Number.isFinite(x)&&Math.abs(x-a)<=Number(q.tol??1e-6)}else ok=el.value===q.a;state.attempts[k]=(state.attempts[k]||0)+1;if(ok){state.mastery[k]=true;fb.textContent='Correct — mastered.';save();renderModules();}else{fb.textContent='Not yet. Check the idea or computation and try again; there is no penalty for another attempt.';fb.style.color='var(--bad)';save();}}
-function weeklyScore(w){let tasks=['reading','demo','lab','app'].map(k=>state.tasks[taskKey(w.n,k)]?1:0);let qm=w.quiz.every((q,i)=>state.mastery[quizKey('w'+w.n,i)])?1:0;return (tasks.reduce((a,b)=>a+b,0)+qm)/5}
-function assessScore(scope,qs){return qs.filter((q,i)=>state.mastery[quizKey(scope,i)]).length/qs.length}
-function startedWeek(w){return ['reading','demo','lab','app'].some(k=>state.tasks[taskKey(w.n,k)])||w.quiz.some((q,i)=>state.attempts[quizKey('w'+w.n,i)]||state.mastery[quizKey('w'+w.n,i)])}
-function currentGrade(){const started=WEEKS.filter(startedWeek);let pieces=[],weights=[];if(started.length){pieces.push(started.reduce((s,w)=>s+weeklyScore(w),0)/started.length);weights.push(.60)}if(MIDTERM.some((q,i)=>state.attempts[quizKey('midterm',i)]||state.mastery[quizKey('midterm',i)])){pieces.push(assessScore('midterm',MIDTERM));weights.push(.15)}if(FINAL.some((q,i)=>state.attempts[quizKey('final',i)]||state.mastery[quizKey('final',i)])){pieces.push(assessScore('final',FINAL));weights.push(.25)}if(!weights.length)return null;return 100*pieces.reduce((s,x,i)=>s+x*weights[i],0)/weights.reduce((a,b)=>a+b,0)}
-function fullGrade(){return 100*(.60*WEEKS.reduce((s,w)=>s+weeklyScore(w),0)/10+.15*assessScore('midterm',MIDTERM)+.25*assessScore('final',FINAL))}
-function letter(g){return g==null?'—':g>=93?'A':g>=90?'A−':g>=87?'B+':g>=83?'B':g>=80?'B−':g>=77?'C+':g>=73?'C':g>=70?'C−':g>=67?'D+':g>=63?'D':g>=60?'D−':'F'}
-function completion(){const taskTotal=40,taskDone=Object.entries(state.tasks).filter(([k,v])=>v&&/^w\d+_/.test(k)).length;const quizTotal=WEEKS.reduce((s,w)=>s+w.quiz.length,0)+MIDTERM.length+FINAL.length;const quizDone=Object.keys(state.mastery).filter(k=>state.mastery[k]).length;return 100*(taskDone+quizDone)/(taskTotal+quizTotal)}
-function nextAction(){for(const w of WEEKS){for(const k of ['reading','demo','lab','app'])if(!state.tasks[taskKey(w.n,k)])return {week:w.n,title:`Week ${w.n} · ${w.title}`,text:`Complete the ${k==='app'?'Applications':k[0].toUpperCase()+k.slice(1)} item.`,id:`week-${w.n}`};for(let i=0;i<w.quiz.length;i++)if(!state.mastery[quizKey('w'+w.n,i)])return {week:w.n,title:`Week ${w.n} · ${w.title}`,text:'Continue the weekly mastery quiz.',id:`week-${w.n}-quiz`}}for(let i=0;i<MIDTERM.length;i++)if(!state.mastery[quizKey('midterm',i)])return {title:'Midterm · Weeks 1–4',text:'Continue the midterm mastery check.',id:'midtermBox'};for(let i=0;i<FINAL.length;i++)if(!state.mastery[quizKey('final',i)])return {title:'Final · Comprehensive',text:'Continue the final mastery check.',id:'finalBox'};return {title:'Course complete',text:'All course items are complete.',id:'grades'}}
-function renderMetrics(){const c=completion(),g=currentGrade(),weekly=WEEKS.filter(w=>w.quiz.every((q,i)=>state.mastery[quizKey('w'+w.n,i)])).length,as=Math.round(100*(assessScore('midterm',MIDTERM)*MIDTERM.length+assessScore('final',FINAL)*FINAL.length)/(MIDTERM.length+FINAL.length));document.getElementById('sideBar').style.width=c+'%';document.getElementById('sideText').textContent=Math.round(c)+'% complete';document.getElementById('completeMetric').textContent=Math.round(c)+'%';document.getElementById('quizMetric').textContent=weekly+'/10';document.getElementById('assessMetric').textContent=as+'%';document.getElementById('gradeMetric').textContent=g==null?'—':g.toFixed(1)+'%';document.getElementById('gradeMetric2').textContent=g==null?'—':g.toFixed(1)+'%';document.getElementById('letterMetric').textContent=letter(g);const n=nextAction();document.getElementById('nextTitle').textContent=n.title;document.getElementById('nextText').textContent=n.text;renderGrades()}
-function renderGrades(){const rows=WEEKS.map(w=>{const s=weeklyScore(w)*100;return `<tr><td>Week ${w.n} · ${esc(w.title)}</td><td>${startedWeek(w)?(s===100?'Complete':'In progress'):'Not started'}</td><td>${s.toFixed(0)}%</td></tr>`});rows.push(`<tr><td>Midterm</td><td>${assessScore('midterm',MIDTERM)===1?'Complete':assessScore('midterm',MIDTERM)>0?'In progress':'Not started'}</td><td>${(100*assessScore('midterm',MIDTERM)).toFixed(0)}%</td></tr>`,`<tr><td>Final</td><td>${assessScore('final',FINAL)===1?'Complete':assessScore('final',FINAL)>0?'In progress':'Not started'}</td><td>${(100*assessScore('final',FINAL)).toFixed(0)}%</td></tr>`);document.getElementById('gradeRows').innerHTML=rows.join('')}
-function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.getElementById('sidebar').classList.remove('open');scrollTo(0,0)}
-function goNext(){const n=nextAction();showView(n.id==='grades'?'grades':'modules');setTimeout(()=>document.getElementById(n.id)?.scrollIntoView({behavior:'smooth',block:'start'}),50)}
-function exportProgress(){state.name=document.getElementById('studentName').value;save();const blob=new Blob([JSON.stringify({course:'Precalculus I',exported:new Date().toISOString(),state},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Precalculus_Progress_'+(state.name||'Student').replace(/[^a-z0-9_-]+/gi,'_')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function importProgress(file){const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);state=x.state||x;save();location.reload()}catch(e){alert('That progress file could not be read.')}};r.readAsText(file)}
-load();document.getElementById('sequence').textContent=WEEKS.map(w=>`${w.n}. ${w.title}`).join('  ·  ');renderModules();renderMetrics();document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>showView(b.dataset.view));document.getElementById('menuBtn').onclick=()=>document.getElementById('sidebar').classList.toggle('open');document.getElementById('studentName').addEventListener('input',e=>{state.name=e.target.value;save()});document.getElementById('themeBtn').onclick=()=>{state.theme=(state.theme==='dark'?'light':'dark');document.documentElement.dataset.theme=state.theme;save()};document.getElementById('importFile').onchange=e=>e.target.files[0]&&importProgress(e.target.files[0]);
-</script></body></html>
+:root{
+  color-scheme:light;
+  --bg:#eef1f3; --panel:#fbfaf6; --card:#fffdf8; --card-2:#f4f1e9;
+  --ink:#182532; --muted:#5f6b73; --line:#d5d7d3; --nav:#183149;
+  --nav-2:#24465f; --accent:#2e6386; --accent-soft:#dfeaf1;
+  --good:#2f7151; --good-soft:#e5f1e9; --warn:#8a6519; --warn-soft:#f7edcf;
+  --bad:#9b493b; --bad-soft:#f6e5e1; --shadow:0 10px 28px rgba(25,38,48,.08);
+  --focus:#4a86b0; --grade:#6d4a86; --precalc:#466f63;
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#111820; --panel:#17222c; --card:#1d2933; --card-2:#24333e;
+  --ink:#edf2f4; --muted:#aebbc3; --line:#3b4b56; --nav:#0d1720;
+  --nav-2:#192c3a; --accent:#83b7d7; --accent-soft:#243d4d;
+  --good:#8fd0aa; --good-soft:#203c2e; --warn:#e0c275; --warn-soft:#43391e;
+  --bad:#eda594; --bad-soft:#462d2b; --shadow:0 12px 30px rgba(0,0,0,.25);
+  --focus:#9bcae8; --grade:#c7a6df;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:var(--accent)}
+.app{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;background:var(--nav);color:#eaf2f7;padding:22px 16px;overflow:auto}
+.brand{padding:4px 8px 22px;border-bottom:1px solid rgba(255,255,255,.14)}
+.brand .eyebrow{font-size:.74rem;letter-spacing:.11em;text-transform:uppercase;color:#a9c0d1}
+.brand h1{font-size:1.25rem;margin:6px 0 5px}
+.brand p{font-size:.84rem;color:#bed0dc;margin:0}
+.side-nav{display:grid;gap:7px;margin:20px 0}
+.side-nav button{display:flex;gap:10px;align-items:center;width:100%;border:0;border-radius:10px;padding:11px 12px;background:transparent;color:#dce8ef;text-align:left;font-weight:650}
+.side-nav button:hover,.side-nav button.active{background:rgba(255,255,255,.1);color:#fff}
+.sidebar-progress{margin-top:22px;padding:14px;border-radius:12px;background:rgba(255,255,255,.07)}
+.sidebar-progress .value{font-size:1.55rem;font-weight:800}
+.sidebar-progress small{color:#bdd0dc}
+.progress-track{height:8px;border-radius:99px;background:rgba(255,255,255,.13);overflow:hidden;margin:9px 0}
+.progress-fill{height:100%;width:0;background:#86bedc;border-radius:99px;transition:width .25s}
+.sidebar-actions{display:grid;gap:8px;margin-top:14px}
+.sidebar-actions button{border:1px solid rgba(255,255,255,.18);background:transparent;color:#e5eff4;border-radius:9px;padding:8px}
+.main{min-width:0}
+.topbar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 24px;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.student-box{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.student-box label{font-size:.82rem;color:var(--muted)}
+.student-box input{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 9px;min-width:190px}
+.top-actions{display:flex;gap:8px}
+.icon-btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:8px 10px}
+.content{max-width:1180px;margin:0 auto;padding:28px 30px 80px}
+.view{display:none}.view.active{display:block}
+.page-head{margin-bottom:24px}
+.page-head .eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:800}
+.page-head h2{font-size:clamp(1.8rem,3vw,2.55rem);margin:6px 0 8px}
+.page-head p{max-width:78ch;color:var(--muted);font-size:1.03rem}
+.dashboard-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.metric .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:750}
+.metric .big{font-size:2rem;font-weight:850;margin:5px 0 2px}
+.metric .sub{font-size:.85rem;color:var(--muted)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);margin:16px 0}
+.panel h3{margin:0 0 8px}
+.two-col{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+.next-card{display:flex;justify-content:space-between;gap:15px;align-items:center;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));padding:16px;border-radius:14px}
+.primary-btn,.secondary-btn,.danger-btn{border-radius:10px;padding:9px 13px;font-weight:750}
+.primary-btn{border:1px solid var(--accent);background:var(--accent);color:#fff}
+.secondary-btn{border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.danger-btn{border:1px solid var(--bad);background:transparent;color:var(--bad)}
+.module-card{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:15px 0;overflow:hidden;box-shadow:var(--shadow)}
+.module-head{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:18px 20px;background:var(--card)}
+.week-number{width:52px;height:52px;border-radius:15px;background:var(--nav);color:#fff;display:grid;place-items:center;font-size:1.2rem;font-weight:850}
+.module-head h3{margin:0 0 4px}.module-head p{margin:0;color:var(--muted);font-size:.92rem}
+.week-score{text-align:right}.week-score strong{display:block;font-size:1.25rem}.week-score span{font-size:.78rem;color:var(--muted)}
+.module-body{border-top:1px solid var(--line)}
+.resource-row{display:grid;grid-template-columns:145px 1fr auto;gap:14px;align-items:start;padding:15px 20px;border-bottom:1px solid var(--line)}
+.resource-row:last-child{border-bottom:0}
+.resource-kind{font-size:.77rem;text-transform:uppercase;letter-spacing:.07em;font-weight:800;color:var(--accent);padding-top:4px}
+.resource-links{display:grid;gap:8px}
+.resource-link{display:flex;gap:8px;align-items:flex-start}
+.resource-link a{font-weight:720;text-decoration:none}.resource-link a:hover{text-decoration:underline}
+.resource-link small{display:block;color:var(--muted);margin-top:2px}
+.completion-label{display:flex;gap:8px;align-items:center;white-space:nowrap;font-size:.84rem;color:var(--muted);padding:4px 0}
+.completion-label input{width:18px;height:18px;accent-color:var(--good)}
+.quiz-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 9px;font-size:.78rem;font-weight:800;background:var(--card-2);color:var(--muted);border:1px solid var(--line)}
+.badge.good{background:var(--good-soft);color:var(--good);border-color:color-mix(in srgb,var(--good) 35%,var(--line))}
+.badge.warn{background:var(--warn-soft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 35%,var(--line))}
+.exam-break{background:linear-gradient(135deg,var(--grade),color-mix(in srgb,var(--grade) 55%,var(--nav)));color:#fff;border-radius:18px;padding:21px;margin:22px 0;display:flex;justify-content:space-between;gap:16px;align-items:center;box-shadow:var(--shadow)}
+.exam-break h3{margin:0 0 5px}.exam-break p{margin:0;color:#f0eaf4}
+.grade-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
+table{width:100%;border-collapse:collapse;background:var(--card)}
+th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;background:var(--card-2);color:var(--muted)}
+td:first-child,th:first-child{text-align:left}
+tr:last-child td{border-bottom:0}
+.grade-letter{color:var(--grade);font-weight:850}
+.grade-note{font-size:.86rem;color:var(--muted);margin-top:10px}
+.assessment-shell{max-width:880px;margin:0 auto}
+.assessment-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:16px}
+.assessment-progress{min-width:145px;text-align:right}
+.question-card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px;margin:12px 0;box-shadow:var(--shadow)}
+.question-card.mastered{border-color:color-mix(in srgb,var(--good) 55%,var(--line));background:color-mix(in srgb,var(--good-soft) 45%,var(--card))}
+.question-number{font-size:.77rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}
+.question-prompt{font-size:1.02rem;font-weight:680;margin:7px 0 12px}
+.options{display:grid;gap:8px}
+.option{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--card-2)}
+.option input{margin-top:3px;accent-color:var(--accent)}
+.numeric-input{max-width:280px;border:1px solid var(--line);background:var(--card-2);color:var(--ink);border-radius:9px;padding:9px 10px}
+.feedback{min-height:1.25em;margin-top:9px;font-size:.9rem}
+.feedback.good{color:var(--good)}.feedback.bad{color:var(--bad)}.feedback.warn{color:var(--warn)}
+.assessment-footer{position:sticky;bottom:12px;display:flex;justify-content:space-between;gap:10px;align-items:center;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:18px;box-shadow:var(--shadow)}
+.info-list{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+.notice{border-left:5px solid var(--accent);background:var(--accent-soft);padding:12px 14px;border-radius:10px;margin:14px 0}
+.notice.warn{border-left-color:var(--warn);background:var(--warn-soft)}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:980px){
+ .app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.side-nav{grid-template-columns:repeat(4,1fr)}
+ .sidebar-progress{display:none}.dashboard-grid{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+ .content{padding:20px 14px 60px}.topbar{padding:11px 14px;align-items:flex-start}.student-box{display:grid}
+ .side-nav{grid-template-columns:repeat(2,1fr)}.dashboard-grid{grid-template-columns:1fr}
+ .module-head{grid-template-columns:auto 1fr}.week-score{grid-column:2;text-align:left}
+ .resource-row{grid-template-columns:1fr}.resource-kind{padding-top:0}.completion-label{justify-self:start}
+ .exam-break{align-items:flex-start;flex-direction:column}.assessment-top{flex-direction:column}.assessment-progress{text-align:left}
+}
+@media print{
+ .sidebar,.topbar,.no-print{display:none!important}.app{display:block}.content{max-width:none;padding:0}.view{display:none!important}
+ #gradesView{display:block!important}.panel,.metric{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="eyebrow">Centralia College</div>
+      <h1>MATH&amp; 141</h1>
+      <p>Precalculus I</p>
+    </div>
+    <nav class="side-nav" aria-label="Course navigation">
+      <button class="active" data-view="dashboardView">⌂ Dashboard</button>
+      <button data-view="modulesView">▤ Modules</button>
+      <button data-view="gradesView">▦ Grades</button>
+      <button data-view="helpView">? Course Help</button>
+    </nav>
+    <div class="sidebar-progress">
+      <small>Course completion</small>
+      <div class="value" id="sideCompletion">0%</div>
+      <div class="progress-track"><div class="progress-fill" id="sideProgressFill"></div></div>
+      <small id="sideMastery">0 assessments mastered</small>
+    </div>
+    <div class="sidebar-actions">
+      <button id="exportBtn">Export progress</button>
+      <button id="importBtn">Import progress</button>
+      <input type="file" id="importFile" accept="application/json" class="sr-only">
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div class="student-box">
+        <label for="studentName">Student name</label>
+        <input id="studentName" type="text" placeholder="Enter your name">
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle light and dark theme">☾ Theme</button>
+      </div>
+    </header>
+    <div class="content">
+      <section id="dashboardView" class="view active">
+        <div class="page-head">
+          <div class="eyebrow">Course home</div>
+          <h2>Welcome to Precalculus I</h2>
+          <p>Work through each week in order. Read the notes, experiment with the demos, complete the guided lab and application work, then use the mastery quiz to check the week. A missed answer remains open, a correct answer is saved, and you may try as often as needed.</p>
+        </div>
+        <div class="dashboard-grid">
+          <div class="metric"><div class="label">Current grade</div><div class="big" id="dashGrade">—</div><div class="sub" id="dashLetter">No work started</div></div>
+          <div class="metric"><div class="label">Completion</div><div class="big" id="dashCompletion">0%</div><div class="sub" id="dashCompletedCount">0 of 0 items</div></div>
+          <div class="metric"><div class="label">Quiz mastery</div><div class="big" id="dashQuizzes">0/10</div><div class="sub">Weekly quizzes completed</div></div>
+          <div class="metric"><div class="label">Assessment questions</div><div class="big" id="dashQuestions">0%</div><div class="sub">Correct and locked</div></div>
+        </div>
+        <div class="two-col">
+          <div class="panel">
+            <h3>Continue your work</h3>
+            <div id="nextAction" class="next-card"></div>
+          </div>
+          <div class="panel">
+            <h3>How grading works</h3>
+            <ul class="info-list">
+              <li>Weekly module average: 60% of the course grade.</li>
+              <li>Midterm: 15%.</li>
+              <li>Final: 25%.</li>
+              <li>Within a week, Readings, Demos, Weekly Lab, Applications, and Weekly Quiz carry equal weight.</li>
+              <li>The current grade uses work that has been started; future untouched weeks are not counted yet.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Course sequence</h3>
+          <p class="grade-note">The course moves from the language of functions and transformations through polynomial, rational, inverse, exponential, logarithmic, and conic models, then finishes with systems and matrices.</p>
+          <div id="dashboardWeeks"></div>
+        </div>
+      </section>
+
+      <section id="modulesView" class="view">
+        <div class="page-head">
+          <div class="eyebrow">Ten-week course</div>
+          <h2>Modules</h2>
+          <p>Each module is divided into Readings, Demos, Weekly Lab, Applications, and Weekly Quiz. Open links in a new tab so this course page remains available.</p>
+        </div>
+        <div id="modulesContainer"></div>
+      </section>
+
+      <section id="gradesView" class="view">
+        <div class="page-head">
+          <div class="eyebrow">Saved in this browser</div>
+          <h2>Grades</h2>
+          <p>The gradebook updates whenever a task is checked or an assessment answer is mastered. Export progress before changing devices or clearing browser data.</p>
+        </div>
+        <div class="dashboard-grid">
+          <div class="metric"><div class="label">Current percentage</div><div class="big" id="gradeOverall">—</div><div class="sub" id="gradeOverallNote">No work started</div></div>
+          <div class="metric"><div class="label">Letter grade</div><div class="big grade-letter" id="gradeLetter">—</div><div class="sub">Plus/minus scale</div></div>
+          <div class="metric"><div class="label">Weekly average</div><div class="big" id="gradeWeekly">—</div><div class="sub">Started weeks only</div></div>
+          <div class="metric"><div class="label">Course completion</div><div class="big" id="gradeCompletion">0%</div><div class="sub">All assigned items</div></div>
+        </div>
+        <div class="panel">
+          <h3>Weekly gradebook</h3>
+          <div class="grade-table-wrap">
+            <table>
+              <thead><tr><th>Week</th><th>Reading</th><th>Demos</th><th>Weekly Lab</th><th>Applications</th><th>Quiz</th><th>Week Grade</th></tr></thead>
+              <tbody id="gradeRows"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Major assessments</h3>
+          <div class="grade-table-wrap">
+            <table>
+              <thead><tr><th>Assessment</th><th>Questions mastered</th><th>Score</th><th>Status</th></tr></thead>
+              <tbody id="examRows"></tbody>
+            </table>
+          </div>
+          <p class="grade-note">A quiz or exam score is the percentage of questions currently mastered. It reaches 100% when every answer has been corrected.</p>
+          <div class="no-print" style="margin-top:12px"><button class="secondary-btn" onclick="window.print()">Print gradebook</button></div>
+        </div>
+      </section>
+
+      <section id="helpView" class="view">
+        <div class="page-head">
+          <div class="eyebrow">Using this course page</div>
+          <h2>Course Help</h2>
+        </div>
+        <div class="panel">
+          <h3>Completing weekly work</h3>
+          <p>Open the linked reading, demos, weekly lab, and application work in new tabs. Return here and check “Mark complete” after the work has been finished. The checkboxes are a personal record; the page cannot inspect activity in another tab.</p>
+          <h3>Assessment feedback</h3>
+          <p>Press <em>Check my current answers</em>. Correct questions become locked and are saved. An incorrect response receives a small hint but not the answer. Decimal answers are accepted within a gentle tolerance, so harmless rounding differences will not block progress.</p>
+          <h3>Saving progress</h3>
+          <p>Course-page progress is stored in this browser using local storage. Use Export Progress to create a backup file and Import Progress to restore it on another device or browser.</p>
+          <h3>Saving completed labs</h3>
+          <p>Each enhanced weekly lab has its own <em>Save filled HTML</em> control. That download embeds the student’s current responses into a portable copy of the lab; PDF remains available for a fixed print-style submission.</p>
+          <div class="notice warn"><strong>Privacy and limitations:</strong> This static page does not send grades to an instructor or server. A printed or exported grade report can be submitted separately if required.</div>
+          <button class="danger-btn no-print" id="resetBtn">Reset all course progress</button>
+        </div>
+      </section>
+
+      <section id="assessmentView" class="view">
+        <div class="assessment-shell">
+          <div class="assessment-top">
+            <div>
+              <button class="secondary-btn no-print" id="assessmentBack">← Back to modules</button>
+              <div class="page-head" style="margin-top:16px;margin-bottom:0">
+                <div class="eyebrow">Mastery assessment</div>
+                <h2 id="assessmentTitle"></h2>
+                <p id="assessmentSubtitle"></p>
+              </div>
+            </div>
+            <div class="assessment-progress">
+              <strong id="assessmentScore">0%</strong>
+              <div class="progress-track" style="background:var(--card-2)"><div class="progress-fill" id="assessmentProgressFill" style="background:var(--good)"></div></div>
+              <small id="assessmentCount">0 of 0 correct</small>
+            </div>
+          </div>
+          <div class="notice">You may check as often as needed. Correct questions lock in; missed questions remain editable. No correct answer is shown after a miss.</div>
+          <div id="questionsContainer"></div>
+          <div class="assessment-footer no-print">
+            <span id="assessmentFooterText">Enter what you know, then check your current answers.</span>
+            <button class="primary-btn" id="checkAssessmentBtn">Check my current answers</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<script>
+const WEEKS = [{"week":1,"title":"Functions","summary":"Read relations as point clouds, decide when a relation is a function, work with domain and range, and describe transformations of parent functions.","reading":[{"title":"Week 1 Notes — Functions","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week1.pdf","note":"Relations, the function condition, domain and range, function notation, and transformations."}],"demos":[{"title":"Function Fit Lab","url":"https://bobovski66.github.io/Precalculus/demos/function_fit.html","note":"Fit transformed parent functions to data."},{"title":"Transformations Lab","url":"https://bobovski66.github.io/Precalculus/demos/transformations.html","note":"Explore shifts, stretches, compressions, and reflections."}],"weekly_lab":{"title":"Week 1 Lab — Functions","url":"labs/Precalc_Week1_Lab_Student.html","note":"Guided practice with functions and transformations; answers autosave and can be exported as filled HTML."},"application":[{"title":"Linear Motion — Air Track","url":"https://bobovski66.github.io/Precalculus/demos/linear_motion.html","note":"See a linear function emerge from constant-velocity motion."},{"title":"Absolute Value — Sensor","url":"https://bobovski66.github.io/Precalculus/demos/absval_sensor.html","note":"See a V-shaped absolute-value model emerge from distance-to-sensor data."}],"quiz":"week1"},{"week":2,"title":"Lines and Parabolas","summary":"Use slope as a constant rate of change, build line equations, move among quadratic forms, identify vertices, and complete the square.","reading":[{"title":"Week 2 Notes — Lines and Parabolas","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week2.pdf","note":"Lines, slope, quadratic forms, vertices, and completing the square."}],"demos":[{"title":"Function Fit Lab","url":"https://bobovski66.github.io/Precalculus/demos/function_fit.html"},{"title":"Transformations Lab","url":"https://bobovski66.github.io/Precalculus/demos/transformations.html"}],"weekly_lab":{"title":"Week 2 Lab — Lines and Parabolas","url":"labs/Precalc_Week2_Lab_Student.html","note":"Guided practice including completing the square and interpreting quadratic form."},"application":[{"title":"Quadratic Motion — Projectile","url":"https://bobovski66.github.io/Precalculus/demos/quadratic_motion.html","note":"A projectile produces parabolic height-versus-time data; the peak is the vertex."}],"quiz":"week2"},{"week":3,"title":"Polynomials and Their Shape","summary":"Build a global polynomial sketch from degree, leading term, roots, multiplicities, signs, and local crossing or turning behavior.","reading":[{"title":"Week 3 Notes — Polynomials and Their Shape","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week3.pdf","note":"Degree, end behavior, roots, multiplicity, sign charts, and graph shape."}],"demos":[{"title":"Polynomial Roots and Multiplicity Lab","url":"https://bobovski66.github.io/Precalculus/demos/polynomial_roots.html","note":"Change roots and multiplicities and watch the graph respond."}],"weekly_lab":{"title":"Week 3 Lab — Polynomials","url":"labs/Precalc_Week3_Lab_Student.html","note":"Guided practice with roots, multiplicity, end behavior, and sketching."},"application":[{"title":"Function Fit Lab — Polynomial Modeling","url":"https://bobovski66.github.io/Precalculus/demos/function_fit.html","note":"Use point-cloud shape to distinguish polynomial families and transformations."}],"quiz":"week3"},{"week":4,"title":"Rational Functions","summary":"Separate zeros, holes, and vertical asymptotes, then use degree comparison or division to understand behavior at infinity.","reading":[{"title":"Week 4 Notes — Rational Functions","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week4.pdf","note":"Zeros, vertical asymptotes, holes, horizontal and slant asymptotes."}],"demos":[{"title":"Rational Functions Lab","url":"https://bobovski66.github.io/Precalculus/demos/rational_functions.html","note":"Explore zeros, asymptotes, multiplicity, and end behavior."}],"weekly_lab":{"title":"Week 4 Lab — Rational Functions","url":"labs/Precalc_Week4_Lab_Student.html","note":"Guided practice identifying domain restrictions and graph features."},"application":[{"title":"Boyle's Law","url":"https://bobovski66.github.io/Precalculus/demos/rational_boyles.html","note":"Pressure and volume produce a reciprocal model."},{"title":"Inverse-Square Light","url":"https://bobovski66.github.io/Precalculus/demos/inverse_square.html","note":"Light intensity provides a 1/d² rational model."}],"quiz":"week4"},{"week":5,"title":"Inverses and Radicals","summary":"Decide when an inverse is a function, exchange domain and range, find inverse rules, and treat radicals as inverses of power functions.","reading":[{"title":"Week 5 Notes — Inverses and Radicals","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week5.pdf","note":"One-to-one functions, inverses, domain/range exchange, and radical functions."}],"demos":[{"title":"Function Fit Lab — Inverse Viewpoint","url":"https://bobovski66.github.io/Precalculus/demos/function_fit.html","note":"Compare function shapes and transformations with inverse relationships in mind."}],"weekly_lab":{"title":"Week 5 Lab — Inverses and Radicals","url":"labs/Precalc_Week5_Lab_Student.html","note":"Guided practice with inverse functions, restrictions, and radicals."},"application":[{"title":"Square-Root Free Fall","url":"https://bobovski66.github.io/Precalculus/demos/sqrt_freefall.html","note":"Fall time versus height creates a square-root relationship."}],"quiz":"week5"},{"week":6,"title":"Exponential Functions","summary":"Recognize constant-ratio behavior, model growth and decay, work with e and continuous growth, and interpret half-life.","reading":[{"title":"Week 6 Notes — Exponential Functions","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week6.pdf","note":"Constant-ratio growth and decay, e, change of base, and half-life."}],"demos":[{"title":"Function Fit Lab — Exponential Shape","url":"https://bobovski66.github.io/Precalculus/demos/function_fit.html","note":"Fit exponential-shaped point clouds and compare transformations."}],"weekly_lab":{"title":"Week 6 Lab — Exponential Functions","url":"labs/Precalc_Week6_Lab_Student.html","note":"Guided practice with growth, decay, and exponential equations."},"application":[{"title":"Radioactive Decay","url":"https://bobovski66.github.io/Precalculus/demos/exponential_decay.html","note":"Random atomic decay scatters around an exponential model and reveals half-life."}],"quiz":"week6"},{"week":7,"title":"Logarithms","summary":"Use logarithms as inverse exponentials, apply log laws, change bases, solve exponential equations, and interpret logarithmic scale.","reading":[{"title":"Week 7 Notes — Logarithms","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week7.pdf","note":"Inverse relationships, logarithm laws, change of base, equations, and base-2 information."}],"demos":[{"title":"Radioactive Decay — Log Linearization","url":"https://bobovski66.github.io/Precalculus/demos/exponential_decay.html","note":"Use ln(N) to straighten an exponential decay curve."}],"weekly_lab":{"title":"Week 7 Lab — Logarithms","url":"labs/Precalc_Week7_Lab_Student.html","note":"Guided practice with log laws, inverse relationships, and solving equations."},"application":[{"title":"Function Fit Lab — Exponential/Logarithmic Inverses","url":"https://bobovski66.github.io/Precalculus/demos/function_fit.html","note":"Revisit model shape while thinking of logs as inverse coordinates for exponential behavior."}],"quiz":"week7"},{"week":8,"title":"Implicit Curves and Conics","summary":"Read equations as curves in the plane and identify the geometry of circles, ellipses, parabolas, and hyperbolas from standard form.","reading":[{"title":"Week 8 Notes — Implicit Curves and Conics","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week8.pdf","note":"Implicit equations, an elliptic-curve example, and the four conic sections."}],"demos":[{"title":"Transformations Lab — Geometric Review","url":"https://bobovski66.github.io/Precalculus/demos/transformations.html","note":"Review how shifts and scale changes move familiar graph shapes."}],"weekly_lab":{"title":"Week 8 Lab — Implicit Curves and Conics","url":"labs/Precalc_Week8_Lab_Student.html","note":"Guided practice reading and identifying conics from equations."},"application":[{"title":"Week 8 Geometric Examples","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week8.pdf","note":"Use the geometric examples in the notes as this week’s application study."}],"quiz":"week8"},{"week":9,"title":"Systems of Linear Equations","summary":"Interpret solutions as intersections, classify systems geometrically, and solve two- and three-variable systems by substitution and back-substitution.","reading":[{"title":"Week 9 Notes — Systems of Linear Equations","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week9.pdf","note":"Solution sets in the plane and space, substitution, triangular systems, and back-substitution."}],"demos":[{"title":"Linear Motion — Revisit Intersections","url":"https://bobovski66.github.io/Precalculus/demos/linear_motion.html","note":"Revisit line equations and think of equal positions as intersections of models."}],"weekly_lab":{"title":"Week 9 Lab — Systems of Linear Equations","url":"labs/Precalc_Week9_Lab_Student.html","note":"Guided practice solving and classifying linear systems."},"application":[{"title":"Systems Geometry in the Week 9 Notes","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week9.pdf","note":"Use the plane/space pictures to connect algebraic solution types with intersections."}],"quiz":"week9"},{"week":10,"title":"Matrices and Gaussian Elimination","summary":"Encode systems as augmented matrices, use elementary row operations, reach echelon form, and classify the resulting solution set.","reading":[{"title":"Week 10 Notes — Matrices and Gaussian Elimination","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week10.pdf","note":"Augmented matrices, row operations, Gaussian elimination, and physics applications."}],"demos":[{"title":"Interactive Demo Gallery","url":"https://github.com/bobovski66/Precalculus/tree/main/demos","note":"Revisit function models from across the course before the comprehensive assessment."}],"weekly_lab":{"title":"Week 10 Lab — Matrices and Gaussian Elimination","url":"labs/Precalc_Week10_Lab_Student.html","note":"Guided practice with row operations, echelon form, and solution classification."},"application":[{"title":"Physics Applications in the Week 10 Notes","url":"https://bobovski66.github.io/Precalculus/notes/Precalc_Week10.pdf","note":"Work through the applied systems encoded and solved by matrices in the notes."}],"quiz":"week10"}];
+const ASSESSMENTS = {"week1":{"title":"Week 1 Quiz — Functions","subtitle":"Five questions on the function condition, evaluation, domain, and transformations. Correct items lock; missed items remain open.","questions":[{"id":"w1q1","type":"mc","prompt":"Which relation is a function?","options":["{(1,2),(1,3)}","{(1,2),(2,2)}","{(0,1),(0,−1),(2,3)}","{(2,4),(2,5),(2,6)}"],"answer":"{(1,2),(2,2)}","hint":"Check whether any input is paired with more than one output.","success":"Correct."},{"id":"w1q2","type":"num","prompt":"If f(x) = 2x² − 3, find f(2).","answer":5,"tolerance":0.01,"hint":"Substitute x = 2 into the rule before simplifying.","success":"Correct.","placeholder":"Enter a number"},{"id":"w1q3","type":"mc","prompt":"For g(x) = f(x − 4) + 2, how is the graph of f transformed?","options":["left 4 and up 2","right 4 and up 2","right 2 and up 4","left 2 and down 4"],"answer":"right 4 and up 2","hint":"The horizontal shift has the opposite sign from the expression inside f.","success":"Correct."},{"id":"w1q4","type":"mc","prompt":"What value is excluded from the domain of h(x) = 1/(x − 3)?","options":["−3","0","3","All real numbers are allowed"],"answer":"3","hint":"A rational expression is undefined when its denominator is zero.","success":"Correct."},{"id":"w1q5","type":"mc","prompt":"A graph passes the vertical line test exactly when:","options":["each x-value has at most one y-value","each y-value has at most one x-value","the graph has no intercepts","the graph is a straight line"],"answer":"each x-value has at most one y-value","hint":"Translate the vertical line test into the input-output definition of a function.","success":"Correct."}]},"week2":{"title":"Week 2 Quiz — Lines and Parabolas","subtitle":"Five questions on slope, line equations, quadratic form, vertices, and completing the square.","questions":[{"id":"w2q1","type":"num","prompt":"Find the slope of the line through (1,3) and (5,11).","answer":2,"tolerance":0.01,"hint":"Use change in y divided by change in x.","success":"Correct.","placeholder":"Enter a number"},{"id":"w2q2","type":"num","prompt":"The line y = 2x + b passes through (3,1). Find b.","answer":-5,"tolerance":0.01,"hint":"Substitute the point into the line equation and solve for b.","success":"Correct.","placeholder":"Enter a number"},{"id":"w2q3","type":"mc","prompt":"What is the vertex of y = 2(x − 3)² + 1?","options":["(3,1)","(−3,1)","(3,−1)","(−3,−1)"],"answer":"(3,1)","hint":"Read h and k from vertex form a(x − h)² + k.","success":"Correct."},{"id":"w2q4","type":"num","prompt":"Rewrite x² − 6x + 5 in vertex form. What is the y-coordinate of the vertex?","answer":-4,"tolerance":0.01,"hint":"Complete the square: add and subtract the square of half the x coefficient.","success":"Correct.","placeholder":"Enter a number"},{"id":"w2q5","type":"mc","prompt":"For y = −3(x + 2)² + 5, the parabola:","options":["opens upward","opens downward","has no vertex","is a line"],"answer":"opens downward","hint":"The sign of the coefficient multiplying the square determines the opening direction.","success":"Correct."}]},"week3":{"title":"Week 3 Quiz — Polynomials and Their Shape","subtitle":"Five questions on degree, roots, multiplicity, end behavior, and turning behavior.","questions":[{"id":"w3q1","type":"num","prompt":"Find the degree of (x + 2)(x − 1)²(x − 3).","answer":4,"tolerance":0.01,"hint":"Add the exponents of the linear factors.","success":"Correct.","placeholder":"Enter a number"},{"id":"w3q2","type":"mc","prompt":"At a real root of even multiplicity, a polynomial graph usually:","options":["crosses the x-axis","touches the x-axis and turns","has a vertical asymptote","has a hole"],"answer":"touches the x-axis and turns","hint":"Think about whether the sign of the factor changes when an even power passes through zero.","success":"Correct."},{"id":"w3q3","type":"mc","prompt":"A positive-leading-coefficient polynomial of even degree has which end behavior?","options":["both ends up","both ends down","left down and right up","left up and right down"],"answer":"both ends up","hint":"Use the leading term to decide what happens for very large positive and negative x.","success":"Correct."},{"id":"w3q4","type":"num","prompt":"For p(x) = (x + 1)²(x − 3), what is the multiplicity of the root x = −1?","answer":2,"tolerance":0.01,"hint":"The multiplicity is the exponent on the factor that becomes zero.","success":"Correct.","placeholder":"Enter a number"},{"id":"w3q5","type":"num","prompt":"A degree-4 polynomial can have at most how many turning points?","answer":3,"tolerance":0.01,"hint":"A degree-n polynomial has at most n − 1 turning points.","success":"Correct.","placeholder":"Enter a number"}]},"week4":{"title":"Week 4 Quiz — Rational Functions","subtitle":"Five questions on holes, asymptotes, zeros, domain restrictions, and degree comparison.","questions":[{"id":"w4q1","type":"mc","prompt":"A denominator factor that cancels with the numerator creates a:","options":["hole","vertical asymptote","horizontal asymptote","x-intercept"],"answer":"hole","hint":"Cancellation removes the factor algebraically but the original domain restriction remains.","success":"Correct."},{"id":"w4q2","type":"num","prompt":"For (3x² − 1)/(2x² + x + 5), find the y-value of the horizontal asymptote.","answer":1.5,"tolerance":0.01,"hint":"When numerator and denominator have the same degree, compare leading coefficients.","success":"Correct.","placeholder":"Enter a number"},{"id":"w4q3","type":"mc","prompt":"A denominator zero that remains after cancellation produces a:","options":["vertical asymptote","hole","x-intercept","slant asymptote"],"answer":"vertical asymptote","hint":"Ask what happens as the surviving denominator factor approaches zero.","success":"Correct."},{"id":"w4q4","type":"num","prompt":"For f(x) = (x − 2)(x + 1)/[(x − 3)(x + 1)], what is the x-coordinate of the hole?","answer":-1,"tolerance":0.01,"hint":"Find the common factor that cancels, then remember its original restriction.","success":"Correct.","placeholder":"Enter a number"},{"id":"w4q5","type":"mc","prompt":"If the numerator degree is exactly one more than the denominator degree, the end behavior is typically described by a:","options":["slant asymptote","horizontal asymptote y = 0","hole","vertical line"],"answer":"slant asymptote","hint":"Polynomial division reveals the line that describes the end behavior.","success":"Correct."}]},"week5":{"title":"Week 5 Quiz — Inverses and Radicals","subtitle":"Five questions on one-to-one behavior, inverse evaluation, domain exchange, and square-root restrictions.","questions":[{"id":"w5q1","type":"mc","prompt":"A function must pass which test for its inverse relation to also be a function?","options":["horizontal line test","vertical line test only","midpoint test","slope test"],"answer":"horizontal line test","hint":"The inverse swaps x and y, so one output of the original must not come from two inputs.","success":"Correct."},{"id":"w5q2","type":"num","prompt":"If f(3) = 7, find f⁻¹(7).","answer":3,"tolerance":0.01,"hint":"An inverse reverses the input-output pair.","success":"Correct.","placeholder":"Enter a number"},{"id":"w5q3","type":"num","prompt":"If f(x) = 2x + 5, find f⁻¹(17).","answer":6,"tolerance":0.01,"hint":"Solve 17 = 2x + 5 for the original input x.","success":"Correct.","placeholder":"Enter a number"},{"id":"w5q4","type":"mc","prompt":"Over the real numbers, the domain of √(x − 4) is:","options":["x ≥ 4","x > 4","x ≤ 4","all real x"],"answer":"x ≥ 4","hint":"The expression inside an even root cannot be negative.","success":"Correct."},{"id":"w5q5","type":"mc","prompt":"The graphs of a one-to-one function and its inverse are reflections across:","options":["y = x","the x-axis","the y-axis","y = −x"],"answer":"y = x","hint":"Swapping x- and y-coordinates reflects points across the diagonal line.","success":"Correct."}]},"week6":{"title":"Week 6 Quiz — Exponential Functions","subtitle":"Five questions on constant ratios, growth and decay, evaluation, doubling, and half-life.","questions":[{"id":"w6q1","type":"mc","prompt":"A table with a constant ratio between successive outputs suggests:","options":["exponential behavior","linear behavior","quadratic behavior","absolute-value behavior"],"answer":"exponential behavior","hint":"Linear behavior is characterized by constant differences rather than constant ratios.","success":"Correct."},{"id":"w6q2","type":"num","prompt":"If A(t) = 1000e^(0.04t), find A(0).","answer":1000,"tolerance":0.1,"hint":"Any nonzero base raised to the zero power equals 1.","success":"Correct.","placeholder":"Enter a number"},{"id":"w6q3","type":"num","prompt":"A population is modeled by P(t) = 200·2^(t/3). Find P(6).","answer":800,"tolerance":0.5,"hint":"First compute the exponent t/3, then apply the doubling factor.","success":"Correct.","placeholder":"Enter a number"},{"id":"w6q4","type":"mc","prompt":"For y = 5(0.8)^x, increasing x produces:","options":["exponential decay","exponential growth","a constant function","a quadratic"],"answer":"exponential decay","hint":"A positive base between 0 and 1 repeatedly multiplies by a shrinking factor.","success":"Correct."},{"id":"w6q5","type":"num","prompt":"A quantity starts at 640 and has half-life 10 years. How much remains after 30 years?","answer":80,"tolerance":0.5,"hint":"Thirty years contains three half-lives; halve the quantity once per half-life.","success":"Correct.","placeholder":"Enter a number"}]},"week7":{"title":"Week 7 Quiz — Logarithms","subtitle":"Five questions on inverse exponentials, log laws, solving logarithmic equations, and change of base ideas.","questions":[{"id":"w7q1","type":"mc","prompt":"log_b(MN) equals:","options":["log_b(M) + log_b(N)","log_b(M) − log_b(N)","log_b(M + N)","M log_b(N)"],"answer":"log_b(M) + log_b(N)","hint":"Products inside a logarithm become sums of logarithms.","success":"Correct."},{"id":"w7q2","type":"num","prompt":"Find log₂(32).","answer":5,"tolerance":0.01,"hint":"Ask what power of 2 equals 32.","success":"Correct.","placeholder":"Enter a number"},{"id":"w7q3","type":"mc","prompt":"Which identity is generally false?","options":["log(M + N) = log(M) + log(N)","log(MN) = log(M) + log(N)","log(M/N) = log(M) − log(N)","log(M^r) = r log(M)"],"answer":"log(M + N) = log(M) + log(N)","hint":"The standard log laws apply to products, quotients, and powers—not sums.","success":"Correct."},{"id":"w7q4","type":"num","prompt":"Solve ln(x) = 2. Give x to three decimal places.","answer":7.3890560989306495,"tolerance":0.02,"hint":"Undo the natural logarithm with the exponential function e^x.","success":"Correct.","placeholder":"Enter a number"},{"id":"w7q5","type":"num","prompt":"Find log₄(64).","answer":3,"tolerance":0.01,"hint":"Ask what power of 4 equals 64.","success":"Correct.","placeholder":"Enter a number"}]},"week8":{"title":"Week 8 Quiz — Implicit Curves and Conics","subtitle":"Five questions on implicit relations and standard forms of circles, ellipses, parabolas, and hyperbolas.","questions":[{"id":"w8q1","type":"num","prompt":"For x²/25 + y²/16 = 1, find the positive x-intercept.","answer":5,"tolerance":0.01,"hint":"Set y = 0 and solve for x.","success":"Correct.","placeholder":"Enter a number"},{"id":"w8q2","type":"mc","prompt":"Why can an implicit equation fail to define y as a function of x?","options":["one x-value may correspond to two y-values","implicit curves contain no points","all implicit equations are functions","x and y can never appear together"],"answer":"one x-value may correspond to two y-values","hint":"Apply the function condition to vertical slices of the curve.","success":"Correct."},{"id":"w8q3","type":"mc","prompt":"Which conic has two disconnected branches?","options":["hyperbola","ellipse","circle","parabola"],"answer":"hyperbola","hint":"Think of the standard difference-of-squares form.","success":"Correct."},{"id":"w8q4","type":"num","prompt":"For (x − 2)² + (y + 3)² = 25, find the radius.","answer":5,"tolerance":0.01,"hint":"Compare with (x − h)² + (y − k)² = r².","success":"Correct.","placeholder":"Enter a number"},{"id":"w8q5","type":"mc","prompt":"The parabola x² = 12y opens:","options":["upward","downward","left","right"],"answer":"upward","hint":"Solve mentally for y and inspect the sign of the coefficient of x².","success":"Correct."}]},"week9":{"title":"Week 9 Quiz — Systems of Linear Equations","subtitle":"Five questions on intersections, substitution, back-substitution, and solution classification.","questions":[{"id":"w9q1","type":"mc","prompt":"Two distinct nonparallel lines in the plane have:","options":["one intersection","no intersections","two intersections","infinitely many intersections"],"answer":"one intersection","hint":"Nonparallel lines meet exactly once.","success":"Correct."},{"id":"w9q2","type":"num","prompt":"Solve x + y = 7 and x − y = 1. Find x.","answer":4,"tolerance":0.01,"hint":"Add the equations to eliminate y.","success":"Correct.","placeholder":"Enter a number"},{"id":"w9q3","type":"num","prompt":"In a triangular system, 3z = 9. Find z.","answer":3,"tolerance":0.01,"hint":"Start at the last equation and solve upward.","success":"Correct.","placeholder":"Enter a number"},{"id":"w9q4","type":"mc","prompt":"The equations 2x + y = 4 and 4x + 2y = 8 have:","options":["infinitely many solutions","one solution","no solutions","exactly two solutions"],"answer":"infinitely many solutions","hint":"Check whether one equation is a scalar multiple of the other.","success":"Correct."},{"id":"w9q5","type":"mc","prompt":"The equations 2x + y = 4 and 4x + 2y = 10 have:","options":["no solutions","one solution","infinitely many solutions","exactly two solutions"],"answer":"no solutions","hint":"The left sides are proportional but the constants are not, so the lines are parallel and distinct.","success":"Correct."}]},"week10":{"title":"Week 10 Quiz — Matrices and Gaussian Elimination","subtitle":"Five questions on augmented matrices, row operations, echelon reasoning, and solution classification.","questions":[{"id":"w10q1","type":"mc","prompt":"The augmented row [0  0 | 3] represents:","options":["a contradiction and no solution","a free variable","a unique solution","the equation 0 = 0"],"answer":"a contradiction and no solution","hint":"Translate the row back into an equation.","success":"Correct."},{"id":"w10q2","type":"mc","prompt":"The row operation R₂ ← R₂ − 2R₁ is used to:","options":["eliminate an entry","swap variables","take a determinant","change the number of equations"],"answer":"eliminate an entry","hint":"Row replacement is designed to create zeros without changing the solution set.","success":"Correct."},{"id":"w10q3","type":"mc","prompt":"A zero row [0  0 | 0] in an echelon-form system can indicate:","options":["a free variable and possibly infinitely many solutions","a contradiction","always a unique solution","an invalid row operation"],"answer":"a free variable and possibly infinitely many solutions","hint":"A zero row contributes no new equation, so there may be fewer pivots than variables.","success":"Correct."},{"id":"w10q4","type":"num","prompt":"Starting with rows [1  2 | 5] and [3  −1 | 4], apply R₂ ← R₂ − 3R₁. What is the new coefficient of the second variable in R₂?","answer":-7,"tolerance":0.01,"hint":"Subtract three times the second entry of R₁ from the second entry of R₂.","success":"Correct.","placeholder":"Enter a number"},{"id":"w10q5","type":"num","prompt":"A triangular system has y = 2 and x + 3y = 10. Find x.","answer":4,"tolerance":0.01,"hint":"Back-substitute the known value of y into the first equation.","success":"Correct.","placeholder":"Enter a number"}]},"midterm":{"title":"Midterm — Weeks 1–4","subtitle":"Twelve-question mastery assessment covering functions, lines and parabolas, polynomials, and rational functions.","questions":[{"id":"mq1","type":"mc","prompt":"Which finite relation is a function?","options":["{(0,1),(0,2)}","{(0,1),(1,2),(2,2)}","{(2,3),(2,4)}","{(−1,0),(−1,1),(0,2)}"],"answer":"{(0,1),(1,2),(2,2)}","hint":"Check whether any input repeats with a different output.","success":"Correct."},{"id":"mq2","type":"num","prompt":"If f(x) = x² + 3, find f(−2).","answer":7,"tolerance":0.01,"hint":"Substitute −2 for x and square before adding 3.","success":"Correct.","placeholder":"Enter a number"},{"id":"mq3","type":"mc","prompt":"For g(x) = f(x + 2) − 5, the graph of f moves:","options":["left 2 and down 5","right 2 and down 5","left 5 and down 2","right 5 and up 2"],"answer":"left 2 and down 5","hint":"Inside shifts have the opposite sign; outside shifts keep the visible sign.","success":"Correct."},{"id":"mq4","type":"num","prompt":"Find the slope through (2,1) and (6,9).","answer":2,"tolerance":0.01,"hint":"Compute rise over run.","success":"Correct.","placeholder":"Enter a number"},{"id":"mq5","type":"num","prompt":"The line y = 2x + b passes through (3,1). Find b.","answer":-5,"tolerance":0.01,"hint":"Substitute the point into the equation and solve for b.","success":"Correct.","placeholder":"Enter a number"},{"id":"mq6","type":"num","prompt":"For y = x² − 8x + 11, find the y-coordinate of the vertex.","answer":-5,"tolerance":0.02,"hint":"Complete the square or use the vertex x-coordinate first.","success":"Correct.","placeholder":"Enter a number"},{"id":"mq7","type":"mc","prompt":"At a zero of multiplicity 4, the polynomial graph usually:","options":["touches the axis and turns","crosses the axis","has a vertical asymptote","has a hole"],"answer":"touches the axis and turns","hint":"An even multiplicity does not change the sign of the factor.","success":"Correct."},{"id":"mq8","type":"num","prompt":"Find the degree of (x − 2)³(x + 1)².","answer":5,"tolerance":0.01,"hint":"Add the factor exponents.","success":"Correct.","placeholder":"Enter a number"},{"id":"mq9","type":"mc","prompt":"A negative-leading-coefficient polynomial of odd degree has end behavior:","options":["left up and right down","both ends up","both ends down","left down and right up"],"answer":"left up and right down","hint":"Use the sign and parity of the leading term.","success":"Correct."},{"id":"mq10","type":"mc","prompt":"In a rational function, a common numerator/denominator factor that cancels creates a:","options":["hole","vertical asymptote","horizontal asymptote","turning point"],"answer":"hole","hint":"The original function is still undefined where the canceled factor was zero.","success":"Correct."},{"id":"mq11","type":"num","prompt":"For f(x) = (x − 1)/(x + 4), find the x-coordinate of the vertical asymptote.","answer":-4,"tolerance":0.01,"hint":"Set the denominator equal to zero.","success":"Correct.","placeholder":"Enter a number"},{"id":"mq12","type":"num","prompt":"For (4x² + 1)/(2x² − 3x + 7), find the y-value of the horizontal asymptote.","answer":2,"tolerance":0.01,"hint":"The degrees match, so compare leading coefficients.","success":"Correct.","placeholder":"Enter a number"}]},"final":{"title":"Final Examination — Comprehensive","subtitle":"Eighteen-question comprehensive mastery check. Correct questions remain saved and missed questions can be retried without limit.","questions":[{"id":"fq1","type":"mc","prompt":"Which relation is a function?","options":["{(1,2),(1,5)}","{(1,2),(2,5),(3,5)}","{(0,1),(0,−1)}","{(4,0),(4,1)}"],"answer":"{(1,2),(2,5),(3,5)}","hint":"Each input must have at most one output.","success":"Correct."},{"id":"fq2","type":"mc","prompt":"For g(x) = −2f(x − 3) + 1, which statement is correct?","options":["shift right 3, reflect across the x-axis, stretch vertically by 2, shift up 1","shift left 3 and down 1 only","shift right 2 and up 3","reflect across the y-axis only"],"answer":"shift right 3, reflect across the x-axis, stretch vertically by 2, shift up 1","hint":"Read transformations from inside the argument outward.","success":"Correct."},{"id":"fq3","type":"num","prompt":"Find the slope through (−1,2) and (3,10).","answer":2,"tolerance":0.01,"hint":"Use change in y divided by change in x.","success":"Correct.","placeholder":"Enter a number"},{"id":"fq4","type":"mc","prompt":"What is the vertex of y = −(x + 4)² + 6?","options":["(−4,6)","(4,6)","(−4,−6)","(4,−6)"],"answer":"(−4,6)","hint":"Read the vertex from a(x − h)² + k.","success":"Correct."},{"id":"fq5","type":"num","prompt":"Find the degree of (x + 1)²(x − 2)³(x + 5).","answer":6,"tolerance":0.01,"hint":"Add all factor exponents.","success":"Correct.","placeholder":"Enter a number"},{"id":"fq6","type":"mc","prompt":"At a root of odd multiplicity, the graph typically:","options":["crosses the x-axis","touches and turns without crossing","has a hole","becomes vertical"],"answer":"crosses the x-axis","hint":"Odd powers change sign through zero.","success":"Correct."},{"id":"fq7","type":"num","prompt":"For f(x) = (x + 2)/[(x − 5)(x + 1)], give the x-coordinate of the vertical asymptote coming from x − 5.","answer":5,"tolerance":0.01,"hint":"A surviving denominator factor is zero at the vertical asymptote.","success":"Correct.","placeholder":"Enter a number"},{"id":"fq8","type":"num","prompt":"If f(x) = 3x − 4, find f⁻¹(11).","answer":5,"tolerance":0.01,"hint":"Solve 11 = 3x − 4 for the original input.","success":"Correct.","placeholder":"Enter a number"},{"id":"fq9","type":"mc","prompt":"The real domain of √(2x − 6) is:","options":["x ≥ 3","x > 3","x ≤ 3","all real x"],"answer":"x ≥ 3","hint":"Require the radicand to be nonnegative.","success":"Correct."},{"id":"fq10","type":"num","prompt":"A quantity starts at 960 and has half-life 4 hours. How much remains after 12 hours?","answer":120,"tolerance":0.5,"hint":"Twelve hours is three half-lives.","success":"Correct.","placeholder":"Enter a number"},{"id":"fq11","type":"num","prompt":"Solve log₂(x) = 6.","answer":64,"tolerance":0.01,"hint":"Rewrite the logarithmic equation in exponential form.","success":"Correct.","placeholder":"Enter a number"},{"id":"fq12","type":"mc","prompt":"Which logarithm law is correct?","options":["log(M/N) = log(M) − log(N)","log(M + N) = log(M) + log(N)","log(M − N) = log(M) − log(N)","log(MN) = log(M)log(N)"],"answer":"log(M/N) = log(M) − log(N)","hint":"Recall the quotient law.","success":"Correct."},{"id":"fq13","type":"mc","prompt":"Which equation is an ellipse?","options":["x²/9 + y²/4 = 1","x²/9 − y²/4 = 1","y = x²","x² + y² = 0 only"],"answer":"x²/9 + y²/4 = 1","hint":"An ellipse has a sum of two positive squared terms equal to 1.","success":"Correct."},{"id":"fq14","type":"num","prompt":"For (x − 1)² + (y + 2)² = 49, find the radius.","answer":7,"tolerance":0.01,"hint":"The right side is r².","success":"Correct.","placeholder":"Enter a number"},{"id":"fq15","type":"num","prompt":"Solve x + y = 9 and x − y = 3. Find x.","answer":6,"tolerance":0.01,"hint":"Add the equations to eliminate y.","success":"Correct.","placeholder":"Enter a number"},{"id":"fq16","type":"mc","prompt":"If two equations represent the same line, their system has:","options":["infinitely many solutions","no solutions","exactly one solution","exactly two solutions"],"answer":"infinitely many solutions","hint":"Every point on that line satisfies both equations.","success":"Correct."},{"id":"fq17","type":"num","prompt":"For rows [1  1 | 5] and [2  3 | 11], apply R₂ ← R₂ − 2R₁. What is the new coefficient of the second variable in R₂?","answer":1,"tolerance":0.01,"hint":"Subtract twice the second entry of R₁ from the second entry of R₂.","success":"Correct.","placeholder":"Enter a number"},{"id":"fq18","type":"mc","prompt":"An echelon-form augmented matrix contains the row [0  0  0 | 4]. What does that imply?","options":["the system is inconsistent","there is a free variable but the system is consistent","the solution is unique","the row can be ignored because 4 is small"],"answer":"the system is inconsistent","hint":"Translate the row into an equation and ask whether it can ever be true.","success":"Correct."}]}};
+const STORAGE_KEY = 'math141_precalculus_lms_state_v2';
+
+const defaultState = {
+  studentName:'',
+  theme:'light',
+  tasks:{},
+  assessments:{},
+  lastView:'dashboardView'
+};
+
+let state = loadState();
+let activeAssessment = null;
+
+function loadState(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return Object.assign({}, defaultState, saved || {}, {
+      tasks:Object.assign({}, defaultState.tasks, saved?.tasks || {}),
+      assessments:Object.assign({}, defaultState.assessments, saved?.assessments || {})
+    });
+  }catch(e){ return structuredClone(defaultState); }
+}
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+function ensureAssessment(id){
+  if(!state.assessments[id]){
+    state.assessments[id]={answers:{},mastered:[],checks:0,lastScore:0};
+  }
+  return state.assessments[id];
+}
+function taskKey(week,kind){ return `w${week}_${kind}`; }
+function taskDone(week,kind){ return !!state.tasks[taskKey(week,kind)]; }
+function assessmentStats(id){
+  const a=ASSESSMENTS[id], s=ensureAssessment(id);
+  const mastered=new Set(s.mastered || []);
+  const total=a.questions.length, correct=mastered.size;
+  return {correct,total,score:total?100*correct/total:0,complete:correct===total,checks:s.checks||0};
+}
+function isWeekStarted(week){
+  const w=WEEKS.find(x=>x.week===week);
+  return ['reading','demos','weekly','app'].some(k=>taskDone(week,k)) ||
+    assessmentStats(w.quiz).correct>0 ||
+    Object.keys(ensureAssessment(w.quiz).answers||{}).length>0;
+}
+function weekScore(week){
+  const w=WEEKS.find(x=>x.week===week);
+  const vals=[
+    taskDone(week,'reading')?100:0,
+    taskDone(week,'demos')?100:0,
+    taskDone(week,'weekly')?100:0,
+    taskDone(week,'app')?100:0,
+    assessmentStats(w.quiz).score
+  ];
+  return vals.reduce((a,b)=>a+b,0)/vals.length;
+}
+function pct(n){ return `${Math.round(n)}%`; }
+function letterGrade(n){
+  if(!Number.isFinite(n))return '—';
+  if(n>=93)return 'A'; if(n>=90)return 'A−'; if(n>=87)return 'B+';
+  if(n>=83)return 'B'; if(n>=80)return 'B−'; if(n>=77)return 'C+';
+  if(n>=73)return 'C'; if(n>=70)return 'C−'; if(n>=67)return 'D+';
+  if(n>=60)return 'D'; return 'F';
+}
+function overallGrade(){
+  const started=WEEKS.filter(w=>isWeekStarted(w.week));
+  const weekly = started.length ? started.reduce((s,w)=>s+weekScore(w.week),0)/started.length : null;
+  const mid=assessmentStats('midterm'), fin=assessmentStats('final');
+  let weighted=0, weight=0;
+  if(weekly!==null){weighted+=weekly*60;weight+=60;}
+  if(mid.correct>0 || Object.keys(ensureAssessment('midterm').answers||{}).length){weighted+=mid.score*15;weight+=15;}
+  if(fin.correct>0 || Object.keys(ensureAssessment('final').answers||{}).length){weighted+=fin.score*25;weight+=25;}
+  return {overall:weight?weighted/weight:null,weekly,started:started.length};
+}
+function completionStats(){
+  const taskTotal=WEEKS.length*4;
+  const taskDoneCount=Object.values(state.tasks).filter(Boolean).length;
+  const assessIds=[...WEEKS.map(w=>w.quiz),'midterm','final'];
+  const masteredAssess=assessIds.filter(id=>assessmentStats(id).complete).length;
+  const total=taskTotal+assessIds.length;
+  const done=taskDoneCount+masteredAssess;
+  const questionTotal=assessIds.reduce((s,id)=>s+assessmentStats(id).total,0);
+  const questionDone=assessIds.reduce((s,id)=>s+assessmentStats(id).correct,0);
+  return {taskTotal,taskDoneCount,masteredAssess,total,done,pct:100*done/total,questionTotal,questionDone,questionPct:100*questionDone/questionTotal};
+}
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));
+  document.querySelectorAll('.side-nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
+  if(id!=='assessmentView'){state.lastView=id;saveState();}
+  if(id==='gradesView')renderGrades();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function resourceHtml(items){
+  if(!items || !items.length)return '<div class="resource-empty">No separate resource is assigned in this category this week.</div>';
+  return items.map(r=>`<div class="resource-link"><span aria-hidden="true">↗</span><div><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a>${r.note?`<small>${r.note}</small>`:''}</div></div>`).join('');
+}
+function completionHtml(week,kind){
+  const checked=taskDone(week,kind)?'checked':'';
+  return `<label class="completion-label"><input type="checkbox" data-task-week="${week}" data-task-kind="${kind}" ${checked}> Mark complete</label>`;
+}
+function renderModules(){
+  const c=document.getElementById('modulesContainer');
+  let html='';
+  WEEKS.forEach(w=>{
+    const qs=assessmentStats(w.quiz);
+    html+=`<article class="module-card" id="week-${w.week}">
+      <div class="module-head">
+        <div class="week-number">${w.week}</div>
+        <div><h3>Week ${w.week}: ${w.title}</h3><p>${w.summary}</p></div>
+        <div class="week-score"><strong>${pct(weekScore(w.week))}</strong><span>week grade</span></div>
+      </div>
+      <div class="module-body">
+        <div class="resource-row"><div class="resource-kind">Readings</div><div class="resource-links">${resourceHtml(w.reading)}</div>${completionHtml(w.week,'reading')}</div>
+        <div class="resource-row"><div class="resource-kind">Demos</div><div class="resource-links">${resourceHtml(w.demos)}</div>${completionHtml(w.week,'demos')}</div>
+        <div class="resource-row"><div class="resource-kind">Weekly Lab</div><div class="resource-links">${resourceHtml([w.weekly_lab])}</div>${completionHtml(w.week,'weekly')}</div>
+        <div class="resource-row"><div class="resource-kind">Applications</div><div class="resource-links">${resourceHtml(w.application)}</div>${completionHtml(w.week,'app')}</div>
+        <div class="resource-row"><div class="resource-kind">Weekly Quiz</div>
+          <div><strong>${ASSESSMENTS[w.quiz].title}</strong><small style="display:block;color:var(--muted);margin-top:3px">Five questions. Master each question before the quiz is marked complete.</small></div>
+          <div class="quiz-actions"><span class="badge ${qs.complete?'good':qs.correct?'warn':''}">${Math.round(qs.score)}%</span><button class="primary-btn" data-open-assessment="${w.quiz}">${qs.correct?'Continue quiz':'Open quiz'}</button></div>
+        </div>
+      </div>
+    </article>`;
+    if(w.week===4){
+      const ms=assessmentStats('midterm');
+      html+=`<section class="exam-break"><div><h3>Midterm Examination</h3><p>Weeks 1–4 · ${ms.correct} of ${ms.total} questions mastered</p></div><div class="quiz-actions"><span class="badge">${Math.round(ms.score)}%</span><button class="secondary-btn" data-open-assessment="midterm">Open midterm</button></div></section>`;
+    }
+  });
+  const fs=assessmentStats('final');
+  html+=`<section class="exam-break"><div><h3>Final Examination</h3><p>Comprehensive · ${fs.correct} of ${fs.total} questions mastered</p></div><div class="quiz-actions"><span class="badge">${Math.round(fs.score)}%</span><button class="secondary-btn" data-open-assessment="final">Open final</button></div></section>`;
+  c.innerHTML=html;
+  c.querySelectorAll('[data-task-week]').forEach(cb=>cb.addEventListener('change',()=>{
+    state.tasks[taskKey(Number(cb.dataset.taskWeek),cb.dataset.taskKind)]=cb.checked;
+    saveState();refreshAll();
+  }));
+  c.querySelectorAll('[data-open-assessment]').forEach(b=>b.addEventListener('click',()=>openAssessment(b.dataset.openAssessment)));
+}
+function renderDashboardWeeks(){
+  const wrap=document.getElementById('dashboardWeeks');
+  wrap.innerHTML=WEEKS.map(w=>{
+    const s=weekScore(w.week);
+    const done=['reading','demos','weekly','app'].filter(k=>taskDone(w.week,k)).length+(assessmentStats(w.quiz).complete?1:0);
+    return `<div style="display:grid;grid-template-columns:72px 1fr 90px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)">
+      <strong>Week ${w.week}</strong><span>${w.title}<small style="display:block;color:var(--muted)">${done}/5 categories complete</small></span>
+      <button class="secondary-btn" data-jump-week="${w.week}">${Math.round(s)}%</button>
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('[data-jump-week]').forEach(b=>b.addEventListener('click',()=>{
+    showView('modulesView');
+    setTimeout(()=>document.getElementById(`week-${b.dataset.jumpWeek}`)?.scrollIntoView({behavior:'smooth',block:'start'}),50);
+  }));
+}
+function nextAction(){
+  for(const w of WEEKS){
+    const kinds=[['reading','Read the week notes'],['demos','Use the interactive demos'],['weekly','Complete the weekly lab'],['app','Complete the application work']];
+    for(const [kind,label] of kinds){
+      if(!taskDone(w.week,kind))return {week:w.week,title:`Week ${w.week}: ${label}`,detail:w.title,action:'Open module',weekJump:w.week};
+    }
+    if(!assessmentStats(w.quiz).complete)return {week:w.week,title:`Week ${w.week}: Finish the mastery quiz`,detail:`${assessmentStats(w.quiz).correct} of ${assessmentStats(w.quiz).total} questions mastered`,assessment:w.quiz,action:'Open quiz'};
+    if(w.week===4 && !assessmentStats('midterm').complete)return {title:'Complete the midterm',detail:'Weeks 1–4 mastery assessment',assessment:'midterm',action:'Open midterm'};
+  }
+  if(!assessmentStats('final').complete)return {title:'Complete the final examination',detail:'Comprehensive mastery assessment',assessment:'final',action:'Open final'};
+  return {title:'Course complete',detail:'Every assigned category and assessment has been mastered.',action:'View grades',view:'gradesView'};
+}
+function renderDashboard(){
+  const g=overallGrade(), c=completionStats();
+  document.getElementById('dashGrade').textContent=g.overall===null?'—':pct(g.overall);
+  document.getElementById('dashLetter').textContent=g.overall===null?'No work started':`${letterGrade(g.overall)} · ${g.started} week${g.started===1?'':'s'} started`;
+  document.getElementById('dashCompletion').textContent=pct(c.pct);
+  document.getElementById('dashCompletedCount').textContent=`${c.done} of ${c.total} course items`;
+  const quizDone=WEEKS.filter(w=>assessmentStats(w.quiz).complete).length;
+  document.getElementById('dashQuizzes').textContent=`${quizDone}/10`;
+  document.getElementById('dashQuestions').textContent=pct(c.questionPct);
+  const n=nextAction();
+  document.getElementById('nextAction').innerHTML=`<div><strong>${n.title}</strong><small style="display:block;color:var(--muted);margin-top:4px">${n.detail}</small></div><button class="primary-btn" id="nextActionBtn">${n.action}</button>`;
+  document.getElementById('nextActionBtn').onclick=()=>{
+    if(n.assessment)openAssessment(n.assessment);
+    else if(n.weekJump){showView('modulesView');setTimeout(()=>document.getElementById(`week-${n.weekJump}`)?.scrollIntoView({behavior:'smooth'}),50);}
+    else if(n.view)showView(n.view);
+  };
+  renderDashboardWeeks();
+}
+function renderGrades(){
+  const g=overallGrade(), c=completionStats();
+  document.getElementById('gradeOverall').textContent=g.overall===null?'—':pct(g.overall);
+  document.getElementById('gradeOverallNote').textContent=g.overall===null?'No work started':`${g.started} started week${g.started===1?'':'s'} plus attempted major assessments`;
+  document.getElementById('gradeLetter').textContent=g.overall===null?'—':letterGrade(g.overall);
+  document.getElementById('gradeWeekly').textContent=g.weekly===null?'—':pct(g.weekly);
+  document.getElementById('gradeCompletion').textContent=pct(c.pct);
+  document.getElementById('gradeRows').innerHTML=WEEKS.map(w=>{
+    const q=assessmentStats(w.quiz), ws=weekScore(w.week);
+    const mark=k=>taskDone(w.week,k)?'<span class="badge good">Done</span>':'<span class="badge">—</span>';
+    return `<tr><td>Week ${w.week}<small style="display:block;color:var(--muted)">${w.title}</small></td>
+      <td>${mark('reading')}</td><td>${mark('demos')}</td><td>${mark('weekly')}</td><td>${mark('app')}</td>
+      <td>${Math.round(q.score)}%</td><td><strong>${Math.round(ws)}%</strong></td></tr>`;
+  }).join('');
+  document.getElementById('examRows').innerHTML=['midterm','final'].map(id=>{
+    const s=assessmentStats(id);
+    return `<tr><td>${ASSESSMENTS[id].title}</td><td>${s.correct} / ${s.total}</td><td>${Math.round(s.score)}%</td><td>${s.complete?'<span class="badge good">Mastered</span>':s.correct?'<span class="badge warn">In progress</span>':'<span class="badge">Not started</span>'}</td></tr>`;
+  }).join('');
+}
+function refreshSidebar(){
+  const c=completionStats();
+  document.getElementById('sideCompletion').textContent=pct(c.pct);
+  document.getElementById('sideProgressFill').style.width=`${c.pct}%`;
+  document.getElementById('sideMastery').textContent=`${c.masteredAssess} assessments mastered`;
+}
+function refreshAll(){
+  renderModules();renderDashboard();renderGrades();refreshSidebar();
+}
+function openAssessment(id){
+  activeAssessment=id;
+  const a=ASSESSMENTS[id], s=ensureAssessment(id);
+  document.getElementById('assessmentTitle').textContent=a.title;
+  document.getElementById('assessmentSubtitle').textContent=a.subtitle;
+  const container=document.getElementById('questionsContainer');
+  container.innerHTML=a.questions.map((q,i)=>{
+    const mastered=(s.mastered||[]).includes(q.id);
+    const ans=s.answers?.[q.id] ?? '';
+    let input='';
+    if(q.type==='mc'){
+      input=`<div class="options">${q.options.map(opt=>`<label class="option"><input type="radio" name="${q.id}" value="${escapeAttr(opt)}" ${ans===opt?'checked':''} ${mastered?'disabled':''}><span>${opt}</span></label>`).join('')}</div>`;
+    }else{
+      input=`<input class="numeric-input" type="text" inputmode="decimal" data-num-q="${q.id}" value="${escapeAttr(String(ans))}" placeholder="${q.placeholder||'Enter a number'}" ${mastered?'disabled':''}>`;
+    }
+    return `<article class="question-card ${mastered?'mastered':''}" data-question="${q.id}">
+      <div class="question-number">Question ${i+1} of ${a.questions.length}</div>
+      <div class="question-prompt">${q.prompt}</div>
+      ${input}
+      <div class="feedback ${mastered?'good':''}" id="fb-${q.id}">${mastered?q.success:''}</div>
+    </article>`;
+  }).join('');
+  container.querySelectorAll('input').forEach(inp=>inp.addEventListener('change',saveAssessmentInputs));
+  container.querySelectorAll('[data-num-q]').forEach(inp=>inp.addEventListener('input',saveAssessmentInputs));
+  updateAssessmentHeader();
+  showView('assessmentView');
+}
+function escapeAttr(s){return s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');}
+function saveAssessmentInputs(){
+  if(!activeAssessment)return;
+  const s=ensureAssessment(activeAssessment), a=ASSESSMENTS[activeAssessment];
+  a.questions.forEach(q=>{
+    if((s.mastered||[]).includes(q.id))return;
+    if(q.type==='mc'){
+      const checked=document.querySelector(`input[name="${q.id}"]:checked`);
+      if(checked)s.answers[q.id]=checked.value;
+    }else{
+      const inp=document.querySelector(`[data-num-q="${q.id}"]`);
+      if(inp)s.answers[q.id]=inp.value;
+    }
+  });
+  saveState();
+}
+function normalizeNumber(value){
+  if(value===null||value===undefined)return NaN;
+  let s=String(value).trim().replaceAll(',','');
+  if(s.endsWith('%'))s=String(parseFloat(s)/100);
+  return Number(s);
+}
+function isCorrect(q,value){
+  if(q.type==='mc')return value===q.answer;
+  const x=normalizeNumber(value);
+  if(!Number.isFinite(x))return false;
+  const tol=q.tolerance ?? 0.001;
+  return Math.abs(x-q.answer)<=tol || Math.abs(x-q.answer)<=tol*Math.max(1,Math.abs(q.answer));
+}
+function checkAssessment(){
+  if(!activeAssessment)return;
+  saveAssessmentInputs();
+  const a=ASSESSMENTS[activeAssessment], s=ensureAssessment(activeAssessment);
+  const mastered=new Set(s.mastered||[]);
+  let newCorrect=0, attempted=0;
+  a.questions.forEach(q=>{
+    if(mastered.has(q.id))return;
+    const value=s.answers?.[q.id];
+    const fb=document.getElementById(`fb-${q.id}`);
+    const card=document.querySelector(`[data-question="${q.id}"]`);
+    if(value===undefined || String(value).trim()===''){
+      fb.className='feedback warn';fb.textContent='Give this one a try before checking it.';
+      return;
+    }
+    attempted++;
+    if(isCorrect(q,value)){
+      mastered.add(q.id);newCorrect++;
+      fb.className='feedback good';fb.textContent=q.success;
+      card.classList.add('mastered');
+      card.querySelectorAll('input').forEach(i=>i.disabled=true);
+    }else{
+      fb.className='feedback bad';fb.textContent=`Not quite yet. ${q.hint}`;
+    }
+  });
+  s.mastered=[...mastered];s.checks=(s.checks||0)+1;s.lastScore=100*mastered.size/a.questions.length;
+  saveState();updateAssessmentHeader();refreshAll();
+  const stats=assessmentStats(activeAssessment);
+  const foot=document.getElementById('assessmentFooterText');
+  if(stats.complete)foot.textContent='Assessment mastered. Every question is correct and saved.';
+  else if(newCorrect)foot.textContent=`${newCorrect} new question${newCorrect===1?'':'s'} mastered. Keep working on the questions that remain open.`;
+  else if(attempted)foot.textContent='No new questions were mastered this check. Use the hints, adjust the open answers, and try again.';
+  else foot.textContent='Enter at least one answer before checking.';
+}
+function updateAssessmentHeader(){
+  if(!activeAssessment)return;
+  const s=assessmentStats(activeAssessment);
+  document.getElementById('assessmentScore').textContent=pct(s.score);
+  document.getElementById('assessmentCount').textContent=`${s.correct} of ${s.total} correct`;
+  document.getElementById('assessmentProgressFill').style.width=`${s.score}%`;
+  document.getElementById('checkAssessmentBtn').textContent=s.complete?'Assessment mastered':'Check my current answers';
+  document.getElementById('checkAssessmentBtn').disabled=s.complete;
+}
+function exportProgress(){
+  const payload={course:'MATH 141 Precalculus I',exportedAt:new Date().toISOString(),state};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  const name=(state.studentName||'student').trim().replace(/[^a-z0-9]+/gi,'_');
+  a.download=`Math141_Precalculus_progress_${name}.json`;a.click();URL.revokeObjectURL(a.href);
+}
+function importProgress(file){
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const parsed=JSON.parse(reader.result);
+      const imported=parsed.state||parsed;
+      if(!imported.tasks||!imported.assessments)throw new Error('Not a course progress file');
+      state=Object.assign({},defaultState,imported);
+      saveState();applyTheme();document.getElementById('studentName').value=state.studentName||'';refreshAll();
+      alert('Progress imported.');
+    }catch(e){alert('That file could not be imported as MATH 141 Precalculus progress.');}
+  };
+  reader.readAsText(file);
+}
+function applyTheme(){
+  document.documentElement.dataset.theme=state.theme||'light';
+  document.getElementById('themeBtn').textContent=state.theme==='dark'?'☀ Theme':'☾ Theme';
+}
+document.querySelectorAll('.side-nav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+document.getElementById('studentName').value=state.studentName||'';
+document.getElementById('studentName').addEventListener('input',e=>{state.studentName=e.target.value;saveState();});
+document.getElementById('themeBtn').addEventListener('click',()=>{state.theme=state.theme==='dark'?'light':'dark';saveState();applyTheme();});
+document.getElementById('assessmentBack').addEventListener('click',()=>showView('modulesView'));
+document.getElementById('checkAssessmentBtn').addEventListener('click',checkAssessment);
+document.getElementById('exportBtn').addEventListener('click',exportProgress);
+document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change',e=>{if(e.target.files[0])importProgress(e.target.files[0]);e.target.value='';});
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  if(confirm('Reset every checkbox, assessment answer, score, and saved name on this device?')){
+    state=structuredClone(defaultState);saveState();location.reload();
+  }
+});
+applyTheme();refreshAll();showView(state.lastView||'dashboardView');
+</script>
+</body>
+</html>
