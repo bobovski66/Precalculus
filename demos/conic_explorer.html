@@ -1,0 +1,124 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MATH& 141 — Conic Sections Explorer</title><style>
+:root{
+ --bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#637083;--line:#d8e0eb;
+ --accent:#2457a6;--accent2:#e8f0ff;--good:#237a4b;--good2:#eaf7ef;
+ --warn:#9a6800;--warn2:#fff7df;--bad:#aa3030;--bad2:#fff0f0;
+ --shadow:0 12px 30px rgba(30,45,75,.08)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+header{background:linear-gradient(135deg,#183761,#10243f);color:white;padding:30px 18px}
+.wrap{max-width:1040px;margin:0 auto}
+header .eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#bcd0ee;font-weight:800}
+header h1{margin:5px 0 6px;font-size:clamp(1.55rem,4vw,2.35rem)}
+header p{margin:0;color:#dce8f8;max-width:850px}
+.toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .wrap{padding:9px 18px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.toolbar a,.toolbar button,button{
+ border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:8px 11px;
+ font:inherit;font-weight:700;cursor:pointer;text-decoration:none
+}
+button.primary,.toolbar .primary{background:var(--accent);border-color:var(--accent);color:white}
+button:hover,.toolbar a:hover{filter:brightness(.98)}
+main.wrap{padding:20px 18px 64px}
+.card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:20px;margin:16px 0}
+h2{font-size:1.3rem;margin:0 0 10px;color:#17335a}
+h3{font-size:1.05rem;margin:18px 0 8px;color:#29466e}
+.goal{border-left:5px solid var(--accent);background:var(--accent2);padding:12px 14px;border-radius:10px;margin:12px 0}
+.note{background:#f8fafc;border:1px solid var(--line);padding:11px 13px;border-radius:10px;color:var(--muted)}
+.warn{border-left:5px solid var(--warn);background:var(--warn2);padding:11px 13px;border-radius:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}
+.control{border:1px solid var(--line);background:#fbfcfe;border-radius:12px;padding:10px}
+.control label{display:block;font-size:.82rem;color:var(--muted);font-weight:800;margin-bottom:5px}
+input[type=range]{width:100%}
+input[type=number],input[type=text],select,textarea{
+ width:100%;border:1px solid #cbd5e3;border-radius:9px;padding:8px 9px;font:inherit;background:white;color:var(--ink)
+}
+textarea{min-height:90px;resize:vertical}
+.value{font-variant-numeric:tabular-nums;font-weight:800;color:var(--accent)}
+.math{font-family:Cambria,Georgia,serif;font-size:1.08rem;background:#fbfcff;border:1px solid var(--line);padding:10px 12px;border-radius:10px;overflow:auto}
+.canvas-wrap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;overflow:hidden}
+canvas{width:100%;height:420px;display:block}
+.question{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.feedback{min-height:1.3em;margin-top:6px;font-size:.9rem;font-weight:700}
+.feedback.ok{color:var(--good)}.feedback.no{color:var(--bad)}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pill{background:var(--accent2);color:var(--accent);border-radius:999px;padding:4px 9px;font-size:.8rem;font-weight:800}
+table{width:100%;border-collapse:collapse;margin:10px 0}
+th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left}
+th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.kbd{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#eef2f7;padding:1px 5px;border-radius:5px}
+.footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
+@media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
+</style></head><body>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 8</div><h1>Conic Sections Explorer</h1><p>Move the parameters in standard form and watch the geometry update immediately.</p></div></header>
+<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button onclick="window.print()">Print / Save PDF</button></div></div></div>
+<main class="wrap">
+<section class="card"><h2>One family, four geometries</h2><div class="goal"><strong>Goal:</strong> Read a conic’s geometry directly from standard form and see how its parameters control center, axes, focus, and opening.</div></section>
+<section class="card"><h2>Conic explorer</h2>
+<div class="controls">
+<div class="control"><label>Conic</label><select id="type"><option>circle</option><option selected>ellipse</option><option>parabola</option><option>hyperbola</option></select></div>
+<div class="control"><label>Horizontal shift h</label><input id="hh" type="range" min="-3" max="3" step=".25" value="0"><div id="hhv" class="value"></div></div>
+<div class="control"><label>Vertical shift k</label><input id="kk" type="range" min="-3" max="3" step=".25" value="0"><div id="kkv" class="value"></div></div>
+<div class="control"><label id="aLabel">a</label><input id="aa" type="range" min="1" max="5" step=".25" value="4"><div id="aav" class="value"></div></div>
+<div class="control"><label id="bLabel">b / p</label><input id="bb" type="range" min=".5" max="4" step=".25" value="2"><div id="bbv" class="value"></div></div>
+</div>
+<div class="grid2"><div class="canvas-wrap"><canvas id="plot"></canvas></div><div><div class="math" id="eq"></div><div class="note" id="features" style="margin-top:12px"></div></div></div>
+</section>
+<p class="footer">MATH&amp; 141 · Precalculus I</p></main>
+<script>
+function fitCanvas(c){
+ const dpr=window.devicePixelRatio||1, w=c.clientWidth, h=c.clientHeight;
+ if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
+ const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return [ctx,w,h];
+}
+function plotFrame(c,xmin,xmax,ymin,ymax){
+ const [ctx,w,h]=fitCanvas(c), pad=42;
+ ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+ const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
+ const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ ctx.strokeStyle='#e3e9f1';ctx.lineWidth=1;
+ for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ ctx.strokeStyle='#8794a8';ctx.lineWidth=1.5;
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
+ ctx.fillStyle='#64748b';ctx.font='12px system-ui';
+ if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
+ if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+}
+function curve(frame,fn,x0,x1,stroke='#2457a6',width=3,step=.03){
+ const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
+ for(let x=x0;x<=x1;x+=step){let y=fn(x);if(!Number.isFinite(y)||y<ymin-2||y>ymax+2){pen=false;continue}
+   if(!pen){ctx.moveTo(X(x),Y(y));pen=true}else ctx.lineTo(X(x),Y(y));
+ }ctx.stroke();
+}
+function point(frame,x,y,label='',fill='#2457a6'){
+ const {ctx,X,Y}=frame;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,Math.PI*2);ctx.fill();
+ if(label){ctx.font='12px system-ui';ctx.fillText(label,X(x)+7,Y(y)-7)}
+}
+function nice(n,d=2){if(!Number.isFinite(n))return '—';let s=Number(n).toFixed(d);return s.replace(/\.?0+$/,'')}
+function checkNum(id,expected,tol=.01,msg=''){
+ const el=document.getElementById(id), fb=document.getElementById(id+'Fb'); const v=Number(el.value);
+ if(el.value.trim()!==''&&Number.isFinite(v)&&Math.abs(v-expected)<=tol){fb.className='feedback ok';fb.textContent='Correct.'+(msg?' '+msg:'');return true}
+ fb.className='feedback no';fb.textContent='Not yet. Check the model and try again.';return false;
+}
+
+
+function upd(){let t=type.value,h=Number(hh.value),k=Number(kk.value),a=Number(aa.value),b=Number(bb.value);hhv.textContent='h = '+nice(h);kkv.textContent='k = '+nice(k);aav.textContent='a = '+nice(a);if(t==='circle')bb.disabled=true;else bb.disabled=false;
+ if(t==='ellipse'&&b>a){b=a;bb.value=a} bbv.textContent=(t==='parabola'?'p = ':'b = ')+nice(b);
+ let f=plotFrame(plot,-8,8,-7,7),{ctx,X,Y}=f;ctx.strokeStyle='#2457a6';ctx.lineWidth=3;ctx.beginPath();
+ if(t==='circle'){b=a;eq.innerHTML=`<strong>(x−${nice(h)})² + (y−${nice(k)})² = ${nice(a*a)}</strong>`;features.innerHTML=`Center (${nice(h)}, ${nice(k)}), radius ${nice(a)}.`;for(let th=0;th<=Math.PI*2+.02;th+=.02){let x=h+a*Math.cos(th),y=k+a*Math.sin(th);th===0?ctx.moveTo(X(x),Y(y)):ctx.lineTo(X(x),Y(y))}}
+ if(t==='ellipse'){let c=Math.sqrt(Math.max(0,a*a-b*b));eq.innerHTML=`<strong>(x−${nice(h)})²/${nice(a*a)} + (y−${nice(k)})²/${nice(b*b)} = 1</strong>`;features.innerHTML=`Center (${nice(h)}, ${nice(k)}). Horizontal semi-axis a=${nice(a)}, vertical semi-axis b=${nice(b)}, foci at (${nice(h-c)}, ${nice(k)}) and (${nice(h+c)}, ${nice(k)}).`;for(let th=0;th<=Math.PI*2+.02;th+=.02){let x=h+a*Math.cos(th),y=k+b*Math.sin(th);th===0?ctx.moveTo(X(x),Y(y)):ctx.lineTo(X(x),Y(y))}point(f,h-c,k,'focus','#9a6800');point(f,h+c,k,'focus','#9a6800')}
+ if(t==='parabola'){let p=b;eq.innerHTML=`<strong>(x−${nice(h)})² = ${nice(4*p)}(y−${nice(k)})</strong>`;features.innerHTML=`Vertex (${nice(h)}, ${nice(k)}), focus (${nice(h)}, ${nice(k+p)}), directrix y=${nice(k-p)}.`;for(let x=-7;x<=7;x+=.03){let y=k+(x-h)*(x-h)/(4*p);if(y>7)continue;ctx.lineTo(X(x),Y(y))}point(f,h,k,'vertex','#237a4b');point(f,h,k+p,'focus','#9a6800')}
+ if(t==='hyperbola'){let c=Math.sqrt(a*a+b*b);eq.innerHTML=`<strong>(x−${nice(h)})²/${nice(a*a)} − (y−${nice(k)})²/${nice(b*b)} = 1</strong>`;features.innerHTML=`Center (${nice(h)}, ${nice(k)}), vertices (${nice(h-a)}, ${nice(k)}) and (${nice(h+a)}, ${nice(k)}), foci h±${nice(c)}.`;ctx.beginPath();for(let u=-2.3;u<=2.3;u+=.02){let x=h+a*Math.cosh(u),y=k+b*Math.sinh(u);u===-2.3?ctx.moveTo(X(x),Y(y)):ctx.lineTo(X(x),Y(y))}ctx.stroke();ctx.beginPath();for(let u=-2.3;u<=2.3;u+=.02){let x=h-a*Math.cosh(u),y=k+b*Math.sinh(u);u===-2.3?ctx.moveTo(X(x),Y(y)):ctx.lineTo(X(x),Y(y))}point(f,h-c,k,'focus','#9a6800');point(f,h+c,k,'focus','#9a6800')}
+ ctx.stroke();
+}
+[type,hh,kk,aa,bb].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();
+</script></body></html>

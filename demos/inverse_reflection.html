@@ -1,0 +1,137 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MATH& 141 — Inverse Reflection Explorer</title><style>
+:root{
+ --bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#637083;--line:#d8e0eb;
+ --accent:#2457a6;--accent2:#e8f0ff;--good:#237a4b;--good2:#eaf7ef;
+ --warn:#9a6800;--warn2:#fff7df;--bad:#aa3030;--bad2:#fff0f0;
+ --shadow:0 12px 30px rgba(30,45,75,.08)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+header{background:linear-gradient(135deg,#183761,#10243f);color:white;padding:30px 18px}
+.wrap{max-width:1040px;margin:0 auto}
+header .eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#bcd0ee;font-weight:800}
+header h1{margin:5px 0 6px;font-size:clamp(1.55rem,4vw,2.35rem)}
+header p{margin:0;color:#dce8f8;max-width:850px}
+.toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar .wrap{padding:9px 18px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.toolbar a,.toolbar button,button{
+ border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:8px 11px;
+ font:inherit;font-weight:700;cursor:pointer;text-decoration:none
+}
+button.primary,.toolbar .primary{background:var(--accent);border-color:var(--accent);color:white}
+button:hover,.toolbar a:hover{filter:brightness(.98)}
+main.wrap{padding:20px 18px 64px}
+.card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:20px;margin:16px 0}
+h2{font-size:1.3rem;margin:0 0 10px;color:#17335a}
+h3{font-size:1.05rem;margin:18px 0 8px;color:#29466e}
+.goal{border-left:5px solid var(--accent);background:var(--accent2);padding:12px 14px;border-radius:10px;margin:12px 0}
+.note{background:#f8fafc;border:1px solid var(--line);padding:11px 13px;border-radius:10px;color:var(--muted)}
+.warn{border-left:5px solid var(--warn);background:var(--warn2);padding:11px 13px;border-radius:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}
+.control{border:1px solid var(--line);background:#fbfcfe;border-radius:12px;padding:10px}
+.control label{display:block;font-size:.82rem;color:var(--muted);font-weight:800;margin-bottom:5px}
+input[type=range]{width:100%}
+input[type=number],input[type=text],select,textarea{
+ width:100%;border:1px solid #cbd5e3;border-radius:9px;padding:8px 9px;font:inherit;background:white;color:var(--ink)
+}
+textarea{min-height:90px;resize:vertical}
+.value{font-variant-numeric:tabular-nums;font-weight:800;color:var(--accent)}
+.math{font-family:Cambria,Georgia,serif;font-size:1.08rem;background:#fbfcff;border:1px solid var(--line);padding:10px 12px;border-radius:10px;overflow:auto}
+.canvas-wrap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;overflow:hidden}
+canvas{width:100%;height:420px;display:block}
+.question{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.feedback{min-height:1.3em;margin-top:6px;font-size:.9rem;font-weight:700}
+.feedback.ok{color:var(--good)}.feedback.no{color:var(--bad)}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pill{background:var(--accent2);color:var(--accent);border-radius:999px;padding:4px 9px;font-size:.8rem;font-weight:800}
+table{width:100%;border-collapse:collapse;margin:10px 0}
+th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left}
+th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.kbd{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#eef2f7;padding:1px 5px;border-radius:5px}
+.footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
+@media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
+</style></head><body>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 5</div><h1>Inverse Reflection Explorer</h1><p>Watch inverse functions appear as mirror images across the line y = x.</p></div></header>
+<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button onclick="window.print()">Print / Save PDF</button></div></div></div>
+<main class="wrap">
+<section class="card"><h2>What you are exploring</h2>
+<div class="goal"><strong>Goal:</strong> Understand an inverse geometrically: swap every point (x,y) to (y,x), which reflects the graph across y=x.</div>
+<p>Choose a family and move the sample-point slider. The orange point lies on f; the green point is the corresponding point on f<sup>−1</sup>.</p></section>
+<section class="card"><h2>Inverse-function mirror</h2>
+<div class="controls">
+<div class="control"><label>Function family</label><select id="fam"><option value="linear">Linear</option><option value="cubic">Cubic</option><option value="square">Restricted square x≥0</option><option value="sqrt">Square root x≥0</option></select></div>
+<div class="control"><label>Sample input x</label><input id="sx" type="range" min="0" max="4" step=".1" value="2"><div id="sxv" class="value"></div></div>
+</div>
+<div class="grid2"><div class="canvas-wrap"><canvas id="plot"></canvas></div>
+<div><div class="math" id="eq"></div><div class="note" style="margin-top:12px" id="swap"></div>
+<div class="warn" style="margin-top:12px"><strong>Why restrict x²?</strong> On all real numbers, x² fails the horizontal-line test. Restricting its domain to x≥0 makes the inverse relation a function: √x.</div></div></div>
+</section>
+<section class="card"><h2>Check the swap</h2>
+<p>If the current point on f is <span id="pText"></span>, what point must lie on f<sup>−1</sup>?</p>
+<div class="grid2"><input id="invPt" type="text" placeholder="(x,y)"><div><button class="primary" onclick="checkPt()">Check</button><div id="invPtFb" class="feedback"></div></div></div>
+</section>
+<p class="footer">MATH&amp; 141 · Precalculus I</p></main>
+<script>
+function fitCanvas(c){
+ const dpr=window.devicePixelRatio||1, w=c.clientWidth, h=c.clientHeight;
+ if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
+ const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return [ctx,w,h];
+}
+function plotFrame(c,xmin,xmax,ymin,ymax){
+ const [ctx,w,h]=fitCanvas(c), pad=42;
+ ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+ const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
+ const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ ctx.strokeStyle='#e3e9f1';ctx.lineWidth=1;
+ for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ ctx.strokeStyle='#8794a8';ctx.lineWidth=1.5;
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
+ ctx.fillStyle='#64748b';ctx.font='12px system-ui';
+ if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
+ if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+}
+function curve(frame,fn,x0,x1,stroke='#2457a6',width=3,step=.03){
+ const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
+ for(let x=x0;x<=x1;x+=step){let y=fn(x);if(!Number.isFinite(y)||y<ymin-2||y>ymax+2){pen=false;continue}
+   if(!pen){ctx.moveTo(X(x),Y(y));pen=true}else ctx.lineTo(X(x),Y(y));
+ }ctx.stroke();
+}
+function point(frame,x,y,label='',fill='#2457a6'){
+ const {ctx,X,Y}=frame;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,Math.PI*2);ctx.fill();
+ if(label){ctx.font='12px system-ui';ctx.fillText(label,X(x)+7,Y(y)-7)}
+}
+function nice(n,d=2){if(!Number.isFinite(n))return '—';let s=Number(n).toFixed(d);return s.replace(/\.?0+$/,'')}
+function checkNum(id,expected,tol=.01,msg=''){
+ const el=document.getElementById(id), fb=document.getElementById(id+'Fb'); const v=Number(el.value);
+ if(el.value.trim()!==''&&Number.isFinite(v)&&Math.abs(v-expected)<=tol){fb.className='feedback ok';fb.textContent='Correct.'+(msg?' '+msg:'');return true}
+ fb.className='feedback no';fb.textContent='Not yet. Check the model and try again.';return false;
+}
+
+
+let cur=[0,0];
+function fn(x){switch(fam.value){case'linear':return 1.5*x-1;case'cubic':return .18*x*x*x;case'square':return x*x;case'sqrt':return Math.sqrt(x)}}
+function domain(){return fam.value==='linear'||fam.value==='cubic'?[-4,4]:[0,4]}
+function label(){return {linear:'f(x)=1.5x−1',cubic:'f(x)=0.18x³',square:'f(x)=x², x≥0',sqrt:'f(x)=√x, x≥0'}[fam.value]}
+function upd(){
+ let [lo,hi]=domain(); sx.min=lo;sx.max=hi;if(Number(sx.value)<lo||Number(sx.value)>hi)sx.value=(lo+hi)/2;
+ let x=Number(sx.value),y=fn(x);cur=[x,y];sxv.textContent='x = '+nice(x,1);
+ eq.innerHTML=`<strong>${label()}</strong><br>The inverse graph is produced by swapping coordinates, not by “moving” the curve independently.`;
+ swap.innerHTML=`Current pair: <strong>(${nice(x,2)}, ${nice(y,2)}) → (${nice(y,2)}, ${nice(x,2)})</strong>. Domain and range exchange roles.`;
+ pText.textContent=`(${nice(x,2)}, ${nice(y,2)})`;
+ let f=plotFrame(plot,-5,8,-5,8);curve(f,fn,lo,hi,'#2457a6',3,.02);
+ // inverse by parametric coordinate swap
+ let {ctx,X,Y}=f;ctx.beginPath();ctx.strokeStyle='#237a4b';ctx.lineWidth=3;let first=true;
+ for(let t=lo;t<=hi;t+=.02){let yy=fn(t);if(yy<-5||yy>8)continue;if(first){ctx.moveTo(X(yy),Y(t));first=false}else ctx.lineTo(X(yy),Y(t))}ctx.stroke();
+ curve(f,z=>z,-5,8,'#9aa5b5',1.5,.05);point(f,x,y,'f point','#9a6800');point(f,y,x,'inverse','#237a4b');
+}
+function checkPt(){let nums=(invPt.value.match(/-?\d+(\.\d+)?/g)||[]).map(Number),ok=nums.length>=2&&Math.abs(nums[0]-cur[1])<.06&&Math.abs(nums[1]-cur[0])<.06;invPtFb.className='feedback '+(ok?'ok':'no');invPtFb.textContent=ok?'Correct. The coordinates swap.':'Not yet. Exchange the x- and y-coordinates of the orange point.'}
+[fam,sx].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();
+</script></body></html>
