@@ -1,5 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MATH& 141 — Exponential Constant-Ratio Explorer</title><style>
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>MATH&amp; 141 — Exponential Constant-Ratio Explorer</title><style>
 :root{
  --bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#637083;--line:#d8e0eb;
  --accent:#2457a6;--accent2:#e8f0ff;--good:#237a4b;--good2:#eaf7ef;
@@ -55,22 +56,22 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style></head><body>
-<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 6</div><h1>Exponential Constant-Ratio Explorer</h1><p>Use tables and graphs together to see why the base is a repeated multiplier.</p></div></header>
-<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button onclick="window.print()">Print / Save PDF</button></div></div></div>
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 6 · Interactive Demo</div><h1>Exponential Constant-Ratio Explorer</h1><p>Use tables and graphs together to see why the base is a repeated multiplier.</p></div></header>
+<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
 <section class="card"><h2>Constant ratio is the signature</h2>
 <div class="goal"><strong>Goal:</strong> Recognize exponential behavior from multiplicative change: equal x-steps multiply y by the same factor.</div>
-<p>Adjust the initial amount and growth factor. The table shows four consecutive outputs and their ratios.</p></section>
+<p>Adjust the initial amount and growth factor. The table shows four consecutive outputs and their ratios.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change the initial amount and growth factor and inspect consecutive outputs.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Equal x-steps preserve a constant output ratio, even while differences keep changing.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Use the ratio—not the visual steepness alone—to identify exponential behavior.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card"><h2>Exponential growth and decay explorer</h2>
 <div class="controls">
-<div class="control"><label>Initial amount A</label><input id="A" type="range" min="1" max="10" step=".5" value="4"><div id="Av" class="value"></div></div>
-<div class="control"><label>Growth factor b</label><input id="B" type="range" min=".4" max="2" step=".05" value="1.5"><div id="Bv" class="value"></div></div>
+<div class="control"><label>Initial amount A</label><input id="A" max="10" min="1" step=".5" type="range" value="4"/><div class="value" id="Av"></div></div>
+<div class="control"><label>Growth factor b</label><input id="B" max="2" min=".4" step=".05" type="range" value="1.5"/><div class="value" id="Bv"></div></div>
 </div>
 <div class="grid2"><div class="canvas-wrap"><canvas id="plot"></canvas></div><div><div class="math" id="formula"></div><table><thead><tr><th>x</th><th>y</th><th>ratio to previous</th></tr></thead><tbody id="tbl"></tbody></table><div class="note" id="kind"></div></div></div>
 </section>
 <section class="card"><h2>Check the pattern</h2>
-<p>If x increases by 1, by what factor does y change?</p><div class="grid2"><input id="ratioAns" type="number" step="any"><div><button class="primary" onclick="checkRatio()">Check</button><div id="ratioAnsFb" class="feedback"></div></div></div>
+<p>If x increases by 1, by what factor does y change?</p><div class="grid2"><input id="ratioAns" step="any" type="number"/><div><button class="primary" onclick="checkRatio()">Check</button><div class="feedback" id="ratioAnsFb"></div></div></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
@@ -81,27 +82,27 @@ function fitCanvas(c){
 }
 function plotFrame(c,xmin,xmax,ymin,ymax){
  const [ctx,w,h]=fitCanvas(c), pad=42;
- ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+ ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
  const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
- ctx.strokeStyle='#e3e9f1';ctx.lineWidth=1;
+ ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
  for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
  for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
- ctx.strokeStyle='#8794a8';ctx.lineWidth=1.5;
+ ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
  if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
  if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle='#64748b';ctx.font='12px system-ui';
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
  if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
  if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
  return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
 }
-function curve(frame,fn,x0,x1,stroke='#2457a6',width=3,step=.03){
+function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
  const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
  for(let x=x0;x<=x1;x+=step){let y=fn(x);if(!Number.isFinite(y)||y<ymin-2||y>ymax+2){pen=false;continue}
    if(!pen){ctx.moveTo(X(x),Y(y));pen=true}else ctx.lineTo(X(x),Y(y));
  }ctx.stroke();
 }
-function point(frame,x,y,label='',fill='#2457a6'){
+function point(frame,x,y,label='',fill=activityCss('--curve-blue')){
  const {ctx,X,Y}=frame;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,Math.PI*2);ctx.fill();
  if(label){ctx.font='12px system-ui';ctx.fillText(label,X(x)+7,Y(y)-7)}
 }
@@ -119,8 +120,8 @@ function upd(){
  formula.innerHTML=`<strong>y = ${nice(a,1)}(${nice(b,2)})<sup>x</sup></strong>`;
  kind.innerHTML=b>1?'<strong>Growth:</strong> each unit step multiplies by a factor greater than 1.':b<1?'<strong>Decay:</strong> each unit step multiplies by a factor between 0 and 1.':'<strong>Constant:</strong> b=1 is the boundary between exponential growth and decay.';
  tbl.innerHTML=[0,1,2,3,4].map((x,i)=>`<tr><td>${x}</td><td>${nice(a*Math.pow(b,x),3)}</td><td>${i?'× '+nice(b,3):'—'}</td></tr>`).join('');
- let ymax=Math.max(12,a*Math.pow(b,4)*1.15);let f=plotFrame(plot,-3,5,0,ymax);curve(f,x=>a*Math.pow(b,x),-3,5,'#2457a6',3,.02);
- [0,1,2,3,4].forEach(x=>point(f,x,a*Math.pow(b,x),'','#9a6800'));
+ let ymax=Math.max(12,a*Math.pow(b,4)*1.15);let f=plotFrame(plot,-3,5,0,ymax);curve(f,x=>a*Math.pow(b,x),-3,5,activityCss('--curve-blue'),3,.02);
+ [0,1,2,3,4].forEach(x=>point(f,x,a*Math.pow(b,x),'',activityCss('--curve-gold')));
 }
 function checkRatio(){checkNum('ratioAns',ratio,.011,'That constant multiplier is the base b.')}
 [A,B].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();

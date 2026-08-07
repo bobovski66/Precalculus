@@ -1,5 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MATH& 141 — Quadratic Fit by Matrix</title><style>
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>MATH&amp; 141 — Quadratic Fit by Matrix</title><style>
 :root{
  --bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#637083;--line:#d8e0eb;
  --accent:#2457a6;--accent2:#e8f0ff;--good:#237a4b;--good2:#eaf7ef;
@@ -55,30 +56,30 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style></head><body>
-<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 10</div><h1>Quadratic Fit by Matrix</h1><p>Use Gaussian elimination to recover a quadratic model from three observed points.</p></div></header>
-<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button onclick="window.print()">Print / Save PDF</button></div></div></div>
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 10 · Application</div><h1>Quadratic Fit by Matrix</h1><p>Use Gaussian elimination to recover a quadratic model from three observed points.</p></div></header>
+<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
 <section class="card"><h2>Capstone application: fit a quadratic through three data points</h2>
 <div class="goal"><strong>Goal:</strong> Use a matrix to solve the same “three points determine a parabola” problem from Week 2. Gaussian elimination becomes a function-fitting tool.</div>
-<p>For y=ax²+bx+c, each data point contributes one linear equation in the unknown coefficients a, b, and c.</p></section>
+<p>For y=ax²+bx+c, each data point contributes one linear equation in the unknown coefficients a, b, and c.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change the three data points, then solve the resulting 3×3 system for a, b, and c.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Each point contributes one linear constraint on the coefficients of y=ax²+bx+c.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Interpret row reduction as a method for recovering a function from data, not merely reducing a matrix.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card"><h2>Current data</h2>
 <div class="pills"><button onclick="newData()">New data set</button></div>
 <div class="grid2">
- <div><table><thead><tr><th>x</th><th>y</th></tr></thead><tbody id="ptsTable"></tbody></table><div class="math" id="system"></div><div class="math" id="matrix" style="margin-top:10px"></div></div>
- <div class="canvas-wrap"><canvas id="plot"></canvas></div>
+<div><table><thead><tr><th>x</th><th>y</th></tr></thead><tbody id="ptsTable"></tbody></table><div class="math" id="system"></div><div class="math" id="matrix" style="margin-top:10px"></div></div>
+<div class="canvas-wrap"><canvas id="plot"></canvas></div>
 </div>
 </section>
 <section class="card"><h2>Recover the model</h2>
 <p>Use elimination on the augmented matrix (on paper or in the Week 10 workbench) and enter the coefficients.</p>
 <div class="grid3">
-<div><label>a</label><input id="aa" type="number" step="any"></div>
-<div><label>b</label><input id="bb" type="number" step="any"></div>
-<div><label>c</label><input id="cc" type="number" step="any"></div>
+<div><label>a</label><input id="aa" step="any" type="number"/></div>
+<div><label>b</label><input id="bb" step="any" type="number"/></div>
+<div><label>c</label><input id="cc" step="any" type="number"/></div>
 </div>
 <div class="pills"><button class="primary" onclick="checkModel()">Check model</button></div>
-<div id="modelFb" class="feedback"></div>
-<div id="modelResult" class="note" style="display:none;margin-top:12px"></div>
+<div class="feedback" id="modelFb"></div>
+<div class="note" id="modelResult" style="display:none;margin-top:12px"></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
@@ -89,27 +90,27 @@ function fitCanvas(c){
 }
 function plotFrame(c,xmin,xmax,ymin,ymax){
  const [ctx,w,h]=fitCanvas(c), pad=42;
- ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+ ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
  const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
- ctx.strokeStyle='#e3e9f1';ctx.lineWidth=1;
+ ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
  for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
  for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
- ctx.strokeStyle='#8794a8';ctx.lineWidth=1.5;
+ ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
  if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
  if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle='#64748b';ctx.font='12px system-ui';
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
  if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
  if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
  return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
 }
-function curve(frame,fn,x0,x1,stroke='#2457a6',width=3,step=.03){
+function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
  const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
  for(let x=x0;x<=x1;x+=step){let y=fn(x);if(!Number.isFinite(y)||y<ymin-2||y>ymax+2){pen=false;continue}
    if(!pen){ctx.moveTo(X(x),Y(y));pen=true}else ctx.lineTo(X(x),Y(y));
  }ctx.stroke();
 }
-function point(frame,x,y,label='',fill='#2457a6'){
+function point(frame,x,y,label='',fill=activityCss('--curve-blue')){
  const {ctx,X,Y}=frame;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,Math.PI*2);ctx.fill();
  if(label){ctx.font='12px system-ui';ctx.fillText(label,X(x)+7,Y(y)-7)}
 }
@@ -134,7 +135,7 @@ function render(){
  draw(false);
 }
 function draw(show){
- let vals=pts.map(p=>p[1]),ymin=Math.min(-10,...vals)-3,ymax=Math.max(10,...vals)+3;let f=plotFrame(plot,-4,5,ymin,ymax);pts.forEach(([x,y])=>point(f,x,y,'data','#9a6800'));if(show)curve(f,x=>yv(x),-4,5,'#2457a6',3,.02);
+ let vals=pts.map(p=>p[1]),ymin=Math.min(-10,...vals)-3,ymax=Math.max(10,...vals)+3;let f=plotFrame(plot,-4,5,ymin,ymax);pts.forEach(([x,y])=>point(f,x,y,'data',activityCss('--curve-gold')));if(show)curve(f,x=>yv(x),-4,5,activityCss('--curve-blue'),3,.02);
 }
 function checkModel(){
  let vals=[Number(aa.value),Number(bb.value),Number(cc.value)],ok=vals.every((v,i)=>Number.isFinite(v)&&Math.abs(v-co[i])<.02);

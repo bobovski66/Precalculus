@@ -1,5 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MATH& 141 — Logarithmic Scales: Sound and Information</title><style>
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>MATH&amp; 141 — Logarithmic Scales: Sound and Information</title><style>
 :root{
  --bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#637083;--line:#d8e0eb;
  --accent:#2457a6;--accent2:#e8f0ff;--good:#237a4b;--good2:#eaf7ef;
@@ -55,26 +56,26 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style></head><body>
-<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 7</div><h1>Logarithmic Scales: Sound and Information</h1><p>Logarithms measure how many multiplicative steps separate one scale from another.</p></div></header>
-<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button onclick="window.print()">Print / Save PDF</button></div></div></div>
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 7 · Application</div><h1>Logarithmic Scales: Sound and Information</h1><p>Logarithms measure how many multiplicative steps separate one scale from another.</p></div></header>
+<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
 <section class="card"><h2>Application: multiplicative worlds become additive</h2>
 <div class="goal"><strong>Goal:</strong> Use logarithms to compress enormous multiplicative ranges into manageable additive scales.</div>
-<p>This activity compares two places logarithms arise naturally: sound intensity and information.</p></section>
+<p>This activity compares two places logarithms arise naturally: sound intensity and information.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Move through powers of ten for sound and powers of two for information.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Notice that multiplication in the original quantity becomes addition on a logarithmic scale.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Translate a logarithmic answer back into a statement about intensity ratios or possible states.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card">
 <h2>Part A. Decibels</h2>
 <p>For an intensity ratio R relative to a reference level, the decibel difference is <strong>D = 10 log<sub>10</sub>(R)</strong>.</p>
-<div class="controls"><div class="control"><label>Intensity ratio R = 10^q</label><input id="q" type="range" min="0" max="8" step=".1" value="3"><div id="qv" class="value"></div></div></div>
+<div class="controls"><div class="control"><label>Intensity ratio R = 10^q</label><input id="q" max="8" min="0" step=".1" type="range" value="3"/><div class="value" id="qv"></div></div></div>
 <div class="grid2"><div class="canvas-wrap"><canvas id="dbPlot"></canvas></div><div><div class="math" id="dbMath"></div><div class="note" style="margin-top:12px">Every multiplication of intensity by 10 adds 10 dB. Logarithms turn multiplication into addition.</div></div></div>
-<div class="question"><p>An intensity is 1000 times the reference intensity. How many decibels above the reference is it?</p><input id="dbAns" type="number"><div id="dbAnsFb" class="feedback"></div><button onclick="checkNum('dbAns',30,.01)">Check</button></div>
+<div class="question"><p>An intensity is 1000 times the reference intensity. How many decibels above the reference is it?</p><input id="dbAns" type="number"/><div class="feedback" id="dbAnsFb"></div><button onclick="checkNum('dbAns',30,.01)">Check</button></div>
 </section>
 <section class="card">
 <h2>Part B. Information in bits</h2>
 <p>If N equally likely states must be distinguished, the number of bits is <strong>I = log<sub>2</sub>(N)</strong>.</p>
-<div class="controls"><div class="control"><label>Bits I</label><input id="bits" type="range" min="0" max="16" step="1" value="10"><div id="bitsv" class="value"></div></div></div>
+<div class="controls"><div class="control"><label>Bits I</label><input id="bits" max="16" min="0" step="1" type="range" value="10"/><div class="value" id="bitsv"></div></div></div>
 <div class="grid2"><div><div class="math" id="bitsMath"></div><div class="note" style="margin-top:12px">Adding one bit doubles the number of distinguishable states. The logarithm asks: “How many doublings did it take to get here?”</div></div><div class="canvas-wrap"><canvas id="bitPlot"></canvas></div></div>
-<div class="question"><p>How many bits are needed to distinguish 1024 equally likely states?</p><input id="bitAns" type="number"><div id="bitAnsFb" class="feedback"></div><button onclick="checkNum('bitAns',10,.01)">Check</button></div>
+<div class="question"><p>How many bits are needed to distinguish 1024 equally likely states?</p><input id="bitAns" type="number"/><div class="feedback" id="bitAnsFb"></div><button onclick="checkNum('bitAns',10,.01)">Check</button></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
@@ -85,27 +86,27 @@ function fitCanvas(c){
 }
 function plotFrame(c,xmin,xmax,ymin,ymax){
  const [ctx,w,h]=fitCanvas(c), pad=42;
- ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+ ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
  const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
- ctx.strokeStyle='#e3e9f1';ctx.lineWidth=1;
+ ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
  for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
  for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
- ctx.strokeStyle='#8794a8';ctx.lineWidth=1.5;
+ ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
  if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
  if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle='#64748b';ctx.font='12px system-ui';
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
  if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
  if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
  return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
 }
-function curve(frame,fn,x0,x1,stroke='#2457a6',width=3,step=.03){
+function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
  const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
  for(let x=x0;x<=x1;x+=step){let y=fn(x);if(!Number.isFinite(y)||y<ymin-2||y>ymax+2){pen=false;continue}
    if(!pen){ctx.moveTo(X(x),Y(y));pen=true}else ctx.lineTo(X(x),Y(y));
  }ctx.stroke();
 }
-function point(frame,x,y,label='',fill='#2457a6'){
+function point(frame,x,y,label='',fill=activityCss('--curve-blue')){
  const {ctx,X,Y}=frame;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,Math.PI*2);ctx.fill();
  if(label){ctx.font='12px system-ui';ctx.fillText(label,X(x)+7,Y(y)-7)}
 }
@@ -118,8 +119,8 @@ function checkNum(id,expected,tol=.01,msg=''){
 
 
 function updDb(){let qq=Number(q.value),R=Math.pow(10,qq),D=10*qq;qv.textContent=`R = 10^${nice(qq,1)} ≈ ${R.toExponential(2)}`;dbMath.innerHTML=`D = 10 log₁₀(${R.toExponential(2)}) = <strong>${nice(D,1)} dB</strong>`;
- let f=plotFrame(dbPlot,0,8,0,80);curve(f,x=>10*x,0,8,'#2457a6',3,.02);point(f,qq,D,'current','#9a6800');}
+ let f=plotFrame(dbPlot,0,8,0,80);curve(f,x=>10*x,0,8,activityCss('--curve-blue'),3,.02);point(f,qq,D,'current',activityCss('--curve-gold'));}
 function updBits(){let b=Number(bits.value),N=Math.pow(2,b);bitsv.textContent=`I = ${b} bits`;bitsMath.innerHTML=`N = 2<sup>${b}</sup> = <strong>${N.toLocaleString()}</strong> states`;
- let f=plotFrame(bitPlot,0,16,0,16);curve(f,x=>x,0,16,'#237a4b',3,.05);point(f,b,b,`${b} bits`,'#9a6800');}
+ let f=plotFrame(bitPlot,0,16,0,16);curve(f,x=>x,0,16,activityCss('--curve-green'),3,.05);point(f,b,b,`${b} bits`,activityCss('--curve-gold'));}
 q.addEventListener('input',updDb);bits.addEventListener('input',updBits);window.addEventListener('resize',()=>{updDb();updBits()});updDb();updBits();
 </script></body></html>

@@ -1,5 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MATH& 141 — Inverse Reflection Explorer</title><style>
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>MATH&amp; 141 — Inverse Reflection Explorer</title><style>
 :root{
  --bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#637083;--line:#d8e0eb;
  --accent:#2457a6;--accent2:#e8f0ff;--good:#237a4b;--good2:#eaf7ef;
@@ -55,25 +56,25 @@ th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mut
 .footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
 @media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-</style></head><body>
-<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 5</div><h1>Inverse Reflection Explorer</h1><p>Watch inverse functions appear as mirror images across the line y = x.</p></div></header>
-<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button onclick="window.print()">Print / Save PDF</button></div></div></div>
+</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script></head><body>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 5 · Interactive Demo</div><h1>Inverse Reflection Explorer</h1><p>Watch inverse functions appear as mirror images across the line y = x.</p></div></header>
+<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
 <section class="card"><h2>What you are exploring</h2>
 <div class="goal"><strong>Goal:</strong> Understand an inverse geometrically: swap every point (x,y) to (y,x), which reflects the graph across y=x.</div>
-<p>Choose a family and move the sample-point slider. The orange point lies on f; the green point is the corresponding point on f<sup>−1</sup>.</p></section>
+<p>Choose a family and move the sample-point slider. The orange point lies on f; the green point is the corresponding point on f<sup>−1</sup>.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Choose a function family and move a point on the original graph.</p></div><div class="activity-step"><strong>2. Observe</strong><p>The inverse point swaps coordinates and reflects across y=x; domain and range trade roles.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Use the geometry to decide when an inverse relation is actually an inverse function.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
 <section class="card"><h2>Inverse-function mirror</h2>
 <div class="controls">
 <div class="control"><label>Function family</label><select id="fam"><option value="linear">Linear</option><option value="cubic">Cubic</option><option value="square">Restricted square x≥0</option><option value="sqrt">Square root x≥0</option></select></div>
-<div class="control"><label>Sample input x</label><input id="sx" type="range" min="0" max="4" step=".1" value="2"><div id="sxv" class="value"></div></div>
+<div class="control"><label>Sample input x</label><input id="sx" max="4" min="0" step=".1" type="range" value="2"/><div class="value" id="sxv"></div></div>
 </div>
 <div class="grid2"><div class="canvas-wrap"><canvas id="plot"></canvas></div>
-<div><div class="math" id="eq"></div><div class="note" style="margin-top:12px" id="swap"></div>
+<div><div class="math" id="eq"></div><div class="note" id="swap" style="margin-top:12px"></div>
 <div class="warn" style="margin-top:12px"><strong>Why restrict x²?</strong> On all real numbers, x² fails the horizontal-line test. Restricting its domain to x≥0 makes the inverse relation a function: √x.</div></div></div>
 </section>
 <section class="card"><h2>Check the swap</h2>
 <p>If the current point on f is <span id="pText"></span>, what point must lie on f<sup>−1</sup>?</p>
-<div class="grid2"><input id="invPt" type="text" placeholder="(x,y)"><div><button class="primary" onclick="checkPt()">Check</button><div id="invPtFb" class="feedback"></div></div></div>
+<div class="grid2"><input id="invPt" placeholder="(x,y)" type="text"/><div><button class="primary" onclick="checkPt()">Check</button><div class="feedback" id="invPtFb"></div></div></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
@@ -84,27 +85,27 @@ function fitCanvas(c){
 }
 function plotFrame(c,xmin,xmax,ymin,ymax){
  const [ctx,w,h]=fitCanvas(c), pad=42;
- ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+ ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
  const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
- ctx.strokeStyle='#e3e9f1';ctx.lineWidth=1;
+ ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
  for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
  for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
- ctx.strokeStyle='#8794a8';ctx.lineWidth=1.5;
+ ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
  if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
  if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle='#64748b';ctx.font='12px system-ui';
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
  if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
  if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
  return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
 }
-function curve(frame,fn,x0,x1,stroke='#2457a6',width=3,step=.03){
+function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
  const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
  for(let x=x0;x<=x1;x+=step){let y=fn(x);if(!Number.isFinite(y)||y<ymin-2||y>ymax+2){pen=false;continue}
    if(!pen){ctx.moveTo(X(x),Y(y));pen=true}else ctx.lineTo(X(x),Y(y));
  }ctx.stroke();
 }
-function point(frame,x,y,label='',fill='#2457a6'){
+function point(frame,x,y,label='',fill=activityCss('--curve-blue')){
  const {ctx,X,Y}=frame;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,Math.PI*2);ctx.fill();
  if(label){ctx.font='12px system-ui';ctx.fillText(label,X(x)+7,Y(y)-7)}
 }
@@ -126,11 +127,11 @@ function upd(){
  eq.innerHTML=`<strong>${label()}</strong><br>The inverse graph is produced by swapping coordinates, not by “moving” the curve independently.`;
  swap.innerHTML=`Current pair: <strong>(${nice(x,2)}, ${nice(y,2)}) → (${nice(y,2)}, ${nice(x,2)})</strong>. Domain and range exchange roles.`;
  pText.textContent=`(${nice(x,2)}, ${nice(y,2)})`;
- let f=plotFrame(plot,-5,8,-5,8);curve(f,fn,lo,hi,'#2457a6',3,.02);
+ let f=plotFrame(plot,-5,8,-5,8);curve(f,fn,lo,hi,activityCss('--curve-blue'),3,.02);
  // inverse by parametric coordinate swap
- let {ctx,X,Y}=f;ctx.beginPath();ctx.strokeStyle='#237a4b';ctx.lineWidth=3;let first=true;
+ let {ctx,X,Y}=f;ctx.beginPath();ctx.strokeStyle=activityCss('--curve-green');ctx.lineWidth=3;let first=true;
  for(let t=lo;t<=hi;t+=.02){let yy=fn(t);if(yy<-5||yy>8)continue;if(first){ctx.moveTo(X(yy),Y(t));first=false}else ctx.lineTo(X(yy),Y(t))}ctx.stroke();
- curve(f,z=>z,-5,8,'#9aa5b5',1.5,.05);point(f,x,y,'f point','#9a6800');point(f,y,x,'inverse','#237a4b');
+ curve(f,z=>z,-5,8,activityCss('--curve-neutral'),1.5,.05);point(f,x,y,'f point',activityCss('--curve-gold'));point(f,y,x,'inverse',activityCss('--curve-green'));
 }
 function checkPt(){let nums=(invPt.value.match(/-?\d+(\.\d+)?/g)||[]).map(Number),ok=nums.length>=2&&Math.abs(nums[0]-cur[1])<.06&&Math.abs(nums[1]-cur[0])<.06;invPtFb.className='feedback '+(ok?'ok':'no');invPtFb.textContent=ok?'Correct. The coordinates swap.':'Not yet. Exchange the x- and y-coordinates of the orange point.'}
 [fam,sx].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();
