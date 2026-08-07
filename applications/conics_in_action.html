@@ -118,7 +118,7 @@ window.typesetMath = function(nodes){
 <div class="control"><label>Eccentricity e</label><input id="oe" max=".85" min="0" step=".05" type="range" value=".5"/><div class="value" id="oev"></div></div>
 </div>
 <div class="grid2">
-<div class="canvas-wrap"><canvas id="orbit"></canvas></div>
+<div class="sim-controls no-print"><button type="button" class="primary" id="playOrbit">▶ Play orbit</button><button type="button" id="resetOrbit">↺ Reset</button><span class="sim-status" id="orbitStatus">Ready</span><input id="orbitPhase" type="range" min="0" max="6.283185307" step=".001" value="0" hidden></div><div class="canvas-wrap"><canvas id="orbit"></canvas></div>
 <div><div class="math" id="orbitMath"></div><div class="note" style="margin-top:12px">For an ellipse, \(c=ae\) and \(b=a\sqrt{1-e^2}\). One focus can be occupied by the central body. The orbit’s closest and farthest distances from that focus are \(a(1-e)\) and \(a(1+e)\).</div></div>
 </div>
 <div class="question"><p>For the current orbit, what is the closest distance from the focus to the ellipse?</p><input id="periAns" step="any" type="number"/><div class="feedback" id="periAnsFb"></div><button onclick="checkPeri()">Check</button></div>
@@ -139,21 +139,36 @@ function fitCanvas(c){
  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return [ctx,w,h];
 }
-function plotFrame(c,xmin,xmax,ymin,ymax){
- const [ctx,w,h]=fitCanvas(c), pad=42;
- ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
- const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
- const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+function autoPlotStep(span,targetTicks=8){
+ const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
+ const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
+ return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
+}
+function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
+ const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
+ ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
+ const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
+ xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
+ ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
+ const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
- if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
+ const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='top';
+ const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
+ ctx.textAlign='left';ctx.textBaseline='middle';
+ const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
 }
 function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
  const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
@@ -178,9 +193,9 @@ function drawOrbit(){
  const a=Number(oa.value),e=Number(oe.value),c=a*e,b=a*Math.sqrt(1-e*e);peri=a*(1-e);
  oav.textContent='a = '+nice(a);oev.textContent='e = '+nice(e,2);
  orbitMath.innerHTML=`\\(c=ae=${nice(c,2)}\\)<br>\\(b=a\\sqrt{1-e^2}=${nice(b,2)}\\)<br>\\(r_{\\min}=${nice(peri,2)},\\quad r_{\\max}=${nice(a*(1+e),2)}\\)`;
- const f=plotFrame(orbit,-8,8,-6,6),{ctx,X,Y}=f;ctx.beginPath();ctx.strokeStyle=activityCss('--curve-blue');ctx.lineWidth=3;
+ const margin=1.2,f=plotFrame(orbit,-a-margin,a+margin,-Math.max(2,b+margin),Math.max(2,b+margin)),{ctx,X,Y}=f;ctx.beginPath();ctx.strokeStyle=activityCss('--curve-blue');ctx.lineWidth=3;
  for(let th=0;th<=Math.PI*2+.02;th+=.02){let x=a*Math.cos(th),y=b*Math.sin(th);th===0?ctx.moveTo(X(x),Y(y)):ctx.lineTo(X(x),Y(y))}ctx.stroke();
- point(f,-c,0,'focus / central body',activityCss('--curve-gold'));point(f,c,0,'focus',activityCss('--curve-gold'));point(f,-a,0,'closest',activityCss('--curve-green'));
+ point(f,-c,0,'focus / central body',activityCss('--curve-gold'));point(f,c,0,'focus',activityCss('--curve-gold'));point(f,-a,0,'closest',activityCss('--curve-green'));const th=Number(orbitPhase.value)||0;point(f,a*Math.cos(th),b*Math.sin(th),'orbiting body',activityCss('--curve-green'));
 }
 function drawReflector(){
  const p=Number(pp.value);focusY=p;ppv.textContent='p = '+nice(p,2);parMath.innerHTML=`\\(y=\\dfrac{x^2}{${nice(4*p,2)}}\\)<br>focus \\((0,${nice(p,2)})\\)`;
@@ -194,5 +209,5 @@ function drawReflector(){
 }
 function checkPeri(){checkNum('periAns',peri,.03,'For an ellipse measured from the occupied focus, periapsis is a(1−e).')}
 function checkFocus(){checkNum('focusAns',focusY,.02,'The standard vertical parabola x²=4py has focus (0,p).')}
-[oa,oe].forEach(e=>e.addEventListener('input',drawOrbit));pp.addEventListener('input',drawReflector);window.addEventListener('resize',()=>{drawOrbit();drawReflector()});drawOrbit();drawReflector();
+[oa,oe,orbitPhase].forEach(e=>e.addEventListener('input',drawOrbit));pp.addEventListener('input',drawReflector);window.addEventListener('resize',()=>{drawOrbit();drawReflector()});activityPlayback({range:orbitPhase,playButton:'playOrbit',resetButton:'resetOrbit',status:'orbitStatus',duration:6500,loop:true,label:'▶ Play orbit'});drawOrbit();drawReflector();
 </script></body></html>

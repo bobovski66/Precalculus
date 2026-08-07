@@ -115,7 +115,7 @@ window.typesetMath = function(nodes){
 <div class="control"><label>Starting position \(x_0\) (m)</label><input id="x0" type="range" min="-4" max="6" step=".25" value="1"><div class="value" id="x0v"></div></div>
 <div class="control"><label>Time t (s)</label><input id="time" type="range" min="0" max="5" step=".1" value="2"><div class="value" id="tv"></div></div></div>
 <div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>position \(x(t)\)</span><span class="legend-item"><span class="legend-dot gold"></span>current time</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
-<section class="card"><h2>Physical representation</h2><p class="note">The same rule \(x(t)=vt+x_0\) can be seen as a cart moving along a straight track. The time slider chooses the instant you are watching.</p><div class="canvas-wrap"><canvas id="scene" style="height:260px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line neutral"></span>air track</span><span class="legend-item"><span class="legend-dot gold"></span>cart at the chosen time</span></div></section>
+<section class="card"><h2>Physical representation</h2><p class="note">The same rule \(x(t)=vt+x_0\) can be seen as a cart moving along a straight track. The time slider chooses the instant you are watching.</p><div class="sim-controls no-print"><button type="button" class="primary" id="playSim">▶ Play</button><button type="button" id="resetSim">↺ Reset</button><span class="sim-status" id="simStatus">Ready</span></div><div class="canvas-wrap"><canvas id="scene" style="height:260px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line neutral"></span>air track</span><span class="legend-item"><span class="legend-dot gold"></span>cart at the chosen time</span></div></section>
 <section class="card"><h2>Read slope and intercept in context</h2><div class="question"><p>If the line has slope equal to the current velocity, what physical quantity is changing by that amount each second?</p><textarea placeholder="Explain in one or two sentences."></textarea></div></section><p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
 function fitCanvas(c){
@@ -123,19 +123,36 @@ function fitCanvas(c){
  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr)}
  const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return [ctx,w,h];
 }
-function plotFrame(c,xmin,xmax,ymin,ymax,xstep=1,ystep=1){
- const [ctx,w,h]=fitCanvas(c),pad=44;ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
+function autoPlotStep(span,targetTicks=8){
+ const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
+ const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
+ return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
+}
+function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
+ const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
+ ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
+ xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
+ ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
+ const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){if(Math.abs(x)>1e-9&&ymin<=0&&0<=ymax)ctx.fillText(nice(x,1),X(x)-5,Y(0)+17)}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){if(Math.abs(y)>1e-9&&xmin<=0&&0<=xmax)ctx.fillText(nice(y,1),X(0)+7,Y(y)+4)}
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
+ const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='top';
+ const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
+ ctx.textAlign='left';ctx.textBaseline='middle';
+ const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
 }
 function curve(f,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.02){
  const {ctx,X,Y,ymin,ymax}=f;ctx.save();ctx.beginPath();ctx.strokeStyle=stroke;ctx.lineWidth=width;let pen=false;
@@ -148,12 +165,12 @@ function checkNum(id,expected,tol=.02,msg=''){const el=document.getElementById(i
 
 function drawScene(V,b,t,pos){
  const c=document.getElementById('scene'); const [ctx,w,h]=fitCanvas(c); ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg'); ctx.fillRect(0,0,w,h);
- const y=h*0.65,left=40,right=w-40,X=x=>left+(x+8)*(right-left)/32;
+ const y=h*0.65,left=40,right=w-40,p0=b,p1=b+5*V,lo=Math.min(0,p0,p1),hi=Math.max(0,p0,p1),margin=Math.max(1,(hi-lo)*.12),xmin=lo-margin,xmax=hi+margin,X=x=>left+(x-xmin)*(right-left)/(xmax-xmin),tick=autoPlotStep(xmax-xmin,8);
  ctx.strokeStyle=activityCss('--curve-neutral'); ctx.lineWidth=6; ctx.beginPath(); ctx.moveTo(left,y); ctx.lineTo(right,y); ctx.stroke();
- for(let x=-8;x<=24;x+=2){const px=X(x); ctx.strokeStyle=activityCss('--plot-axis'); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(px,y-10); ctx.lineTo(px,y+10); ctx.stroke(); ctx.fillStyle=activityCss('--plot-text'); ctx.font='12px system-ui'; ctx.fillText(String(x),px-7,y+26);}
+ for(let x=Math.ceil(xmin/tick)*tick;x<=xmax+1e-9;x+=tick){const px=X(x); ctx.strokeStyle=activityCss('--plot-axis'); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(px,y-10); ctx.lineTo(px,y+10); ctx.stroke(); ctx.fillStyle=activityCss('--plot-text'); ctx.font='12px system-ui'; ctx.fillText(nice(x,tick<1?1:0),px-7,y+26);}
  const cartX=X(pos); ctx.fillStyle=activityCss('--curve-gold'); ctx.fillRect(cartX-22,y-24,44,18); ctx.fillStyle=activityCss('--plot-axis'); [cartX-12,cartX+12].forEach(cx=>{ctx.beginPath(); ctx.arc(cx,y,7,0,Math.PI*2); ctx.fill();});
  ctx.fillStyle=activityCss('--curve-blue'); ctx.font='13px system-ui'; ctx.fillText(`cart position ≈ ${nice(pos,2)} m`, Math.max(12,Math.min(w-160,cartX-45)), y-34);
  if(Math.abs(V)>1e-9){ const dir=Math.sign(V); ctx.strokeStyle=activityCss('--curve-blue'); ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(cartX, y-45); ctx.lineTo(cartX+35*dir, y-45); ctx.stroke(); ctx.beginPath(); ctx.moveTo(cartX+35*dir, y-45); ctx.lineTo(cartX+25*dir, y-50); ctx.moveTo(cartX+35*dir, y-45); ctx.lineTo(cartX+25*dir, y-40); ctx.stroke(); ctx.fillText(`${V>0?'right':'left'} at ${nice(Math.abs(V),2)} m/s`, 18, 28); }
  ctx.fillStyle=activityCss('--plot-text'); ctx.fillText(`starting position x₀ = ${nice(b,2)} m`, 18, 48); ctx.fillText(`snapshot time t = ${nice(t,1)} s`, 18, 66);
 }
-function upd(){const V=Number(v.value),b=Number(x0.value),t=Number(time.value),pos=V*t+b;vv.textContent=`v = ${nice(V,2)} m/s`;x0v.textContent=`x₀ = ${nice(b,2)} m`;tv.textContent=`t = ${nice(t,1)} s`;eq.innerHTML=`\\(x(t)=${nice(V,2)}t ${b>=0?'+':'-'} ${nice(Math.abs(b),2)}\\)<br>\\(x(${nice(t,1)})=${nice(pos,2)}\\,\\mathrm{m}\\)`;meaning.innerHTML=`The slope \\(${nice(V,2)}\\) is the velocity: every 1-second step changes position by \\(${nice(V,2)}\\,\\mathrm{m}\\). The intercept \\(${nice(b,2)}\\) is the position at \\(t=0\\).`;const f=plotFrame(plot,0,5,-8,24,1,4);curve(f,z=>V*z+b,0,5);point(f,t,pos,'');drawScene(V,b,t,pos);} [v,x0,time].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+function upd(){const V=Number(v.value),b=Number(x0.value),t=Number(time.value),pos=V*t+b;vv.textContent=`v = ${nice(V,2)} m/s`;x0v.textContent=`x₀ = ${nice(b,2)} m`;tv.textContent=`t = ${nice(t,1)} s`;eq.innerHTML=`\\(x(t)=${nice(V,2)}t ${b>=0?'+':'-'} ${nice(Math.abs(b),2)}\\)<br>\\(x(${nice(t,1)})=${nice(pos,2)}\\,\\mathrm{m}\\)`;meaning.innerHTML=`The slope \\(${nice(V,2)}\\) is the velocity: every 1-second step changes position by \\(${nice(V,2)}\\,\\mathrm{m}\\). The intercept \\(${nice(b,2)}\\) is the position at \\(t=0\\).`;const y0=b,y5=5*V+b,lo=Math.min(0,y0,y5),hi=Math.max(0,y0,y5),m=Math.max(1,(hi-lo)*.12);const f=plotFrame(plot,0,5,lo-m,hi+m);curve(f,z=>V*z+b,0,5);point(f,t,pos,'');drawScene(V,b,t,pos);} [v,x0,time].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);activityPlayback({range:time,playButton:'playSim',resetButton:'resetSim',status:'simStatus',duration:5000,label:'▶ Play motion'});upd();</script></body></html>

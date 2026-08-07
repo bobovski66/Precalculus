@@ -131,21 +131,36 @@ function fitCanvas(c){
  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
  const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return [ctx,w,h];
 }
-function plotFrame(c,xmin,xmax,ymin,ymax){
- const [ctx,w,h]=fitCanvas(c), pad=42;
- ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
- const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
- const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+function autoPlotStep(span,targetTicks=8){
+ const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
+ const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
+ return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
+}
+function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
+ const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
+ ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
+ const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
+ xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
+ ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
+ const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x++){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y++){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin);x<=Math.floor(xmax);x+=2){if(x!==0)ctx.fillText(x,X(x)-4,Y(0)+16)}}
- if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin);y<=Math.floor(ymax);y+=2){if(y!==0)ctx.fillText(y,X(0)+6,Y(y)+4)}}
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
+ const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='top';
+ const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
+ ctx.textAlign='left';ctx.textBaseline='middle';
+ const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
 }
 function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
  const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;

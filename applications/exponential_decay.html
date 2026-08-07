@@ -115,7 +115,7 @@ window.typesetMath = function(nodes){
 <div class="control"><label>Half-life T</label><input id="half" type="range" min="1" max="10" step=".5" value="4"><div class="value" id="halfv"></div></div>
 <div class="control"><label>Elapsed time t</label><input id="time" type="range" min="0" max="30" step=".25" value="8"><div class="value" id="tv"></div></div></div>
 <div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>\(N(t)\)</span><span class="legend-item"><span class="legend-dot gold"></span>current time</span><span class="legend-item"><span class="legend-line neutral dashed"></span>half-life checkpoints</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
-<section class="card"><h2>Physical representation</h2><p class="note">The particle panel shows a representative sample: active particles remain bright, while decayed particles fade. The proportion still active matches the exponential model.</p><div class="canvas-wrap"><canvas id="scene" style="height:300px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-dot gold"></span>undecayed</span><span class="legend-item"><span class="legend-dot green"></span>decayed</span></div></section>
+<section class="card"><h2>Physical representation</h2><p class="note">The particle panel shows a representative sample: active particles remain bright, while decayed particles fade. The proportion still active matches the exponential model.</p><div class="sim-controls no-print"><button type="button" class="primary" id="playSim">▶ Play</button><button type="button" id="resetSim">↺ Reset</button><span class="sim-status" id="simStatus">Ready</span></div><div class="canvas-wrap"><canvas id="scene" style="height:300px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-dot gold"></span>undecayed</span><span class="legend-item"><span class="legend-dot green"></span>decayed</span></div></section>
 <section class="card"><h2>Read the half-life directly</h2><p>How many half-lives have elapsed at the current time?</p><div class="grid2"><input id="halvesAns" type="number" step="any"><div><button class="primary" onclick="checkHalves()">Check</button><div id="halvesAnsFb" class="feedback"></div></div></div></section><p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
 function fitCanvas(c){
@@ -123,19 +123,36 @@ function fitCanvas(c){
  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr)}
  const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return [ctx,w,h];
 }
-function plotFrame(c,xmin,xmax,ymin,ymax,xstep=1,ystep=1){
- const [ctx,w,h]=fitCanvas(c),pad=44;ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
+function autoPlotStep(span,targetTicks=8){
+ const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
+ const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
+ return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
+}
+function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
+ const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
+ ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
+ xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
+ ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
+ const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){if(Math.abs(x)>1e-9&&ymin<=0&&0<=ymax)ctx.fillText(nice(x,1),X(x)-5,Y(0)+17)}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){if(Math.abs(y)>1e-9&&xmin<=0&&0<=xmax)ctx.fillText(nice(y,1),X(0)+7,Y(y)+4)}
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
+ const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='top';
+ const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
+ ctx.textAlign='left';ctx.textBaseline='middle';
+ const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
 }
 function curve(f,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.02){
  const {ctx,X,Y,ymin,ymax}=f;ctx.save();ctx.beginPath();ctx.strokeStyle=stroke;ctx.lineWidth=width;let pen=false;
@@ -149,8 +166,8 @@ function checkNum(id,expected,tol=.02,msg=''){const el=document.getElementById(i
 let halves=0;
 function drawScene(N,T,t,val){
  const c=document.getElementById('scene'); const [ctx,w,h]=fitCanvas(c); ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg'); ctx.fillRect(0,0,w,h);
- const total=100, active=Math.round((val/N)*total), cols=10, size=Math.min((w-80)/cols,22), gap=6, startX=30, startY=50;
+ const total=100,active=Math.round((val/N)*total),cols=w<420?10:10,gap=w<420?3:6,size=Math.max(7,Math.min((w-2*24-(cols-1)*gap)/cols,22)),gridW=cols*size+(cols-1)*gap,startX=Math.max(size/2+8,(w-gridW)/2+size/2),startY=50;
  ctx.font='13px system-ui'; ctx.fillStyle=activityCss('--plot-text'); ctx.fillText(`sample panel: about ${active} of 100 particles still active`, 20, 24); ctx.fillText(`elapsed half-lives: ${nice(t/T,2)}`, 20, h-16);
  for(let i=0;i<total;i++){const r=Math.floor(i/cols), col=i%cols, x=startX+col*(size+gap), y=startY+r*(size+gap); ctx.fillStyle=i<active?activityCss('--curve-gold'):activityCss('--curve-green'); ctx.globalAlpha=i<active?1:.45; ctx.beginPath(); ctx.arc(x,y,size/2,0,Math.PI*2); ctx.fill();} ctx.globalAlpha=1;
 }
-function upd(){const N=Number(n0.value),T=Number(half.value),t=Number(time.value);halves=t/T;const val=N*Math.pow(.5,halves);n0v.textContent=`N₀ = ${nice(N)}`;halfv.textContent=`T = ${nice(T,1)}`;tv.textContent=`t = ${nice(t,2)}`;eq.innerHTML=`\\(N(t)=${nice(N)}\\left(\\frac12\\right)^{t/${nice(T,1)}}\\)<br>\\(N(${nice(t,2)})=${nice(val,2)}\\)`;meaning.innerHTML=`The exponent \\(t/T\\) counts how many half-lives have elapsed. Equal time intervals of length \\(T\\) multiply the amount by the same factor \\(1/2\\).`;const f=plotFrame(plot,0,30,0,N*1.05,5,Math.max(100,N/5));curve(f,z=>N*Math.pow(.5,z/T),0,30);for(let q=T;q<=30;q+=T)dashedLine(f,q,0,q,N*Math.pow(.5,q/T));point(f,t,val,'');drawScene(N,T,t,val);}function checkHalves(){checkNum('halvesAns',halves,.03,'Divide elapsed time by the half-life.')} [n0,half,time].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+function upd(){const N=Number(n0.value),T=Number(half.value),t=Number(time.value);halves=t/T;const val=N*Math.pow(.5,halves);n0v.textContent=`N₀ = ${nice(N)}`;halfv.textContent=`T = ${nice(T,1)}`;tv.textContent=`t = ${nice(t,2)}`;eq.innerHTML=`\\(N(t)=${nice(N)}\\left(\\frac12\\right)^{t/${nice(T,1)}}\\)<br>\\(N(${nice(t,2)})=${nice(val,2)}\\)`;meaning.innerHTML=`The exponent \\(t/T\\) counts how many half-lives have elapsed. Equal time intervals of length \\(T\\) multiply the amount by the same factor \\(1/2\\).`;const f=plotFrame(plot,0,30,0,N*1.05,5,Math.max(100,N/5));curve(f,z=>N*Math.pow(.5,z/T),0,30);for(let q=T;q<=30;q+=T)dashedLine(f,q,0,q,N*Math.pow(.5,q/T));point(f,t,val,'');drawScene(N,T,t,val);}function checkHalves(){checkNum('halvesAns',halves,.03,'Divide elapsed time by the half-life.')} [n0,half,time].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);activityPlayback({range:time,playButton:'playSim',resetButton:'resetSim',status:'simStatus',duration:8000,label:'▶ Play decay'});upd();</script></body></html>

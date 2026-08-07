@@ -114,7 +114,7 @@ window.typesetMath = function(nodes){
 <div class="control"><label>Source strength K</label><input id="strength" type="range" min="20" max="200" step="10" value="100"><div class="value" id="sv"></div></div>
 <div class="control"><label>Distance d</label><input id="dist" type="range" min=".5" max="10" step=".1" value="2"><div class="value" id="dv"></div></div></div>
 <div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>\(I=K/d^2\)</span><span class="legend-item"><span class="legend-dot gold"></span>current distance</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
-<section class="card"><h2>Physical representation</h2><p class="note">A source spreads light over a larger sphere as distance grows. The target panel moves away, and its brightness drops with the factor \(d^2\) in the denominator.</p><div class="canvas-wrap"><canvas id="scene" style="height:280px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-dot gold"></span>source</span><span class="legend-item"><span class="legend-line blue"></span>light rays</span><span class="legend-item"><span class="legend-line neutral"></span>distance</span></div></section>
+<section class="card"><h2>Physical representation</h2><p class="note">A source spreads light over a larger sphere as distance grows. The target panel moves away, and its brightness drops with the factor \(d^2\) in the denominator.</p><div class="sim-controls no-print"><button type="button" class="primary" id="playSim">▶ Play</button><button type="button" id="resetSim">↺ Reset</button><span class="sim-status" id="simStatus">Ready</span></div><div class="canvas-wrap"><canvas id="scene" style="height:280px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-dot gold"></span>source</span><span class="legend-item"><span class="legend-line blue"></span>light rays</span><span class="legend-item"><span class="legend-line neutral"></span>distance</span></div></section>
 <section class="card"><h2>Inverse-square scaling</h2><p>If distance doubles, by what factor is intensity multiplied?</p><div class="grid2"><input id="factorAns" type="number" step="any"><div><button class="primary" onclick="checkFactor()">Check</button><div id="factorAnsFb" class="feedback"></div></div></div></section><p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
 function fitCanvas(c){
@@ -122,19 +122,36 @@ function fitCanvas(c){
  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr)}
  const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return [ctx,w,h];
 }
-function plotFrame(c,xmin,xmax,ymin,ymax,xstep=1,ystep=1){
- const [ctx,w,h]=fitCanvas(c),pad=44;ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
+function autoPlotStep(span,targetTicks=8){
+ const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
+ const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
+ return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
+}
+function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
+ const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
+ ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
+ xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
+ ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
+ const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){if(Math.abs(x)>1e-9&&ymin<=0&&0<=ymax)ctx.fillText(nice(x,1),X(x)-5,Y(0)+17)}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){if(Math.abs(y)>1e-9&&xmin<=0&&0<=xmax)ctx.fillText(nice(y,1),X(0)+7,Y(y)+4)}
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
+ const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='top';
+ const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
+ ctx.textAlign='left';ctx.textBaseline='middle';
+ const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
 }
 function curve(f,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.02){
  const {ctx,X,Y,ymin,ymax}=f;ctx.save();ctx.beginPath();ctx.strokeStyle=stroke;ctx.lineWidth=width;let pen=false;
@@ -155,4 +172,4 @@ function drawScene(K,d,I){
  ctx.strokeStyle=activityCss('--curve-neutral'); ctx.setLineDash([6,5]); ctx.beginPath(); ctx.moveTo(sx,sy+90); ctx.lineTo(tx,sy+90); ctx.stroke(); ctx.setLineDash([]);
  ctx.fillStyle=activityCss('--plot-text'); ctx.font='13px system-ui'; ctx.fillText(`distance ≈ ${nice(d,1)}`, (sx+tx)/2-35, sy+84); ctx.fillText(`intensity ≈ ${nice(I,2)}`, tx-24, sy-78);
 }
-function upd(){const K=Number(strength.value),d=Number(dist.value),I=K/(d*d);sv.textContent=`K = ${nice(K)}`;dv.textContent=`d = ${nice(d,1)}`;eq.innerHTML=`\\(I(d)=\\dfrac{${nice(K)}}{d^2}\\)<br>\\(I(${nice(d,1)})=${nice(I,2)}\\)`;meaning.innerHTML=`Distance appears squared in the denominator. Thus \\(I\\propto d^{-2}\\): twice as far means one quarter as much intensity.`;const f=plotFrame(plot,0,10,0,200,2,40);curve(f,z=>K/(z*z),.4,10);point(f,d,I,'');drawScene(K,d,I);}function checkFactor(){checkNum('factorAns',.25,.02,'The denominator grows by 2²=4.')} [strength,dist].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+function upd(){const K=Number(strength.value),d=Number(dist.value),I=K/(d*d);sv.textContent=`K = ${nice(K)}`;dv.textContent=`d = ${nice(d,1)}`;eq.innerHTML=`\\(I(d)=\\dfrac{${nice(K)}}{d^2}\\)<br>\\(I(${nice(d,1)})=${nice(I,2)}\\)`;meaning.innerHTML=`Distance appears squared in the denominator. Thus \\(I\\propto d^{-2}\\): twice as far means one quarter as much intensity.`;const dmin=Number(dist.min)||.5,dmax=Number(dist.max)||10,ymax=K/(dmin*dmin)*1.06;const f=plotFrame(plot,dmin,dmax,0,ymax);curve(f,z=>K/(z*z),dmin,dmax);point(f,d,I,'');drawScene(K,d,I);}function checkFactor(){checkNum('factorAns',.25,.02,'The denominator grows by 2²=4.')} [strength,dist].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);activityPlayback({range:dist,playButton:'playSim',resetButton:'resetSim',status:'simStatus',duration:6500,pingPong:true,label:'▶ Move target'});upd();</script></body></html>

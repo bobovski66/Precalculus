@@ -117,6 +117,7 @@ window.typesetMath = function(nodes){
 <section class="card">
 <h2>Change the cut size</h2>
 <div class="controls"><div class="control"><label>Corner cut x (cm)</label><input id="xcut" max="10" min="0" step=".1" type="range" value="3"/><div class="value" id="xv"></div></div></div>
+<div class="sim-controls no-print"><button type="button" class="primary" id="playSweep">▶ Sweep cut size</button><button type="button" id="resetSweep">↺ Reset</button><span class="sim-status" id="sweepStatus">Ready</span></div>
 <div class="grid2">
 <div><div class="canvas-wrap"><canvas id="box"></canvas></div><div class="note" id="dims" style="margin-top:10px"></div></div>
 <div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="note" id="vol" style="margin-top:10px"></div></div>
@@ -141,23 +142,36 @@ function niceStep(span,targetTicks=8){
  const raw=span/targetTicks; const p=Math.pow(10,Math.floor(Math.log10(raw||1))); const m=raw/p;
  const nice = m<=1 ? 1 : m<=2 ? 2 : m<=5 ? 5 : 10; return nice*p;
 }
-function plotFrame(c,xmin,xmax,ymin,ymax){
- const [ctx,w,h]=fitCanvas(c), pad=42;
- ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
- const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin);
- const Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
- const xstep = niceStep(xmax-xmin, 10);
- const ystep = niceStep(ymax-ymin, 8);
+function autoPlotStep(span,targetTicks=8){
+ const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
+ const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
+ return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
+}
+function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
+ const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
+ ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
+ const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
+ xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
+ ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
+ const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- if(ymin<=0&&0<=ymax){for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){if(Math.abs(x)>1e-9)ctx.fillText(nice(x,0),X(x)-6,Y(0)+16)}}
- if(xmin<=0&&0<=xmax){for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){if(Math.abs(y)>1e-9)ctx.fillText(nice(y,0),X(0)+6,Y(y)+4)}}
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
+ const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='top';
+ const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
+ ctx.textAlign='left';ctx.textBaseline='middle';
+ const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
 }
 function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
  const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
@@ -187,10 +201,10 @@ function drawBox(){
  ctx.fillStyle=activityCss('--ink');ctx.font='13px system-ui';ctx.fillText('30 cm',ox+L/2-20,oy-8);ctx.save();ctx.translate(ox-10,oy+W/2+20);ctx.rotate(-Math.PI/2);ctx.fillText('20 cm',0,0);ctx.restore();
 }
 function drawPlot(){
- const f=plotFrame(plot,0,10,0,1600);curve(f,V,0,10,activityCss('--curve-blue'),3,.02);let x=Number(xcut.value);point(f,x,V(x),`x=${nice(x,1)}`,activityCss('--curve-gold'));
+ let vmax=0;for(let z=0;z<=10;z+=.05)vmax=Math.max(vmax,V(z));const f=plotFrame(plot,0,10,0,vmax*1.12);curve(f,V,0,10,activityCss('--curve-blue'),3,.02);let x=Number(xcut.value);point(f,x,V(x),`x=${nice(x,1)}`,activityCss('--curve-gold'));
 }
 function upd(){let x=Number(xcut.value),l=30-2*x,w=20-2*x,v=V(x);xv.textContent=`x = ${nice(x,1)} cm`;dims.innerHTML=`Folded dimensions: \\(${nice(l,1)}\\times${nice(w,1)}\\times${nice(x,1)}\\,\\mathrm{cm}\\)`;vol.innerHTML=`Current volume: \\(${nice(v,1)}\\,\\mathrm{cm^3}\\)`;drawBox();drawPlot()}
 function checkZeros(){let nums=(zeros.value.match(/-?\d+(\.\d+)?/g)||[]).map(Number).sort((a,b)=>a-b),ok=nums.length>=3&&Math.abs(nums[0]-0)<.01&&Math.abs(nums[1]-10)<.01&&Math.abs(nums[2]-15)<.01;zerosFb.className='feedback '+(ok?'ok':'no');zerosFb.textContent=ok?'Correct: each factor gives a zero.':'Not yet. Set each factor x, 30−2x, and 20−2x equal to zero.'}
 function checkDomain(){let s=domain.value.replace(/\s/g,'').toLowerCase(),ok=s.includes('0<x<10')||s.includes('(0,10)');domainFb.className='feedback '+(ok?'ok':'no');domainFb.textContent=ok?'Correct. x must be positive and smaller than half the shorter side.':'Not yet. The cut must be positive, and the 20 cm side must remain positive after removing 2x.'}
-xcut.addEventListener('input',upd);window.addEventListener('resize',upd);upd();
+xcut.addEventListener('input',upd);window.addEventListener('resize',upd);activityPlayback({range:xcut,playButton:'playSweep',resetButton:'resetSweep',status:'sweepStatus',duration:7000,pingPong:true,label:'▶ Sweep cut size',resetValue:3});upd();
 </script></body></html>

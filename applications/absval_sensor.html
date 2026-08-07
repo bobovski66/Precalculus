@@ -114,7 +114,7 @@ window.typesetMath = function(nodes){
 <div class="control"><label>Sensor position s</label><input id="sensor" type="range" min="-4" max="4" step=".25" value="1"><div class="value" id="sv"></div></div>
 <div class="control"><label>Object position x</label><input id="obj" type="range" min="-8" max="8" step=".25" value="5"><div class="value" id="ov"></div></div></div>
 <div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>\(d(x)=|x-s|\)</span><span class="legend-item"><span class="legend-dot gold"></span>current object</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
-<section class="card"><h2>Physical representation</h2><p class="note">A distance sensor reports only how far away the object is. Opposite-side positions with the same separation produce the same reading.</p><div class="canvas-wrap"><canvas id="scene" style="height:260px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-dot green"></span>sensor</span><span class="legend-item"><span class="legend-dot gold"></span>object</span><span class="legend-item"><span class="legend-line neutral"></span>measured distance</span></div></section>
+<section class="card"><h2>Physical representation</h2><p class="note">A distance sensor reports only how far away the object is. Opposite-side positions with the same separation produce the same reading.</p><div class="sim-controls no-print"><button type="button" class="primary" id="playSim">▶ Play</button><button type="button" id="resetSim">↺ Reset</button><span class="sim-status" id="simStatus">Ready</span></div><div class="canvas-wrap"><canvas id="scene" style="height:260px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-dot green"></span>sensor</span><span class="legend-item"><span class="legend-dot gold"></span>object</span><span class="legend-item"><span class="legend-line neutral"></span>measured distance</span></div></section>
 <section class="card"><h2>Interpret the V-shape</h2><p>Why do two object positions equally far to the left and right of the sensor give the same output?</p><textarea placeholder="Connect symmetry of the graph with physical distance."></textarea></section><p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
 function fitCanvas(c){
@@ -122,19 +122,36 @@ function fitCanvas(c){
  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr)}
  const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return [ctx,w,h];
 }
-function plotFrame(c,xmin,xmax,ymin,ymax,xstep=1,ystep=1){
- const [ctx,w,h]=fitCanvas(c),pad=44;ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
+function autoPlotStep(span,targetTicks=8){
+ const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
+ const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
+ return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
+}
+function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
+ const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
+ ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
+ xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
+ ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
+ const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){if(Math.abs(x)>1e-9&&ymin<=0&&0<=ymax)ctx.fillText(nice(x,1),X(x)-5,Y(0)+17)}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){if(Math.abs(y)>1e-9&&xmin<=0&&0<=xmax)ctx.fillText(nice(y,1),X(0)+7,Y(y)+4)}
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
+ const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='top';
+ const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
+ ctx.textAlign='left';ctx.textBaseline='middle';
+ const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
 }
 function curve(f,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.02){
  const {ctx,X,Y,ymin,ymax}=f;ctx.save();ctx.beginPath();ctx.strokeStyle=stroke;ctx.lineWidth=width;let pen=false;
@@ -154,4 +171,4 @@ function drawScene(s,x,d){
  ctx.fillStyle=activityCss('--curve-green'); ctx.beginPath(); ctx.arc(sx,y-2,9,0,Math.PI*2); ctx.fill(); ctx.fillStyle=activityCss('--curve-gold'); ctx.beginPath(); ctx.arc(ox,y-2,9,0,Math.PI*2); ctx.fill();
  ctx.fillStyle=activityCss('--plot-text'); ctx.font='13px system-ui'; ctx.fillText(`sensor at ${nice(s)}`, Math.max(12,Math.min(w-100,sx-35)), y-46); ctx.fillText(`object at ${nice(x)}`, Math.max(12,Math.min(w-100,ox-35)), y-62); ctx.fillText(`distance = ${nice(d)}`, 18, 30);
 }
-function upd(){const s=Number(sensor.value),x=Number(obj.value),d=Math.abs(x-s);sv.textContent=`s = ${nice(s)}`;ov.textContent=`x = ${nice(x)}`;eq.innerHTML=`\\(d(x)=|x-${nice(s)}|\\)<br>\\(d(${nice(x)})=${nice(d)}\\)`;meaning.innerHTML=`The vertex occurs at the sensor itself, \\(x=${nice(s)}\\), where distance is \\(0\\). Moving one unit left or right increases the reading by one unit.`;const f=plotFrame(plot,-8,8,0,10,2,2);curve(f,z=>Math.abs(z-s),-8,8);point(f,x,d,'');drawScene(s,x,d);} [sensor,obj].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+function upd(){const s=Number(sensor.value),x=Number(obj.value),d=Math.abs(x-s);sv.textContent=`s = ${nice(s)}`;ov.textContent=`x = ${nice(x)}`;eq.innerHTML=`\\(d(x)=|x-${nice(s)}|\\)<br>\\(d(${nice(x)})=${nice(d)}\\)`;meaning.innerHTML=`The vertex occurs at the sensor itself, \\(x=${nice(s)}\\), where distance is \\(0\\). Moving one unit left or right increases the reading by one unit.`;const maxD=Math.max(Math.abs(-8-s),Math.abs(8-s));const f=plotFrame(plot,-8,8,0,maxD*1.08);curve(f,z=>Math.abs(z-s),-8,8);point(f,x,d,'');drawScene(s,x,d);} [sensor,obj].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);activityPlayback({range:obj,playButton:'playSim',resetButton:'resetSim',status:'simStatus',duration:6500,pingPong:true,label:'▶ Sweep object'});upd();</script></body></html>

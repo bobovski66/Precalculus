@@ -114,7 +114,7 @@ window.typesetMath = function(nodes){
 <div class="control"><label>Height h (m)</label><input id="height" type="range" min="0" max="200" step="1" value="50"><div class="value" id="hv"></div></div>
 <div class="control"><label>Gravity \(g\) \(\mathrm{m/s^2}\)</label><input id="grav" type="range" min="1.5" max="15" step=".1" value="9.8"><div class="value" id="gv"></div></div></div>
 <div class="grid2"><div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-line blue"></span>fall time \(t(h)\)</span><span class="legend-item"><span class="legend-dot gold"></span>current height</span></div></div><div><div class="math" id="eq"></div><div class="note" id="meaning" style="margin-top:12px"></div></div></div></section>
-<section class="card"><h2>Physical representation</h2><p class="note">The object is released from height \(h\). The displayed time is the model’s prediction for when it reaches the ground, so the square root turns a drop distance into elapsed time.</p><div class="canvas-wrap"><canvas id="scene" style="height:280px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-dot gold"></span>released object</span><span class="legend-item"><span class="legend-line neutral"></span>drop distance</span></div></section>
+<section class="card"><h2>Physical representation</h2><p class="note">The object is released from height \(h\). The displayed time is the model’s prediction for when it reaches the ground, so the square root turns a drop distance into elapsed time.</p><div class="sim-controls no-print"><button type="button" class="primary" id="playSim">▶ Play</button><button type="button" id="resetSim">↺ Reset</button><span class="sim-status" id="simStatus">Ready</span><input id="fallProgress" type="range" min="0" max="1" step=".001" value="0" hidden></div><div class="canvas-wrap"><canvas id="scene" style="height:280px"></canvas></div><div class="graph-legend"><span class="legend-item"><span class="legend-dot gold"></span>released object</span><span class="legend-item"><span class="legend-line neutral"></span>drop distance</span></div></section>
 <section class="card"><h2>Inverse viewpoint</h2><p>The falling-distance model is \(h=\frac{g}{2}t^2\). Solving for \(t\) produces a square root. Explain why the inverse grows but gradually flattens.</p><textarea></textarea></section><p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
 function fitCanvas(c){
@@ -122,19 +122,36 @@ function fitCanvas(c){
  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr)}
  const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return [ctx,w,h];
 }
-function plotFrame(c,xmin,xmax,ymin,ymax,xstep=1,ystep=1){
- const [ctx,w,h]=fitCanvas(c),pad=44;ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
+function autoPlotStep(span,targetTicks=8){
+ const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
+ const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
+ return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
+}
+function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
+ const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
+ ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
  const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
+ const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
+ xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
+ ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
+ const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
  ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
+ const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
  ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
- ctx.fillStyle=activityCss('--plot-text');ctx.font='12px system-ui';
- for(let x=Math.ceil(xmin/xstep)*xstep;x<=xmax+1e-9;x+=xstep){if(Math.abs(x)>1e-9&&ymin<=0&&0<=ymax)ctx.fillText(nice(x,1),X(x)-5,Y(0)+17)}
- for(let y=Math.ceil(ymin/ystep)*ystep;y<=ymax+1e-9;y+=ystep){if(Math.abs(y)>1e-9&&xmin<=0&&0<=xmax)ctx.fillText(nice(y,1),X(0)+7,Y(y)+4)}
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax};
+ if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
+ if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
+ const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
+ ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
+ ctx.textAlign='center';ctx.textBaseline='top';
+ const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
+ for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
+ ctx.textAlign='left';ctx.textBaseline='middle';
+ const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
+ for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';
+ return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
 }
 function curve(f,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.02){
  const {ctx,X,Y,ymin,ymax}=f;ctx.save();ctx.beginPath();ctx.strokeStyle=stroke;ctx.lineWidth=width;let pen=false;
@@ -147,10 +164,10 @@ function checkNum(id,expected,tol=.02,msg=''){const el=document.getElementById(i
 
 function drawScene(h0,g,t){
  const c=document.getElementById('scene'); const [ctx,w,h]=fitCanvas(c); ctx.clearRect(0,0,w,h); ctx.fillStyle=activityCss('--plot-bg'); ctx.fillRect(0,0,w,h);
- const ground=h-28, top=30, meterX=w*0.32, maxH=220, Y=val=>ground - val*(ground-top)/maxH, yObj=Y(h0);
+ const progress=Math.max(0,Math.min(1,Number(fallProgress.value)||0)),elapsed=t*progress,currentH=Math.max(0,h0-.5*g*elapsed*elapsed);const ground=h-28, top=30, meterX=w*0.32, maxH=Math.max(20,Math.ceil(Math.max(200,h0)*1.05/20)*20), Y=val=>ground - val*(ground-top)/maxH, yObj=Y(currentH);
  ctx.strokeStyle=activityCss('--curve-neutral'); ctx.lineWidth=6; ctx.beginPath(); ctx.moveTo(meterX,top); ctx.lineTo(meterX,ground); ctx.stroke();
  for(let m=0;m<=200;m+=20){const yy=Y(m); ctx.strokeStyle=activityCss('--plot-axis'); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(meterX-10,yy); ctx.lineTo(meterX+10,yy); ctx.stroke(); ctx.fillStyle=activityCss('--plot-text'); ctx.font='12px system-ui'; ctx.fillText(String(m), meterX-38, yy+4);}
  ctx.strokeStyle=activityCss('--curve-blue'); ctx.setLineDash([7,5]); ctx.beginPath(); ctx.moveTo(meterX+24,yObj); ctx.lineTo(meterX+24,ground); ctx.stroke(); ctx.setLineDash([]);
- ctx.fillStyle=activityCss('--curve-gold'); ctx.beginPath(); ctx.arc(meterX,yObj,10,0,Math.PI*2); ctx.fill(); ctx.fillStyle=activityCss('--plot-text'); ctx.font='13px system-ui'; ctx.fillText(`height = ${nice(h0)} m`, meterX+42, yObj+4); ctx.fillText(`fall time ≈ ${nice(t,3)} s`, 20, 26); ctx.fillText(`g = ${nice(g,1)} m/s²`, 20, 46);
+ ctx.fillStyle=activityCss('--curve-gold'); ctx.beginPath(); ctx.arc(meterX,yObj,10,0,Math.PI*2); ctx.fill(); ctx.fillStyle=activityCss('--plot-text'); ctx.font='13px system-ui'; ctx.fillText(`current height ≈ ${nice(currentH,2)} m`, meterX+42, yObj+4); ctx.fillText(`elapsed ≈ ${nice(elapsed,2)} s / ${nice(t,2)} s`, 20, 26); ctx.fillText(`release height = ${nice(h0)} m,  g = ${nice(g,1)} m/s²`, 20, 46);
 }
-function upd(){const h=Number(height.value),g=Number(grav.value),t=Math.sqrt(2*h/g);hv.textContent=`h = ${nice(h)} m`;gv.textContent=`g = ${nice(g,1)} m/s²`;eq.innerHTML=`\\(t(h)=\\sqrt{\\dfrac{2h}{${nice(g,1)}}}\\)<br>\\(t(${nice(h)})=${nice(t,3)}\\,\\mathrm{s}\\)`;meaning.innerHTML=`This square-root function is the positive inverse branch of the quadratic \\(h=\\frac{g}{2}t^2\\). Quadrupling height doubles fall time; it does not quadruple it.`;const ymax=Math.sqrt(400/g)+1;const f=plotFrame(plot,0,200,0,Math.ceil(ymax),40,1);curve(f,z=>Math.sqrt(2*z/g),0,200);point(f,h,t,'');drawScene(h,g,t);} [height,grav].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+function upd(){const h=Number(height.value),g=Number(grav.value),t=Math.sqrt(2*h/g);hv.textContent=`h = ${nice(h)} m`;gv.textContent=`g = ${nice(g,1)} m/s²`;eq.innerHTML=`\\(t(h)=\\sqrt{\\dfrac{2h}{${nice(g,1)}}}\\)<br>\\(t(${nice(h)})=${nice(t,3)}\\,\\mathrm{s}\\)`;meaning.innerHTML=`This square-root function is the positive inverse branch of the quadratic \\(h=\\frac{g}{2}t^2\\). Quadrupling height doubles fall time; it does not quadruple it.`;const ymax=Math.sqrt(400/g)+1;const f=plotFrame(plot,0,200,0,Math.ceil(ymax),40,1);curve(f,z=>Math.sqrt(2*z/g),0,200);point(f,h,t,'');drawScene(h,g,t);} [height,grav,fallProgress].forEach(e=>e.addEventListener('input',upd));window.addEventListener('resize',upd);activityPlayback({range:fallProgress,playButton:'playSim',resetButton:'resetSim',status:'simStatus',duration:4500,label:'▶ Drop object'});upd();</script></body></html>
