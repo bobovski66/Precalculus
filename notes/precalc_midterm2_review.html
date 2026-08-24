@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>MATH&amp; 141 Review — Radicals, Exponentials, Logs, and Systems</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+:root{
+  --navy:#35566F;
+  --green:#557A5A;
+  --green-dark:#3f6245;
+  --gold:#B59B55;
+  --softgreen:#EEF4EC;
+  --softgold:#F7F3E7;
+  --paper:#FCFCF9;
+  --ink:#23313A;
+  --muted:#66737C;
+  --rule:#D8D8D2;
+  --good:#2E6B3C;
+  --good-bg:#E9F5EB;
+  --bad:#9A3C34;
+  --bad-bg:#FBEDEA;
+  --focus:#6C8F75;
+  --shadow:0 8px 28px rgba(32,48,58,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#f4f6f1 0,#fbfbf8 180px,#f7f7f3 100%);
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.5;
+}
+header{
+  padding:36px 20px 24px;
+  border-bottom:1px solid var(--rule);
+  background:rgba(255,255,255,.76);
+}
+.header-inner{max-width:1160px;margin:auto}
+.kicker{color:var(--green-dark);font-weight:750;letter-spacing:.06em;text-transform:uppercase;font-size:.78rem}
+h1{margin:.35rem 0 .35rem;color:var(--navy);font-size:clamp(1.8rem,4vw,3rem);line-height:1.08}
+.subtitle{color:var(--muted);font-size:1.04rem;max-width:760px}
+.toolbar{
+  position:sticky;top:0;z-index:20;
+  background:rgba(252,252,249,.94);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.toolbar-inner{
+  max-width:1160px;margin:auto;padding:10px 20px;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.score{
+  font-weight:800;color:var(--navy);margin-right:auto;
+  padding:7px 11px;border-radius:999px;background:var(--softgreen);
+}
+button{
+  appearance:none;border:1px solid #bfc8c0;background:#fff;color:var(--ink);
+  border-radius:9px;padding:8px 12px;font:inherit;font-weight:680;cursor:pointer;
+}
+button:hover{border-color:var(--green);background:#f7faf7}
+button.primary{background:var(--green);border-color:var(--green);color:white}
+button.primary:hover{background:var(--green-dark)}
+button.gold{background:var(--softgold);border-color:#d5c28e;color:#58491f}
+main{max-width:1160px;margin:24px auto 70px;padding:0 20px}
+.directions{
+  background:var(--softgold);border:1px solid #d7c88f;border-radius:14px;
+  padding:16px 18px;margin-bottom:22px;
+}
+.directions strong{color:#5a4920}
+.section{
+  background:white;border:1px solid var(--rule);border-radius:16px;
+  box-shadow:var(--shadow);margin:18px 0;overflow:hidden;
+}
+.section > summary{
+  list-style:none;cursor:pointer;padding:18px 20px;
+  background:var(--softgreen);color:var(--navy);font-weight:820;font-size:1.2rem;
+  display:flex;align-items:center;gap:10px;
+}
+.section > summary::-webkit-details-marker{display:none}
+.section > summary::before{content:"▾";font-size:.9rem;transition:transform .18s}
+.section:not([open]) > summary::before{transform:rotate(-90deg)}
+.section-body{padding:4px 20px 22px}
+.problem{
+  border-top:1px solid #ecece7;padding:19px 0 4px;
+}
+.problem:first-child{border-top:0}
+.problem h3{margin:0 0 10px;color:#2e485c;font-size:1.03rem}
+.problem p{margin:.35rem 0 .75rem}
+.math-block{overflow:visible;padding:4px 0;min-height:2.4em}
+.grid2,.grid3{display:grid;grid-template-columns:1fr;gap:10px 18px}
+.answer-row{
+  margin:10px 0 12px;padding:11px 12px;border-radius:12px;
+  border:1px solid #e1e5df;background:#fcfdfb;
+  min-width:0;
+}
+.answer-line{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:9px 10px;
+  align-items:center;
+  min-width:0;
+}
+.answer-label{
+  grid-column:1 / -1;
+  min-width:0;
+  max-width:100%;
+  overflow:visible;
+  padding:4px 0 6px;
+  line-height:1.65;
+  font-weight:700;
+  color:#41515d;
+}
+mjx-container{
+  overflow:visible !important;
+  max-width:none !important;
+}
+.answer-label mjx-container{
+  margin:.12em 0 !important;
+}
+input.answer{
+  grid-column:1;
+  justify-self:start;
+  width:100%;max-width:280px;min-width:0;border:1px solid #b9c3bc;border-radius:8px;
+  padding:8px 10px;font:inherit;background:#fff;color:var(--ink);
+}
+.answer-line > button{
+  grid-column:2;
+  justify-self:start;
+}
+.answer-row[data-mode="numeric"] input.answer{max-width:130px}
+.answer-row[data-mode="numeric_alias"] input.answer{max-width:210px}
+.answer-row[data-mode="text"] input.answer{max-width:250px}
+.answer-row[data-mode="groups"] input.answer{max-width:320px}
+input.answer:focus{outline:3px solid rgba(108,143,117,.16);border-color:var(--focus)}
+.feedback{min-height:1.4em;font-size:.91rem;font-weight:720;margin-top:7px}
+.correct{border-color:#9dc6a4;background:var(--good-bg)}
+.correct .feedback{color:var(--good)}
+.incorrect{border-color:#e0aaa4;background:var(--bad-bg)}
+.incorrect .feedback{color:var(--bad)}
+.solution{
+  margin-top:8px;border-top:1px dashed #cfd5cf;padding-top:8px;
+}
+.solution summary{cursor:pointer;color:var(--navy);font-weight:730}
+.solution-body{padding:8px 2px 2px;color:#34434c}
+.hint{color:var(--muted);font-size:.88rem;margin-top:4px}
+.inline-note{
+  border-left:4px solid var(--gold);background:#faf7ed;padding:10px 12px;border-radius:8px;
+  margin:10px 0;
+}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #d7dcd6;padding:10px;text-align:left;vertical-align:top}
+th{background:#f3f6f1;color:var(--navy)}
+footer{max-width:1160px;margin:0 auto 50px;padding:0 20px;color:var(--muted);font-size:.9rem}
+@media (max-width:760px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .answer-line{grid-template-columns:minmax(0,1fr) auto}
+  .answer-row[data-mode] input.answer{max-width:100%;width:100%}
+  .answer-line > button{width:auto;min-width:72px}
+  .toolbar-inner{align-items:stretch}
+  .score{width:100%;margin:0}
+  button{flex:1}
+}
+@media print{
+  .toolbar,.feedback,.solution button{display:none!important}
+  body{background:white}
+  .section{box-shadow:none;break-inside:avoid}
+  .section > summary{background:#eef4ec!important}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<div class="kicker">MATH&amp; 141 · Precalculus I</div>
+<h1>Review: Radicals, Exponentials, Logarithms, and Systems</h1>
+<div class="subtitle">Practice radicals, exponential functions, logarithms, and systems of two equations. Check your answers as you go and use the worked solutions when you need them.</div>
+</div>
+</header>
+<div class="toolbar">
+<div class="toolbar-inner">
+<div class="score" id="score">Checked: 0 · Correct: 0</div>
+<button class="primary" onclick="checkAll()">Check all entered answers</button>
+<button class="gold" onclick="toggleAllSolutions()">Show all solutions</button>
+<button onclick="resetWork()">Reset</button>
+</div>
+</div>
+<main>
+<div class="directions">
+<strong>Directions.</strong> Show enough work on paper that another person could follow your reasoning.
+  Give exact answers when possible. When a decimal approximation is needed, round to three decimal places.
+  Check radical and logarithmic solutions against domain restrictions. You can type common equivalents such as
+  <code>1/16</code>, <code>(4,3)</code>, <code>6sqrt(2)</code>, or a decimal when requested.
+</div>
+<details class="section" open="">
+<summary>Part I: Radicals and Rational Exponents</summary>
+<div class="section-body">
+<div class="problem">
+<h3>1. Simplify completely. Assume variables are nonnegative unless otherwise stated.</h3>
+<div class="grid2">
+<div class="answer-row" data-answers='["6sqrt(2)","6√2"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(a) Simplify \(\sqrt{72}\) completely.</div><input class="answer" placeholder="answer"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\sqrt{72}=\sqrt{36\cdot2}=6\sqrt2.\)</div></details>
+</div>
+<div class="answer-row" data-answers='["5xsqrt(2x)","5x√(2x)"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(b) Simplify \(\sqrt{50x^3}\) completely.</div><input class="answer" placeholder="answer"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\sqrt{50x^3}=\sqrt{25x^2(2x)}=5x\sqrt{2x}.\)</div></details>
+</div>
+<div class="answer-row" data-answers='["3acuberoot(2a)","3a∛(2a)","3a(2a)^(1/3)"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(c) Simplify \(\sqrt[3]{54a^4}\) completely.</div><input class="answer" placeholder="answer"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\sqrt[3]{54a^4}=\sqrt[3]{27a^3(2a)}=3a\sqrt[3]{2a}.\)</div></details>
+</div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="8">
+<div class="answer-line"><div class="answer-label">(d) Evaluate \(16^{3/4}\).</div><input class="answer" placeholder="answer"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(16^{3/4}=(16^{1/4})^3=2^3=8.\)</div></details>
+</div>
+<div class="answer-row" data-mode="numeric" data-tol="0.0005" data-value="0.1111111111111111">
+<div class="answer-line"><div class="answer-label">(e) Evaluate \(27^{-2/3}\).</div><input class="answer" placeholder="e.g. 1/9"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(27^{-2/3}=\dfrac{1}{(27^{1/3})^2}=\dfrac19.\)</div></details>
+</div>
+<div class="answer-row" data-answers='["x^2sqrt(x)","x²sqrt(x)","x^2√x"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(f) Rewrite \(x^{5/2}\) in radical form.</div><input class="answer" placeholder="answer"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(x^{5/2}=x^2x^{1/2}=x^2\sqrt{x}.\)</div></details>
+</div>
+</div>
+</div>
+<div class="problem">
+<h3>2. Rewrite each expression in the other form.</h3>
+<div class="grid2">
+<div class="answer-row" data-answers='["x^(5/3)","x^5/3","x^(1.6666666667)"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(a) Rewrite \(\sqrt[3]{x^5}\) using a rational exponent.</div><input class="answer" placeholder="rational exponent"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\sqrt[3]{x^5}=x^{5/3}.\)</div></details>
+</div>
+<div class="answer-row" data-answers='["4throot(y^7)","root4(y^7)","sqrt[4](y^7)","yroot4(y^3)"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(b) Rewrite \(y^{7/4}\) in radical form.</div><input class="answer" placeholder="e.g. 4throot(y^7)"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(y^{7/4}=\sqrt[4]{y^7}\) (equivalently \(y\sqrt[4]{y^3}\)).</div></details>
+</div>
+<div class="answer-row" data-answers='["x^(-1/2)","x^-1/2","x^(-.5)"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(c) Rewrite \(\dfrac1{\sqrt{x}}\) using a rational exponent.</div><input class="answer" placeholder="rational exponent"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\dfrac1{\sqrt{x}}=x^{-1/2}.\)</div></details>
+</div>
+<div class="answer-row" data-answers='["1/cuberoot(z^5)","1/∛(z^5)","1/(z^(5/3))"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(d) Rewrite \(z^{-5/3}\) in radical form without a negative exponent.</div><input class="answer" placeholder="radical, no negative exponent"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(z^{-5/3}=\dfrac1{\sqrt[3]{z^5}}.\)</div></details>
+</div>
+</div>
+</div>
+<div class="problem">
+<h3>3. Solve. Check for extraneous solutions.</h3>
+<div class="grid2">
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="3">
+<div class="answer-line"><div class="answer-label">(a) Solve \(\sqrt{2x+3}=x\). Check any proposed solutions in the original equation.</div><input class="answer" placeholder="x ="/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">Square: \(2x+3=x^2\), so \((x-3)(x+1)=0\). Testing the original rejects \(-1\). Thus \(x=3\).</div></details>
+</div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="18">
+<div class="answer-line"><div class="answer-label">(b) Solve \(\sqrt{x+7}-2=3\). Check any proposed solutions in the original equation.</div><input class="answer" placeholder="x ="/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\sqrt{x+7}=5\Rightarrow x+7=25\Rightarrow x=18.\)</div></details>
+</div>
+</div>
+</div>
+<div class="problem">
+<h3>4. State the domain in interval notation.</h3>
+<div class="grid2">
+<div class="answer-row" data-answers='["(-infinity,5/2]","(-∞,5/2]","(-inf,2.5]","(-infinity,2.5]"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(a) State the domain of \(f(x)=\sqrt{5-2x}\) in interval notation.</div><input class="answer" placeholder="interval"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">Require \(5-2x\ge0\), so \(x\le5/2\). Domain: \((-\infty,5/2]\).</div></details>
+</div>
+<div class="answer-row" data-answers='["[4,infinity)","[4,∞)","[4,inf)"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(b) State the domain of \(g(x)=\dfrac{\sqrt{x-4}}{x+1}\) in interval notation.</div><input class="answer" placeholder="interval"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">The square root requires \(x\ge4\). The denominator restriction \(x\ne-1\) is already outside that set. Domain: \([4,\infty)\).</div></details>
+</div>
+</div>
+</div>
+</div>
+</details>
+<details class="section" open="">
+<summary>Part II: Exponential Functions</summary>
+<div class="section-body">
+<div class="problem">
+<h3>5. Evaluate without a calculator.</h3>
+<div class="grid3">
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="0.0625"><div class="answer-line"><div class="answer-label">(a) Evaluate \(2^{-4}\) without a calculator.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(2^{-4}=1/2^4=1/16.\)</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="5"><div class="answer-line"><div class="answer-label">(b) Evaluate \(25^{1/2}\) without a calculator.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(25^{1/2}=\sqrt{25}=5.\)</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="4"><div class="answer-line"><div class="answer-label">(c) Evaluate \(8^{2/3}\) without a calculator.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(8^{2/3}=(\sqrt[3]{8})^2=2^2=4.\)</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="1"><div class="answer-line"><div class="answer-label">(d) Evaluate \(10^0\) without a calculator.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Any nonzero base to the zero power is \(1\).</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="9"><div class="answer-line"><div class="answer-label">(e) Evaluate \((1/3)^{-2}\) without a calculator.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\((1/3)^{-2}=3^2=9.\)</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="1"><div class="answer-line"><div class="answer-label">(f) Evaluate \(e^0\) without a calculator.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(e^0=1.\)</div></details></div>
+</div>
+</div>
+<div class="problem">
+<h3>6. Consider \(f(x)=3\cdot 2^{x-1}-4\).</h3>
+<div class="answer-row" data-answers='["growth","exponentialgrowth"]' data-mode="text"><div class="answer-line"><div class="answer-label">(a) Is \(f(x)=3\cdot2^{x-1}-4\) an exponential growth function or an exponential decay function?</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">The base is \(2&gt;1\), so this is exponential growth.</div></details></div>
+<div class="answer-row" data-answers='["y=-4","-4"]' data-mode="text"><div class="answer-line"><div class="answer-label">(b) What is the horizontal asymptote of \(f(x)=3\cdot2^{x-1}-4\)?</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">The graph is shifted down \(4\), so the horizontal asymptote is \(y=-4\).</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="-2.5"><div class="answer-line"><div class="answer-label">(c) Find the \(y\)-intercept of \(f(x)=3\cdot2^{x-1}-4\).</div><input class="answer" placeholder="y-value"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(f(0)=3\cdot2^{-1}-4=3/2-4=-5/2.\) The intercept is \((0,-5/2)\).</div></details></div>
+<div class="answer-row" data-groups='[["right1","rightby1","shiftright1"],["stretchby3","verticalstretchby3","verticalstretch3"],["down4","downby4","shiftdown4"]]' data-mode="groups">
+<div class="answer-line"><div class="answer-label">(d) Describe the transformations that take \(y=2^x\) to \(f(x)=3\cdot2^{x-1}-4\).</div><input class="answer" placeholder="describe all three"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Shift right \(1\), stretch vertically by a factor of \(3\), then shift down \(4\).</div></details>
+</div>
+</div>
+<div class="problem">
+<h3>7. Solve exactly when possible.</h3>
+<div class="grid2">
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="2"><div class="answer-line"><div class="answer-label">(a) Solve the exponential equation \(5^{2x-1}=125\).</div><input class="answer" placeholder="x ="/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(125=5^3\), so \(2x-1=3\), hence \(x=2\).</div></details></div>
+<div class="answer-row" data-answers='["ln(17)/ln(4)-2","log(17)/log(4)-2"]' data-mode="numeric_alias" data-tol="0.001" data-value="0.04373142062517">
+<div class="answer-line"><div class="answer-label">(b) Solve the exponential equation \(4^{x+2}=17\). Give an exact logarithmic answer or a decimal approximation.</div><input class="answer" placeholder="exact or decimal"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div>
+<details class="solution"><summary>Worked solution</summary><div class="solution-body">\((x+2)\ln4=\ln17\), so \[x=\frac{\ln17}{\ln4}-2\approx0.044.\]</div></details>
+</div>
+</div>
+</div>
+<div class="problem">
+<h3>8. Population model: \(\displaystyle P(t)=250(1.06)^t\), with \(t\) in years.</h3>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="250"><div class="answer-line"><div class="answer-label">(a) For \(P(t)=250(1.06)^t\), what is the initial population?</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(P(0)=250(1.06)^0=250.\)</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="6"><div class="answer-line"><div class="answer-label">(b) For \(P(t)=250(1.06)^t\), what percent does the population grow each year?</div><input class="answer" placeholder="percent"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">The growth factor is \(1.06=1+0.06\), so the annual growth rate is \(6\%\).</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.002" data-value="398.4620186327"><div class="answer-line"><div class="answer-label">(c) For \(P(t)=250(1.06)^t\), find the population after 8 years.</div><input class="answer" placeholder="3 decimals"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(P(8)=250(1.06)^8\approx398.462.\)</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.01" data-value="8.066113548"><div class="answer-line"><div class="answer-label">(d) For \(P(t)=250(1.06)^t\), after how many years will the population reach 400?</div><input class="answer" placeholder="years"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\[250(1.06)^t=400\Rightarrow t=\frac{\ln(400/250)}{\ln(1.06)}\approx8.066\text{ years}.\] At whole-year observations, the population first exceeds \(400\) during year \(9\).</div></details></div>
+</div>
+<div class="problem">
+<h3>9. Radioactive sample: \(\displaystyle A(t)=120\left(\frac12\right)^{t/5}\).</h3>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="5"><div class="answer-line"><div class="answer-label">(a) For \(A(t)=120\left(\frac12\right)^{t/5}\), what is the half-life of the sample?</div><input class="answer" placeholder="years"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">The exponent is \(t/5\), so one factor of \(1/2\) occurs every \(5\) years.</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.002" data-value="22.7357484977"><div class="answer-line"><div class="answer-label">(b) For \(A(t)=120\left(\frac12\right)^{t/5}\), how many milligrams remain after 12 years?</div><input class="answer" placeholder="mg"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(A(12)=120(1/2)^{12/5}\approx22.736\) mg.</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="10"><div class="answer-line"><div class="answer-label">(c) For \(A(t)=120\left(\frac12\right)^{t/5}\), after how many years will 30 mg remain?</div><input class="answer" placeholder="years"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(30/120=1/4=(1/2)^2\), so \(t/5=2\), hence \(t=10\) years.</div></details></div>
+</div>
+</div>
+</details>
+<details class="section" open="">
+<summary>Part III: Logarithms</summary>
+<div class="section-body">
+<div class="problem">
+<h3>10. Rewrite each equation in the other form.</h3>
+<div class="grid2">
+<div class="answer-row" data-answers='["log_2(32)=5","log2(32)=5","log_2 32=5","log2 32=5"]' data-mode="text"><div class="answer-line"><div class="answer-label">(a) Rewrite \(2^5=32\) in logarithmic form.</div><input class="answer" placeholder="logarithmic form"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\log_2 32=5.\)</div></details></div>
+<div class="answer-row" data-answers='["log(0.001)=-3","log0.001=-3"]' data-mode="text"><div class="answer-line"><div class="answer-label">(b) Rewrite \(10^{-3}=0.001\) in logarithmic form.</div><input class="answer" placeholder="logarithmic form"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\log(0.001)=-3.\)</div></details></div>
+<div class="answer-row" data-answers='["3^4=81","81=3^4"]' data-mode="text"><div class="answer-line"><div class="answer-label">(c) Rewrite \(\log_3 81=4\) in exponential form.</div><input class="answer" placeholder="exponential form"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(3^4=81.\)</div></details></div>
+<div class="answer-row" data-answers='["e^x=7","7=e^x"]' data-mode="text"><div class="answer-line"><div class="answer-label">(d) Rewrite \(\ln 7=x\) in exponential form.</div><input class="answer" placeholder="exponential form"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(e^x=7.\)</div></details></div>
+</div>
+</div>
+<div class="problem">
+<h3>11. Evaluate exactly.</h3>
+<div class="grid3">
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="5"><div class="answer-line"><div class="answer-label">(a) Evaluate \(\log_2 32\) exactly.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Because \(2^5=32\), \(\log_2 32=5\).</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="-3"><div class="answer-line"><div class="answer-label">(b) Evaluate \(\log(0.001)\) exactly.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(0.001=10^{-3}\), so \(\log(0.001)=-3\).</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="4"><div class="answer-line"><div class="answer-label">(c) Evaluate \(\ln(e^4)\) exactly.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(\ln\) and \(e^x\) are inverses, so \(\ln(e^4)=4\).</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="7"><div class="answer-line"><div class="answer-label">(d) Evaluate \(e^{\ln7}\) exactly.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(e^x\) and \(\ln x\) are inverses, so \(e^{\ln7}=7\).</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="0"><div class="answer-line"><div class="answer-label">(e) Evaluate \(\log_5 1\) exactly.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Since \(5^0=1\), \(\log_5 1=0\).</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="-3"><div class="answer-line"><div class="answer-label">(f) Evaluate \(\log_3(1/27)\) exactly.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\(1/27=3^{-3}\), so the logarithm is \(-3\).</div></details></div>
+</div>
+</div>
+<div class="problem">
+<h3>12. Use logarithm laws.</h3>
+<div class="answer-row" data-answers='["3log(x)+(1/2)log(y)-2log(z)","3logx+1/2logy-2logz","3log(x)+0.5log(y)-2log(z)"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(a) Expand \(\log\!\left(\dfrac{x^3\sqrt y}{z^2}\right)\) using logarithm laws.</div><input class="answer" placeholder="expanded form"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\[3\log x+\frac12\log y-2\log z.\]</div></details>
+</div>
+<div class="answer-row" data-answers='["ln(3x^2/sqrt(x+1))","ln((3x^2)/sqrt(x+1))","ln(3x^2/(x+1)^(1/2))"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(b) Condense \(2\ln x-\frac12\ln(x+1)+\ln3\) into a single logarithm.</div><input class="answer" placeholder="single logarithm"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\[\ln\!\left(\frac{3x^2}{\sqrt{x+1}}\right).\]</div></details>
+</div>
+</div>
+<div class="problem">
+<h3>13. Solve. State any domain restriction you use.</h3>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="19"><div class="answer-line"><div class="answer-label">(a) Solve \(\log_2(x-3)=4\). State the domain restriction you use.</div><input class="answer" placeholder="x ="/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Domain: \(x&gt;3\). Then \(x-3=2^4=16\), so \(x=19\).</div></details></div>
+<div class="answer-row" data-answers='["(e^3-1)/2","(e^3−1)/2"]' data-mode="numeric_alias" data-tol="0.002" data-value="9.5427684616"><div class="answer-line"><div class="answer-label">(b) Solve \(\ln(2x+1)=3\). State the domain restriction you use.</div><input class="answer" placeholder="exact or decimal"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Domain: \(x&gt;-1/2\). Then \(2x+1=e^3\), so \[x=\frac{e^3-1}{2}\approx9.543.\]</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="10"><div class="answer-line"><div class="answer-label">(c) Solve \(\log x+\log(x-9)=1\). State the domain restriction you use and check your solution.</div><input class="answer" placeholder="x ="/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Domain: \(x&gt;9\). Combine logs: \(\log[x(x-9)]=1\), so \(x(x-9)=10\). The algebraic candidates are \(10,-1\), and only \(x=10\) satisfies the domain.</div></details></div>
+</div>
+<div class="problem">
+<h3>14. Use change of base to approximate \(\log_7 20\) to three decimals.</h3>
+<div class="answer-row" data-mode="numeric" data-tol="0.001" data-value="1.5395018496">
+<div class="answer-line"><div class="answer-label">Use change of base to approximate \(\log_7 20\) to three decimal places.</div><input class="answer" placeholder="3 decimals"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\[\log_7 20=\frac{\ln20}{\ln7}\approx1.540.\]</div></details>
+</div>
+</div>
+</div>
+</details>
+<details class="section" open="">
+<summary>Part IV: Systems of Two Equations in Two Unknowns</summary>
+<div class="section-body">
+<div class="problem">
+<h3>15. Solve each system. Use substitution or elimination.</h3>
+<div class="grid2">
+<div class="answer-row" data-answers='["(4,3)","4,3","x=4,y=3","y=3,x=4"]' data-mode="text"><div class="answer-line"><div class="answer-label">(a) Solve the system \(\begin{cases}x+y=7\\2x-y=5\end{cases}\). Give your answer as an ordered pair.</div><input class="answer" placeholder="(x,y)"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Add the equations: \(3x=12\), so \(x=4\). Then \(y=3\). Solution: \((4,3)\).</div></details></div>
+<div class="answer-row" data-answers='["(3,7/2)","3,7/2","(3,3.5)","3,3.5","x=3,y=7/2","x=3,y=3.5"]' data-mode="text"><div class="answer-line"><div class="answer-label">(b) Solve the system \(\begin{cases}3x+2y=16\\5x-2y=8\end{cases}\). Give your answer as an ordered pair.</div><input class="answer" placeholder="(x,y)"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Add the equations: \(8x=24\), so \(x=3\). Then \(9+2y=16\), so \(y=7/2\). Solution: \((3,7/2)\).</div></details></div>
+<div class="answer-row" data-answers='["nosolution","no solution","inconsistent"]' data-mode="text"><div class="answer-line"><div class="answer-label">(c) Solve the system \(\begin{cases}2x+4y=6\\x+2y=5\end{cases}\), or state that it has no solution or infinitely many solutions.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">The first equation simplifies to \(x+2y=3\), while the second says \(x+2y=5\). Contradiction: no solution.</div></details></div>
+<div class="answer-row" data-answers='["infinitelymanysolutions","infinite solutions","infinitely many solutions","samesline","same line","dependent"]' data-mode="text"><div class="answer-line"><div class="answer-label">(d) Solve the system \(\begin{cases}3x-y=7\\6x-2y=14\end{cases}\), or state that it has no solution or infinitely many solutions.</div><input class="answer"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">The second equation is exactly twice the first, so both equations describe the same line. There are infinitely many solutions.</div></details></div>
+</div>
+</div>
+<div class="problem">
+<h3>16. Find the intersection algebraically.</h3>
+<div class="math-block">\[y=2x+1,\qquad y=-x+7.\]</div>
+<div class="answer-row" data-answers='["(2,5)","2,5","x=2,y=5","y=5,x=2"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">Find the point of intersection of \(y=2x+1\) and \(y=-x+7\). Give your answer as an ordered pair.</div><input class="answer" placeholder="(x,y)"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Set the two formulas equal: \(2x+1=-x+7\Rightarrow3x=6\Rightarrow x=2\). Then \(y=5\), so the intersection is \((2,5)\).</div></details>
+</div>
+</div>
+<div class="problem">
+<h3>17. Ticket problem.</h3>
+<p>A school play sells \(120\) tickets. Adult tickets cost \(\$12\) and student tickets cost \(\$7\). Total revenue is \(\$1090\).</p>
+<div class="answer-row" data-groups='[["adult","a=adult"],["student","s=student"]]' data-mode="groups">
+<div class="answer-line"><div class="answer-label">(a) Define variables for the number of adult tickets and the number of student tickets.</div><input class="answer" placeholder="e.g. A = ..., S = ..."/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">One choice is \(A=\) number of adult tickets and \(S=\) number of student tickets.</div></details>
+</div>
+<div class="answer-row" data-answers='["a+s=120;12a+7s=1090","12a+7s=1090;a+s=120","a+s=120,12a+7s=1090"]' data-mode="text">
+<div class="answer-line"><div class="answer-label">(b) Write a system of two equations that models the ticket problem.</div><input class="answer" placeholder="separate equations with ;"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">\[\begin{cases}A+S=120\\12A+7S=1090\end{cases}\]</div></details>
+</div>
+<div class="answer-row" data-groups='[["50adult","adult50","a=50"],["70student","student70","s=70"]]' data-mode="groups">
+<div class="answer-line"><div class="answer-label">(c) Solve the system and state how many adult tickets and how many student tickets were sold.</div><input class="answer" placeholder="adult and student ticket counts"/><button onclick="checkRow(this)">Check</button></div>
+<div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Substitute \(S=120-A\): \(12A+7(120-A)=1090\Rightarrow5A=250\Rightarrow A=50\). Then \(S=70\). There were \(50\) adult tickets and \(70\) student tickets.</div></details>
+</div>
+</div>
+</div>
+</details>
+<details class="section" open="">
+<summary>Part V: Mixed Review — Choose the Method</summary>
+<div class="section-body">
+<div class="problem">
+<h3>18. Solve each problem. Decide which tool belongs to the problem.</h3>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="2"><div class="answer-line"><div class="answer-label">(a) Solve \(\sqrt{3x+10}=x+2\). Check for extraneous solutions.</div><input class="answer" placeholder="x ="/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Square both sides: \(3x+10=x^2+4x+4\), so \((x-2)(x+3)=0\). Checking the original rejects \(x=-3\), leaving \(x=2\).</div></details></div>
+<div class="answer-row" data-answers='["ln(20)/(2ln(3))","ln20/(2ln3)","log(20)/(2log(3))"]' data-mode="numeric_alias" data-tol="0.002" data-value="1.3634165139"><div class="answer-line"><div class="answer-label">(b) Solve \(3^{2x}=20\). Give an exact logarithmic answer or a decimal approximation.</div><input class="answer" placeholder="exact or decimal"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Take logs: \(2x\ln3=\ln20\), so \[x=\frac{\ln20}{2\ln3}\approx1.363.\]</div></details></div>
+<div class="answer-row" data-mode="numeric" data-tol="0.000001" data-value="3"><div class="answer-line"><div class="answer-label">(c) Solve \(\ln(x-1)+\ln(x+1)=\ln8\). State the domain restriction and check your answer.</div><input class="answer" placeholder="x ="/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">Domain requires \(x&gt;1\). Then \(\ln[(x-1)(x+1)]=\ln8\), so \(x^2-1=8\), giving \(x=\pm3\). The domain leaves \(x=3\).</div></details></div>
+<div class="answer-row" data-answers='["(11/5,-13/5)","11/5,-13/5","(2.2,-2.6)","2.2,-2.6","x=11/5,y=-13/5"]' data-mode="text"><div class="answer-line"><div class="answer-label">(d) Solve the system \(\begin{cases}4x+3y=1\\2x-y=7\end{cases}\). Give your answer as an ordered pair.</div><input class="answer" placeholder="(x,y)"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Worked solution</summary><div class="solution-body">From \(2x-y=7\), \(y=2x-7\). Substitute: \(4x+3(2x-7)=1\Rightarrow10x=22\), so \(x=11/5\), \(y=-13/5\).</div></details></div>
+</div>
+<div class="problem">
+<h3>19. For each cue, name the method it suggests.</h3>
+<div class="answer-row" data-groups='[["isolatetheradical","isolateradical","squarebothsides","square"]]' data-mode="groups"><div class="answer-line"><div class="answer-label">If the unknown appears inside a square root, what method should you use to solve the equation?</div><input class="answer" placeholder="method"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Answer</summary><div class="solution-body">Isolate the radical, square both sides, solve, and check for extraneous solutions.</div></details></div>
+<div class="answer-row" data-groups='[["log","logarithm","takelogs","commonbase"]]' data-mode="groups"><div class="answer-line"><div class="answer-label">If the unknown appears in an exponent, what method should you use to solve the equation?</div><input class="answer" placeholder="method"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Answer</summary><div class="solution-body">Use a common base if possible; otherwise take logarithms.</div></details></div>
+<div class="answer-row" data-groups='[["productlaw","productrule","combinelogs","combine"]]' data-mode="groups"><div class="answer-line"><div class="answer-label">If two logarithms are being added, which logarithm law can you use to combine them?</div><input class="answer" placeholder="method"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Answer</summary><div class="solution-body">Use the product law to combine the logarithms, while keeping domain restrictions in mind.</div></details></div>
+<div class="answer-row" data-groups='[["substitution","elimination"]]' data-mode="groups"><div class="answer-line"><div class="answer-label">If you have two linear equations in the same two unknowns, which algebraic methods can you use to solve the system?</div><input class="answer" placeholder="method"/><button onclick="checkRow(this)">Check</button></div><div class="feedback"></div><details class="solution"><summary>Answer</summary><div class="solution-body">Use substitution or elimination.</div></details></div>
+</div>
+</div>
+</details>
+</main>
+<footer>
+MATH&amp; 141 — Precalculus I · Review Worksheet
+</footer>
+<script>
+const STORAGE_KEY = "math141-review-rad-exp-log-systems-v1";
+let allSolutionsOpen = false;
+
+function normalize(s){
+  return (s ?? "")
+    .toLowerCase()
+    .replaceAll("−","-")
+    .replaceAll("–","-")
+    .replaceAll("∞","infinity")
+    .replaceAll("√","sqrt")
+    .replaceAll("∛","cuberoot")
+    .replaceAll("²","^2")
+    .replaceAll("³","^3")
+    .replace(/\\left|\\right/g,"")
+    .replace(/\$/g,"")
+    .replace(/\s+/g,"")
+    .replace(/[{}]/g,"")
+    .replace(/×/g,"*");
+}
+
+function parseNumber(s){
+  let t = normalize(s)
+    .replace(/^x=/,"")
+    .replace(/^y=/,"")
+    .replace(/years?|year|mg|people|tickets?|percent|%/g,"");
+  if (/^-?\d+(\.\d+)?\/-?\d+(\.\d+)?$/.test(t)){
+    const [a,b] = t.split("/").map(Number);
+    return b === 0 ? NaN : a/b;
+  }
+  if (/^-?\d+(\.\d+)?$/.test(t)) return Number(t);
+  return NaN;
+}
+
+function textMatch(input, answers){
+  const n = normalize(input);
+  return answers.some(a => normalize(a) === n);
+}
+
+function groupMatch(input, groups){
+  const n = normalize(input);
+  return groups.every(group => group.some(term => n.includes(normalize(term))));
+}
+
+function checkRow(buttonOrRow, quiet=false){
+  const row = buttonOrRow.classList?.contains("answer-row") ? buttonOrRow : buttonOrRow.closest(".answer-row");
+  const input = row.querySelector("input.answer");
+  const feedback = row.querySelector(".feedback");
+  const raw = input.value.trim();
+
+  if (!raw){
+    if (!quiet) {
+      row.classList.remove("correct","incorrect");
+      feedback.textContent = "Enter an answer first.";
+    }
+    return null;
+  }
+
+  const mode = row.dataset.mode || "text";
+  let ok = false;
+
+  if (mode === "numeric"){
+    const val = parseNumber(raw);
+    const target = Number(row.dataset.value);
+    const tol = Number(row.dataset.tol || 1e-6);
+    ok = Number.isFinite(val) && Math.abs(val-target) <= tol;
+  } else if (mode === "numeric_alias"){
+    const val = parseNumber(raw);
+    const target = Number(row.dataset.value);
+    const tol = Number(row.dataset.tol || 1e-6);
+    const aliases = JSON.parse(row.dataset.answers || "[]");
+    ok = (Number.isFinite(val) && Math.abs(val-target) <= tol) || textMatch(raw, aliases);
+  } else if (mode === "groups"){
+    const groups = JSON.parse(row.dataset.groups || "[]");
+    ok = groupMatch(raw, groups);
+  } else {
+    const answers = JSON.parse(row.dataset.answers || "[]");
+    ok = textMatch(raw, answers);
+  }
+
+  row.dataset.checked = "true";
+  row.dataset.correct = ok ? "true" : "false";
+  row.classList.toggle("correct", ok);
+  row.classList.toggle("incorrect", !ok);
+  feedback.textContent = ok ? "✓ Correct" : "Not yet — revise your answer or open the worked solution.";
+  updateScore();
+  saveWork();
+  return ok;
+}
+
+function updateScore(){
+  const rows = [...document.querySelectorAll(".answer-row")];
+  const checked = rows.filter(r => r.dataset.checked === "true");
+  const correct = checked.filter(r => r.dataset.correct === "true");
+  document.getElementById("score").textContent = `Checked: ${checked.length} · Correct: ${correct.length} / ${rows.length}`;
+}
+
+function checkAll(){
+  document.querySelectorAll(".answer-row").forEach(row => {
+    if (row.querySelector("input.answer").value.trim()) checkRow(row, true);
+  });
+  updateScore();
+}
+
+function toggleAllSolutions(){
+  allSolutionsOpen = !allSolutionsOpen;
+  document.querySelectorAll("details.solution").forEach(d => d.open = allSolutionsOpen);
+  const b = [...document.querySelectorAll(".toolbar button")].find(x => x.textContent.includes("solutions"));
+  if (b) b.textContent = allSolutionsOpen ? "Hide all solutions" : "Show all solutions";
+  saveWork();
+}
+
+function saveWork(){
+  const rows = [...document.querySelectorAll(".answer-row")];
+  const data = {
+    answers: rows.map(r => r.querySelector("input.answer").value),
+    checked: rows.map(r => r.dataset.checked || ""),
+    correct: rows.map(r => r.dataset.correct || ""),
+    solutionOpen: [...document.querySelectorAll("details.solution")].map(d => d.open),
+    sectionOpen: [...document.querySelectorAll("details.section")].map(d => d.open)
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function loadWork(){
+  try{
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if (!data) return;
+    const rows = [...document.querySelectorAll(".answer-row")];
+    rows.forEach((r,i) => {
+      const input = r.querySelector("input.answer");
+      input.value = data.answers?.[i] || "";
+      if (data.checked?.[i] === "true"){
+        r.dataset.checked = "true";
+        r.dataset.correct = data.correct?.[i] || "false";
+        const ok = r.dataset.correct === "true";
+        r.classList.toggle("correct",ok);
+        r.classList.toggle("incorrect",!ok);
+        r.querySelector(".feedback").textContent = ok ? "✓ Correct" : "Not yet — revise your answer or open the worked solution.";
+      }
+    });
+    [...document.querySelectorAll("details.solution")].forEach((d,i) => d.open = !!data.solutionOpen?.[i]);
+    [...document.querySelectorAll("details.section")].forEach((d,i) => {
+      if (typeof data.sectionOpen?.[i] === "boolean") d.open = data.sectionOpen[i];
+    });
+  }catch(e){}
+  updateScore();
+}
+
+function resetWork(){
+  if (!confirm("Clear all answers, checks, and saved progress for this review?")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll("input.answer").forEach(i => i.value="");
+  document.querySelectorAll(".answer-row").forEach(r => {
+    r.classList.remove("correct","incorrect");
+    delete r.dataset.checked;
+    delete r.dataset.correct;
+    r.querySelector(".feedback").textContent="";
+  });
+  document.querySelectorAll("details.solution").forEach(d => d.open=false);
+  updateScore();
+}
+
+document.addEventListener("input", e => {
+  if (e.target.matches("input.answer")){
+    const row=e.target.closest(".answer-row");
+    row.classList.remove("correct","incorrect");
+    delete row.dataset.checked; delete row.dataset.correct;
+    row.querySelector(".feedback").textContent="";
+    updateScore(); saveWork();
+  }
+});
+document.addEventListener("toggle", e => {
+  if (e.target.matches("details.solution, details.section")) saveWork();
+}, true);
+document.addEventListener("keydown", e => {
+  if (e.key==="Enter" && e.target.matches("input.answer")){
+    checkRow(e.target.closest(".answer-row"));
+  }
+});
+loadWork();
+</script>
+</body>
+</html>
