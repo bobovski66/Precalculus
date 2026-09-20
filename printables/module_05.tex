@@ -1,0 +1,103 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=0.68in,headheight=15pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{array,booktabs,enumitem,multicol}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{microtype}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\definecolor{olive}{HTML}{555B35}
+\definecolor{gold}{HTML}{B18A22}
+\definecolor{soft}{HTML}{F4F1DE}
+\definecolor{bluegray}{HTML}{E8EEF2}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{olive}{\small MATH\& 141: Precalculus I}}
+\fancyhead[R]{\textcolor{gold}{\small Fall 2026}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.45pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlist[enumerate]{leftmargin=*,itemsep=0.08in,topsep=0.05in}
+\newcommand{\assessmenttitle}[2]{%
+  {\Large\bfseries Module #1: #2}\par\vspace{3pt}
+}
+\newcommand{\studentline}{%
+\noindent\textbf{Name:}\hspace{2.6in}\textbf{Date:}\hspace{1.15in}\par\vspace{7pt}}
+\newcommand{\directions}[1]{\textit{#1}\par\vspace{4pt}}
+\newcommand{\answerblank}[1]{\vspace{#1}}
+\newcommand{\blankgrid}[4]{%
+\begin{center}
+\begin{tikzpicture}[x=0.75cm,y=0.75cm]
+  \draw[step=1,gray!28,very thin] (#1,#3) grid (#2,#4);
+  \draw[->,thick] (#1,0)--(#2,0) node[right] {$x$};
+  \draw[->,thick] (0,#3)--(0,#4) node[above] {$y$};
+  \foreach \x in {#1,...,#2}{\ifnum\x=0\else\draw (\x,0.10)--(\x,-0.10) node[below=2pt,font=\scriptsize]{\x};\fi}
+  \foreach \y in {#3,...,#4}{\ifnum\y=0\else\draw (0.10,\y)--(-0.10,\y) node[left=2pt,font=\scriptsize]{\y};\fi}
+\end{tikzpicture}
+\end{center}}
+\newcommand{\smallgrid}[4]{%
+\begin{tikzpicture}[x=0.50cm,y=0.50cm]
+  \draw[step=1,gray!28,very thin] (#1,#3) grid (#2,#4);
+  \draw[->,thick] (#1,0)--(#2,0) node[right] {$x$};
+  \draw[->,thick] (0,#3)--(0,#4) node[above] {$y$};
+\end{tikzpicture}}
+\begin{document}
+
+% MODULE 5 PREQUIZ
+\assessmenttitle{5}{Inverses and Radicals -- Prequiz}
+\studentline
+\directions{Four short questions. Remember that an inverse function reverses the original input-output rule.}
+\begin{enumerate}
+\item Find $f^{-1}(x)$ for $f(x)=4x+1$.
+\answerblank{0.50in}
+\item If $f(x)=2x-3$, find $f^{-1}(9)$.
+\answerblank{0.48in}
+\item Explain why $g(x)=x^2+4$ does not have an inverse function on all real numbers. If the domain is restricted to $x\ge 0$, find $g^{-1}(x)$ and state its domain.
+\answerblank{0.82in}
+\item Solve $\sqrt{3x+1}=7$ and check your solution.
+\answerblank{0.70in}
+\end{enumerate}
+\newpage
+
+% MODULE 5 CHECKIN PAGE 1
+\assessmenttitle{5}{Inverses and Radicals -- Weekly Check-In}
+\studentline
+\directions{Three questions. Remember that an inverse reverses the original input-output rule.}
+\textbf{1. Finding and using an inverse.}
+
+Let
+\[
+f(x)=4x-7.
+\]
+\begin{enumerate}[label=(\alph*),leftmargin=0.35in]
+\item Find $f^{-1}(x)$.
+\answerblank{0.62in}
+\item Find $f^{-1}(13)$.
+\answerblank{0.42in}
+\item Verify your inverse by simplifying $f\bigl(f^{-1}(x)\bigr)$.
+\answerblank{0.68in}
+\end{enumerate}
+
+\textbf{2. Restricting a domain.}
+
+Explain why $g(x)=x^2+2$ does not have an inverse function on all real numbers. Restrict the domain to $x\ge0$, find $g^{-1}(x)$, and state the domain of the inverse.
+\answerblank{1.55in}
+\newpage
+
+% MODULE 5 CHECKIN PAGE 2
+\assessmenttitle{5}{Inverses and Radicals -- Weekly Check-In, continued}
+\studentline
+\textbf{3. Solving a radical equation.}
+
+Solve
+\[
+\sqrt{2x+3}=x.
+\]
+Show the algebra that produces all candidates, then check each candidate in the \emph{original} equation and identify any extraneous solution.
+\answerblank{4.35in}
+
+\end{document}
