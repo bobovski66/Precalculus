@@ -78,7 +78,7 @@
     <li>Write the augmented matrix of a linear system.</li>
     <li>Use row operations to reach echelon form.</li>
     <li>Read the outcome (unique, none, infinitely many) from the echelon form.</li>
-    <li>Solve a physics application by Gaussian elimination.</li>
+    <li>Solve applications by Gaussian elimination and fit a quadratic model from data.</li>
   </ul>
 </div>
 
@@ -90,36 +90,40 @@
 <!-- PROBLEM 1 -->
 <div class="problem" id="p1">
   <h2>Problem 1 — Gaussian elimination</h2>
-  <div class="scenario">Solve the system whose augmented matrix is
-  \(\left[\begin{array}{ccc|c}1&1&1&6\\ 2&-1&1&3\\ 1&2&-1&2\end{array}\right]\).</div>
-
+  <div class="scenario">
+    Solve the system whose augmented matrix is
+    \[
+    \left[\begin{array}{ccc|c}
+    1&1&1&4\\
+    2&-1&1&8\\
+    1&2&-1&-3
+    \end{array}\right].
+    \]
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Reduce to echelon form and back-substitute. Enter \(x\), \(y\),
-      \(z\).</span></div>
-    <div class="answer-row"><label>\(x\)</label><input type="text" id="q1a_x" data-ans="1">
-      <label>\(y\)</label><input type="text" id="q1a_y" data-ans="2">
+      <span class="part-text">Reduce to echelon form and back-substitute. Enter \(x\), \(y\), \(z\).</span></div>
+    <div class="answer-row">
+      <label>\(x\)</label><input type="text" id="q1a_x" data-ans="2">
+      <label>\(y\)</label><input type="text" id="q1a_y" data-ans="-1">
       <label>\(z\)</label><input type="text" id="q1a_z" data-ans="3">
-      <button class="check-btn" onclick="checkNum(['q1a_x','q1a_y','q1a_z'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
+      <button class="check-btn" onclick="checkNum(['q1a_x','q1a_y','q1a_z'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\((x,y,z)=(1,2,3)\).</span></p>
-      <p>\(R_2-2R_1\) and \(R_3-R_1\) clear the first column. Continuing the elimination
-      gives a bottom row \(-7z=-21\), so \(z=3\); then \(y=2\) and \(x=1\). Check:
-      \(1+2+3=6\). ✓</p>
+      <p><span class="ans">\((x,y,z)=(2,-1,3)\).</span></p>
+      <p>Use \(R_2\leftarrow R_2-2R_1\) and \(R_3\leftarrow R_3-R_1\).
+      Then combine the last two rows to obtain \(-7z=-21\), so \(z=3\);
+      back-substitution gives \(y=-1\) and \(x=2\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Name the three elementary row operations and the equation
-      operation each represents.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q1b_txt" placeholder="Swap, scale, replace — and what each does to the equations."></textarea></div>
+      <span class="part-text">Name the three elementary row operations and the equation operation each represents.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q1b_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Swap two rows; scale a row by a nonzero constant; replace a row by itself plus a multiple of another.</span></p>
-      <p>These correspond to reordering equations, multiplying an equation through by a
-      nonzero number, and adding a multiple of one equation to another. Each leaves the
-      solution set unchanged.</p>
+      <p>Swap two rows; scale a row by a nonzero constant; replace a row by itself plus a
+      multiple of another. These correspond to reordering equations, multiplying an
+      equation by a nonzero number, and adding a multiple of one equation to another.</p>
     </div></details>
   </div>
 </div>
@@ -127,46 +131,39 @@
 <!-- PROBLEM 2 -->
 <div class="problem" id="p2">
   <h2>Problem 2 — Reading the outcome</h2>
-  <div class="scenario">The echelon form reveals which of the three outcomes occurs.</div>
-
+  <div class="scenario">
+    Use the echelon form itself to classify each system.
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Eliminating \(\left[\begin{array}{cc|c}1&-1&2\\ 2&-2&7\end{array}\right]\)
-      yields a bottom row \([\,0\ 0\mid 3\,]\). Enter the outcome code: \(1\) unique, \(0\)
-      none, \(2\) infinitely many.</span></div>
-    <div class="answer-row"><label>outcome</label><input type="text" id="q2a" data-ans="0">
+      <span class="part-text">For
+      \(\left[\begin{array}{cc|c}1&3&4\\0&2&-6\end{array}\right]\),
+      enter \(1\) for unique, \(0\) for none, or \(2\) for infinitely many.</span></div>
+    <div class="answer-row"><label>outcome</label><input type="text" id="q2a" data-ans="1">
       <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">No solution (code \(0\)).</span></p>
-      <p>The row \([\,0\ 0\mid 3\,]\) reads \(0=3\), a contradiction. The two lines are
-      parallel.</p>
-    </div></details>
+    <details><summary>Show solution</summary><div class="solution"><p><span class="ans">Unique solution.</span></p>
+      <p>There is a pivot in each variable column and no contradictory row.</p></div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Eliminating \(\left[\begin{array}{cc|c}1&2&3\\ 2&4&6\end{array}\right]\)
-      yields a bottom row of all zeros. Enter the outcome code.</span></div>
-    <div class="answer-row"><label>outcome</label><input type="text" id="q2b" data-ans="2">
+      <span class="part-text">For
+      \(\left[\begin{array}{cc|c}1&-2&5\\0&0&-4\end{array}\right]\),
+      enter the outcome code.</span></div>
+    <div class="answer-row"><label>outcome</label><input type="text" id="q2b" data-ans="0">
       <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Infinitely many (code \(2\)).</span></p>
-      <p>The row \([\,0\ 0\mid 0\,]\) reads \(0=0\), carrying no information. With a free
-      variable \(y=t\), the solutions are \((3-2t,\,t)\).</p>
-    </div></details>
+    <details><summary>Show solution</summary><div class="solution"><p><span class="ans">No solution.</span></p>
+      <p>The bottom row means \(0=-4\), a contradiction.</p></div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">Explain how each of the three outcomes shows up in the echelon
-      form.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q2c_txt" placeholder="Describe the leading-entry pattern, the 0=c row, and the 0=0 row."></textarea></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">A leading entry in every variable column gives a unique solution; a row \([\,0\cdots0\mid c\,]\) with \(c\neq0\) gives none; a row of all zeros leaves a free variable, giving infinitely many.</span></p>
-      <p>The staircase of leading entries determines whether each variable is pinned down,
-      contradicted, or free.</p>
-    </div></details>
+      <span class="part-text">For
+      \(\left[\begin{array}{ccc|c}1&1&-2&3\\0&1&4&2\\0&0&0&0\end{array}\right]\),
+      enter the outcome code and explain why.</span></div>
+    <div class="answer-row"><label>outcome</label><input type="text" id="q2c" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q2c'],'q2c_v')">Check</button><span class="verdict" id="q2c_v"></span></div>
+    <div class="text-answer"><label>Why?</label><textarea id="q2c_txt"></textarea></div>
+    <details><summary>Show solution</summary><div class="solution"><p><span class="ans">Infinitely many solutions.</span></p>
+      <p>There are three variables but only two pivot rows, so one variable is free. The zero row adds no new constraint.</p></div></details>
   </div>
 </div>
 
@@ -207,35 +204,33 @@
 
 <!-- PROBLEM 4 -->
 <div class="problem" id="p4">
-  <h2>Problem 4 — Balancing a chemical equation</h2>
-  <div class="scenario">Balance \(a\,\mathrm{Fe}+b\,\mathrm{O_2}\to c\,\mathrm{Fe_2O_3}\) by
-  equating atom counts.</div>
-
+  <h2>Problem 4 — Fitting a quadratic with a matrix</h2>
+  <div class="scenario">
+    A quadratic \(y=ax^2+bx+c\) passes through \((0,2)\), \((1,5)\), and \((3,23)\).
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">The atom-count equations are \(a=2c\) (Fe) and \(2b=3c\) (O).
-      Find the smallest whole-number coefficients \(a,b,c\).</span></div>
-    <div class="answer-row"><label>\(a\)</label><input type="text" id="q4a_a" data-ans="4">
-      <label>\(b\)</label><input type="text" id="q4a_b" data-ans="3">
-      <label>\(c\)</label><input type="text" id="q4a_c" data-ans="2">
-      <button class="check-btn" onclick="checkNum(['q4a_a','q4a_b','q4a_c'],'q4a_v')">Check</button><span class="verdict" id="q4a_v"></span></div>
+      <span class="part-text">Write the three linear equations for \(a,b,c\) and the corresponding augmented matrix.</span></div>
+    <div class="text-answer"><label>Your setup</label><textarea id="q4a_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(4\,\mathrm{Fe}+3\,\mathrm{O_2}\to2\,\mathrm{Fe_2O_3}\).</span></p>
-      <p>Take \(c=t\): then \(a=2t\) and \(2b=3t\), so \(b=\tfrac{3t}{2}\). The smallest whole
-      numbers come from \(t=2\): \(a=4,\ b=3,\ c=2\). Check: Fe \(4=4\), O \(6=6\).</p>
+      <p><span class="ans">\(c=2,\quad a+b+c=5,\quad 9a+3b+c=23\).</span></p>
+      <p>The augmented matrix is
+      \(\left[\begin{array}{ccc|c}0&0&1&2\\1&1&1&5\\9&3&1&23\end{array}\right]\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Explain why balancing leaves a free parameter, and how you fix
-      it.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q4b_txt" placeholder="What does scaling all coefficients do to a balanced equation?"></textarea></div>
+      <span class="part-text">Use Gaussian elimination to solve for \(a,b,c\), then write the quadratic.</span></div>
+    <div class="answer-row">
+      <label>\(a\)</label><input type="text" id="q4b_a" data-ans="2">
+      <label>\(b\)</label><input type="text" id="q4b_b" data-ans="1">
+      <label>\(c\)</label><input type="text" id="q4b_c" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q4b_a','q4b_b','q4b_c'],'q4b_v')">Check</button><span class="verdict" id="q4b_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">The system is homogeneous, so any scalar multiple of a solution is also a solution; you fix it by choosing the smallest whole numbers.</span></p>
-      <p>Multiplying every coefficient by the same factor keeps the equation balanced, which
-      is the free parameter. Convention selects the smallest positive integers.</p>
+      <p><span class="ans">\(a=2,\ b=1,\ c=2\), so \(y=2x^2+x+2\).</span></p>
+      <p>Substituting \(c=2\) leaves \(a+b=3\) and \(3a+b=7\), which gives
+      \(a=2\) and \(b=1\).</p>
     </div></details>
   </div>
 </div>
