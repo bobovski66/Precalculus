@@ -92,47 +92,40 @@
 <!-- PROBLEM 1 -->
 <div class="problem" id="p1">
   <h2>Problem 1 — Zeros, asymptotes, and a hole</h2>
-  <div class="scenario">Consider \(f(x)=\dfrac{(x-2)(x+1)}{(x-3)(x+1)}\).</div>
-
+  <div class="scenario">
+    Consider \(f(x)=\dfrac{(x-5)(x+2)}{(x-1)(x+2)}\).
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">A common factor cancels, leaving a hole. At what \(x\) is the
-      hole?</span></div>
-    <div class="answer-row"><label>hole at \(x=\)</label><input type="text" id="q1a" data-ans="-1">
+      <span class="part-text">A common factor cancels, leaving a hole. At what \(x\) is the hole?</span></div>
+    <div class="answer-row"><label>hole at \(x=\)</label><input type="text" id="q1a" data-ans="-2">
       <button class="check-btn" onclick="checkNum(['q1a'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Hole at \(x=-1\).</span></p>
-      <p>The factor \((x+1)\) appears in both numerator and denominator, so it cancels,
-      removing a single point rather than creating an asymptote.</p>
+      <p><span class="ans">Hole at \(x=-2\).</span></p>
+      <p>The factor \((x+2)\) cancels, but the original function is still undefined at \(x=-2\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">After reducing to \(\dfrac{x-2}{x-3}\), enter the zero and the
-      vertical asymptote.</span></div>
-    <div class="answer-row"><label>zero \(x=\)</label><input type="text" id="q1b_z" data-ans="2">
-      <label>asymptote \(x=\)</label><input type="text" id="q1b_a" data-ans="3">
-      <button class="check-btn" onclick="checkNum(['q1b_z','q1b_a'],'q1b_v')">Check</button><span class="verdict" id="q1b_v"></span></div>
+      <span class="part-text">After reducing to \(\dfrac{x-5}{x-1}\), enter the zero and the vertical asymptote.</span></div>
+    <div class="answer-row">
+      <label>zero \(x=\)</label><input type="text" id="q1b_z" data-ans="5">
+      <label>asymptote \(x=\)</label><input type="text" id="q1b_a" data-ans="1">
+      <button class="check-btn" onclick="checkNum(['q1b_z','q1b_a'],'q1b_v')">Check</button><span class="verdict" id="q1b_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Zero at \(x=2\); vertical asymptote at \(x=3\).</span></p>
-      <p>After cancellation, the remaining numerator root is the zero and the remaining
-      denominator root is the vertical asymptote.</p>
+      <p><span class="ans">Zero at \(x=5\); vertical asymptote at \(x=1\).</span></p>
+      <p>The remaining numerator root gives the zero, and the remaining denominator root gives the vertical asymptote.</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">Explain why the cancelled factor gives a hole and not a
-      vertical asymptote.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q1c_txt" placeholder="Think about whether the denominator factor survives after reducing."></textarea></div>
+      <span class="part-text">Explain why the cancelled factor gives a hole and not a vertical asymptote.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q1c_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">The factor cancels, so the denominator no longer vanishes there in lowest terms.</span></p>
-      <p>A vertical asymptote needs a denominator root that survives reduction. When a
-      factor appears in both numerator and denominator, it divides out, and the function
-      equals the reduced form everywhere except that one input, which is simply missing
-      from the domain: a hole.</p>
+      <p>A vertical asymptote requires a denominator zero that survives cancellation.
+      A common factor disappears from the reduced rule, leaving only the original domain
+      restriction at that single input: a hole.</p>
     </div></details>
   </div>
 </div>
@@ -140,44 +133,33 @@
 <!-- PROBLEM 2 -->
 <div class="problem" id="p2">
   <h2>Problem 2 — End behavior by degree</h2>
-  <div class="scenario">For each function, compare numerator and denominator degrees to
-  find the horizontal asymptote. Enter the asymptote's \(y\)-value, or type
-  <span class="mono">none</span> in the text box if there is none.</div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">\(f(x)=\dfrac{3x^{2}-1}{2x^{2}+x+5}\): enter the horizontal asymptote \(y=\).</span></div>
-    <div class="answer-row"><label>\(y=\)</label><input type="text" id="q2a" data-ans="3/2">
+      <span class="part-text">For \(f(x)=\dfrac{5x^2-1}{2x^2+3x+4}\), enter the horizontal asymptote \(y=\).</span></div>
+    <div class="answer-row"><label>\(y=\)</label><input type="text" id="q2a" data-ans="5/2">
       <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(y=\tfrac32\).</span></p>
-      <p>Equal degrees: the asymptote is the ratio of leading coefficients, \(3/2\).</p>
+      <p><span class="ans">\(y=\tfrac52\).</span></p><p>Equal degrees give the ratio of leading coefficients, \(5/2\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">\(f(x)=\dfrac{4x+1}{x^{2}-9}\): enter the horizontal asymptote \(y=\).</span></div>
+      <span class="part-text">For \(g(x)=\dfrac{3x+1}{x^2+4x+8}\), enter the horizontal asymptote \(y=\).</span></div>
     <div class="answer-row"><label>\(y=\)</label><input type="text" id="q2b" data-ans="0">
       <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(y=0\).</span></p>
-      <p>The numerator degree \(1\) is below the denominator degree \(2\), so the ends
-      approach \(y=0\).</p>
+      <p><span class="ans">\(y=0\).</span></p><p>The numerator degree is smaller than the denominator degree.</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">\(f(x)=\dfrac{x^{3}}{x+2}\) has no horizontal asymptote.
+      <span class="part-text">\(h(x)=\dfrac{x^3}{x+1}\) has no horizontal asymptote.
       Explain why, in terms of the degrees.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q2c_txt" placeholder="What happens to the ratio of leading terms when the numerator degree is larger?"></textarea></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q2c_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">The numerator degree exceeds the denominator degree, so the ratio grows without bound.</span></p>
-      <p>For large \(x\) the function behaves like \(x^{3}/x=x^{2}\), which increases
-      without bound rather than leveling off, so there is no horizontal asymptote. The end
-      behavior follows the polynomial quotient from long division instead.</p>
+      <p>The numerator degree is two greater than the denominator degree, so the quotient
+      grows like a quadratic instead of leveling off to a constant. Polynomial division,
+      rather than a horizontal line, describes the end behavior.</p>
     </div></details>
   </div>
 </div>
@@ -185,51 +167,45 @@
 <!-- PROBLEM 3 -->
 <div class="problem" id="p3">
   <h2>Problem 3 — A slant asymptote by long division</h2>
-  <div class="scenario">Analyze \(f(x)=\dfrac{x^{2}+x-2}{x-3}\).</div>
-
-  <div class="demo-link">
+  <div class="scenario">
+    Analyze \(f(x)=\dfrac{x^2+2x-3}{x-2}\).
     Explore zeros and asymptotes in the
-    <a href="https://bobovski66.github.io/Precalculus/demos/rational_functions.html"
-    target="_blank">Rational Functions Lab</a>.
+    <a href="../demos/rational_functions.html" target="_blank" rel="noopener">Rational Functions Lab</a>.
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Long division gives \(f(x)=x+4+\dfrac{R}{x-3}\). Enter the
-      remainder \(R\).</span></div>
-    <div class="answer-row"><label>\(R=\)</label><input type="text" id="q3a" data-ans="10">
+      <span class="part-text">Long division gives \(f(x)=x+4+\dfrac{R}{x-2}\). Enter the remainder \(R\).</span></div>
+    <div class="answer-row"><label>\(R=\)</label><input type="text" id="q3a" data-ans="5">
       <button class="check-btn" onclick="checkNum(['q3a'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(R=10\), so \(f(x)=x+4+\dfrac{10}{x-3}\).</span></p>
-      <p>Dividing \(x^{2}+x-2\) by \(x-3\): quotient \(x+4\), remainder \(10\).</p>
+      <p><span class="ans">\(R=5\), so \(f(x)=x+4+\dfrac5{x-2}\).</span></p>
+      <p>Dividing \(x^2+2x-3\) by \(x-2\) gives quotient \(x+4\) and remainder \(5\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Enter the slant asymptote as \(y=mx+b\) (give \(m\) and \(b\)),
-      and the vertical asymptote \(x=\).</span></div>
-    <div class="answer-row"><label>\(m\)</label><input type="text" id="q3b_m" data-ans="1">
+      <span class="part-text">Enter the slant asymptote as \(y=mx+b\), and the vertical asymptote \(x=\).</span></div>
+    <div class="answer-row">
+      <label>\(m\)</label><input type="text" id="q3b_m" data-ans="1">
       <label>\(b\)</label><input type="text" id="q3b_b" data-ans="4">
-      <label>vert \(x=\)</label><input type="text" id="q3b_v2" data-ans="3">
-      <button class="check-btn" onclick="checkNum(['q3b_m','q3b_b','q3b_v2'],'q3b_v')">Check</button><span class="verdict" id="q3b_v"></span></div>
+      <label>vert \(x=\)</label><input type="text" id="q3b_x" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q3b_m','q3b_b','q3b_x'],'q3b_v')">Check</button><span class="verdict" id="q3b_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Slant asymptote \(y=x+4\); vertical asymptote \(x=3\).</span></p>
-      <p>The remainder term \(\dfrac{10}{x-3}\) decays to zero at the ends, so the graph
-      approaches the quotient line \(y=x+4\). The denominator root \(x=3\) is the vertical
-      asymptote.</p>
+      <p><span class="ans">Slant asymptote \(y=x+4\); vertical asymptote \(x=2\).</span></p>
+      <p>The remainder term tends to zero for large \(|x|\), leaving the quotient line.</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">Factor the numerator and enter the two zeros (smaller first).</span></div>
-    <div class="answer-row"><label>\(r_1\)</label><input type="text" id="q3c_1" data-ans="-2">
+      <span class="part-text">Factor the numerator and enter the two zeros, smaller first.</span></div>
+    <div class="answer-row">
+      <label>\(r_1\)</label><input type="text" id="q3c_1" data-ans="-3">
       <label>\(r_2\)</label><input type="text" id="q3c_2" data-ans="1">
-      <button class="check-btn" onclick="checkNum(['q3c_1','q3c_2'],'q3c_v')">Check</button><span class="verdict" id="q3c_v"></span></div>
+      <button class="check-btn" onclick="checkNum(['q3c_1','q3c_2'],'q3c_v')">Check</button><span class="verdict" id="q3c_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(x^{2}+x-2=(x+2)(x-1)\), zeros \(-2\) and \(1\).</span></p>
-      <p>These are the inputs where the numerator, hence \(f\), is zero.</p>
+      <p><span class="ans">\(x^2+2x-3=(x+3)(x-1)\), so the zeros are \(-3\) and \(1\).</span></p>
     </div></details>
   </div>
 </div>
