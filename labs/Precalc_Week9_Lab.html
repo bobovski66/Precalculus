@@ -137,34 +137,39 @@
 <!-- PROBLEM 2 -->
 <div class="problem" id="p2">
   <h2>Problem 2 — Back-substitution</h2>
-  <div class="scenario">Solve the triangular system
-  \(\begin{aligned}x+2y-z&=3\\ y+2z&=4\\ 3z&=9\end{aligned}\).</div>
-
+  <div class="scenario">
+    Solve the triangular system
+    \[
+      \begin{aligned}
+      x-2y+z&=12\\
+      y+3z&=13\\
+      2z&=10.
+      \end{aligned}
+    \]
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
       <span class="part-text">Enter \(z\), then \(y\), then \(x\).</span></div>
-    <div class="answer-row"><label>\(z\)</label><input type="text" id="q2a_z" data-ans="3">
+    <div class="answer-row">
+      <label>\(z\)</label><input type="text" id="q2a_z" data-ans="5">
       <label>\(y\)</label><input type="text" id="q2a_y" data-ans="-2">
-      <label>\(x\)</label><input type="text" id="q2a_x" data-ans="10">
-      <button class="check-btn" onclick="checkNum(['q2a_z','q2a_y','q2a_x'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
+      <label>\(x\)</label><input type="text" id="q2a_x" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q2a_z','q2a_y','q2a_x'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\((x,y,z)=(10,-2,3)\).</span></p>
-      <p>\(3z=9\Rightarrow z=3\). Then \(y+6=4\Rightarrow y=-2\). Then
-      \(x+2(-2)-3=3\Rightarrow x=10\).</p>
+      <p><span class="ans">\((x,y,z)=(3,-2,5)\).</span></p>
+      <p>\(2z=10\Rightarrow z=5\). Then \(y+15=13\Rightarrow y=-2\).
+      Finally \(x-2(-2)+5=12\Rightarrow x=3\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
       <span class="part-text">Explain why a triangular system is easy to solve, and what
-      "back-substitution" means.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q2b_txt" placeholder="How does each equation help solve the next?"></textarea></div>
+      “back-substitution” means.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q2b_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Each equation drops a variable, so the last gives one unknown directly, and you substitute upward.</span></p>
-      <p>The bottom equation has one variable; solving it and substituting into the row above
-      gives the next, and so on up to the top. The values flow upward, each step using only
-      what is already known.</p>
+      <p>The last equation isolates one variable. Once that value is known, substitute it
+      into the equation above, then continue upward until every variable is determined.</p>
     </div></details>
   </div>
 </div>
