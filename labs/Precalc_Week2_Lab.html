@@ -167,48 +167,75 @@
 
 <!-- PROBLEM 3 -->
 <div class="problem" id="p3">
-  <h2>Problem 3 — Roots and the vertex from factored form</h2>
-  <div class="scenario">Consider \(f(x)=x^{2}-x-6\).</div>
-
-  <div class="part">
-    <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Factor and enter the two roots (smaller first).</span></div>
-    <div class="answer-row"><label>\(r_1\)</label><input type="text" id="q3a_1" data-ans="-2">
-      <label>\(r_2\)</label><input type="text" id="q3a_2" data-ans="3">
-      <button class="check-btn" onclick="checkNum(['q3a_1','q3a_2'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(f(x)=(x-3)(x+2)\), roots \(-2\) and \(3\).</span></p>
-      <p>Two numbers multiplying to \(-6\) and adding to \(-1\) are \(-3\) and \(2\).</p>
-    </div></details>
+  <h2>Problem 3 — Transforming a parabola</h2>
+  <div class="scenario">
+    Begin with the parent function \(f(x)=x^2\) and define
+    \[
+      g(x)=3f(x+2)-1.
+    \]
   </div>
 
   <div class="part">
-    <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">The axis of symmetry is the average of the roots. Enter the
-      axis \(x=\) and the vertex \(y\)-coordinate.</span></div>
-    <div class="answer-row"><label>axis \(x=\)</label><input type="text" id="q3b_x" data-ans="1/2">
-      <label>vertex \(y=\)</label><input type="text" id="q3b_y" data-ans="-25/4">
-      <button class="check-btn" onclick="checkNum(['q3b_x','q3b_y'],'q3b_v')">Check</button><span class="verdict" id="q3b_v"></span></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Axis \(x=\tfrac12\); vertex \(\left(\tfrac12,-\tfrac{25}{4}\right)\).</span></p>
-      <p>Midpoint of the roots: \(\tfrac{-2+3}{2}=\tfrac12\). Then
-      \(f\!\left(\tfrac12\right)=\left(\tfrac12-3\right)\left(\tfrac12+2\right)
-      =\left(-\tfrac52\right)\left(\tfrac52\right)=-\tfrac{25}{4}\).</p>
-    </div></details>
+    <div class="part-stem">
+      <span class="part-label">(a)</span>
+      <span class="part-text">Describe the transformations from \(f\) to \(g\) in words.</span>
+    </div>
+    <div class="text-answer">
+      <label>Your answer</label>
+      <textarea id="q3a_txt" placeholder="Describe the horizontal shift, vertical stretch, and vertical shift."></textarea>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">Shift left 2, stretch vertically by a factor of 3, then shift down 1.</span></p>
+        <p>The input \(x+2\) produces a left shift of 2. The factor \(3\) multiplies all
+        outputs, and the \(-1\) lowers the graph by 1.</p>
+      </div>
+    </details>
   </div>
 
   <div class="part">
-    <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">Explain why the vertex sits exactly halfway between the two
-      roots.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q3c_txt" placeholder="Use the symmetry of the parabola about its axis."></textarea></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">A parabola is symmetric about the vertical line through its vertex.</span></p>
-      <p>The two roots are equal distances from that axis on either side, so their midpoint
-      is the axis itself, which passes through the vertex. Reading the vertex's
-      \(x\)-coordinate from the roots is just averaging.</p>
-    </div></details>
+    <div class="part-stem">
+      <span class="part-label">(b)</span>
+      <span class="part-text">Write \(g(x)\) without function notation and give its vertex.</span>
+    </div>
+    <div class="answer-row">
+      <label>vertex \(x\)</label><input type="text" id="q3b_x" data-ans="-2">
+      <label>vertex \(y\)</label><input type="text" id="q3b_y" data-ans="-1">
+      <button class="check-btn" onclick="checkNum(['q3b_x','q3b_y'],'q3b_v')">Check</button>
+      <span class="verdict" id="q3b_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">\(g(x)=3(x+2)^2-1\), with vertex \((-2,-1)\).</span></p>
+        <p>Vertex form \(a(x-h)^2+k\) makes the turning point visible directly.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem">
+      <span class="part-label">(c)</span>
+      <span class="part-text">The parent points \((-1,1)\), \((0,0)\), and \((1,1)\)
+      are symmetric about the \(y\)-axis. Give their three transformed points on \(g\),
+      listed from left to right.</span>
+    </div>
+    <div class="answer-row">
+      <label>left</label><input type="text" id="q3c_x1" data-ans="-3"><input type="text" id="q3c_y1" data-ans="2">
+      <label>vertex</label><input type="text" id="q3c_x2" data-ans="-2"><input type="text" id="q3c_y2" data-ans="-1">
+      <label>right</label><input type="text" id="q3c_x3" data-ans="-1"><input type="text" id="q3c_y3" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q3c_x1','q3c_y1','q3c_x2','q3c_y2','q3c_x3','q3c_y3'],'q3c_v')">Check</button>
+      <span class="verdict" id="q3c_v"></span>
+    </div>
+    <details>
+      <summary>Show solution</summary>
+      <div class="solution">
+        <p><span class="ans">\((-3,2),\ (-2,-1),\ (-1,2)\).</span></p>
+        <p>The transformation sends a parent point \((u,v)\) to
+        \((u-2,\,3v-1)\). Applying that rule preserves the symmetry around \(x=-2\).</p>
+      </div>
+    </details>
   </div>
 </div>
 
