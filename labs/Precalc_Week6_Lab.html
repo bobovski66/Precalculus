@@ -141,52 +141,37 @@
 <!-- PROBLEM 2 -->
 <div class="problem" id="p2">
   <h2>Problem 2 — The number \(e\) and continuous growth</h2>
-  <div class="scenario">A bank account of \$1000 grows continuously at \(4\%\) per year,
-  modeled by \(A(t)=1000\,e^{0.04t}\).</div>
-
-  <div class="demo-link">
-    Fit an exponential to a point cloud in the
-    <a href="https://bobovski66.github.io/Precalculus/demos/function_fit.html"
-    target="_blank">Function Fit Lab</a>: set the parent to an exponential and tune the
-    parameters.
+  <div class="scenario">
+    A savings account of \$1500 grows continuously at \(3\%\) per year, modeled by
+    \(A(t)=1500e^{0.03t}\).
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Find the balance after \(10\) years (round to the nearest cent
-      / two decimals).</span></div>
-    <div class="answer-row"><label>\(A(10)=\$\)</label><input type="text" class="wide" id="q2a" data-ans="1491.82">
-      <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v',0.05)">Check</button><span class="verdict" id="q2a_v"></span></div>
+      <span class="part-text">Find the balance after \(8\) years. Round to the nearest cent.</span></div>
+    <div class="answer-row"><label>\(A(8)=\$\)</label><input type="text" id="q2a" data-ans="1906.87" data-tol="0.02">
+      <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(A(10)=1000\,e^{0.4}\approx \$1491.82.\)</span></p>
-      <p>\(e^{0.4}\approx1.49182\), so the balance is about \$1491.82.</p>
+      <p><span class="ans">\(A(8)=1500e^{0.24}\approx\$1906.87\).</span></p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">The compounding factor \(\left(1+\tfrac1n\right)^{n}\) rises
-      toward a fixed ceiling as \(n\) grows. Enter that ceiling to two decimals.</span></div>
-    <div class="answer-row"><label>ceiling</label><input type="text" id="q2b" data-ans="2.72">
-      <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v',0.005)">Check</button><span class="verdict" id="q2b_v"></span></div>
+      <span class="part-text">The compounding factor \(\left(1+\tfrac1n\right)^n\)
+      approaches a fixed number as \(n\) grows. Enter that number to two decimals.</span></div>
+    <div class="answer-row"><label>limit</label><input type="text" id="q2b" data-ans="2.72" data-tol="0.01">
+      <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">The ceiling is \(e\approx2.72\).</span></p>
-      <p>As compounding is refined, the factor climbs and settles toward
-      \(e=2.71828\ldots\), the base of continuous growth.</p>
+      <p><span class="ans">\(e\approx2.72\).</span></p>
+      <p>The limiting base for continuous compounding is \(e=2.71828\ldots\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">Explain why \(\left(1+\tfrac1n\right)^{n}\) does not grow
-      without bound as \(n\) increases.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q2c_txt" placeholder="Each refinement of compounding adds a little more, but how much more?"></textarea></div>
+      <span class="part-text">Explain what the numbers \(1500\) and \(0.03\) mean in the model.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q2c_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Each finer compounding adds less than the one before, and the total stays trapped beneath a fixed height.</span></p>
-      <p>Splitting the year into more periods does add a little extra growth, but each added
-      piece is smaller than the last. The running total presses upward against a ceiling it
-      never crosses; that ceiling is \(e\).</p>
+      <p>\(1500\) is the initial amount \(A(0)\). The exponent coefficient \(0.03\)
+      is the continuous growth rate per year.</p>
     </div></details>
   </div>
 </div>
@@ -194,23 +179,26 @@
 <!-- PROBLEM 3 -->
 <div class="problem" id="p3">
   <h2>Problem 3 — Half-life</h2>
-  <div class="scenario">A radioactive sample has a half-life of \(10\) years, starting from
-  \(64\) grams, modeled by \(M(t)=64\left(\tfrac12\right)^{t/10}\).</div>
-
+  <div class="scenario">
+    A radioactive sample starts at \(720\) grams and has a half-life of \(5\) years:
+    \[
+      M(t)=720\left(\tfrac12\right)^{t/5}.
+    \]
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Find the mass remaining after \(10\), \(20\), and \(30\) years
-      (no logarithms needed).</span></div>
-    <div class="answer-row"><label>\(t=10\)</label><input type="text" id="q3a_1" data-ans="32">
-      <label>\(t=20\)</label><input type="text" id="q3a_2" data-ans="16">
-      <label>\(t=30\)</label><input type="text" id="q3a_3" data-ans="8">
-      <button class="check-btn" onclick="checkNum(['q3a_1','q3a_2','q3a_3'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
+      <span class="part-text">Find the mass remaining after \(5\), \(10\), and \(15\) years.</span></div>
+    <div class="answer-row">
+      <label>\(t=5\)</label><input type="text" id="q3a_5" data-ans="360">
+      <label>\(t=10\)</label><input type="text" id="q3a_10" data-ans="180">
+      <label>\(t=15\)</label><input type="text" id="q3a_15" data-ans="90">
+      <button class="check-btn" onclick="checkNum(['q3a_5','q3a_10','q3a_15'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(32,\ 16,\ 8\) grams.</span></p>
-      <p>Each \(10\) years is one half-life, halving the mass: \(64\to32\to16\to8\).</p>
+      <p><span class="ans">\(360,\ 180,\ 90\) grams.</span></p>
+      <p>Each \(5\)-year interval is one half-life, so the amount is halved each time.</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
       <span class="part-text">A sample is measured at one-eighth of its original content.
@@ -218,24 +206,16 @@
     <div class="answer-row"><label>half-lives</label><input type="text" id="q3b" data-ans="3">
       <button class="check-btn" onclick="checkNum(['q3b'],'q3b_v')">Check</button><span class="verdict" id="q3b_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Three half-lives.</span></p>
-      <p>\(\left(\tfrac12\right)^{3}=\tfrac18\), so three halvings bring the sample to
-      one-eighth.</p>
+      <p><span class="ans">Three half-lives.</span></p><p>\((1/2)^3=1/8\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">Explain why a radioactive sample's mass is exponential rather
-      than decreasing by a fixed amount each year.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q3c_txt" placeholder="What fixed quantity does each equal time span remove?"></textarea></div>
+      <span class="part-text">Explain why radioactive decay is exponential rather than a fixed amount lost each year.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q3c_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">It loses a fixed fraction, not a fixed amount, in each equal time span.</span></p>
-      <p>Each half-life removes half of whatever is present, so the amount removed shrinks as
-      the sample shrinks. Constant-ratio decrease is exponential; subtracting a fixed amount
-      would be linear and would reach zero in finite time, which radioactive decay never
-      does.</p>
+      <p>The same fraction is lost in equal time intervals. A constant multiplicative
+      factor gives exponential decay; subtracting the same amount each year would be linear.</p>
     </div></details>
   </div>
 </div>
