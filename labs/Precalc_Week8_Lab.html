@@ -89,79 +89,81 @@
 
 <!-- PROBLEM 1 -->
 <div class="problem" id="p1">
-  <h2>Problem 1 — Membership and an elliptic curve</h2>
-  <div class="scenario">Consider the elliptic curve \(y^{2}=x^{3}-x\). A point lies on it
-  when its coordinates satisfy the equation.</div>
-
+  <h2>Problem 1 — An implicit circle</h2>
+  <div class="scenario">
+    Consider the curve \(x^2+y^2=25\).
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">At \(x=2\), \(y^{2}=x^{3}-x\). Enter \(y^{2}\).</span></div>
-    <div class="answer-row"><label>\(y^{2}=\)</label><input type="text" id="q1a" data-ans="6">
+      <span class="part-text">Does the point \((3,4)\) lie on the curve? Enter \(1\) for yes or \(0\) for no.</span></div>
+    <div class="answer-row"><label>on the curve?</label><input type="text" id="q1a" data-ans="1">
       <button class="check-btn" onclick="checkNum(['q1a'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(y^{2}=8-2=6\), so \((2,\pm\sqrt6)\) are on the curve.</span></p>
-      <p>A vertical line at \(x=2\) meets the curve twice, at \(y=\sqrt6\) and \(y=-\sqrt6\).</p>
+      <p><span class="ans">Yes.</span></p><p>\(3^2+4^2=9+16=25\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Real points need \(x^{3}-x\ge0\), i.e. \(x(x-1)(x+1)\ge0\).
-      Is there a real point at \(x=\tfrac12\)? Enter \(1\) for yes or \(0\) for no.</span></div>
-    <div class="answer-row"><label>real at \(x=\tfrac12\)?</label><input type="text" id="q1b" data-ans="0">
+      <span class="part-text">At \(x=4\), the curve has two \(y\)-values. Enter the positive one.</span></div>
+    <div class="answer-row"><label>positive \(y\)</label><input type="text" id="q1b" data-ans="3">
       <button class="check-btn" onclick="checkNum(['q1b'],'q1b_v')">Check</button><span class="verdict" id="q1b_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">No.</span></p>
-      <p>\(\left(\tfrac12\right)^{3}-\tfrac12=\tfrac18-\tfrac12=-\tfrac38<0\). Since \(y^{2}\)
-      cannot be negative, there is no real point there; this is the gap between \(0\) and
-      \(1\).</p>
+      <p><span class="ans">\(y=3\), with the second point at \(y=-3\).</span></p>
+      <p>\(16+y^2=25\Rightarrow y^2=9\Rightarrow y=\pm3\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">Explain why this curve is not the graph of a function, and
-      describe its two pieces.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q1c_txt" placeholder="Use the y to -y symmetry and the sign of x^3 - x."></textarea></div>
+      <span class="part-text">Explain why the whole circle is not the graph of a function
+      \(y=f(x)\). Then write the upper semicircle explicitly as a function and state its domain.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q1c_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Each admissible \(x\) with \(x^{3}-x>0\) gives two \(y\)-values, \(\pm\sqrt{x^{3}-x}\), so a vertical line meets it twice.</span></p>
-      <p>The real locus has two pieces: a bounded oval over \(-1\le x\le0\) and an unbounded
-      branch over \(x\ge1\), with a gap between \(0\) and \(1\) where \(x^{3}-x<0\). A
-      disconnected, doubled curve cannot be a function.</p>
+      <p>The circle fails the vertical line test because many inputs produce two outputs.
+      The upper half is \(y=\sqrt{25-x^2}\), with domain \(-5\le x\le5\).</p>
     </div></details>
   </div>
 </div>
 
 <!-- PROBLEM 2 -->
 <div class="problem" id="p2">
-  <h2>Problem 2 — Reading an ellipse</h2>
-  <div class="scenario">Consider \(\dfrac{x^{2}}{25}+\dfrac{y^{2}}{16}=1\).</div>
-
+  <h2>Problem 2 — Reading a translated ellipse</h2>
+  <div class="scenario">
+    Consider
+    \[
+      \frac{(x+2)^2}{36}+\frac{(y-1)^2}{16}=1.
+    \]
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Enter the semi-axes \(a\) (along \(x\)) and \(b\) (along \(y\)).</span></div>
-    <div class="answer-row"><label>\(a\)</label><input type="text" id="q2a_a" data-ans="5">
+      <span class="part-text">Enter the center \((h,k)\) and the semi-axis lengths \(a\) and \(b\).</span></div>
+    <div class="answer-row">
+      <label>\(h\)</label><input type="text" id="q2a_h" data-ans="-2">
+      <label>\(k\)</label><input type="text" id="q2a_k" data-ans="1">
+      <label>\(a\)</label><input type="text" id="q2a_a" data-ans="6">
       <label>\(b\)</label><input type="text" id="q2a_b" data-ans="4">
-      <button class="check-btn" onclick="checkNum(['q2a_a','q2a_b'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
+      <button class="check-btn" onclick="checkNum(['q2a_h','q2a_k','q2a_a','q2a_b'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(a=5,\ b=4\).</span></p>
-      <p>\(a^{2}=25\) and \(b^{2}=16\), so the ellipse reaches \(\pm5\) along \(x\) and
-      \(\pm4\) along \(y\).</p>
+      <p><span class="ans">Center \((-2,1)\), with \(a=6\) and \(b=4\).</span></p>
+      <p>The larger denominator is under the \(x\)-term, so the major axis is horizontal.</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Enter the positive \(x\)-intercept and the positive
-      \(y\)-intercept.</span></div>
-    <div class="answer-row"><label>\(x\)-int</label><input type="text" id="q2b_x" data-ans="5">
-      <label>\(y\)-int</label><input type="text" id="q2b_y" data-ans="4">
-      <button class="check-btn" onclick="checkNum(['q2b_x','q2b_y'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
+      <span class="part-text">State the two vertices and the two covertices.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q2b_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(x\)-intercept \(5\), \(y\)-intercept \(4\).</span></p>
-      <p>Set \(y=0\): \(x^{2}/25=1\), so \(x=\pm5\). Set \(x=0\): \(y^{2}/16=1\), so
-      \(y=\pm4\).</p>
+      <p><span class="ans">Vertices \((-8,1)\) and \((4,1)\); covertices \((-2,-3)\) and \((-2,5)\).</span></p>
+    </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Find the foci exactly.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q2c_txt"></textarea></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\((-2-2\sqrt5,1)\) and \((-2+2\sqrt5,1)\).</span></p>
+      <p>For an ellipse, \(c^2=a^2-b^2=36-16=20\), so \(c=2\sqrt5\).
+      The foci lie \(c\) units left and right of the center.</p>
     </div></details>
   </div>
 </div>
