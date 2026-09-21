@@ -134,30 +134,37 @@
 
 <!-- PROBLEM 2 -->
 <div class="problem" id="p2">
-  <h2>Problem 2 — One-to-one and the horizontal line test</h2>
-  <div class="scenario">A function is one-to-one when no horizontal line meets its graph
-  more than once. Enter \(1\) for one-to-one or \(0\) for not.</div>
-
+  <h2>Problem 2 — Restricting a domain to get an inverse</h2>
+  <div class="scenario">
+    Consider \(g(x)=x^2+9\).
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">\(f(x)=2x-1\)</span></div>
-    <div class="answer-row"><label>one-to-one?</label><input type="text" id="q2a" data-ans="1">
+      <span class="part-text">Is \(g\) one-to-one on all real numbers? Enter \(1\) for yes or \(0\) for no.</span></div>
+    <div class="answer-row"><label>one-to-one?</label><input type="text" id="q2a" data-ans="0">
       <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Yes.</span></p>
-      <p>A non-horizontal line meets every horizontal line exactly once.</p>
+      <p><span class="ans">No.</span></p>
+      <p>For example, \(g(2)=g(-2)=13\), so a horizontal line can meet the parabola twice.</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">\(f(x)=x^{2}\)</span></div>
-    <div class="answer-row"><label>one-to-one?</label><input type="text" id="q2b" data-ans="0">
-      <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
+      <span class="part-text">Restrict the domain to \(x\ge0\). Find \(g^{-1}(x)\) and state the domain of the inverse.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q2b_txt" placeholder="Give the inverse formula and its domain."></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">No.</span></p>
-      <p>The line \(y=4\) meets the parabola at \(x=2\) and \(x=-2\), two inputs sharing one
-      output. Restricting to \(x\ge0\) would make it one-to-one.</p>
+      <p><span class="ans">\(g^{-1}(x)=\sqrt{x-9}\), with domain \(x\ge9\).</span></p>
+      <p>From \(y=x^2+9\) with \(x\ge0\), swap variables:
+      \(x=y^2+9\). Solving for the nonnegative branch gives \(y=\sqrt{x-9}\).</p>
+    </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Using that inverse, find \(g^{-1}(34)\).</span></div>
+    <div class="answer-row"><label>\(g^{-1}(34)=\)</label><input type="text" id="q2c" data-ans="5">
+      <button class="check-btn" onclick="checkNum(['q2c'],'q2c_v')">Check</button><span class="verdict" id="q2c_v"></span></div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\(5\).</span></p><p>\(\sqrt{34-9}=\sqrt{25}=5\).</p>
     </div></details>
   </div>
 </div>
