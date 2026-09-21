@@ -124,44 +124,45 @@
 <!-- PROBLEM 2 -->
 <div class="problem" id="p2">
   <h2>Problem 2 — Roots and multiplicity</h2>
-  <div class="scenario">Consider \(f(x)=(x+2)(x-1)^{2}(x-3)\).</div>
-
+  <div class="scenario">
+    Consider \(f(x)=(x+3)(x-2)^{2}(x-4)\).
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
       <span class="part-text">Enter the degree of \(f\).</span></div>
-    <div class="answer-row"><label>degree</label><input type="text" id="q2a" data-ans="4">
-      <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
+    <div class="answer-row">
+      <label>degree</label><input type="text" id="q2a" data-ans="4">
+      <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
       <p><span class="ans">Degree \(4\).</span></p>
-      <p>The multiplicities sum to the degree: \(1+2+1=4\).</p>
+      <p>The multiplicities add: \(1+2+1=4\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
       <span class="part-text">At each root, does the graph cross (\(1\)) or touch (\(0\))?</span></div>
-    <div class="answer-row"><label>\(x=-2\)</label><input type="text" id="q2b_1" data-ans="1">
-      <label>\(x=1\)</label><input type="text" id="q2b_2" data-ans="0">
-      <label>\(x=3\)</label><input type="text" id="q2b_3" data-ans="1">
-      <button class="check-btn" onclick="checkNum(['q2b_1','q2b_2','q2b_3'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
+    <div class="answer-row">
+      <label>\(x=-3\)</label><input type="text" id="q2b_1" data-ans="1">
+      <label>\(x=2\)</label><input type="text" id="q2b_2" data-ans="0">
+      <label>\(x=4\)</label><input type="text" id="q2b_3" data-ans="1">
+      <button class="check-btn" onclick="checkNum(['q2b_1','q2b_2','q2b_3'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Cross at \(-2\) and \(3\); touch at \(1\).</span></p>
-      <p>Odd multiplicity (\(1\)) crosses; even multiplicity (\(2\)) touches and turns back.</p>
+      <p><span class="ans">Cross at \(-3\) and \(4\); touch at \(2\).</span></p>
+      <p>Odd multiplicity roots change sign and cross the axis. The double root has even
+      multiplicity, so the graph touches the axis and turns around.</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
       <span class="part-text">Explain, using the parity of the exponent, why a factor
-      \((x-r)^{m}\) changes sign at \(r\) when \(m\) is odd.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q2c_txt" placeholder="Think about a negative number raised to an odd vs. even power."></textarea></div>
+      \((x-r)^m\) changes sign at \(r\) when \(m\) is odd.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q2c_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">A negative base raised to an odd power stays negative; to an even power becomes positive.</span></p>
-      <p>Just left of \(r\) the factor \((x-r)\) is negative, just right it is positive. If
-      \(m\) is odd, \((x-r)^{m}\) keeps the sign of \((x-r)\), so it flips across \(r\)
-      (a crossing). If \(m\) is even, \((x-r)^{m}\ge0\) on both sides, so no sign change
-      (a touch).</p>
+      <p>A negative base raised to an odd power stays negative, while the same base raised
+      to an even power becomes positive. Since \(x-r\) changes sign as \(x\) passes
+      through \(r\), an odd power preserves that sign change and an even power removes it.</p>
     </div></details>
   </div>
 </div>
@@ -169,43 +170,39 @@
 <!-- PROBLEM 3 -->
 <div class="problem" id="p3">
   <h2>Problem 3 — Sign chart and sketch</h2>
-  <div class="scenario">Work with \(f(x)=(x+2)(x-1)^{2}(x-3)\) from Problem 2.</div>
-
-  <div class="demo-link">
-    Check your shape against the <a href="https://bobovski66.github.io/Precalculus/demos/polynomial_roots.html"
-    target="_blank">Polynomial Roots and Multiplicity Lab</a>: place the roots with these
-    multiplicities and watch the curve cross and touch.
+  <div class="scenario">
+    Work with \(f(x)=(x+3)(x-2)^{2}(x-4)\) from Problem 2.
+    Check your shape against the
+    <a href="../demos/polynomial_roots.html" target="_blank" rel="noopener">Polynomial Roots and Multiplicity Lab</a>.
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">The roots split the line into four intervals. Enter the sign
-      of \(f\) on each, using \(1\) for positive and \(-1\) for negative.</span></div>
-    <div class="answer-row"><label>\((-\infty,-2)\)</label><input type="text" id="q3a_1" data-ans="1">
-      <label>\((-2,1)\)</label><input type="text" id="q3a_2" data-ans="-1">
-      <label>\((1,3)\)</label><input type="text" id="q3a_3" data-ans="-1">
-      <label>\((3,\infty)\)</label><input type="text" id="q3a_4" data-ans="1">
-      <button class="check-btn" onclick="checkNum(['q3a_1','q3a_2','q3a_3','q3a_4'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
+      <span class="part-text">The roots split the line into four intervals. Enter the sign of
+      \(f\) on each, using \(1\) for positive and \(-1\) for negative.</span></div>
+    <div class="answer-row">
+      <label>\((-∞,-3)\)</label><input type="text" id="q3a_1" data-ans="1">
+      <label>\((-3,2)\)</label><input type="text" id="q3a_2" data-ans="-1">
+      <label>\((2,4)\)</label><input type="text" id="q3a_3" data-ans="-1">
+      <label>\((4,∞)\)</label><input type="text" id="q3a_4" data-ans="1">
+      <button class="check-btn" onclick="checkNum(['q3a_1','q3a_2','q3a_3','q3a_4'],'q3a_v')">Check</button>
+      <span class="verdict" id="q3a_v"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(+,\ -,\ -,\ +\).</span></p>
-      <p>The factor \((x-1)^{2}\) is never negative, so it never affects the sign. Testing
-      one point per interval, the sign stays negative across \(x=1\) (the touch) and flips
-      only at the simple roots \(-2\) and \(3\).</p>
+      <p><span class="ans">\(+,-,-,+\).</span></p>
+      <p>The double factor \((x-2)^2\) never changes sign, so the sign stays negative
+      across \(x=2\) and flips only at the simple roots \(-3\) and \(4\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Describe the global shape of the graph in words: where it
-      comes from, where it crosses or touches, and where it goes.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q3b_txt" placeholder="Trace the curve from the upper left to the upper right, naming each feature."></textarea></div>
+      <span class="part-text">Describe the global shape of the graph in words: where it comes
+      from, where it crosses or touches, and where it goes.</span></div>
+    <div class="text-answer"><label>Your answer</label><textarea id="q3b_txt"></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">From the upper left, cross down at \(-2\), below the axis to a touch at \(1\), back down, cross up at \(3\), to the upper right.</span></p>
-      <p>Degree \(4\) with positive leading coefficient sends both ends up. The curve
-      descends from the upper left, crosses at \(-2\), runs below the axis, rises to touch
-      zero at \(x=1\) and falls back below, then crosses up at \(3\) and climbs to the
-      upper right. The touch at \(x=1\) is the visual signature of the double root.</p>
+      <p><span class="ans">From the upper left, cross downward at \(-3\), touch the axis at
+      \(2\) without changing sign, cross upward at \(4\), and finish at the upper right.</span></p>
+      <p>Degree \(4\) with positive leading coefficient sends both ends upward. The even
+      multiplicity at \(2\) creates the touch-and-turn behavior.</p>
     </div></details>
   </div>
 </div>
