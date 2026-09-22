@@ -66,14 +66,14 @@ body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-seri
     mjx-container{color:inherit!important;max-width:100%;overflow-x:auto;overflow-y:hidden}\n    input:focus,textarea:focus,select:focus{outline:3px solid color-mix(in srgb,var(--blue) 22%,transparent)!important;outline-offset:1px;border-color:var(--blue)!important}
     .meaning-checkpoint{margin-top:10px;padding:10px 13px;border-radius:10px;background:var(--green-bg);border:1px solid var(--green-rule);font-size:14px}.meaning-checkpoint strong{color:var(--green)}
     @media(max-width:720px){.wrap{padding:20px 14px 70px!important}.workflow,.guide-grid{grid-template-columns:1fr}.guide-grid>div+div{border-left:0;border-top:1px solid var(--blue-rule)}.problem{padding:18px 16px!important}.answer-row,.text-answer,details{margin-left:0!important}.answer-row input[type=text]{width:96px!important}.student-topbar .status{width:100%;margin-left:0}}
-    @media print{body{--ink:#111;--paper:#fff;--card:#fff;--field:#fff;--rule:#bbb;--muted:#444;--blue:#234e7b;--blue-bg:#f4f7fb;--blue-rule:#ccd8e5;--green:#215b3e;--green-bg:#f2f8f4;--green-rule:#c5d8cc;--amber:#7a5600;--amber-bg:#fffaf0;--red:#922;--red-bg:#fff;--shadow:none;background:#fff!important}.student-topbar,.student-start .save-note{display:none!important}.wrap{max-width:none!important;padding:0!important}.problem,.objectives,.student-start,.lab-story,header{box-shadow:none!important;break-inside:avoid}.check-btn{display:none!important}details{display:block!important}details>summary{display:none!important}.solution{display:block!important}.problem{margin-bottom:14px!important}}
+    @media print{body{--ink:#111;--paper:#fff;--card:#fff;--field:#fff;--rule:#bbb;--muted:#444;--blue:#234e7b;--blue-bg:#f4f7fb;--blue-rule:#ccd8e5;--green:#215b3e;--green-bg:#f2f8f4;--green-rule:#c5d8cc;--amber:#7a5600;--amber-bg:#fffaf0;--red:#922;--red-bg:#fff;--shadow:none;background:#fff!important}.student-topbar,.student-start .save-note{display:none!important}.wrap{max-width:none!important;padding:0!important}.objectives,.student-start,.lab-story,header{box-shadow:none!important;break-inside:avoid}.problem{box-shadow:none!important;break-inside:auto!important}.part{break-inside:avoid}.check-btn{display:none!important}details,.solution{display:none!important}.problem{margin-bottom:14px!important}}
   `; doc.head.appendChild(style);
   const body=doc.body; body.setAttribute('data-student-lab','precalc-week-'+WEEK);
   body.dataset.theme=localStorage.getItem('precalc_lab_theme')||'light';
   const oldToolbar=body.querySelector('.toolbar'); if(oldToolbar) oldToolbar.remove();
-  const bar=doc.createElement('div'); bar.className='student-topbar'; bar.innerHTML=`<div class="student-topbar-inner"><button class="primary" onclick="saveFilledHTML()">Save filled HTML</button><button onclick="window.print()">Print / Save PDF</button><button onclick="jumpNext()">Next problem</button><button id="themeToggle" onclick="toggleStudentTheme()">Theme</button><button onclick="clearStudentData()">Clear answers</button><span class="status"><span id="studentProgress">0% started</span> · <span id="saveStatus">autosave ready</span></span></div>`; body.insertBefore(bar,body.firstChild);
+  const bar=doc.createElement('div'); bar.className='student-topbar'; bar.innerHTML=`<div class="student-topbar-inner"><button class="primary" onclick="createSubmissionCopy()">Create Submission Copy</button><button onclick="jumpNext()">Next problem</button><button id="themeToggle" onclick="toggleStudentTheme()">Theme</button><button onclick="clearStudentData()">Clear answers</button><span class="status"><span id="studentProgress">0% started</span> · <span id="saveStatus">autosave ready</span></span></div>`; body.insertBefore(bar,body.firstChild);
   const wrap=body.querySelector('.wrap')||body; const header=wrap.querySelector('header');
-  const start=doc.createElement('section'); start.className='student-start'; start.innerHTML=`<h2>How to work this lab</h2><p>Work in order, but do not treat the answer boxes as the destination. For each problem, first identify what mathematical feature you are trying to uncover, then do the calculation, then say to yourself what the result tells you about the graph, model, or system.</p><div class="workflow"><div><strong>1 · Predict</strong>What should the answer roughly look like, and why?</div><div><strong>2 · Calculate</strong>Carry out the algebra and use Check for numerical work.</div><div><strong>3 · Interpret</strong>Connect the result back to shape, rate, structure, or context.</div></div><p class="save-note">Your work autosaves in this browser. <strong>Save filled HTML</strong> makes a portable copy with your current answers embedded. <strong>Print / Save PDF</strong> creates a frozen classroom or submission copy.</p><label for="studentName">Student name</label><input id="studentName" data-student-field="name" autocomplete="name" placeholder="Your name"></section>`;
+  const start=doc.createElement('section'); start.className='student-start'; start.innerHTML=`<h2>How to work this lab</h2><p>Work in order, but do not treat the answer boxes as the destination. For each problem, first identify what mathematical feature you are trying to uncover, then do the calculation, then say to yourself what the result tells you about the graph, model, or system.</p><div class="workflow"><div><strong>1 · Predict</strong>What should the answer roughly look like, and why?</div><div><strong>2 · Calculate</strong>Carry out the algebra and use Check for numerical work.</div><div><strong>3 · Interpret</strong>Connect the result back to shape, rate, structure, or context.</div></div><p class="save-note">Your work autosaves in this browser. When you are ready to turn it in, enter your name and choose <strong>Create Submission Copy</strong>. A clean, static copy opens with your current answers written into the page. From that copy you can <strong>Print / Save as PDF</strong> or <strong>Download HTML</strong> for upload to Canvas.</p><label for="studentName">Student name</label><input id="studentName" data-student-field="name" autocomplete="name" placeholder="Your name"></section>`;
   if(header) header.insertAdjacentElement('afterend',start); else wrap.insertBefore(start,wrap.firstChild);
   const obj=wrap.querySelector('.objectives'); const story=doc.createElement('section'); story.className='lab-story'; story.innerHTML=`<h2>Big idea for Week ${WEEK}</h2><p>${META.big}</p><p class="question-line"><strong>Keep this question in view:</strong> ${META.questions}</p>`; if(obj)obj.insertAdjacentElement('afterend',story); else start.insertAdjacentElement('afterend',story);
   body.querySelectorAll('.problem').forEach((el,i)=>{
@@ -96,7 +96,76 @@ body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-seri
     function update(){const a=answers(),done=a.filter(embeddedHasValue).length,pct=a.length?Math.round(100*done/a.length):0;const p=document.getElementById('studentProgress');if(p)p.textContent=pct+'% started';}
     window.clearStudentData=function(){if(!confirm('Clear the answers saved in this copy of the lab?'))return;try{localStorage.removeItem(key())}catch(e){}fields().forEach(e=>{if(e.id==='studentName')e.value='';else if(e.type==='checkbox'||e.type==='radio')e.checked=false;else e.value=''});document.querySelectorAll('.verdict').forEach(v=>v.textContent='');update();};
     window.jumpNext=function(){const probs=[...document.querySelectorAll('.problem')];const y=scrollY+90;let next=probs.find(p=>p.offsetTop>y);(next||probs[0])?.scrollIntoView({behavior:'smooth',block:'start'});};
-    window.saveFilledHTML=function(){persist();const clone=document.documentElement.cloneNode(true);const newId=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));clone.querySelector('body').dataset.copyId=newId;const live=fields(),copied=[...clone.querySelectorAll('input,textarea,select')].filter(e=>!e.closest('.solution'));live.forEach((e,i)=>{const c=copied[i];if(!c)return;if(e.type==='checkbox'||e.type==='radio'){if(e.checked)c.setAttribute('checked','');else c.removeAttribute('checked')}else if(e.tagName==='TEXTAREA'){c.textContent=e.value}else if(e.tagName==='SELECT'){[...c.options].forEach((o,j)=>{if(j===e.selectedIndex)o.setAttribute('selected','');else o.removeAttribute('selected')})}else c.setAttribute('value',e.value)});const html='<!DOCTYPE html>\\n'+clone.outerHTML;const blob=new Blob([html],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);const nm=(document.getElementById('studentName')?.value||'Student').trim().replace(/[^a-z0-9_-]+/gi,'_');a.download='Precalc_Week_${WEEK}_Lab_'+(nm||'Student')+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);const s=document.getElementById('saveStatus');if(s)s.textContent='filled HTML downloaded';};
+    function submissionAnswerText(el){
+      const tag=el.tagName,type=(el.type||'').toLowerCase();
+      if(tag==='SELECT'){const opt=el.selectedOptions&&el.selectedOptions[0];return el.value&&opt?opt.textContent.trim():'No response';}
+      if(type==='checkbox')return el.checked?'Checked':'Not checked';
+      if(type==='radio')return el.checked?'Selected':'Not selected';
+      const v=(el.value==null?'':String(el.value)).trim();
+      return v||'No response';
+    }
+    function safeSubmissionFilename(s){return String(s||'student').trim().replace(/[^a-z0-9._-]+/gi,'_').replace(/^_+|_+$/g,'')||'student';}
+    function replaceSubmissionControls(sourceRoot,cloneRoot){
+      const source=[...sourceRoot.querySelectorAll('input,select,textarea')].filter(e=>!e.closest('.solution'));
+      const copied=[...cloneRoot.querySelectorAll('input,select,textarea')].filter(e=>!e.closest('.solution'));
+      copied.forEach((copy,i)=>{
+        const original=source[i];
+        if(!original){copy.remove();return;}
+        if(original.id==='studentName'){copy.remove();return;}
+        const type=(original.type||'').toLowerCase();
+        if(['button','submit','reset','hidden'].includes(type)){copy.remove();return;}
+        const out=document.createElement((original.tagName==='TEXTAREA'||original.tagName==='SELECT'||['text','number','email','url','range'].includes(type))?'div':'span');
+        out.className='submission-answer'+(out.tagName==='DIV'?' submission-answer-block':'');
+        out.textContent=submissionAnswerText(original);
+        copy.replaceWith(out);
+      });
+    }
+    function replaceSubmissionCanvases(sourceRoot,cloneRoot){
+      const source=[...sourceRoot.querySelectorAll('canvas')],copied=[...cloneRoot.querySelectorAll('canvas')];
+      copied.forEach((copy,i)=>{
+        const original=source[i];
+        if(!original){copy.remove();return;}
+        try{const img=document.createElement('img');img.className='submission-canvas-image';img.alt=original.getAttribute('aria-label')||'Lab visual';img.src=original.toDataURL('image/png');copy.replaceWith(img);}
+        catch(err){const note=document.createElement('div');note.className='submission-answer submission-answer-block';note.textContent='Interactive visual not included in this copy.';copy.replaceWith(note);}
+      });
+    }
+    function makeSubmissionLinksAbsolute(sourceRoot,cloneRoot){
+      const sourceImgs=[...sourceRoot.querySelectorAll('img')],copiedImgs=[...cloneRoot.querySelectorAll('img')];
+      copiedImgs.forEach((img,i)=>{if(sourceImgs[i]&&sourceImgs[i].src&&!img.src.startsWith('data:'))img.src=sourceImgs[i].src;});
+      const sourceLinks=[...sourceRoot.querySelectorAll('a')],copiedLinks=[...cloneRoot.querySelectorAll('a')];
+      copiedLinks.forEach((a,i)=>{if(sourceLinks[i]&&sourceLinks[i].href)a.href=sourceLinks[i].href;});
+    }
+    function cleanSubmissionClone(clone){
+      clone.querySelectorAll('details,.solution,.check-btn,.verdict,.meaning-checkpoint,script').forEach(x=>x.remove());
+      clone.querySelectorAll('button').forEach(x=>x.remove());
+      clone.querySelectorAll('label[for="studentName"]').forEach(x=>x.remove());
+      clone.querySelectorAll('.student-start .save-note').forEach(x=>x.remove());
+    }
+    function installSubmissionPage(doc,name,title,clone){
+      doc.open();doc.write('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title></title></head><body></body></html>');doc.close();
+      doc.title=title+' — '+name;
+      document.querySelectorAll('style').forEach(style=>doc.head.appendChild(style.cloneNode(true)));
+      const extra=doc.createElement('style');
+      extra.textContent='body{overflow:auto!important;height:auto!important;background:#fff!important;color:#111!important}.submission-toolbar{position:sticky;top:0;z-index:1000;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 18px;background:#17335a;color:#fff;box-shadow:0 3px 12px rgba(0,0,0,.18)}.submission-toolbar button{display:inline-block!important;background:#fff!important;color:#17335a!important;border:1px solid #ccd8e5!important;padding:9px 13px!important;border-radius:9px!important;font-weight:800!important;cursor:pointer!important}.submission-note{font-size:.88rem;color:#e7eef8}.submission-cover{max-width:960px;margin:20px auto 0;padding:0 24px}.submission-cover-card{background:#fff;border:1px solid #ccd8e5;border-radius:14px;padding:14px 18px}.submission-cover h1{margin:0 0 8px;color:#17335a;font-size:1.45rem}.submission-meta{display:flex;gap:22px;flex-wrap:wrap}.submission-answer{display:inline-block;padding:4px 8px;border:1px solid #b9c6d5;border-radius:7px;background:#fff;color:#111;font-weight:700;white-space:pre-wrap;overflow-wrap:anywhere;vertical-align:baseline}.submission-answer-block{display:block;width:100%;min-height:2.1em;margin:5px 0 2px}.submission-canvas-image{display:block;max-width:100%;height:auto;border:1px solid #ccd8e5;border-radius:10px;background:#fff}.student-topbar,details,.solution,.check-btn,.verdict{display:none!important}@media print{.submission-toolbar{display:none!important}.submission-cover{margin-top:0;padding:0}.wrap{padding:0!important}.problem{break-inside:auto!important}.part{break-inside:avoid!important}.submission-cover-card{border:0;padding:0 0 10px}.problem,.objectives,.student-start,.lab-story,header{box-shadow:none!important}}';
+      doc.head.appendChild(extra);
+      const toolbar=doc.createElement('div');toolbar.className='submission-toolbar';toolbar.innerHTML='<button type="button" id="submissionPrintButton">Print / Save as PDF</button><button type="button" id="submissionDownloadButton">Download HTML</button><span class="submission-note">Static submission copy — your working lab remains open in the other tab.</span>';doc.body.appendChild(toolbar);
+      const cover=doc.createElement('div');cover.className='submission-cover';const card=doc.createElement('div');card.className='submission-cover-card';const h=doc.createElement('h1');h.textContent=title;const meta=doc.createElement('div');meta.className='submission-meta';const student=doc.createElement('div');student.innerHTML='<strong>Student:</strong> ';student.appendChild(doc.createTextNode(name));const made=doc.createElement('div');made.innerHTML='<strong>Submission copy created:</strong> ';made.appendChild(doc.createTextNode(new Date().toLocaleString()));meta.append(student,made);card.append(h,meta);cover.appendChild(card);doc.body.appendChild(cover);
+      doc.body.appendChild(doc.importNode(clone,true));
+      doc.body.dataset.downloadBase='Precalc_Week_1_Lab_'+safeSubmissionFilename(name);
+      const sc2=doc.createElement('script');sc2.textContent="document.getElementById('submissionPrintButton').addEventListener('click',function(){window.print();});document.getElementById('submissionDownloadButton').addEventListener('click',function(){var html='<!doctype html>\\n'+document.documentElement.outerHTML;var blob=new Blob([html],{type:'text/html;charset=utf-8'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=(document.body.dataset.downloadBase||'Precalculus_Lab_Submission')+'.html';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);});";doc.body.appendChild(sc2);
+    }
+    window.createSubmissionCopy=function(){
+      persist();
+      const nameInput=document.getElementById('studentName'),name=(nameInput?.value||'').trim(),status=document.getElementById('saveStatus');
+      if(!name){if(status)status.textContent='enter your name first';nameInput?.focus();return;}
+      const popup=window.open('','_blank');
+      if(!popup){if(status)status.textContent='allow pop-ups, then try again';return;}
+      const source=document.querySelector('.wrap')||document.body,clone=source.cloneNode(true);
+      replaceSubmissionCanvases(source,clone);replaceSubmissionControls(source,clone);makeSubmissionLinksAbsolute(source,clone);cleanSubmissionClone(clone);
+      const title=(document.querySelector('header h1')?.textContent||document.title).trim();
+      installSubmissionPage(popup.document,name,title,clone);
+      if(status)status.textContent='submission copy opened';
+    };
     document.addEventListener('input',persist);document.addEventListener('change',persist);window.addEventListener('load',load);if(document.readyState!=='loading')load();
   })();`;
   body.appendChild(sc);
