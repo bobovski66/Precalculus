@@ -9,5 +9,58 @@ function dot(f,x,y,fill=activityCss('--curve-gold'),r=4){const{ctx,X,Y}=f;if(!Nu
 function nice(n,d=2){if(!Number.isFinite(n))return '—';return Number(n).toFixed(d).replace(/\.?0+$/,'')}
 const families={linear:{name:'linear',tex:'x',f:x=>x,dom:x=>true},quadratic:{name:'quadratic',tex:'x^2',f:x=>x*x,dom:x=>true},cubic:{name:'cubic',tex:'x^3',f:x=>x*x*x,dom:x=>true},absolute:{name:'absolute value',tex:'|x|',f:x=>Math.abs(x),dom:x=>true},sqrt:{name:'square root',tex:'\\sqrt{x}',f:x=>Math.sqrt(x),dom:x=>x>=0}};
 
-function upd(){const F=families[fam.value],a=Number(A.value),b=Number(B.value),h=Number(H.value),k=Number(K.value);Av.textContent='A = '+nice(a);Bv.textContent='b = '+nice(b);Hv.textContent='h = '+nice(h);Kv.textContent='k = '+nice(k);formula.innerHTML=`\\(y=${nice(a)}f(${nice(b)}(x-${nice(h)}))+${nice(k)},\\qquad f(x)=${F.tex}\\)`;let msg=[];if(a<0)msg.push('\\(A<0\\) reflects across the x-axis');if(Math.abs(a)>1)msg.push('\\(|A|>1\\) stretches vertically');if(Math.abs(a)>0&&Math.abs(a)<1)msg.push('\\(0<|A|<1\\) compresses vertically');if(b<0)msg.push('\\(b<0\\) reflects horizontally');if(Math.abs(b)>1)msg.push('\\(|b|>1\\) compresses horizontally');if(Math.abs(b)>0&&Math.abs(b)<1)msg.push('\\(0<|b|<1\\) stretches horizontally');msg.push(`\\(h=${nice(h)}\\) shifts horizontally and \\(k=${nice(k)}\\) shifts vertically`);meaning.innerHTML=msg.join('. ')+'.';const frame=plotFrame(plot,-8,8,-8,8);curve(frame,x=>F.dom(x)?F.f(x):NaN,-8,8,activityCss('--curve-neutral'),2,.025,[6,5]);const g=x=>{const u=b*(x-h);return F.dom(u)?a*F.f(u)+k:NaN};curve(frame,g,-8,8);const u=1,px=Math.abs(b)>1e-8?h+u/b:NaN,py=F.dom(u)?a*F.f(u)+k:NaN;dot(frame,px,py)}
-[fam,A,B,H,K].forEach(e=>e.addEventListener(e.tagName==='SELECT'?'change':'input',upd));window.addEventListener('resize',upd);upd();</script></body></html>
+let current={a:Number(A.value),b:Number(B.value),h:Number(H.value),k:Number(K.value)};
+let target={...current};
+let animStart=null,animFrom={...current},animId=0,textTimer=0;
+const ANIM_MS=110;
+
+function renderGraph(p){
+  const F=families[fam.value],{a,b,h,k}=p;
+  const frame=plotFrame(plot,-8,8,-8,8);
+  curve(frame,x=>F.dom(x)?F.f(x):NaN,-8,8,activityCss('--curve-neutral'),2,.025,[6,5]);
+  const g=x=>{const u=b*(x-h);return F.dom(u)?a*F.f(u)+k:NaN};
+  curve(frame,g,-8,8);
+  const u=1,px=Math.abs(b)>1e-8?h+u/b:NaN,py=F.dom(u)?a*F.f(u)+k:NaN;
+  dot(frame,px,py);
+}
+function updateText(){
+  const F=families[fam.value],{a,b,h,k}=target;
+  Av.textContent='A = '+nice(a);Bv.textContent='b = '+nice(b);Hv.textContent='h = '+nice(h);Kv.textContent='k = '+nice(k);
+  formula.innerHTML=`\\(y=${nice(a)}f(${nice(b)}(x-${nice(h)}))+${nice(k)},\\qquad f(x)=${F.tex}\\)`;
+  let msg=[];
+  if(a<0)msg.push('\\(A<0\\) reflects across the x-axis');
+  if(Math.abs(a)>1)msg.push('\\(|A|>1\\) stretches vertically');
+  if(Math.abs(a)>0&&Math.abs(a)<1)msg.push('\\(0<|A|<1\\) compresses vertically');
+  if(b<0)msg.push('\\(b<0\\) reflects horizontally');
+  if(Math.abs(b)>1)msg.push('\\(|b|>1\\) compresses horizontally');
+  if(Math.abs(b)>0&&Math.abs(b)<1)msg.push('\\(0<|b|<1\\) stretches horizontally');
+  msg.push(`\\(h=${nice(h)}\\) shifts horizontally and \\(k=${nice(k)}\\) shifts vertically`);
+  meaning.innerHTML=msg.join('. ')+'.';
+}
+function animate(ts){
+  if(animStart===null)animStart=ts;
+  const t=Math.min(1,(ts-animStart)/ANIM_MS);
+  const e=1-Math.pow(1-t,3);
+  current={
+    a:animFrom.a+(target.a-animFrom.a)*e,
+    b:animFrom.b+(target.b-animFrom.b)*e,
+    h:animFrom.h+(target.h-animFrom.h)*e,
+    k:animFrom.k+(target.k-animFrom.k)*e
+  };
+  renderGraph(current);
+  if(t<1)animId=requestAnimationFrame(animate);
+  else{current={...target};animStart=null;animId=0}
+}
+function upd({immediate=false}={}){
+  target={a:Number(A.value),b:Number(B.value),h:Number(H.value),k:Number(K.value)};
+  clearTimeout(textTimer);textTimer=setTimeout(updateText,45);
+  if(immediate){
+    if(animId)cancelAnimationFrame(animId);
+    current={...target};animStart=null;animId=0;renderGraph(current);updateText();return;
+  }
+  if(animId)cancelAnimationFrame(animId);
+  animFrom={...current};animStart=null;animId=requestAnimationFrame(animate);
+}
+[fam,A,B,H,K].forEach(e=>e.addEventListener(e.tagName==='SELECT'?'change':'input',()=>upd({immediate:e.tagName==='SELECT'})));
+window.addEventListener('resize',()=>renderGraph(current));
+upd({immediate:true});</script></body></html>
