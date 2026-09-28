@@ -1,210 +1,283 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>MATH&amp; 141 — Open-Box Polynomial Model</title><style>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MATH& 141 — Open-Box Polynomial Model</title>
+<style>
 :root{
- --bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#637083;--line:#d8e0eb;
- --accent:#2457a6;--accent2:#e8f0ff;--good:#237a4b;--good2:#eaf7ef;
- --warn:#9a6800;--warn2:#fff7df;--bad:#aa3030;--bad2:#fff0f0;
- --shadow:0 12px 30px rgba(30,45,75,.08)
+  --bg:#eef3f8;--panel:#ffffff;--ink:#172033;--muted:#667487;--line:#d5deea;
+  --blue:#2457a6;--blue2:#e8f0ff;--gold:#bd7b00;--gold2:#fff4d8;
+  --green:#237a4b;--green2:#eaf7ef;--red:#a93b3b;--grid:#e4eaf2;--shadow:0 10px 28px rgba(30,45,75,.09)
+}
+html[data-theme="dark"]{
+  --bg:#10151d;--panel:#171e28;--ink:#eef4fb;--muted:#a5b2c2;--line:#2b3746;
+  --blue:#7eb2ff;--blue2:#182943;--gold:#ffc65d;--gold2:#332917;
+  --green:#71d39c;--green2:#183326;--red:#ff8e8e;--grid:#26313e;--shadow:0 10px 28px rgba(0,0,0,.25)
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
-header{background:linear-gradient(135deg,#183761,#10243f);color:white;padding:30px 18px}
-.wrap{max-width:1040px;margin:0 auto}
-header .eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#bcd0ee;font-weight:800}
-header h1{margin:5px 0 6px;font-size:clamp(1.55rem,4vw,2.35rem)}
-header p{margin:0;color:#dce8f8;max-width:850px}
-.toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.toolbar .wrap{padding:9px 18px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
-.toolbar a,.toolbar button,button{
- border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:8px 11px;
- font:inherit;font-weight:700;cursor:pointer;text-decoration:none
-}
-button.primary,.toolbar .primary{background:var(--accent);border-color:var(--accent);color:white}
-button:hover,.toolbar a:hover{filter:brightness(.98)}
-main.wrap{padding:20px 18px 64px}
-.card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:20px;margin:16px 0}
-h2{font-size:1.3rem;margin:0 0 10px;color:#17335a}
-h3{font-size:1.05rem;margin:18px 0 8px;color:#29466e}
-.goal{border-left:5px solid var(--accent);background:var(--accent2);padding:12px 14px;border-radius:10px;margin:12px 0}
-.note{background:#f8fafc;border:1px solid var(--line);padding:11px 13px;border-radius:10px;color:var(--muted)}
-.warn{border-left:5px solid var(--warn);background:var(--warn2);padding:11px 13px;border-radius:10px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}
-.control{border:1px solid var(--line);background:#fbfcfe;border-radius:12px;padding:10px}
-.control label{display:block;font-size:.82rem;color:var(--muted);font-weight:800;margin-bottom:5px}
-input[type=range]{width:100%}
-input[type=number],input[type=text],select,textarea{
- width:100%;border:1px solid #cbd5e3;border-radius:9px;padding:8px 9px;font:inherit;background:white;color:var(--ink)
-}
-textarea{min-height:90px;resize:vertical}
-.value{font-variant-numeric:tabular-nums;font-weight:800;color:var(--accent)}
-.math{font-family:Cambria,Georgia,serif;font-size:1.08rem;background:#fbfcff;border:1px solid var(--line);padding:10px 12px;border-radius:10px;overflow:auto}
-.canvas-wrap{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;overflow:hidden}
-canvas{width:100%;height:420px;display:block}
-.question{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
-.feedback{min-height:1.3em;margin-top:6px;font-size:.9rem;font-weight:700}
-.feedback.ok{color:var(--good)}.feedback.no{color:var(--bad)}
-.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.pill{background:var(--accent2);color:var(--accent);border-radius:999px;padding:4px 9px;font-size:.8rem;font-weight:800}
-table{width:100%;border-collapse:collapse;margin:10px 0}
-th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left}
-th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-.kbd{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#eef2f7;padding:1px 5px;border-radius:5px}
-.footer{color:var(--muted);text-align:center;font-size:.85rem;margin-top:24px}
-@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}canvas{height:330px}}
-@media print{.toolbar,button,.no-print{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}main.wrap{padding:0 10px}}
-mjx-container{color:inherit;max-width:100%;overflow-x:auto;overflow-y:hidden} .math mjx-container{font-size:1.04em}
-</style><link href="../assets/activity-theme.css" rel="stylesheet"/><script src="../assets/activity-common.js"></script>
-<script id="site-mathjax-config">
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(','\\)']],
-    displayMath: [['\\[','\\]']],
-    processEscapes: true
-  },
-  chtml: { scale: 1.0, mtextInheritFont: true },
-  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
-  startup: {
-    ready: () => {
-      MathJax.startup.defaultReady();
-      window.dispatchEvent(new Event('mathjax-ready'));
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow:hidden}
+button,input,select{font:inherit}
+.app{height:100vh;display:grid;grid-template-rows:auto 1fr;gap:10px;padding:10px}
+.topbar{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:9px 13px;box-shadow:var(--shadow)}
+.title{min-width:0}.eyebrow{font-size:.68rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(1.15rem,2.2vw,1.65rem);margin:1px 0 0;line-height:1.1}.sub{color:var(--blue);font-weight:700}
+.top-actions{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+button,.select{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:9px;padding:7px 10px;font-weight:750;cursor:pointer}
+button.primary{background:var(--blue);color:white;border-color:var(--blue)}
+button:hover{filter:brightness(.98)}
+.dashboard{min-height:0;display:grid;grid-template-columns:minmax(225px,260px) minmax(0,1.05fr) minmax(0,1fr);gap:10px}
+.panel{min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.side{padding:14px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.panel-head{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;justify-content:space-between}
+.panel-head h2{font-size:.92rem;margin:0;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.control label{display:flex;justify-content:space-between;gap:8px;font-size:.82rem;font-weight:800;color:var(--muted);margin-bottom:5px}.value{color:var(--blue);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.readout{display:grid;grid-template-columns:1fr 1fr;gap:7px}.metric{border:1px solid var(--line);border-radius:10px;padding:8px 9px;background:color-mix(in srgb,var(--panel) 90%,var(--blue2))}.metric span{display:block;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:800}.metric strong{display:block;margin-top:2px;font-size:1rem;font-variant-numeric:tabular-nums}
+.formula{padding:10px;border-radius:10px;background:var(--blue2);border:1px solid color-mix(in srgb,var(--blue) 28%,var(--line));font-family:Georgia,serif;font-size:.98rem;line-height:1.45}
+.fact{font-size:.79rem;line-height:1.35;color:var(--muted);padding:8px 9px;border-radius:9px;background:color-mix(in srgb,var(--panel) 88%,var(--gold2));border:1px solid color-mix(in srgb,var(--gold) 25%,var(--line))}
+.fact strong{color:var(--ink)}
+.side-buttons{display:grid;grid-template-columns:1fr 1fr;gap:7px}.side-buttons button{padding:8px 7px;font-size:.8rem}
+select{width:100%;border:1px solid var(--line);border-radius:9px;padding:7px 9px;background:var(--panel);color:var(--ink);font-weight:700}
+.canvas-panel{display:grid;grid-template-rows:auto 1fr;min-width:0}
+.canvas-wrap{min-height:0;padding:8px}
+canvas{width:100%;height:100%;display:block;border-radius:10px;background:var(--panel)}
+.legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.72rem;color:var(--muted)}
+.sw{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:-1px}.sw.blue{background:var(--blue)}.sw.gold{background:var(--gold)}.sw.green{background:var(--green)}
+.graph-info{font-size:.76rem;color:var(--muted)}
+.questions{margin-top:auto;border-top:1px solid var(--line);padding-top:10px;font-size:.78rem;color:var(--muted);line-height:1.35}.questions strong{color:var(--ink)}
+@media(max-width:900px){body{overflow:auto}.app{height:auto;min-height:100vh}.dashboard{grid-template-columns:1fr}.side{overflow:visible}.canvas-panel{min-height:500px}}
+@media print{body{overflow:visible;background:white}.app{height:auto}.top-actions,.side-buttons{display:none!important}.dashboard{grid-template-columns:250px 1fr 1fr}.panel{box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="title">
+      <div class="eyebrow">Centralia College · MATH& 141 · Week 3 Application</div>
+      <h1>Open-Box Polynomial Model <span class="sub">— geometry becomes a cubic</span></h1>
+    </div>
+    <div class="top-actions">
+      <button id="themeBtn" type="button">☾ Dark</button>
+      <button onclick="window.print()" type="button">Print</button>
+      <a href="../index.html" style="text-decoration:none"><button type="button">← Course</button></a>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="panel side">
+      <div class="control">
+        <label>Corner cut x <span class="value" id="xLabel">3.0 cm</span></label>
+        <input id="xcut" type="range" min="0" max="10" step="0.05" value="3">
+      </div>
+
+      <div class="readout">
+        <div class="metric"><span>Length</span><strong id="lengthVal">24.0 cm</strong></div>
+        <div class="metric"><span>Width</span><strong id="widthVal">14.0 cm</strong></div>
+        <div class="metric"><span>Height</span><strong id="heightVal">3.0 cm</strong></div>
+        <div class="metric"><span>Volume</span><strong id="volumeVal">1008 cm³</strong></div>
+      </div>
+
+      <div class="formula">
+        V(x) = x(30 − 2x)(20 − 2x)<br>
+        <span id="expanded">= 4x³ − 100x² + 600x</span>
+      </div>
+
+      <div class="side-buttons">
+        <button class="primary" id="sweepBtn" type="button">▶ Sweep x</button>
+        <button id="resetBtn" type="button">↺ Reset</button>
+      </div>
+
+      <div class="control">
+        <label>Graph view</label>
+        <select id="graphMode">
+          <option value="physical">Physical domain: 0 ≤ x ≤ 10</option>
+          <option value="full">Full polynomial: −2 ≤ x ≤ 17</option>
+        </select>
+      </div>
+
+      <div class="fact"><strong>Physical domain:</strong> 0 &lt; x &lt; 10. At x = 10 the 20 cm side collapses, so the box disappears.</div>
+      <div class="fact"><strong>Algebraic zeros:</strong> x = 0, 10, 15. Only the interval 0 &lt; x &lt; 10 describes an actual open box.</div>
+      <div class="fact" id="maxFact"><strong>Largest physical volume:</strong> about 1056.3 cm³ at x ≈ 3.92 cm.</div>
+
+      <div class="questions">
+        <strong>Class prompts:</strong> Why does each linear factor have a geometric meaning? Why is x = 15 a real zero of the polynomial but not a possible box? What does the turning point mean physically?
+      </div>
+    </section>
+
+    <section class="panel canvas-panel">
+      <div class="panel-head">
+        <h2>Construction</h2>
+        <div class="legend"><span><i class="sw blue"></i>sheet/base</span><span><i class="sw gold"></i>cut/fold</span><span><i class="sw green"></i>finished box</span></div>
+      </div>
+      <div class="canvas-wrap"><canvas id="construction"></canvas></div>
+    </section>
+
+    <section class="panel canvas-panel">
+      <div class="panel-head">
+        <h2>Volume graph</h2>
+        <div class="graph-info" id="graphInfo">Physical model highlighted</div>
+      </div>
+      <div class="canvas-wrap"><canvas id="plot"></canvas></div>
+    </section>
+  </main>
+</div>
+
+<script>
+(() => {
+  const xcut=document.getElementById('xcut');
+  const xLabel=document.getElementById('xLabel');
+  const lengthVal=document.getElementById('lengthVal');
+  const widthVal=document.getElementById('widthVal');
+  const heightVal=document.getElementById('heightVal');
+  const volumeVal=document.getElementById('volumeVal');
+  const construction=document.getElementById('construction');
+  const plot=document.getElementById('plot');
+  const graphMode=document.getElementById('graphMode');
+  const graphInfo=document.getElementById('graphInfo');
+  const sweepBtn=document.getElementById('sweepBtn');
+  const resetBtn=document.getElementById('resetBtn');
+  const themeBtn=document.getElementById('themeBtn');
+  let sweepId=null;
+
+  const V=x=>x*(30-2*x)*(20-2*x);
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const colors=()=>({bg:css('--panel'),ink:css('--ink'),muted:css('--muted'),line:css('--line'),blue:css('--blue'),blue2:css('--blue2'),gold:css('--gold'),gold2:css('--gold2'),green:css('--green'),green2:css('--green2'),red:css('--red'),grid:css('--grid')});
+
+  function fitCanvas(c){
+    const dpr=window.devicePixelRatio||1,w=Math.max(10,c.clientWidth),h=Math.max(10,c.clientHeight);
+    const W=Math.round(w*dpr),H=Math.round(h*dpr);
+    if(c.width!==W||c.height!==H){c.width=W;c.height=H;}
+    const ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return [ctx,w,h];
+  }
+  const fmt=(n,d=1)=>Number(n).toFixed(d);
+
+  function updateReadout(){
+    const x=+xcut.value,L=30-2*x,W=20-2*x,vol=V(x);
+    xLabel.textContent=`${fmt(x,2).replace(/\.00$/,'').replace(/(\.\d)0$/,'$1')} cm`;
+    lengthVal.textContent=`${fmt(Math.max(0,L),1)} cm`;
+    widthVal.textContent=`${fmt(Math.max(0,W),1)} cm`;
+    heightVal.textContent=`${fmt(x,1)} cm`;
+    volumeVal.textContent=`${fmt(Math.max(0,vol),1).replace(/\.0$/,'')} cm³`;
+  }
+
+  function roundedRect(ctx,x,y,w,h,r){
+    r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+  }
+
+  function drawConstruction(){
+    const [ctx,w,h]=fitCanvas(construction),C=colors();
+    ctx.clearRect(0,0,w,h);ctx.fillStyle=C.bg;ctx.fillRect(0,0,w,h);
+    const x=+xcut.value,L=Math.max(0,30-2*x),W=Math.max(0,20-2*x),H=x;
+    const topH=Math.max(180,h*.44),gap=Math.max(18,w*.035);
+
+    // FLAT SHEET VIEW
+    const leftPad=24,rightPad=24;
+    const sheetMaxW=w-leftPad-rightPad;
+    const s=Math.min(sheetMaxW/36,(topH-48)/22);
+    const sw=30*s,sh=20*s,sx=(w-sw)/2,sy=34+(topH-34-sh)/2,cut=x*s;
+    ctx.fillStyle=C.muted;ctx.font='700 12px system-ui';ctx.fillText('FLAT SHEET + CUT LINES',18,20);
+    ctx.fillStyle=C.blue2;ctx.strokeStyle=C.blue;ctx.lineWidth=2;ctx.fillRect(sx,sy,sw,sh);ctx.strokeRect(sx,sy,sw,sh);
+    ctx.fillStyle=C.bg;
+    [[sx,sy],[sx+sw-cut,sy],[sx,sy+sh-cut],[sx+sw-cut,sy+sh-cut]].forEach(([a,b])=>ctx.fillRect(a,b,Math.max(0,cut),Math.max(0,cut)));
+    ctx.strokeStyle=C.gold;ctx.lineWidth=1.8;ctx.setLineDash([6,4]);
+    if(L>0&&W>0)ctx.strokeRect(sx+cut,sy+cut,Math.max(0,sw-2*cut),Math.max(0,sh-2*cut));
+    ctx.setLineDash([]);
+    ctx.fillStyle=C.ink;ctx.font='12px system-ui';ctx.textAlign='center';ctx.fillText('30 cm',sx+sw/2,sy-8);
+    ctx.save();ctx.translate(sx-10,sy+sh/2);ctx.rotate(-Math.PI/2);ctx.fillText('20 cm',0,0);ctx.restore();
+    if(cut>2){
+      ctx.fillStyle=C.gold;ctx.font='700 11px system-ui';ctx.fillText(`x = ${fmt(x,1)} cm`,sx+Math.max(16,cut/2),sy+Math.max(14,cut/2));
     }
+
+    // separator
+    const sepY=topH+gap*.15;ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(16,sepY);ctx.lineTo(w-16,sepY);ctx.stroke();
+
+    // 3D BOX VIEW
+    ctx.textAlign='left';ctx.fillStyle=C.muted;ctx.font='700 12px system-ui';ctx.fillText('FOLDED OPEN BOX',18,sepY+22);
+    const areaTop=sepY+30,areaH=h-areaTop-16;
+    const cx=w*.50,cy=areaTop+areaH*.58;
+    const scale=Math.min(w/52,areaH/25);
+    const lx=L*scale*.62,wy=W*scale*.34,hh=Math.min(areaH*.42,H*scale*.72);
+    const dx=wy*.72,dy=wy*.42;
+
+    // base projected as parallelogram
+    const A={x:cx-lx/2-dx/2,y:cy-dy/2},B={x:cx+lx/2-dx/2,y:cy-dy/2},Cpt={x:cx+lx/2+dx/2,y:cy+dy/2},D={x:cx-lx/2+dx/2,y:cy+dy/2};
+    const up=p=>({x:p.x,y:p.y-hh});
+    const Au=up(A),Bu=up(B),Cu=up(Cpt),Du=up(D);
+    const poly=(pts,fill,stroke=C.green)=>{ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);pts.slice(1).forEach(p=>ctx.lineTo(p.x,p.y));ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=1.6;ctx.stroke();};
+
+    if(L>0&&W>0&&H>0){
+      poly([A,B,Cpt,D],C.green2);
+      poly([A,B,Bu,Au],C.blue2,C.blue);
+      poly([B,Cpt,Cu,Bu],C.gold2,C.gold);
+      poly([D,Cpt,Cu,Du],C.blue2,C.blue);
+      poly([A,D,Du,Au],C.gold2,C.gold);
+      ctx.strokeStyle=C.green;ctx.lineWidth=2;[Au,Bu,Cu,Du].forEach((p,i,arr)=>{const q=arr[(i+1)%4];ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();});
+    }else{
+      ctx.strokeStyle=C.line;ctx.lineWidth=2;ctx.strokeRect(cx-w*.18,cy-4,w*.36,8);
+    }
+
+    // dimension labels
+    ctx.fillStyle=C.ink;ctx.font='700 12px system-ui';ctx.textAlign='center';
+    ctx.fillText(`${fmt(L,1)} cm`,cx,Math.min(h-7,cy+dy/2+22));
+    ctx.save();ctx.translate(Math.min(w-32,cx+lx/2+dx/2+18),cy);ctx.rotate(-Math.PI/2);ctx.fillText(`${fmt(H,1)} cm`,0,0);ctx.restore();
+    ctx.fillStyle=C.green;ctx.font='800 18px system-ui';ctx.fillText(`V = ${fmt(Math.max(0,V(x)),1)} cm³`,cx,areaTop+18);
   }
-};
-window.typesetMath = function(nodes){
-  if (!(window.MathJax && MathJax.typesetPromise)) return Promise.resolve();
-  const els = !nodes ? undefined : (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean);
-  return MathJax.typesetPromise(els).catch(()=>{});
-};
-(function(){
-  let timer = null;
-  function needsMath(node){
-    const el = node && node.nodeType===1 ? node : node?.parentElement;
-    if(!el || el.closest('mjx-container,script,style,textarea,pre,code')) return null;
-    const t = el.textContent || '';
-    return (t.includes('\\(')||t.includes('\\[')) ? el : null;
+
+  function drawPlot(){
+    const [ctx,w,h]=fitCanvas(plot),C=colors();ctx.clearRect(0,0,w,h);ctx.fillStyle=C.bg;ctx.fillRect(0,0,w,h);
+    const physical=graphMode.value==='physical';
+    const xmin=physical?0:-2,xmax=physical?10:17;
+    let ymin,ymax;
+    if(physical){ymin=0;ymax=1200;}else{ymin=-1600;ymax=1800;}
+    const p={l:54,r:18,t:22,b:42},X=x=>p.l+(x-xmin)*(w-p.l-p.r)/(xmax-xmin),Y=y=>h-p.b-(y-ymin)*(h-p.t-p.b)/(ymax-ymin);
+    const xStep=physical?1:2,yStep=physical?200:400;
+    ctx.strokeStyle=C.grid;ctx.lineWidth=1;
+    for(let xx=Math.ceil(xmin/xStep)*xStep;xx<=xmax+1e-9;xx+=xStep){ctx.beginPath();ctx.moveTo(X(xx),p.t);ctx.lineTo(X(xx),h-p.b);ctx.stroke();}
+    for(let yy=Math.ceil(ymin/yStep)*yStep;yy<=ymax+1e-9;yy+=yStep){ctx.beginPath();ctx.moveTo(p.l,Y(yy));ctx.lineTo(w-p.r,Y(yy));ctx.stroke();}
+    ctx.strokeStyle=C.muted;ctx.lineWidth=1.5;
+    if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),p.t);ctx.lineTo(X(0),h-p.b);ctx.stroke();}
+    if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(p.l,Y(0));ctx.lineTo(w-p.r,Y(0));ctx.stroke();}
+    ctx.fillStyle=C.muted;ctx.font='11px system-ui';ctx.textAlign='center';
+    for(let xx=Math.ceil(xmin/xStep)*xStep;xx<=xmax+1e-9;xx+=xStep)ctx.fillText(String(xx),X(xx),h-p.b+17);
+    ctx.textAlign='right';for(let yy=Math.ceil(ymin/yStep)*yStep;yy<=ymax+1e-9;yy+=yStep){if(Math.abs(yy)<1e-8)continue;ctx.fillText(String(yy),p.l-7,Y(yy)+4);}
+    ctx.textAlign='center';ctx.fillText('cut size x (cm)',w/2,h-8);ctx.save();ctx.translate(13,h/2);ctx.rotate(-Math.PI/2);ctx.fillText('volume V(x) (cm³)',0,0);ctx.restore();
+
+    // physical-domain highlight
+    if(!physical){ctx.fillStyle=C.blue2;ctx.globalAlpha=.38;ctx.fillRect(X(0),p.t,X(10)-X(0),h-p.t-p.b);ctx.globalAlpha=1;}
+
+    // cubic curve
+    ctx.strokeStyle=C.blue;ctx.lineWidth=3;ctx.beginPath();let first=true;
+    const n=500;for(let i=0;i<=n;i++){const xx=xmin+(xmax-xmin)*i/n,yy=V(xx);if(yy<ymin-200||yy>ymax+200)continue;const px=X(xx),py=Y(yy);if(first){ctx.moveTo(px,py);first=false}else ctx.lineTo(px,py);}ctx.stroke();
+
+    // algebraic zeros
+    [0,10,15].forEach(z=>{if(z<xmin||z>xmax)return;ctx.fillStyle=(z<=10?C.gold:C.red);ctx.beginPath();ctx.arc(X(z),Y(0),4.5,0,Math.PI*2);ctx.fill();ctx.font='700 11px system-ui';ctx.textAlign='center';ctx.fillText(`x=${z}`,X(z),Y(0)-10);});
+
+    // maximum on physical domain
+    const xm=(50-Math.sqrt(700))/6,ym=V(xm);if(xm>=xmin&&xm<=xmax){ctx.strokeStyle=C.green;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(X(xm),Y(0));ctx.lineTo(X(xm),Y(ym));ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=C.green;ctx.beginPath();ctx.arc(X(xm),Y(ym),5,0,Math.PI*2);ctx.fill();ctx.font='700 11px system-ui';ctx.textAlign='left';ctx.fillText('max',X(xm)+7,Y(ym)-7);}
+
+    // current point
+    const x=+xcut.value,y=V(x);if(x>=xmin&&x<=xmax&&y>=ymin&&y<=ymax){ctx.fillStyle=C.gold;ctx.beginPath();ctx.arc(X(x),Y(y),7,0,Math.PI*2);ctx.fill();ctx.strokeStyle=C.panel;ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=C.ink;ctx.font='800 12px system-ui';ctx.textAlign='left';ctx.fillText(`(${fmt(x,2)}, ${fmt(y,0)})`,Math.min(w-120,X(x)+10),Math.max(18,Y(y)-10));}
+
+    graphInfo.textContent=physical?'Physical model: only 0 ≤ x ≤ 10':'Full cubic shown; blue band is the physical interval';
   }
-  window.addEventListener('DOMContentLoaded',()=>{
-    const observer = new MutationObserver(ms=>{
-      const targets=[];
-      for(const m of ms){
-        const el=needsMath(m.target); if(el && !targets.includes(el)) targets.push(el);
-        for(const n of m.addedNodes||[]){ const a=needsMath(n); if(a && !targets.includes(a)) targets.push(a); }
-      }
-      if(!targets.length) return;
-      clearTimeout(timer); timer=setTimeout(()=>window.typesetMath(targets),70);
-    });
-    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+
+  function redraw(){updateReadout();drawConstruction();drawPlot();}
+  xcut.addEventListener('input',redraw);graphMode.addEventListener('change',drawPlot);window.addEventListener('resize',redraw);
+
+  sweepBtn.addEventListener('click',()=>{
+    if(sweepId){cancelAnimationFrame(sweepId);sweepId=null;sweepBtn.textContent='▶ Sweep x';return;}
+    sweepBtn.textContent='■ Stop';let start=null;
+    const frame=t=>{if(start===null)start=t;const u=((t-start)%7000)/7000;const x=.1+9.8*(u<.5?2*u:2*(1-u));xcut.value=x.toFixed(2);redraw();sweepId=requestAnimationFrame(frame);};
+    sweepId=requestAnimationFrame(frame);
   });
-  window.addEventListener('mathjax-ready',()=>window.typesetMath(document.body));
+  resetBtn.addEventListener('click',()=>{if(sweepId){cancelAnimationFrame(sweepId);sweepId=null;sweepBtn.textContent='▶ Sweep x';}xcut.value='3';graphMode.value='physical';redraw();});
+
+  themeBtn.addEventListener('click',()=>{const dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';themeBtn.textContent=dark?'☾ Dark':'☀ Light';redraw();});
+  document.documentElement.dataset.theme='light';
+  redraw();
 })();
 </script>
-<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-</head><body>
-<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 3 · Application</div><h1>Open-Box Polynomial Model</h1><p>A real design constraint turns three linear factors into a cubic volume model.</p></div></header>
-<div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
-<main class="wrap">
-<section class="card">
-<h2>Application: designing an open box</h2>
-<div class="goal"><strong>Goal:</strong> See a cubic polynomial arise from a geometric design problem, then connect its zeros and useful domain to the physical situation.</div>
-<p>Start with a 30 cm by 20 cm sheet. Cut a square of side <span class="kbd">x</span> from each corner and fold up the sides. The volume is</p>
-<div class="math"><strong>V(x) = x(30 − 2x)(20 − 2x)</strong>.</div>
-<div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change the corner cut x and watch the box dimensions and cubic volume update together.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Connect the factors of V(x) with geometric lengths and distinguish algebraic zeros from usable designs.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Use the physical domain to decide which parts of the polynomial graph actually describe boxes.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
-<section class="card">
-<h2>Change the cut size</h2>
-<div class="controls"><div class="control"><label>Corner cut x (cm)</label><input id="xcut" max="10" min="0" step=".1" type="range" value="3"/><div class="value" id="xv"></div></div></div>
-<div class="sim-controls no-print"><button type="button" class="primary" id="playSweep">▶ Sweep cut size</button><button type="button" id="resetSweep">↺ Reset</button><span class="sim-status" id="sweepStatus">Ready</span></div>
-<div class="grid2">
-<div><div class="canvas-wrap"><canvas id="box"></canvas></div><div class="note" id="dims" style="margin-top:10px"></div></div>
-<div><div class="canvas-wrap"><canvas id="plot"></canvas></div><div class="note" id="vol" style="margin-top:10px"></div></div>
-</div>
-</section>
-<section class="card">
-<h2>Read the polynomial from the model</h2>
-<div class="question"><p>1. What are the three zeros of the polynomial if you ignore the physical restriction for a moment?</p>
-<input id="zeros" placeholder="Example: 0, 4, 9" type="text"/><div class="feedback" id="zerosFb"></div><button onclick="checkZeros()">Check</button></div>
-<div class="question"><p>2. What is the physically meaningful open interval for <span class="kbd">x</span>?</p>
-<input id="domain" placeholder="Example: 0 &lt; x &lt; 5" type="text"/><div class="feedback" id="domainFb"></div><button onclick="checkDomain()">Check</button></div>
-<div class="note">The polynomial itself exists for every real x. The <em>model</em> does not. A physical application can impose a much smaller domain than the algebraic function.</div>
-</section>
-<p class="footer">MATH&amp; 141 · Precalculus I</p></main>
-<script>
-function fitCanvas(c){
- const dpr=window.devicePixelRatio||1, w=c.clientWidth, h=c.clientHeight;
- if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
- const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return [ctx,w,h];
-}
-function niceStep(span,targetTicks=8){
- const raw=span/targetTicks; const p=Math.pow(10,Math.floor(Math.log10(raw||1))); const m=raw/p;
- const nice = m<=1 ? 1 : m<=2 ? 2 : m<=5 ? 5 : 10; return nice*p;
-}
-function autoPlotStep(span,targetTicks=8){
- const raw=Math.abs(span)/Math.max(2,targetTicks); if(!Number.isFinite(raw)||raw<=0)return 1;
- const power=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/power;
- return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*power;
-}
-function plotFrame(c,xmin,xmax,ymin,ymax,xstep=null,ystep=null){
- const [ctx,w,h]=fitCanvas(c),pad=Math.max(34,Math.min(46,w*.09));
- ctx.clearRect(0,0,w,h);ctx.fillStyle=activityCss('--plot-bg');ctx.fillRect(0,0,w,h);
- const X=x=>pad+(x-xmin)*(w-2*pad)/(xmax-xmin),Y=y=>h-pad-(y-ymin)*(h-2*pad)/(ymax-ymin);
- const choose=(span,requested,target)=>{const r=Number(requested),n=Math.abs(span)/(r||1);return r>0&&n>=4&&n<=12?r:autoPlotStep(span,target)};
- xstep=choose(xmax-xmin,xstep,Math.max(5,Math.min(10,Math.floor(w/70))));
- ystep=choose(ymax-ymin,ystep,Math.max(4,Math.min(8,Math.floor(h/55))));
- const first=(min,step)=>Math.ceil((min-1e-10)/step)*step;
- ctx.strokeStyle=activityCss('--plot-grid');ctx.lineWidth=1;
- for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){ctx.beginPath();ctx.moveTo(X(x),pad);ctx.lineTo(X(x),h-pad);ctx.stroke()}
- for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){ctx.beginPath();ctx.moveTo(pad,Y(y));ctx.lineTo(w-pad,Y(y));ctx.stroke()}
- const zeroX=xmin<=0&&0<=xmax?X(0):pad,zeroY=ymin<=0&&0<=ymax?Y(0):h-pad;
- ctx.strokeStyle=activityCss('--plot-axis');ctx.lineWidth=1.5;
- if(xmin<=0&&0<=xmax){ctx.beginPath();ctx.moveTo(zeroX,pad);ctx.lineTo(zeroX,h-pad);ctx.stroke()}
- if(ymin<=0&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,zeroY);ctx.lineTo(w-pad,zeroY);ctx.stroke()}
- const tickText=(v,step)=>{const d=step>=1?0:Math.min(4,Math.max(1,Math.ceil(-Math.log10(step))+1));return nice(v,d)};
- ctx.fillStyle=activityCss('--plot-text');ctx.font='11px system-ui';
- ctx.textAlign='center';ctx.textBaseline='top';
- const xLabelY=Math.min(h-pad+5,Math.max(pad+2,zeroY+5));
- for(let x=first(xmin,xstep);x<=xmax+1e-9;x+=xstep){if(Math.abs(x)<xstep*1e-6)continue;ctx.fillText(tickText(x,xstep),X(x),xLabelY)}
- ctx.textAlign='left';ctx.textBaseline='middle';
- const yLabelX=Math.min(w-pad-30,Math.max(pad+5,zeroX+6));
- for(let y=first(ymin,ystep);y<=ymax+1e-9;y+=ystep){if(Math.abs(y)<ystep*1e-6)continue;ctx.fillText(tickText(y,ystep),yLabelX,Y(y))}
- ctx.textAlign='left';ctx.textBaseline='alphabetic';
- return {ctx,w,h,pad,X,Y,xmin,xmax,ymin,ymax,xstep,ystep};
-}
-function curve(frame,fn,x0,x1,stroke=activityCss('--curve-blue'),width=3,step=.03){
- const {ctx,X,Y,ymin,ymax}=frame;ctx.beginPath();let pen=false;ctx.strokeStyle=stroke;ctx.lineWidth=width;
- for(let x=x0;x<=x1;x+=step){let y=fn(x);if(!Number.isFinite(y)||y<ymin-2||y>ymax+2){pen=false;continue}
-   if(!pen){ctx.moveTo(X(x),Y(y));pen=true}else ctx.lineTo(X(x),Y(y));
- }ctx.stroke();
-}
-function point(frame,x,y,label='',fill=activityCss('--curve-blue')){
- const {ctx,X,Y}=frame;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(X(x),Y(y),5,0,Math.PI*2);ctx.fill();
- if(label){ctx.font='12px system-ui';ctx.fillText(label,X(x)+7,Y(y)-7)}
-}
-function nice(n,d=2){if(!Number.isFinite(n))return '—';let s=Number(n).toFixed(d);return s.replace(/\.?0+$/,'')}
-function checkNum(id,expected,tol=.01,msg=''){
- const el=document.getElementById(id), fb=document.getElementById(id+'Fb'); const v=Number(el.value);
- if(el.value.trim()!==''&&Number.isFinite(v)&&Math.abs(v-expected)<=tol){fb.className='feedback ok';fb.textContent='Correct.'+(msg?' '+msg:'');return true}
- fb.className='feedback no';fb.textContent='Not yet. Check the model and try again.';return false;
-}
-
-
-const xcut=document.getElementById('xcut');
-function V(x){return x*(30-2*x)*(20-2*x)}
-function drawBox(){
- const [ctx,w,h]=fitCanvas(box);ctx.clearRect(0,0,w,h);let x=Number(xcut.value),s=Math.min((w-50)/30,(h-50)/20),L=30*s,W=20*s,ox=(w-L)/2,oy=(h-W)/2,c=x*s;
- ctx.fillStyle=activityCss('--accent2');ctx.fillRect(ox,oy,L,W);ctx.strokeStyle=activityCss('--curve-blue');ctx.lineWidth=2;ctx.strokeRect(ox,oy,L,W);
- ctx.fillStyle=activityCss('--plot-bg');[[ox,oy],[ox+L-c,oy],[ox,oy+W-c],[ox+L-c,oy+W-c]].forEach(([a,b])=>ctx.fillRect(a,b,c,c));
- ctx.strokeStyle=activityCss('--curve-gold');ctx.setLineDash([5,4]);ctx.strokeRect(ox+c,oy+c,L-2*c,W-2*c);ctx.setLineDash([]);
- ctx.fillStyle=activityCss('--ink');ctx.font='13px system-ui';ctx.fillText('30 cm',ox+L/2-20,oy-8);ctx.save();ctx.translate(ox-10,oy+W/2+20);ctx.rotate(-Math.PI/2);ctx.fillText('20 cm',0,0);ctx.restore();
-}
-function drawPlot(){
- let vmax=0;for(let z=0;z<=10;z+=.05)vmax=Math.max(vmax,V(z));const f=plotFrame(plot,0,10,0,vmax*1.12);curve(f,V,0,10,activityCss('--curve-blue'),3,.02);let x=Number(xcut.value);point(f,x,V(x),`x=${nice(x,1)}`,activityCss('--curve-gold'));
-}
-function upd(){let x=Number(xcut.value),l=30-2*x,w=20-2*x,v=V(x);xv.textContent=`x = ${nice(x,1)} cm`;dims.innerHTML=`Folded dimensions: \\(${nice(l,1)}\\times${nice(w,1)}\\times${nice(x,1)}\\,\\mathrm{cm}\\)`;vol.innerHTML=`Current volume: \\(${nice(v,1)}\\,\\mathrm{cm^3}\\)`;drawBox();drawPlot()}
-function checkZeros(){let nums=(zeros.value.match(/-?\d+(\.\d+)?/g)||[]).map(Number).sort((a,b)=>a-b),ok=nums.length>=3&&Math.abs(nums[0]-0)<.01&&Math.abs(nums[1]-10)<.01&&Math.abs(nums[2]-15)<.01;zerosFb.className='feedback '+(ok?'ok':'no');zerosFb.textContent=ok?'Correct: each factor gives a zero.':'Not yet. Set each factor x, 30−2x, and 20−2x equal to zero.'}
-function checkDomain(){let s=domain.value.replace(/\s/g,'').toLowerCase(),ok=s.includes('0<x<10')||s.includes('(0,10)');domainFb.className='feedback '+(ok?'ok':'no');domainFb.textContent=ok?'Correct. x must be positive and smaller than half the shorter side.':'Not yet. The cut must be positive, and the 20 cm side must remain positive after removing 2x.'}
-xcut.addEventListener('input',upd);window.addEventListener('resize',upd);activityPlayback({range:xcut,playButton:'playSweep',resetButton:'resetSweep',status:'sweepStatus',duration:7000,pingPong:true,label:'▶ Sweep cut size',resetValue:3});upd();
-</script></body></html>
+</body>
+</html>
