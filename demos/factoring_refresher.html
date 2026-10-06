@@ -216,6 +216,7 @@ function preprocess(s){
   s=s.replace(/\^/g,'**');
   s=s.replace(/(\d)(x|\()/g,'$1*$2');
   s=s.replace(/x\(/g,'x*(');
+  s=s.replace(/(x\*\*\d+)\(/g,'$1*(');
   s=s.replace(/\)(?=\d|x|\()/g,')*');
   return s;
 }
