@@ -254,6 +254,9 @@ window.typesetMath = function(nodes){
         <div class="panel">
           <h3>Course sequence</h3>
           <p class="grade-note">The course moves from the language of functions and transformations through polynomial, rational, inverse, exponential, logarithmic, and conic models, then finishes with systems and matrices.</p>
+          <div class="notice"><strong>Modules 1–5 Review &amp; Practice:</strong> Review the main ideas with step-by-step worked examples, or practice unlimited randomized problems with feedback and solutions after an attempt.
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:9px"><a href="review/modules1-5.html?mode=review&amp;module=1" target="_blank" rel="noopener">Open guided review ↗</a><a href="review/modules1-5.html?mode=practice&amp;module=all" target="_blank" rel="noopener">Start random practice ↗</a></div>
+          </div>
           <div id="dashboardWeeks"></div>
         </div>
       </section>
@@ -311,7 +314,9 @@ window.typesetMath = function(nodes){
           <p>Open the linked reading, demos, weekly lab, and application work in new tabs. Return here and check “Mark complete” after the work has been finished. The checkboxes are a personal record; the page cannot inspect activity in another tab.</p>
           <h3>Sharing a quiz or exam</h3>
            <p>Every quiz and examination has its own direct URL. From Modules, use <em>Copy URL</em> and paste that link into Canvas or a message. The link opens the selected assessment immediately, even in a new tab or browser. Progress is still saved only in the student's own browser.</p>
-           <h3>Assessment feedback</h3>
+           <h3>Review and extra practice</h3>
+          <p>Modules 1–5 each include links to a guided review and randomized practice. In practice, select your module and topic, check an attempted answer, then open the worked solution if you want the reasoning. Practice counts are saved separately in your browser; they do not change course grades.</p>
+          <h3>Assessment feedback</h3>
           <p>Press <em>Check my current answers</em>. Correct questions become locked and are saved. An incorrect response receives a small hint but not the answer. Decimal answers are accepted within a gentle tolerance, so harmless rounding differences will not block progress.</p>
           <h3>Saving progress</h3>
           <p>Course-page progress is stored in this browser using local storage. Use Export Progress to create a backup file and Import Progress to restore it on another device or browser.</p>
@@ -484,6 +489,7 @@ function renderModules(){
         <div class="resource-row"><div class="resource-kind">Demos</div><div class="resource-links">${resourceHtml(w.demos)}</div>${completionHtml(w.week,'demos')}</div>
         <div class="resource-row"><div class="resource-kind">Weekly Lab</div><div class="resource-links">${resourceHtml([w.weekly_lab])}</div>${completionHtml(w.week,'weekly')}</div>
         <div class="resource-row"><div class="resource-kind">Applications</div><div class="resource-links">${resourceHtml(w.application)}</div>${completionHtml(w.week,'app')}</div>
+        ${w.week<=5?'<div class="resource-row"><div class="resource-kind">Review &amp; Practice</div><div class="resource-links"><div class="resource-link"><span aria-hidden="true">↗</span><div><a href="review/modules1-5.html?mode=review&amp;module='+w.week+'" target="_blank" rel="noopener">Module '+w.week+' guided review</a><small>Concepts, examples, and fully worked solutions drawn from the weekly notes.</small></div></div><div class="resource-link"><span aria-hidden="true">↗</span><div><a href="review/modules1-5.html?mode=practice&amp;module='+w.week+'" target="_blank" rel="noopener">Module '+w.week+' random practice</a><small>New problems, answer checks, hints, and solutions after an attempt.</small></div></div></div><span class="badge">Optional practice</span></div>':''}
         <div class="resource-row"><div class="resource-kind">Weekly Quiz</div>
           <div><strong>${ASSESSMENTS[w.quiz].title}</strong><small style="display:block;color:var(--muted);margin-top:3px">Five questions. Master each question before the quiz is marked complete.</small></div>
           <div class="quiz-actions"><span class="badge ${qs.complete?'good':qs.correct?'warn':''}">${Math.round(qs.score)}%</span><a class="primary-btn" href="?assessment=${w.quiz}" data-open-assessment="${w.quiz}">${qs.correct?'Continue quiz':'Open quiz'}</a><button class="secondary-btn" type="button" data-copy-assessment="${w.quiz}">Copy URL</button></div>
