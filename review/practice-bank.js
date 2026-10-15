@@ -154,7 +154,7 @@
       }},
       {topic:"Cross or touch",make:function(){
         var m=ri(1,5),root=ri(-5,5);
-        return mc("Cross or touch","Near $x="+root+"$, a polynomial has the factor $"+factor(root)+"^"+m+"$. What does its graph do there?",
+        return mc("Cross or touch","At $x="+root+"$, a polynomial has a root of multiplicity "+m+". What does its graph do there?",
           ["Crosses the x-axis","Touches the x-axis without crossing"],m%2?"Crosses the x-axis":"Touches the x-axis without crossing",[
             "The root at x="+root+" has multiplicity "+m+".","An "+(m%2?"odd":"even")+" multiplicity "+(m%2?"changes":"preserves")+" sign across the root."
           ],"Odd multiplicity crosses; even multiplicity touches.");
@@ -299,6 +299,19 @@
         return num("Extraneous solutions","After squaring $\\sqrt{x"+(c>=0?"+":"-")+Math.abs(c)+"}=x"+(d>=0?"-":"+")+Math.abs(d)+"$, one candidate is extraneous. Which x-value is EXTRANEOUS?",extra,[
           "The original equation requires $x\\ge"+d+"$ because the right side is $"+(d>=0?"x-"+d:"x+"+(-d))+"$.","The squared equation gives "+valid+" and "+extra+".","The candidate "+extra+" is less than "+d+", so it cannot satisfy the original equation."
         ],"Check which algebraic root makes the right-hand side negative.");
+      }},
+      {topic:"Onto and codomain",make:function(){
+        var cases=[
+          {prompt:"Is $f:\\mathbb R\\to\\mathbb R$ with $f(x)=x^2$ ONTO its codomain?",ans:"No",why:"Negative real numbers are not squares of real inputs."},
+          {prompt:"Is $f:\\mathbb R\\to[0,\\infty)$ with $f(x)=x^2$ ONTO its codomain?",ans:"Yes",why:"Every nonnegative y has a preimage $x=\\sqrt{y}$."},
+          {prompt:"Is $f:\\mathbb R\\to\\mathbb R$ with $f(x)=x^3$ ONTO its codomain?",ans:"Yes",why:"Every real y has a real cube root."},
+          {prompt:"Is $f:\\mathbb R\\to[0,\\infty)$ with $f(x)=|x|$ ONTO its codomain?",ans:"Yes",why:"Every nonnegative y is attained when x=y."}
+        ];
+        var p=choice(cases);
+        return mc("Onto and codomain",p.prompt,["Yes","No"],p.ans,[
+          "A map is onto if every element of its specified codomain is attained.",
+          p.why+" The answer is "+p.ans.toLowerCase()+"."
+        ],"Examine the stated codomain, not just whether the function is one-to-one.");
       }},
       {topic:"One-to-one test",make:function(){
         var variants=[
