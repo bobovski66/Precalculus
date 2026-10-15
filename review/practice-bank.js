@@ -32,12 +32,13 @@
   var bank={
     1:[
       {topic:"Function or relation",make:function(){
-        var a=ri(-4,2),b=ri(3,7),v=ri(-3,4);
-        return mc("Function or relation","Is the relation $\\{("+a+","+v+"),("+b+","+v+")\\}$ a function?",
-          ["Yes","No"],"Yes",[
-            "The two inputs "+a+" and "+b+" are different.",
-            "They may share the same output "+v+". A function requires only one output per input."
-          ],"Repeated outputs are allowed; check whether an input is repeated.");
+        var a=ri(-4,2),b=ri(3,7),v=ri(-3,4),w=v+ri(1,4),sameInput=Math.random()<0.5;
+        var secondInput=sameInput?a:b;
+        return mc("Function or relation","Is the relation $\\{("+a+","+v+"),("+secondInput+","+(sameInput?w:v)+")\\}$ a function?",
+          ["Yes","No"],sameInput?"No":"Yes",[
+            sameInput?"The input "+a+" has been paired with two different outputs.":"The inputs "+a+" and "+b+" are different, even though they share the output "+v+".",
+            sameInput?"A function cannot assign two different outputs to the same input.":"Repeated outputs are allowed; this relation is a function."
+          ],"Check whether any one input has two different outputs.");
       }},
       {topic:"Function evaluation",make:function(){
         var a=nz(-3,3),b=ri(-5,5),c=ri(-7,7),x=ri(-3,3),y=a*x*x+b*x+c;
@@ -94,9 +95,9 @@
       }},
       {topic:"Line equation",make:function(){
         var m=nz(-4,4),b=ri(-8,8),x=ri(-4,4),y=m*x+b;
-        return num("Line equation","The line $y="+coeff(m,"x")+signed(b)+"$ passes through $("+x+","+y+")$. If written $y=mx+b$, what is its $y$-intercept $b$?",b,[
-          "The slope-intercept form $y=mx+b$ has $b$ as its value at $x=0$.","Substitute the point if needed: $"+y+"="+m+"("+x+")+b$, giving $b="+b+"$."
-        ],"Set x to 0 or isolate b after substituting the point.");
+        return num("Line equation","A line has slope $m="+m+"$ and passes through $("+x+","+y+")$. In $y=mx+b$, what is $b$?",b,[
+          "Substitute the slope and point into $y=mx+b$.","This gives $"+y+"="+m+"("+x+")+b$.","Subtract $"+(m*x)+"$ from both sides: $b="+b+"$."
+        ],"Substitute the given point and slope, then isolate b.");
       }},
       {topic:"Vertex from standard form",make:function(){
         var a=nz(-3,3),h=ri(-4,4),k=ri(-6,6),b=-2*a*h,c=a*h*h+k;
