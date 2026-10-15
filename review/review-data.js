@@ -154,13 +154,14 @@ window.PRECALC_REVIEW_MODULES = [
     note:"../notes/Precalc_Week5.pdf",
     objectives:[
       "Find domains and ranges, including restrictions from denominators and even roots.",
-      "Use the horizontal line test for one-to-one functions.",
+      "Use the horizontal line test for one-to-one functions, and distinguish onto relative to a stated target set.",
       "Find and verify inverses by solving for the input.",
       "Understand the domain restriction needed for the inverse of $x^2$.",
       "Solve radical equations and reject extraneous candidates."
     ],
     ideas:[
       ["One-to-one","Different inputs produce different outputs; equivalently, each horizontal line hits the graph at most once."],
+      ["Onto","A function is onto its chosen codomain when every value in that target set is attained. Onto depends on which target set is specified."],
       ["Inverses","If $y=f(x)$, interchange $x$ and $y$ and solve for the new $y$."],
       ["Exchange domain and range","The domain of $f^{-1}$ is the range of $f$, and conversely."],
       ["Square root restriction","$x^2$ is invertible as a function after restricting to $x\\ge0$; the inverse is $\\sqrt{x}$."],
@@ -177,6 +178,8 @@ window.PRECALC_REVIEW_MODULES = [
        steps:["For a real square root, the radicand must be nonnegative: $x-3\\ge0$.","Hence the domain of $g$ is $[3,\\infty)$.","Since $x^2\\ge0$ for every real $x$, $h(x)\\ge1$ with equality at 0.","Thus the range of $h$ is $[1,\\infty)$."],answer:"Domain $g$: $[3,\\infty)$; range $h$: $[1,\\infty)$."},
       {title:"Apply the horizontal line test",question:"Why is $f(x)=x^2$ not one-to-one on all real numbers?",
        steps:["The outputs at $x=2$ and $x=-2$ are both 4.","A horizontal line at $y=4$ intersects the parabola at two points.","Restrict the input to $x\\ge0$ or $x\\le0$ to keep only one branch."],answer:"On all reals it is not one-to-one; restriction to one side of the vertex fixes this."},
+      {title:"Onto depends on the target",question:"Is $f(x)=x^2$ onto when the target is $\mathbb R$? What if the target is $[0,\infty)$?",
+       steps:["For every real input, $x^2\ge0$. No negative output is attained, so the map $f:\mathbb R\to\mathbb R$ is not onto.","If the codomain is restricted to $[0,\infty)$, every target $y\ge0$ equals $(\sqrt{y})^2$.","Thus $f:\mathbb R\to[0,\infty)$ is onto, although it is still not one-to-one on all real inputs."],answer:"Not onto $\mathbb R$; onto $[0,\infty)$."},
       {title:"Find and check a linear inverse",question:"Invert $f(x)=2x-1$.",
        steps:["Write $y=2x-1$.","Switch variables: $x=2y-1$.","Solve: $y=(x+1)/2$.","Compose: $f^{-1}(f(x))=((2x-1)+1)/2=x$."],answer:"$f^{-1}(x)=(x+1)/2$."},
       {title:"Invert the restricted parabola",question:"For $f(x)=(x-2)^2+3$ with domain $x\\ge2$, find $f^{-1}$.",
