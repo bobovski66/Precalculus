@@ -95,6 +95,12 @@ a{color:var(--accent)}
 .badge.warn{background:var(--warn-soft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 35%,var(--line))}
 .exam-break{background:linear-gradient(135deg,var(--grade),color-mix(in srgb,var(--grade) 55%,var(--nav)));color:#fff;border-radius:18px;padding:21px;margin:22px 0;display:flex;justify-content:space-between;gap:16px;align-items:center;box-shadow:var(--shadow)}
 .exam-break h3{margin:0 0 5px}.exam-break p{margin:0;color:#f0eaf4}
+.review-break{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));border-radius:18px;padding:23px 24px;margin:20px 0 27px;box-shadow:var(--shadow)}
+.review-break h3{margin:0 0 8px;font-size:1.24rem}
+.review-break p{margin:0 0 13px;color:var(--ink);max-width:75ch}
+.review-break .review-actions{display:flex;flex-wrap:wrap;gap:11px;align-items:center}
+.review-break .review-actions a{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.review-break .review-actions a:hover{text-decoration:underline}
 .grade-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}
 table{width:100%;border-collapse:collapse;background:var(--card)}
 th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
@@ -496,6 +502,17 @@ function renderModules(){
         </div>
       </div>
     </article>`;
+    if(w.week===5){
+      html+=`<section class="review-break" id="modules-1-5-review" aria-labelledby="cumulative-review-heading">
+        <div class="resource-kind">Cumulative review · Modules 1–5</div>
+        <h3 id="cumulative-review-heading">Review &amp; Practice — Modules 1–5</h3>
+        <p>Revisit Functions, Lines and Parabolas, Polynomials, Rational Functions, and Inverses and Radicals. Study 26 step-by-step worked examples based on the PDF readings, then generate new randomized questions from any module or all five together. Check each attempt, get a hint, and reveal the worked solution after trying.</p>
+        <div class="review-actions">
+          <a class="primary-btn" href="review/modules1-5.html?mode=review&amp;module=1" target="_blank" rel="noopener">Open cumulative guided review ↗</a>
+          <a class="secondary-btn" href="review/modules1-5.html?mode=practice&amp;module=all" target="_blank" rel="noopener">Practice all five modules ↗</a>
+        </div>
+      </section>`;
+    }
     if(w.week===4){
       const ms=assessmentStats('midterm');
       html+=`<section class="exam-break"><div><h3>Midterm Examination</h3><p>Weeks 1–4 · ${ms.correct} of ${ms.total} questions mastered</p></div><div class="quiz-actions"><span class="badge">${Math.round(ms.score)}%</span><a class="secondary-btn" href="?assessment=midterm" data-open-assessment="midterm">Open midterm</a><button class="secondary-btn" type="button" data-copy-assessment="midterm">Copy URL</button></div></section>`;
