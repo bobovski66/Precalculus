@@ -86,6 +86,10 @@ a{color:var(--accent)}
 .completion-label{display:flex;gap:8px;align-items:center;white-space:nowrap;font-size:.84rem;color:var(--muted);padding:4px 0}
 .completion-label input{width:18px;height:18px;accent-color:var(--good)}
 .quiz-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.quiz-actions a.primary-btn,.quiz-actions a.secondary-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.quiz-actions a.primary-btn:hover,.quiz-actions a.secondary-btn:hover{text-decoration:underline}
+.quiz-actions .secondary-btn{font-size:.85rem;padding:8px 10px}
+.assessment-share{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px}
 .badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 9px;font-size:.78rem;font-weight:800;background:var(--card-2);color:var(--muted);border:1px solid var(--line)}
 .badge.good{background:var(--good-soft);color:var(--good);border-color:color-mix(in srgb,var(--good) 35%,var(--line))}
 .badge.warn{background:var(--warn-soft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 35%,var(--line))}
@@ -258,7 +262,7 @@ window.typesetMath = function(nodes){
         <div class="page-head">
           <div class="eyebrow">Ten-week course</div>
           <h2>Modules</h2>
-          <p>Each module is divided into Readings, Demos, Weekly Lab, Applications, and Weekly Quiz. Open links in a new tab so this course page remains available.</p>
+          <p>Each module is divided into Readings, Demos, Weekly Lab, Applications, and Weekly Quiz. Each quiz and exam has a direct URL that can be shared in Canvas. Use <em>Copy URL</em> next to an assessment to get its link.</p>
         </div>
         <div id="modulesContainer"></div>
       </section>
@@ -305,7 +309,9 @@ window.typesetMath = function(nodes){
         <div class="panel">
           <h3>Completing weekly work</h3>
           <p>Open the linked reading, demos, weekly lab, and application work in new tabs. Return here and check “Mark complete” after the work has been finished. The checkboxes are a personal record; the page cannot inspect activity in another tab.</p>
-          <h3>Assessment feedback</h3>
+          <h3>Sharing a quiz or exam</h3>
+           <p>Every quiz and examination has its own direct URL. From Modules, use <em>Copy URL</em> and paste that link into Canvas or a message. The link opens the selected assessment immediately, even in a new tab or browser. Progress is still saved only in the student's own browser.</p>
+           <h3>Assessment feedback</h3>
           <p>Press <em>Check my current answers</em>. Correct questions become locked and are saved. An incorrect response receives a small hint but not the answer. Decimal answers are accepted within a gentle tolerance, so harmless rounding differences will not block progress.</p>
           <h3>Saving progress</h3>
           <p>Course-page progress is stored in this browser using local storage. Use Export Progress to create a backup file and Import Progress to restore it on another device or browser.</p>
@@ -325,6 +331,9 @@ window.typesetMath = function(nodes){
                 <div class="eyebrow">Mastery assessment</div>
                 <h2 id="assessmentTitle"></h2>
                 <p id="assessmentSubtitle"></p>
+                <div class="assessment-share no-print">
+                  <button class="secondary-btn" id="copyAssessmentLinkBtn" type="button">Copy assessment URL</button>
+                </div>
               </div>
             </div>
             <div class="assessment-progress">
@@ -432,7 +441,19 @@ function completionStats(){
   const questionDone=assessIds.reduce((s,id)=>s+assessmentStats(id).correct,0);
   return {taskTotal,taskDoneCount,masteredAssess,total,done,pct:100*done/total,questionTotal,questionDone,questionPct:100*questionDone/questionTotal};
 }
-function showView(id){
+function assessmentUrl(id){
+  const url=new URL(window.location.origin+window.location.pathname);
+  url.searchParams.set('assessment',id);
+  return url.toString();
+}
+function showView(id, updateHistory=true){
+  if(id!=='assessmentView' && updateHistory){
+    const url=new URL(window.location.href);
+    if(url.searchParams.has('assessment')){
+      url.searchParams.delete('assessment');
+      history.pushState(null,'',url);
+    }
+  }
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));
   document.querySelectorAll('.side-nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
   if(id!=='assessmentView'){state.lastView=id;saveState();}
@@ -465,23 +486,30 @@ function renderModules(){
         <div class="resource-row"><div class="resource-kind">Applications</div><div class="resource-links">${resourceHtml(w.application)}</div>${completionHtml(w.week,'app')}</div>
         <div class="resource-row"><div class="resource-kind">Weekly Quiz</div>
           <div><strong>${ASSESSMENTS[w.quiz].title}</strong><small style="display:block;color:var(--muted);margin-top:3px">Five questions. Master each question before the quiz is marked complete.</small></div>
-          <div class="quiz-actions"><span class="badge ${qs.complete?'good':qs.correct?'warn':''}">${Math.round(qs.score)}%</span><button class="primary-btn" data-open-assessment="${w.quiz}">${qs.correct?'Continue quiz':'Open quiz'}</button></div>
+          <div class="quiz-actions"><span class="badge ${qs.complete?'good':qs.correct?'warn':''}">${Math.round(qs.score)}%</span><a class="primary-btn" href="?assessment=${w.quiz}" data-open-assessment="${w.quiz}">${qs.correct?'Continue quiz':'Open quiz'}</a><button class="secondary-btn" type="button" data-copy-assessment="${w.quiz}">Copy URL</button></div>
         </div>
       </div>
     </article>`;
     if(w.week===4){
       const ms=assessmentStats('midterm');
-      html+=`<section class="exam-break"><div><h3>Midterm Examination</h3><p>Weeks 1–4 · ${ms.correct} of ${ms.total} questions mastered</p></div><div class="quiz-actions"><span class="badge">${Math.round(ms.score)}%</span><button class="secondary-btn" data-open-assessment="midterm">Open midterm</button></div></section>`;
+      html+=`<section class="exam-break"><div><h3>Midterm Examination</h3><p>Weeks 1–4 · ${ms.correct} of ${ms.total} questions mastered</p></div><div class="quiz-actions"><span class="badge">${Math.round(ms.score)}%</span><a class="secondary-btn" href="?assessment=midterm" data-open-assessment="midterm">Open midterm</a><button class="secondary-btn" type="button" data-copy-assessment="midterm">Copy URL</button></div></section>`;
     }
   });
   const fs=assessmentStats('final');
-  html+=`<section class="exam-break"><div><h3>Final Examination</h3><p>Comprehensive · ${fs.correct} of ${fs.total} questions mastered</p></div><div class="quiz-actions"><span class="badge">${Math.round(fs.score)}%</span><button class="secondary-btn" data-open-assessment="final">Open final</button></div></section>`;
+  html+=`<section class="exam-break"><div><h3>Final Examination</h3><p>Comprehensive · ${fs.correct} of ${fs.total} questions mastered</p></div><div class="quiz-actions"><span class="badge">${Math.round(fs.score)}%</span><a class="secondary-btn" href="?assessment=final" data-open-assessment="final">Open final</a><button class="secondary-btn" type="button" data-copy-assessment="final">Copy URL</button></div></section>`;
   c.innerHTML=html;
   c.querySelectorAll('[data-task-week]').forEach(cb=>cb.addEventListener('change',()=>{
     state.tasks[taskKey(Number(cb.dataset.taskWeek),cb.dataset.taskKind)]=cb.checked;
     saveState();refreshAll();
   }));
-  c.querySelectorAll('[data-open-assessment]').forEach(b=>b.addEventListener('click',()=>openAssessment(b.dataset.openAssessment)));
+  c.querySelectorAll('a[data-open-assessment]').forEach(link=>link.addEventListener('click',event=>{
+    if(event.defaultPrevented || event.button!==0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)return;
+    event.preventDefault();
+    openAssessment(link.dataset.openAssessment);
+  }));
+  c.querySelectorAll('[data-copy-assessment]').forEach(button=>button.addEventListener('click',()=>{
+    copyAssessmentUrl(button.dataset.copyAssessment,button);
+  }));
 }
 function renderDashboardWeeks(){
   const wrap=document.getElementById('dashboardWeeks');
@@ -613,7 +641,9 @@ function assessmentMath(s){
   return out.replace(/@@MJ(\d+)@@/g,(m,n)=>slots[Number(n)] ?? m);
 }
 
-function openAssessment(id){
+function openAssessment(id, updateHistory=true){
+  if(!Object.prototype.hasOwnProperty.call(ASSESSMENTS,id))return;
+  if(activeAssessment && activeAssessment!==id)saveAssessmentInputs();
   activeAssessment=id;
   const a=ASSESSMENTS[id], s=ensureAssessment(id);
   document.getElementById('assessmentTitle').textContent=a.title;
@@ -638,8 +668,34 @@ function openAssessment(id){
   container.querySelectorAll('input').forEach(inp=>inp.addEventListener('change',saveAssessmentInputs));
   container.querySelectorAll('[data-num-q]').forEach(inp=>inp.addEventListener('input',saveAssessmentInputs));
   updateAssessmentHeader();
-  showView('assessmentView');
+  if(updateHistory && new URL(window.location.href).searchParams.get('assessment')!==id){
+    history.pushState({assessment:id},'',assessmentUrl(id));
+  }
+  showView('assessmentView',false);
   window.typesetMath?.([container]);
+}
+async function copyAssessmentUrl(id,button){
+  const url=assessmentUrl(id);
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(url);
+    }else{
+      const field=document.createElement('textarea');
+      field.value=url;field.style.position='fixed';field.style.opacity='0';
+      document.body.appendChild(field);field.select();
+      const ok=document.execCommand('copy');
+      field.remove();
+      if(!ok)throw new Error('Copy unavailable');
+    }
+    if(button){
+      const label=button.dataset.defaultLabel||button.textContent;
+      button.dataset.defaultLabel=label;
+      button.textContent='Copied!';
+      setTimeout(()=>{if(button.isConnected)button.textContent=label;},1800);
+    }
+  }catch(e){
+    window.prompt('Copy this assessment URL:',url);
+  }
 }
 function escapeAttr(s){return s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');}
 function saveAssessmentInputs(){
@@ -743,6 +799,7 @@ document.getElementById('studentName').value=state.studentName||'';
 document.getElementById('studentName').addEventListener('input',e=>{state.studentName=e.target.value;saveState();});
 document.getElementById('themeBtn').addEventListener('click',()=>{state.theme=state.theme==='dark'?'light':'dark';saveState();applyTheme();});
 document.getElementById('assessmentBack').addEventListener('click',()=>showView('modulesView'));
+document.getElementById('copyAssessmentLinkBtn').addEventListener('click',event=>copyAssessmentUrl(activeAssessment,event.currentTarget));
 document.getElementById('checkAssessmentBtn').addEventListener('click',checkAssessment);
 document.getElementById('exportBtn').addEventListener('click',exportProgress);
 document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
@@ -752,7 +809,16 @@ document.getElementById('resetBtn').addEventListener('click',()=>{
     state=structuredClone(defaultState);saveState();location.reload();
   }
 });
-applyTheme();refreshAll();showView(state.lastView||'dashboardView');
+function restoreViewFromUrl(){
+  const id=new URL(window.location.href).searchParams.get('assessment');
+  if(id && Object.prototype.hasOwnProperty.call(ASSESSMENTS,id)){
+    openAssessment(id,false);
+  }else{
+    showView(state.lastView||'dashboardView',false);
+  }
+}
+window.addEventListener('popstate',restoreViewFromUrl);
+applyTheme();refreshAll();restoreViewFromUrl();
 </script>
 </body>
 </html>
