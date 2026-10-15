@@ -76,7 +76,7 @@
       {topic:"Square-root domain",make:function(){
         var h=ri(-6,7),k=ri(-4,5);
         return num("Square-root domain","What is the smallest allowed real input for $g(x)=\\sqrt{x"+(h>=0?"-":"+")+Math.abs(h)+"}"+signed(k)+"$?",h,[
-          "The radicand must satisfy $x-"+h+"\\ge0$.","Therefore $x\\ge"+h+"$. The vertical shift does not affect the domain."
+          "The radicand must satisfy $x"+(h>=0?"-":"+")+Math.abs(h)+"\\ge0$.","Therefore $x\\ge"+h+"$. The vertical shift does not affect the domain."
         ],"Make the expression under the square root nonnegative.");
       }},
       {topic:"Horizontal scaling",make:function(){
@@ -114,7 +114,7 @@
       {topic:"Roots",make:function(){
         var r=distinct(-6,6),sum=r[0]+r[1],prod=r[0]*r[1];
         return set("Roots","Find every real zero of $f(x)=x^2"+(sum===0?"":signed(-sum)+"x")+signed(prod)+"$.",r,[
-          "Find numbers with sum "+sum+" and product "+prod+".","Factor as $("+factor(r[0])+")("+factor(r[1])+")$ (with outer parentheses optional).","By the zero-product property, the roots are "+r.join(" and ")+"."
+          "Find numbers with sum "+sum+" and product "+prod+".","Factor as $"+factor(r[0])+factor(r[1])+"$.","By the zero-product property, the roots are "+r.join(" and ")+"."
         ],"Look for two numbers whose sum is the negative of the x-coefficient and whose product is the constant.");
       }},
       {topic:"Discriminant",make:function(){
@@ -236,8 +236,8 @@
       {topic:"Slant asymptotes",make:function(){
         var b=nz(-5,5),c=ri(-6,6),r=nz(-6,6),middle=c-b,constant=r-b*c;
         return num("Slant asymptotes","For $f(x)=\\frac{"+poly(1,middle,constant)+"}{x"+(b>0?"-":"+")+Math.abs(b)+"}$, what is the y-intercept of its SLANT asymptote?",c,[
-          "Divide the numerator by $(x-"+b+")$.","The quotient is $x"+signed(c)+"$ and the remainder is "+r+".",
-          "Thus $f(x)=x"+signed(c)+"+"+"("+r+")/(x-"+b+")$; the asymptote is $y=x"+signed(c)+"$."
+          "Divide the numerator by $"+factor(b)+"$.","The quotient is $x"+signed(c)+"$ and the remainder is "+r+".",
+          "Thus $f(x)=x"+signed(c)+"+\\frac{"+r+"}{"+factor(b)+"}$; the asymptote is $y=x"+signed(c)+"$."
         ],"Use polynomial division: the linear quotient is the slant asymptote.");
       }},
       {topic:"Signs",make:function(){
@@ -290,14 +290,14 @@
       {topic:"Radical equations",make:function(){
         var d=ri(-3,5),s=ri(2,5),x=d+s,c=s*s-d-s,extra=d+1-s;
         return num("Radical equations","Solve $\\sqrt{x"+(c>=0?"+":"-")+Math.abs(c)+"}=x"+(d>=0?"-":"+")+Math.abs(d)+"$. Give the VALID solution.",x,[
-          "The right side must be nonnegative, requiring $x\\ge"+d+"$.","Square both sides: $x+("+c+")=(x-"+d+")^2$.","The quadratic has candidate roots "+x+" and "+extra+".",
+          "The right side must be nonnegative, requiring $x\\ge"+d+"$.","Square both sides: $x+("+c+")="+factor(d)+"^2$.","The quadratic has candidate roots "+x+" and "+extra+".",
           "The candidate "+extra+" gives a negative right side and is extraneous; "+x+" satisfies the original equality."
         ],"Squaring can introduce candidates with a negative right-hand side; check in the original equation.");
       }},
       {topic:"Extraneous solutions",make:function(){
         var d=ri(-3,5),s=ri(2,5),valid=d+s,c=s*s-d-s,extra=d+1-s;
         return num("Extraneous solutions","After squaring $\\sqrt{x"+(c>=0?"+":"-")+Math.abs(c)+"}=x"+(d>=0?"-":"+")+Math.abs(d)+"$, one candidate is extraneous. Which x-value is EXTRANEOUS?",extra,[
-          "The original equation requires $x\\ge"+d+"$ because the right side is $x-"+d+"$.","The squared equation gives "+valid+" and "+extra+".","The candidate "+extra+" is less than "+d+", so it cannot satisfy the original equation."
+          "The original equation requires $x\\ge"+d+"$ because the right side is $"+(d>=0?"x-"+d:"x+"+(-d))+"$.","The squared equation gives "+valid+" and "+extra+".","The candidate "+extra+" is less than "+d+", so it cannot satisfy the original equation."
         ],"Check which algebraic root makes the right-hand side negative.");
       }},
       {topic:"One-to-one test",make:function(){
