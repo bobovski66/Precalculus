@@ -34,9 +34,10 @@ The organizing idea is to treat **functions as data** and to introduce each func
    [Lab](https://bobovski66.github.io/Precalculus/labs/Precalc_Week7_Lab.html)  
    Logarithms as inverses of exponentials, the laws, change of base, and the role of base-2 logarithms in information theory.
 
-8. [Implicit Curves and Conics](https://bobovski66.github.io/Precalculus/notes/Precalc_Week8.pdf)  
+8. [Function Composition and Substitution](https://bobovski66.github.io/Precalculus/notes/Precalc_Week8.pdf)  
    [Lab](https://bobovski66.github.io/Precalculus/labs/Precalc_Week8_Lab.html)  
-   Curves defined by equations, an elliptic curve example, and the four conic sections.
+   Compose and decompose functions, track domains through each stage, undo layers, solve equations by substitution, and interpret composite graphs.
+   [Web reading](https://bobovski66.github.io/Precalculus/notes/Precalc_Week8.html) | [Composition explorer](https://bobovski66.github.io/Precalculus/demos/function_composition.html) | [Applications](https://bobovski66.github.io/Precalculus/applications/composition_models.html)
 
 9. [Systems of Linear Equations](https://bobovski66.github.io/Precalculus/notes/Precalc_Week9.pdf)  
    [Lab](https://bobovski66.github.io/Precalculus/labs/Precalc_Week9_Lab.html)  
@@ -50,6 +51,9 @@ The organizing idea is to treat **functions as data** and to introduce each func
 [Solutions](https://bobovski66.github.io/Precalculus/notes/Precalc_Solutions_Manual.pdf)
 
 ## Precalculus Interactive Demos
+
+- [Function Composition Explorer](https://bobovski66.github.io/Precalculus/demos/function_composition.html)  
+  Follow inputs through inner and outer functions, swap their order, and inspect domain restrictions.
 
 - [Function Fit Lab](https://bobovski66.github.io/Precalculus/demos/function_fit.html)  
   Match a transformed parent function to a point cloud using parameters of the form  
@@ -99,3 +103,4 @@ function family.
 - [Exponential — Radioactive Decay](https://bobovski66.github.io/Precalculus/demos/exponential_decay.html)  
   Atoms decay at random, so counts scatter around `N = N₀e^(−λt)`; straightening with `ln(N)`
   recovers a line of slope −λ, and the half-life is marked.
+

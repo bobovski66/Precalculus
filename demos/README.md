@@ -54,3 +54,9 @@ Precalculus/
 
 These are instructional tools, not formal assessment software.  
 The point is to help students build intuition by experimenting with functions and seeing immediate graphical feedback.
+
+
+
+## Week 8: Function Composition
+
+[Function Composition Explorer](function_composition.html) traces an input through two function graphs, compares the composite graph, and highlights domain restrictions.

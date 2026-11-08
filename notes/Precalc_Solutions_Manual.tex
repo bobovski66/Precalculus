@@ -1,5 +1,16 @@
 \documentclass[12pt]{book}
-\usepackage{precalc1}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,microtype}
+\usepackage[margin=.85in]{geometry}
+\usepackage{xcolor,fancyhdr,hyperref}
+\newcommand{\R}{\mathbb R}
+\let\originalcheckmark\checkmark
+\renewcommand{\checkmark}{\ensuremath{\originalcheckmark}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small Precalculus I: Worked Solutions}\fancyfoot[C]{\small\thepage}
+
 
 % --- solutions list environment: numbered to match exercises ---
 \newcounter{soln}[section]
@@ -464,59 +475,21 @@ add: $\log_2 6+\log_2 4\approx2.585+2=4.585$, matching, because the product law 
 logarithms is the additivity of information across independent sources.
 \end{solutions}
 
-\section*{Week 8 — Implicit Curves and Conics}
+\section*{Week 8 - Function Composition and Substitution}
 \setcounter{section}{8}
-
 \begin{solutions}
-\item On $x^2+y^2=25$? (a) $(0,5)$: $0+25=25$ \checkmark. (b) $(3,4)$: $9+16=25$
-\checkmark. (c) $(-4,3)$: $16+9=25$ \checkmark. (d) $(2,2)$: $4+4=8\ne25$, not on the
-circle.
-
-\item Solving $x^2+y^2=9$ gives $y=\sqrt{9-x^2}$ (upper semicircle) and
-$y=-\sqrt{9-x^2}$ (lower semicircle), each with domain $-3\le x\le3$. Together they
-recombine to the full circle, since every point of the circle has $y$ either
-nonnegative (upper) or nonpositive (lower).
-
-\item For $y^2=x^3-x$: at $x=-1,0,1$ the right side is $0$, so $y=0$, giving the points
-$(-1,0)$, $(0,0)$, $(1,0)$. At $x=\tfrac14$, $x^3-x=\tfrac1{64}-\tfrac14<0$, so $y^2<0$
-is impossible: no real point there.
-
-\item Wherever $x^3-x>0$, the equation gives $y=\pm\sqrt{x^3-x}$, two opposite values,
-so a vertical line meets the curve twice and it fails the vertical line test. The real
-locus has two pieces: a bounded oval over $-1\le x\le0$ and an unbounded branch over
-$x\ge1$, with a gap on $(0,1)$ where $x^3-x<0$.
-
-\item At $x=3$: $y^2=27-3=24$, so $y=\pm\sqrt{24}=\pm2\sqrt6$. The points are
-$(3,2\sqrt6)$ and $(3,-2\sqrt6)$. Check: $(2\sqrt6)^2=24=3^3-3$ \checkmark.
-
-\item The radius is the distance from the origin to $(6,8)$:
-$\sqrt{6^2+8^2}=\sqrt{100}=10$. The circle is $x^2+y^2=100$.
-
-\item $\dfrac{x^2}{25}+\dfrac{y^2}{16}=1$: $a^2=25$, $b^2=16$, so $a=5$, $b=4$.
-Intercepts $(\pm5,0)$ and $(0,\pm4)$. The sketch is an ellipse stretching to $\pm5$
-horizontally and $\pm4$ vertically.
-
-\item $\dfrac{x^2}{9}-\dfrac{y^2}{4}=1$: $a=3$, $b=2$. Vertices $(\pm3,0)$; asymptotes
-$y=\pm\dfrac{b}{a}x=\pm\dfrac23 x$. The two branches open left and right, hugging the
-asymptotes.
-
-\item Classify. (a) $3x^2+3y^2=12$: equal coefficients, circle. (b) $4x^2+y^2=16$:
-unequal positive, ellipse. (c) $y^2-x^2=1$: opposite signs, hyperbola. (d)
-$x-2y^2=0$: one squared term, parabola.
-
-\item For large $x$, the constant $1$ is negligible beside the large squared terms, so
-$\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}=1$ approaches $\dfrac{x^2}{a^2}=\dfrac{y^2}{b^2}$,
-which rearranges to $y=\pm\dfrac{b}{a}x$. The branches approach these asymptote lines
-ever more closely as $x$ grows.
-
-\item Dividing $x$ by $a$ and $y$ by $b$ before squaring replaces $x^2+y^2=1$ with
-$\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=1$. This stretches the unit circle by a factor $a$
-horizontally and $b$ vertically: the curve now reaches $\pm a$ along the $x$-axis and
-$\pm b$ along the $y$-axis, so $a$ and $b$ are the semi-axes.
-
-\item $4x^2-y^2=1$, i.e. $\dfrac{x^2}{1/4}-\dfrac{y^2}{1}=1$. Opposite signs: a
-hyperbola. Here $a^2=\tfrac14$ so $a=\tfrac12$, vertices $\left(\pm\tfrac12,0\right)$;
-$b=1$, asymptotes $y=\pm\dfrac{b}{a}x=\pm2x$.
+\item $f(g(x))=(x+3)^2$, while $g(f(x))=x^2+3$. At $x=1$, the outputs are $16$ and $4$, respectively.
+\item $g(0)=2$, so $f(g(0))=f(2)=5$. Also $g(2)=1$, so $f(g(2))=f(1)=7$. The table does not give $f(0)$, so it does not determine $g(f(0))$.
+\item For $\sqrt{2x-1}$, take $g(x)=2x-1$, $f(u)=\sqrt u$. For $\ln(1+x^2)$, take $g(x)=1+x^2$, $f(u)=\ln u$. For $(\ln x)^2$, take $g(x)=\ln x$, $f(u)=u^2$. Other decompositions are possible.
+\item Let $a(x)=x-2$, $b(u)=-u^2$, and $c(v)=e^v$. Then the function is $c(b(a(x)))$. At $x=3$, the intermediate values are $1,-1,e^{-1}$.
+\item For $\ln(4-x^2)$, require $4-x^2>0$, giving $(-2,2)$. For $\sqrt{\ln x}$, require $x>0$ and $\ln x\geq0$, giving $[1,\infty)$. For $1/(\ln x)$, require $x>0$ and $\ln x\ne0$, giving $(0,1)\cup(1,\infty)$.
+\item $e^{\ln x}=x$ on $x>0$; $\ln(e^x)=x$ on $\R$; $\sqrt{x^2}=|x|$ on $\R$. Simplification retains the original domains.
+\item Since $\ln$ is one-to-one, $x^2+1=10$, so $x=\pm3$. Both arguments are $10$ after substitution, so both solutions check.
+\item Set $u=e^x>0$. Then $u^2+u-6=(u+3)(u-2)=0$. Reject $u=-3$; from $e^x=2$, obtain $x=\ln2$.
+\item The original domain is $x>0$. Set $u=\ln x$, so $u^2-5u+6=(u-2)(u-3)=0$. Thus $x=e^2$ or $e^3$.
+\item Squaring opposite inputs gives the same result, so the function is even. Its domain is $\R$. The exponent $-x^2$ has maximum $0$ at $x=0$, so the output has maximum $1$ there. The range is $(0,1]$. As $|x|$ grows, the exponent decreases without bound and the output approaches $0$.
+\item $L(d(t))=100/(2+0.5t)^2$, with physical domain $t\geq0$. At $t=4$ seconds, the distance is $4$ meters and the relative reading is $100/16=6.25$ units.
+\item $F(x+h)=(x+h)^2=x^2+2xh+h^2$, whereas $F(x)+h=x^2+h$. The expression $F(x+h)$ changes the input before applying $F$.
 \end{solutions}
 
 \section*{Week 9 — Systems of Linear Equations}
@@ -643,3 +616,4 @@ coefficient grid.
 \end{solutions}
 
 \end{document}
+
