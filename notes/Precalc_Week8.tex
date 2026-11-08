@@ -17,7 +17,7 @@
 \begin{document}
 {\Large\bfseries\color{navy} Function Composition and Substitution}\par
 \textit{Week 8}\par\medskip
-A formula can describe several calculations in succession. Reading those calculations in order helps us understand the function, find its domain, solve equations, and explain the shape of its graph.
+Many formulas ask us to do more than one thing to an input. We might convert minutes to hours and then calculate a price, or square a number and then take its logarithm. This week we will follow those steps, change their order, and see how they help us solve equations and understand graphs.
 
 \section*{1. Following the operations}
 A parking garage charges an entry fee of \$2 plus \$4 per hour, with fractional hours charged proportionally. A driver records a visit in minutes. We can first convert minutes to hours, then calculate the charge:
@@ -31,7 +31,7 @@ For a 90-minute visit, \(h(90)=1.5\) hours and \(C(1.5)=8\) dollars. The charge 
 
 \paragraph{Order changes the result} Let \(f(x)=x^2\) and \(g(x)=x+3\). Then
 
-\[f(g(x))=(x+3)^2,\qquad g(f(x))=x^2+3.\]At \(x=2\), the first gives \(25\), and the second gives \(7\). Adding three before squaring produces a different calculation from adding three after squaring.
+\[f(g(x))=(x+3)^2,\qquad g(f(x))=x^2+3.\]For \(x=2\), the first calculation is \(f(g(2))=f(5)=25\). Reversing the order gives \(g(f(2))=g(4)=7\). One adds three before squaring; the other squares first.
 
 
 
@@ -47,7 +47,7 @@ Composition also works when functions are given by data. Use the first table to 
 \bottomrule\end{tabularx}\end{center}
 
 
-For example, \(g(1)=4\), so \(f(g(1))=f(4)=9\). On graphs, do the same thing: read the height of the first graph, then use that height as the horizontal coordinate on the second graph.
+For example, \(g(1)=4\), so \(f(g(1))=f(4)=9\). If the first table produces a number missing from the second table, the tables do not give enough information to complete that composition. On graphs, find the first graph's height, then use it as the input on the second graph.
 
 The notation \((f\circ g)(x)\) means composition. The product \(f(x)g(x)\) multiplies two outputs. For the functions above, that product is \(x^2(x+3)\).
 
@@ -65,7 +65,7 @@ We can start with a formula and identify the functions that compose it. For
 
 \[H(x)=\ln(1+x^2),\]the operations are: square the input, add one, then take the natural logarithm. One useful two-function description is
 
-\[g(x)=1+x^2,\qquad f(u)=\ln u,\qquad H=f\circ g.\]The variable \(u\) names an input to the outer function. Its name does not change the function: \(f(u)=\ln u\) and \(f(x)=\ln x\) describe the same rule.
+\[g(x)=1+x^2,\qquad f(u)=\ln u,\qquad H=f\circ g.\]For instance, when \(x=2\), the inside gives \(g(2)=5\), and the outside gives \(f(5)=\ln5\). We use \(u\) in \(f(u)\) simply to name the number that arrives from the inside function.
 
 
 \paragraph{Three layers} For \(K(x)=e^{-(x-2)^2}\), first subtract two, then square and negate, then exponentiate. Taking
@@ -104,12 +104,12 @@ Operation at a stage & Requirement on its input \(u\) \\
 
 \paragraph{A logarithm of a quadratic} For \(F(x)=\ln(4-x^2)\), the quadratic is defined for every real \(x\). The logarithm requires
 
-\[4-x^2>0\quad\Longleftrightarrow\quad x^2<4\quad\Longleftrightarrow\quad -2<x<2.\]The domain is \((-2,2)\). At either endpoint the logarithm would receive zero; outside the interval it would receive a negative number.
+\[4-x^2>0\quad\Longleftrightarrow\quad x^2<4\quad\Longleftrightarrow\quad -2<x<2.\]Try three inputs: \(x=0\) gives \(\ln4\), which works; \(x=2\) gives \(\ln0\), which is undefined; and \(x=3\) gives \(\ln(-5)\), which has no real value. The complete domain is \((-2,2)\).
 
 
 
 
-\paragraph{A square root of a logarithm} For \(G(x)=\sqrt{\ln x}\), the logarithm first requires \(x>0\). The square root then requires \(\ln x\geq0\). Since \(\ln1=0\) and the natural logarithm is increasing, the combined requirement is \(x\geq1\). The endpoint is included because \(G(1)=0\).
+\paragraph{A square root of a logarithm} For \(G(x)=\sqrt{\ln x}\), start with the logarithm. At \(x=0.5\), the logarithm is negative, so its square root is not real. At \(x=1\), \(\ln1=0\), and \(\sqrt0=0\) is allowed. For larger inputs the logarithm is positive. The domain is therefore \([1,\infty)\).
 
 
 
@@ -153,7 +153,7 @@ Inverse relationships also depend on domains:
 
 
 \section*{5. Giving a repeated expression a name}
-Sometimes the same inner expression appears more than once. A temporary variable can reveal an equation we already know how to solve.
+The equation below looks exponential, but it hides a quadratic. Both \(e^x\) and \(e^{2x}\) appear, and \(e^{2x}=(e^x)^2\). Giving \(e^x\) a shorter name makes the familiar factoring step visible.
 
 
 \paragraph{A quadratic in an exponential} \[e^{2x}-5e^x+6=0.\]Since \(e^{2x}=(e^x)^2\), let \(u=e^x\). Then \(u>0\), and
@@ -199,7 +199,7 @@ Composition lets us explain a graph by following what happens to the input. Use 
 
 
 \begin{center}\includegraphics[width=.98\linewidth]{../assets/week8_graphs.png}\end{center}
-{\small The inner square gives both graphs their symmetry. The outer function determines how the transformed input becomes a height.}
+{\small At \(x=1\) and \(x=-1\), both inner squares equal 1. That is why each graph has the same height on either side of the vertical axis.}
 
 
 \textbf{Try it.} How does the peak change for \(e^{-(x-2)^2}\)?
@@ -214,7 +214,7 @@ Composition lets us explain a graph by following what happens to the input. Use 
 \section*{Looking toward calculus}
 Suppose \(u=g(x)\) and \(y=f(u)\). A change in \(x\) first changes \(u\), which then changes \(y\). Calculus studies how these changes are related. Identifying the inner and outer functions is the first step in the chain rule. Giving an inner expression a temporary name is also a habit used in integration.
 
-We can practice that attention now. If \(F(x)=x^2\), then \(F(x+h)=(x+h)^2\), while \(F(x)+h=x^2+h\). In the first expression we change the input before applying \(F\); in the second we change the output afterward.
+Here is a simple distinction that will matter in calculus. For \(F(x)=x^2\), compare \(F(x+h)=(x+h)^2\) with \(F(x)+h=x^2+h\). At \(x=2\) and \(h=1\), these give 9 and 5. The first changes the input before squaring; the second adds one after squaring.
 
 
 
@@ -222,7 +222,7 @@ We can practice that attention now. If \(F(x)=x^2\), then \(F(x+h)=(x+h)^2\), wh
 
 \newpage
 \section*{Exercises}
-Show the intermediate functions or values that support each answer.
+Write the steps of your calculation. When a question asks for an explanation, use a number, equation, or graph feature to support it.
 
 
 \begin{enumerate}
