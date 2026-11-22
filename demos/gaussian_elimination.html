@@ -105,13 +105,13 @@ window.typesetMath = function(nodes){
 <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </head><body>
-<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 10 · Interactive Demo</div><h1>Gaussian Elimination Workbench</h1><p>Turn a system into an easier equivalent system one legal row operation at a time.</p></div></header>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 10 · Interactive Demo</div><h1>Gaussian Elimination Workbench</h1><p>You already know how to eliminate variables from equations. Here you can practice the same steps using an augmented matrix.</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
-<section class="card"><h2>Row operations preserve the solution set</h2>
-<div class="goal"><strong>Goal:</strong> Practice Gaussian elimination as controlled transformations of an augmented matrix, while keeping track of the system’s solution type.</div>
-<p>Choose a preset, then perform row operations. You can swap rows, multiply a row by a nonzero number, or add a multiple of one row to another.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Use row swaps, scaling, and row replacement on preset augmented matrices.</p></div><div class="activity-step"><strong>2. Observe</strong><p>The visible matrix changes, but every legal row operation preserves the same solution set.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Read pivot structure and contradiction rows to classify the system before finishing all arithmetic.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
-<section class="card"><h2>Gaussian elimination workbench</h2>
+<section class="card"><h2>Make zeros to simplify the system</h2>
+<div class="goal"><strong>Goal:</strong> Use row operations to make a matrix easier to solve. After each step, see which numbers have changed and which zeros you have created.</div>
+<p>Begin with the Unique solution preset. Try subtracting a multiple of the top row from a lower row to make its first entry zero. You can also swap rows or multiply a row by a nonzero number.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Try it</strong><p>Choose a preset and make one row operation. Aim to create a zero below a leading entry.</p></div><div class="activity-step"><strong>2. Notice</strong><p>Compare the new row with the previous one. Which entries have become zero?</p></div><div class="activity-step"><strong>3. Explain</strong><p>Read the rows as equations. Do they determine the variables, contradict one another, or leave a free choice?</p></div></div><div class="activity-question"><strong>Think about it:</strong> When a row becomes all zeros, does that mean the system has no solution? Compare it with a row that has zeros before the bar and a nonzero number after it.</div></section>
+<section class="card"><h2>Work with an augmented matrix</h2>
 <div class="pills"><button onclick="preset('unique')">Unique solution</button><button onclick="preset('infinite')">Infinitely many</button><button onclick="preset('none')">No solution</button><button onclick="resetMatrix()">Reset preset</button></div>
 <div style="overflow:auto"><table id="matrixTable"></table></div>
 <div class="controls">
@@ -123,8 +123,8 @@ window.typesetMath = function(nodes){
 <div class="pills"><button class="primary" onclick="applyOp()">Apply row operation</button><button onclick="showRref()">Show RREF / classification</button></div>
 <div class="grid2"><div><h3>Operation history</h3><div class="note" id="history">No operations yet.</div></div><div><h3>System status</h3><div class="note" id="status">Use row operations or ask for the RREF when you are ready.</div></div></div>
 </section>
-<section class="card"><h2>What to watch for</h2>
-<div class="grid3"><div class="note"><strong>Unique solution:</strong><br/>one pivot in every variable column.</div><div class="note"><strong>No solution:</strong><br/>a row like [0 0 0 | nonzero].</div><div class="note"><strong>Infinitely many:</strong><br/>at least one free variable and no contradiction.</div></div>
+<section class="card"><h2>How to read the rows</h2>
+<div class="grid3"><div class="note"><strong>Unique solution:</strong><br/>every variable has a leading entry, so its value can be determined.</div><div class="note"><strong>No solution:</strong><br/>a row such as [0 0 0 | 5] says 0 = 5, which is impossible.</div><div class="note"><strong>Infinitely many:</strong><br/>if there is no contradiction and a variable has no leading entry, it can be chosen freely.</div></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
