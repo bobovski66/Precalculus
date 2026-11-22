@@ -374,8 +374,8 @@
 <script>
   const STORE_KEY='precalc_w9_lab';
   function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea, select'));}
-  function save(){const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
-  function load(){let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
+  function save(){if(document.body.dataset.studentLab)return;const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
+  function load(){if(document.body.dataset.studentLab)return;let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
   function clearData(){try{localStorage.removeItem(STORE_KEY);}catch(e){}allInputs().forEach(i=>{i.value='';i.classList.remove('ok','no');});document.querySelectorAll('.verdict').forEach(v=>{v.textContent='';v.className='verdict';});}
   document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea, select'))save();});
   document.addEventListener('change',e=>{if(e.target.matches('select')){save();updateLocks();}});
