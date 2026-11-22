@@ -35,6 +35,11 @@
   .answer-row label{font-family:var(--mono);font-size:14px;color:#444;}
   .answer-row input[type=text]{font-family:var(--mono);font-size:15px;border:1px solid var(--rule);border-radius:5px;padding:5px 8px;width:90px;background:#fff;}
   .answer-row input.wide{width:150px;}
+  .answer-row select{font-family:var(--mono);font-size:14px;border:1px solid var(--rule);border-radius:5px;padding:7px 8px;background:#fff;color:var(--ink);}
+  .answer-row select.ok{border-color:var(--green);background:var(--green-bg)}
+  .answer-row select.no{border-color:var(--red);background:#f8eded}
+  .demo-link{background:var(--blue-bg);border:1px solid var(--blue-rule);padding:12px 16px;border-radius:8px;margin:14px 0}.demo-link a{color:var(--blue);font-weight:600}
+
   .answer-row input.ok{border-color:var(--green);background:var(--green-bg);}
   .answer-row input.no{border-color:var(--red);background:#f8eded;}
   .check-btn{font-family:var(--mono);font-size:13px;cursor:pointer;background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;}
@@ -78,7 +83,7 @@
     <li>Write the augmented matrix of a linear system.</li>
     <li>Use row operations to reach echelon form.</li>
     <li>Read the outcome (unique, none, infinitely many) from the echelon form.</li>
-    <li>Solve applications by Gaussian elimination and fit a quadratic model from data.</li>
+    <li>Use a matrix to interpret a physical system and recover a quadratic from data.</li>
   </ul>
 </div>
 
@@ -89,9 +94,12 @@
 
 <!-- PROBLEM 1 -->
 <div class="problem" id="p1">
-  <h2>Problem 1 — Gaussian elimination</h2>
+  <h2>Problem 1 — Follow the elimination</h2>
   <div class="scenario">
-    Solve the system whose augmented matrix is
+    Last week you simplified equations to find \(x\), \(y\), and \(z\).
+    Here the same system is written as an augmented matrix.
+    Remember: the first three columns represent \(x,y,z\), and the
+    numbers after the bar are the constants.
     \[
     \left[\begin{array}{ccc|c}
     1&1&1&4\\
@@ -102,136 +110,288 @@
   </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Reduce to echelon form and back-substitute. Enter \(x\), \(y\), \(z\).</span></div>
-    <div class="answer-row">
-      <label>\(x\)</label><input type="text" id="q1a_x" data-ans="2">
-      <label>\(y\)</label><input type="text" id="q1a_y" data-ans="-1">
-      <label>\(z\)</label><input type="text" id="q1a_z" data-ans="3">
-      <button class="check-btn" onclick="checkNum(['q1a_x','q1a_y','q1a_z'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span>
-    </div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\((x,y,z)=(2,-1,3)\).</span></p>
-      <p>Use \(R_2\leftarrow R_2-2R_1\) and \(R_3\leftarrow R_3-R_1\).
-      Then combine the last two rows to obtain \(-7z=-21\), so \(z=3\);
-      back-substitution gives \(y=-1\) and \(x=2\).</p>
+      <span class="part-text">Start by getting zeros under the first entry
+      in the \(x\)-column. Replace row 2 with \(R_2-2R_1\) and row 3
+      with \(R_3-R_1\). Write the two new rows, including their constants.</span></div>
+    <div class="text-answer"><label for="q1a_row2">New row 2</label>
+      <textarea id="q1a_row2" placeholder="Four numbers, with the constant after the bar"></textarea></div>
+    <div class="text-answer"><label for="q1a_row3">New row 3</label>
+      <textarea id="q1a_row3" placeholder="Notice the first entry should now be zero"></textarea></div>
+    <details><summary>Check your first two rows</summary><div class="solution">
+      <p>\(R_2-2R_1=[\,0\ -3\ -1\mid0\,]\) and
+      \(R_3-R_1=[\,0\ 1\ -2\mid-7\,]\).</p>
+      <p>These are new versions of two equations, but the system has
+      exactly the same solutions as before.</p>
     </div></details>
   </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Name the three elementary row operations and the equation operation each represents.</span></div>
-    <div class="text-answer"><label>Your answer</label><textarea id="q1b_txt"></textarea></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p>Swap two rows; scale a row by a nonzero constant; replace a row by itself plus a
-      multiple of another. These correspond to reordering equations, multiplying an
-      equation by a nonzero number, and adding a multiple of one equation to another.</p>
+      <span class="part-text">Remove \(y\) from one of these two rows.
+      For example, add three times the new row 3 to the new row 2.
+      Write the row you obtain. What equation in \(z\) does it represent?</span></div>
+    <div class="text-answer"><label for="q1b_row">Your row and equation</label>
+      <textarea id="q1b_row" placeholder="A row with zeros in the x and y columns"></textarea></div>
+    <details><summary>Check your elimination</summary><div class="solution">
+      <p>\([\,0\ -3\ -1\mid0\,]+3[\,0\ 1\ -2\mid-7\,]
+      =[\,0\ 0\ -7\mid-21\,]\). This means \(-7z=-21\).</p>
     </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Solve for \(z\), then use the other rows
+      to find \(y\) and \(x\). Enter the values and check them in the
+      original three equations.</span></div>
+    <div class="answer-row">
+      <label for="q1c_z">\(z\)</label><input type="text" id="q1c_z" data-ans="3">
+      <label for="q1c_y">\(y\)</label><input type="text" id="q1c_y" data-ans="-1">
+      <label for="q1c_x">\(x\)</label><input type="text" id="q1c_x" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q1c_z','q1c_y','q1c_x'],'q1c_v')">Check</button><span class="verdict" id="q1c_v" aria-live="polite"></span>
+    </div>
+    <details><summary>Show solution</summary><div class="solution">
+      <p><span class="ans">\((x,y,z)=(2,-1,3)\).</span>
+      The last row gives \(z=3\). From \(y-2z=-7\),
+      \(y=-1\). From \(x+y+z=4\), \(x=2\).</p>
+      <p>Check: \(2-1+3=4\), \(2(2)-(-1)+3=8\),
+      and \(2+2(-1)-3=-3\).</p>
+    </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(d)</span>
+      <span class="part-text">What is the advantage of writing
+      elimination with matrices? Also name one row operation you used
+      and explain what it means for the equations.</span></div>
+    <div class="text-answer"><label for="q1d_why">Your explanation</label><textarea id="q1d_why"></textarea></div>
+    <details><summary>Compare your reasoning</summary><div class="solution">
+      <p>The matrix keeps coefficients lined up and makes the operations
+      easier to organize. Subtracting twice row 1 from row 2, for example,
+      means subtracting twice the first equation from the second.
+      Row swaps, nonzero scaling, and adding a multiple of one row to
+      another all preserve the solutions.</p>
+    </div></details>
+  </div>
+  <div class="demo-link">
+    Want to experiment with a different system? Try the
+    <a href="../demos/gaussian_elimination.html" target="_blank" rel="noopener">Gaussian Elimination Workbench</a>.
+    Change one row at a time and watch which entries become zero.
   </div>
 </div>
 
 <!-- PROBLEM 2 -->
 <div class="problem" id="p2">
-  <h2>Problem 2 — Reading the outcome</h2>
+  <h2>Problem 2 — What does the last row tell you?</h2>
   <div class="scenario">
-    Use the echelon form itself to classify each system.
+    You don't always have to finish solving a system to know how many
+    solutions it has. Read each row as an equation and decide what
+    the entire matrix tells you.
   </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">For
-      \(\left[\begin{array}{cc|c}1&3&4\\0&2&-6\end{array}\right]\),
-      enter \(1\) for unique, \(0\) for none, or \(2\) for infinitely many.</span></div>
-    <div class="answer-row"><label>outcome</label><input type="text" id="q2a" data-ans="1">
-      <button class="check-btn" onclick="checkNum(['q2a'],'q2a_v')">Check</button><span class="verdict" id="q2a_v"></span></div>
-    <details><summary>Show solution</summary><div class="solution"><p><span class="ans">Unique solution.</span></p>
-      <p>There is a pivot in each variable column and no contradictory row.</p></div></details>
+      <span class="part-text">Consider
+      \(\left[\begin{array}{cc|c}1&3&4\\0&2&-6\end{array}\right]\).
+      How many solutions are there?</span></div>
+    <div class="answer-row"><label for="q2a_class">Outcome</label>
+      <select id="q2a_class"><option value="">Choose</option><option value="one">One solution</option><option value="none">No solution</option><option value="many">Infinitely many</option></select>
+      <button class="check-btn" onclick="checkChoice('q2a_class','one','q2a_v')">Check</button>
+      <span class="verdict" id="q2a_v" aria-live="polite"></span>
+    </div>
+    <details><summary>Show explanation</summary><div class="solution">
+      <p><span class="ans">One solution.</span> The bottom row gives
+      \(2y=-6\), so \(y=-3\), and then the first gives \(x=13\).
+      Both variables can be determined.</p>
+    </div></details>
   </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">For
-      \(\left[\begin{array}{cc|c}1&-2&5\\0&0&-4\end{array}\right]\),
-      enter the outcome code.</span></div>
-    <div class="answer-row"><label>outcome</label><input type="text" id="q2b" data-ans="0">
-      <button class="check-btn" onclick="checkNum(['q2b'],'q2b_v')">Check</button><span class="verdict" id="q2b_v"></span></div>
-    <details><summary>Show solution</summary><div class="solution"><p><span class="ans">No solution.</span></p>
-      <p>The bottom row means \(0=-4\), a contradiction.</p></div></details>
+      <span class="part-text">Now look at
+      \(\left[\begin{array}{cc|c}1&-2&5\\0&0&-4\end{array}\right]\).
+      How many solutions can satisfy these rows?</span></div>
+    <div class="answer-row"><label for="q2b_class">Outcome</label>
+      <select id="q2b_class"><option value="">Choose</option><option value="one">One solution</option><option value="none">No solution</option><option value="many">Infinitely many</option></select>
+      <button class="check-btn" onclick="checkChoice('q2b_class','none','q2b_v')">Check</button>
+      <span class="verdict" id="q2b_v" aria-live="polite"></span>
+    </div>
+    <div class="text-answer"><label for="q2b_why">Translate the bottom row into an equation. What does it mean?</label>
+      <textarea id="q2b_why" placeholder="Write the equation and say whether it can be true."></textarea></div>
+    <details><summary>Show explanation</summary><div class="solution">
+      <p><span class="ans">No solution.</span> The bottom row says
+      \(0x+0y=-4\), or \(0=-4\). That's impossible, so the entire
+      system has no solution.</p>
+    </div></details>
   </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">For
-      \(\left[\begin{array}{ccc|c}1&1&-2&3\\0&1&4&2\\0&0&0&0\end{array}\right]\),
-      enter the outcome code and explain why.</span></div>
-    <div class="answer-row"><label>outcome</label><input type="text" id="q2c" data-ans="2">
-      <button class="check-btn" onclick="checkNum(['q2c'],'q2c_v')">Check</button><span class="verdict" id="q2c_v"></span></div>
-    <div class="text-answer"><label>Why?</label><textarea id="q2c_txt"></textarea></div>
-    <details><summary>Show solution</summary><div class="solution"><p><span class="ans">Infinitely many solutions.</span></p>
-      <p>There are three variables but only two pivot rows, so one variable is free. The zero row adds no new constraint.</p></div></details>
+      <span class="part-text">Finally, consider
+      \(\left[\begin{array}{ccc|c}1&1&-2&3\\0&1&4&2\\0&0&0&0\end{array}\right]\).
+      There are three unknowns. What does this arrangement tell you?</span></div>
+    <div class="answer-row"><label for="q2c_class">Outcome</label>
+      <select id="q2c_class"><option value="">Choose</option><option value="one">One solution</option><option value="none">No solution</option><option value="many">Infinitely many</option></select>
+      <button class="check-btn" onclick="checkChoice('q2c_class','many','q2c_v')">Check</button>
+      <span class="verdict" id="q2c_v" aria-live="polite"></span>
+    </div>
+    <div class="text-answer"><label for="q2c_why">Why can one of the variables be chosen freely?</label>
+      <textarea id="q2c_why" placeholder="Look at the last row and at which variable columns have a leading entry."></textarea></div>
+    <details><summary>Show explanation</summary><div class="solution">
+      <p><span class="ans">Infinitely many solutions.</span> The last
+      row says \(0=0\), so it places no restriction on the variables.
+      There are only two leading entries for three variable columns,
+      which leaves one free variable.</p>
+    </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(d)</span>
+      <span class="part-text">Optional challenge: let \(z=t\)
+      in part (c). Use the two remaining equations to write \(x\)
+      and \(y\) in terms of \(t\).</span></div>
+    <div class="text-answer"><label for="q2d_param">Your family of solutions</label>
+      <textarea id="q2d_param" placeholder="Write x = ..., y = ..., z = t."></textarea></div>
+    <details><summary>Check the parameterization</summary><div class="solution">
+      <p>From \(y+4z=2\), we get \(y=2-4t\). The first row
+      gives \(x+y-2z=3\), so \(x=1+6t\).
+      Thus \((x,y,z)=(1+6t,\,2-4t,\,t)\).</p>
+    </div></details>
   </div>
 </div>
 
 <!-- PROBLEM 3 -->
 <div class="problem" id="p3">
   <h2>Problem 3 — Currents in a circuit</h2>
-  <div class="scenario">Kirchhoff's laws give the branch currents of a two-loop circuit:
-  \(\begin{aligned}I_1-I_2-I_3&=0\\ I_1+2I_2&=10\\ 2I_2+3I_3&=9\end{aligned}\)</div>
-
+  <div class="scenario">
+    Current is the flow of electric charge. At a junction, the current
+    flowing in must equal the current flowing out. A circuit has three
+    unknown branch currents \(I_1,I_2,I_3\), measured in amperes.
+    The circuit conditions give the system
+    \[
+    \begin{aligned}
+    I_1-I_2-I_3&=0,\\
+    I_1+2I_2&=10,\\
+    2I_2+3I_3&=9.
+    \end{aligned}
+    \]
+    We will use the equations as given; you don't need any previous
+    knowledge of electrical engineering.
+  </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Solve by Gaussian elimination. Enter \(I_1\), \(I_2\), \(I_3\)
-      in amperes.</span></div>
-    <div class="answer-row"><label>\(I_1\)</label><input type="text" id="q3a_1" data-ans="4">
-      <label>\(I_2\)</label><input type="text" id="q3a_2" data-ans="3">
-      <label>\(I_3\)</label><input type="text" id="q3a_3" data-ans="1">
-      <button class="check-btn" onclick="checkNum(['q3a_1','q3a_2','q3a_3'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(I_1=4,\ I_2=3,\ I_3=1\) amperes.</span></p>
-      <p>From row 2, \(I_1=10-2I_2\). Substituting into the junction equation and using row 3
-      leads to \(I_2=3\), \(I_3=1\), \(I_1=4\). The junction law checks: \(4=3+1\).</p>
+      <span class="part-text">Write the augmented matrix with columns
+      in the order \(I_1,I_2,I_3\). Remember the zero coefficient of
+      \(I_3\) in the second equation and of \(I_1\) in the third.</span></div>
+    <div class="text-answer"><label for="q3a_matrix">Your matrix</label><textarea id="q3a_matrix"></textarea></div>
+    <details><summary>Check the matrix</summary><div class="solution">
+      <p>\(\left[\begin{array}{ccc|c}1&-1&-1&0\\1&2&0&10\\0&2&3&9\end{array}\right]\).</p>
     </div></details>
   </div>
-
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Verify the junction law \(I_1=I_2+I_3\) with your values, and
-      explain what it expresses physically.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q3b_txt" placeholder="What goes in must come out — at a junction."></textarea></div>
+      <span class="part-text">Replace row 2 with \(R_2-R_1\).
+      What is the new row? Then eliminate \(I_2\) using the last two rows
+      to find a row involving only \(I_3\).</span></div>
+    <div class="text-answer"><label for="q3b_row">Your new row 2 and row in \(I_3\)</label>
+      <textarea id="q3b_row"></textarea></div>
+    <details><summary>Check the elimination</summary><div class="solution">
+      <p>\(R_2-R_1=[\,0\ 3\ 1\mid10\,]\). The third row remains
+      \([\,0\ 2\ 3\mid9\,]\). Taking three times the third row
+      minus twice the new second row gives
+      \([\,0\ 0\ 7\mid7\,]\), or \(7I_3=7\).</p>
+    </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Solve for the three currents and enter
+      the values in amperes.</span></div>
+    <div class="answer-row">
+      <label for="q3c_1">\(I_1\)</label><input type="text" id="q3c_1" data-ans="4">
+      <label for="q3c_2">\(I_2\)</label><input type="text" id="q3c_2" data-ans="3">
+      <label for="q3c_3">\(I_3\)</label><input type="text" id="q3c_3" data-ans="1">
+      <button class="check-btn" onclick="checkNum(['q3c_1','q3c_2','q3c_3'],'q3c_v')">Check</button>
+      <span class="verdict" id="q3c_v" aria-live="polite"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(4=3+1\). The current flowing into a junction equals the current flowing out.</span></p>
-      <p>Charge is conserved: it cannot pile up at a junction, so the current entering must
-      equal the total leaving. This is Kirchhoff's current law.</p>
+      <p><span class="ans">\(I_1=4,\ I_2=3,\ I_3=1\)</span> amperes.
+      The last row gives \(I_3=1\). Next \(3I_2+1=10\)
+      gives \(I_2=3\), and \(I_1-I_2-I_3=0\) gives \(I_1=4\).</p>
+    </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(d)</span>
+      <span class="part-text">Check \(I_1=I_2+I_3\)
+      using your currents. What does this equation say about the
+      electrical charge moving through the junction?</span></div>
+    <div class="text-answer"><label for="q3d_physics">Your calculation and explanation</label>
+      <textarea id="q3d_physics"></textarea></div>
+    <details><summary>Compare your explanation</summary><div class="solution">
+      <p>\(4=3+1\). Four amperes flow into the junction,
+      and a total of four flow out. The current is balanced,
+      consistent with conservation of electric charge.</p>
     </div></details>
   </div>
 </div>
 
 <!-- PROBLEM 4 -->
 <div class="problem" id="p4">
-  <h2>Problem 4 — Fitting a quadratic with a matrix</h2>
+  <h2>Problem 4 — Recover a quadratic from three points</h2>
   <div class="scenario">
-    A quadratic \(y=ax^2+bx+c\) passes through \((0,2)\), \((1,5)\), and \((3,23)\).
+    You know how to graph \(y=ax^2+bx+c\) when you are given
+    the coefficients \(a,b,c\). Here we turn that around: we know
+    three points on a parabola and need to find the coefficients.
+    The graph passes through \((0,2)\), \((1,5)\), and \((3,23)\).
   </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Write the three linear equations for \(a,b,c\) and the corresponding augmented matrix.</span></div>
-    <div class="text-answer"><label>Your setup</label><textarea id="q4a_txt"></textarea></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(c=2,\quad a+b+c=5,\quad 9a+3b+c=23\).</span></p>
-      <p>The augmented matrix is
-      \(\left[\begin{array}{ccc|c}0&0&1&2\\1&1&1&5\\9&3&1&23\end{array}\right]\).</p>
+      <span class="part-text">Substitute each point into
+      \(y=ax^2+bx+c\). What three equations do the points give you?
+      Remember: the unknowns now are \(a,b,c\), not \(x,y\).</span></div>
+    <div class="text-answer"><label for="q4a_equations">Your three equations</label><textarea id="q4a_equations"></textarea></div>
+    <details><summary>Check the equations</summary><div class="solution">
+      <p>The points give \(c=2\), \(a+b+c=5\),
+      and \(9a+3b+c=23\).</p>
     </div></details>
   </div>
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Use Gaussian elimination to solve for \(a,b,c\), then write the quadratic.</span></div>
+      <span class="part-text">Write the augmented matrix for the three
+      equations, with columns \(a,b,c\). Then simplify using the first
+      equation \(c=2\).</span></div>
+    <div class="text-answer"><label for="q4b_matrix">Matrix and simplified equations</label>
+      <textarea id="q4b_matrix"></textarea></div>
+    <details><summary>Check your setup</summary><div class="solution">
+      <p>The matrix is
+      \(\left[\begin{array}{ccc|c}0&0&1&2\\1&1&1&5\\9&3&1&23\end{array}\right]\).
+      The first row says \(c=2\), which leaves \(a+b=3\) and
+      \(9a+3b=21\), or \(3a+b=7\).</p>
+    </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Solve for \(a,b,c\).
+      Enter the coefficients of the quadratic.</span></div>
     <div class="answer-row">
-      <label>\(a\)</label><input type="text" id="q4b_a" data-ans="2">
-      <label>\(b\)</label><input type="text" id="q4b_b" data-ans="1">
-      <label>\(c\)</label><input type="text" id="q4b_c" data-ans="2">
-      <button class="check-btn" onclick="checkNum(['q4b_a','q4b_b','q4b_c'],'q4b_v')">Check</button><span class="verdict" id="q4b_v"></span>
+      <label for="q4c_a">\(a\)</label><input type="text" id="q4c_a" data-ans="2">
+      <label for="q4c_b">\(b\)</label><input type="text" id="q4c_b" data-ans="1">
+      <label for="q4c_c">\(c\)</label><input type="text" id="q4c_c" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q4c_a','q4c_b','q4c_c'],'q4c_v')">Check</button>
+      <span class="verdict" id="q4c_v" aria-live="polite"></span>
     </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(a=2,\ b=1,\ c=2\), so \(y=2x^2+x+2\).</span></p>
-      <p>Substituting \(c=2\) leaves \(a+b=3\) and \(3a+b=7\), which gives
-      \(a=2\) and \(b=1\).</p>
+      <p><span class="ans">\(a=2,b=1,c=2\)</span>, so
+      the quadratic is \(y=2x^2+x+2\). Solve
+      \(a+b=3\) and \(3a+b=7\) to find \(a=2\) and \(b=1\).</p>
     </div></details>
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(d)</span>
+      <span class="part-text">Write the quadratic equation and check
+      that it gives the right \(y\)-value at all three \(x\)-values.</span></div>
+    <div class="text-answer"><label for="q4d_check">Your formula and three checks</label>
+      <textarea id="q4d_check"></textarea></div>
+    <details><summary>Check the model</summary><div class="solution">
+      <p>\(y=2x^2+x+2\). At \(x=0\) it gives \(2\);
+      at \(x=1\) it gives \(2+1+2=5\);
+      at \(x=3\) it gives \(18+3+2=23\).</p>
+    </div></details>
+  </div>
+  <div class="demo-link">
+    Try the <a href="../applications/quadratic_fit_matrix.html" target="_blank" rel="noopener">Quadratic Fit by Matrix</a>
+    activity to test the method on a different set of points.
   </div>
 </div>
 
@@ -240,15 +400,17 @@
 
 <script>
   const STORE_KEY='precalc_w10_lab';
-  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea'));}
-  function save(){const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
-  function load(){let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
+  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea, select'));}
+  function save(){if(document.body.dataset.studentLab)return;const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
+  function load(){if(document.body.dataset.studentLab)return;let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
   function clearData(){try{localStorage.removeItem(STORE_KEY);}catch(e){}allInputs().forEach(i=>{i.value='';i.classList.remove('ok','no');});document.querySelectorAll('.verdict').forEach(v=>{v.textContent='';v.className='verdict';});}
-  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea'))save();});
+  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea, select'))save();});
+  document.addEventListener('change',e=>{if(e.target.matches('select')){save();updateLocks();}});
   function parseNum(s){if(s==null)return NaN;s=s.trim().replace(/\s+/g,'').replace(/^\$/,'').replace(/,/g,'');if(s==='')return NaN;if(/^[-+]?\d+\/\d+$/.test(s)){const[a,b]=s.split('/').map(Number);return a/b;}return Number(s);}
   function checkNum(ids,verdictId,tol){const T=(tol==null?1e-9:tol);let allGood=true,anyBlank=false;ids.forEach(id=>{const el=document.getElementById(id);const target=parseNum(el.dataset.ans);const val=parseNum(el.value);el.classList.remove('ok','no');if(isNaN(val)){anyBlank=true;allGood=false;return;}if(Math.abs(val-target)<=T){el.classList.add('ok');}else{el.classList.add('no');allGood=false;}});const v=document.getElementById(verdictId);if(anyBlank){v.textContent='fill in every box';v.className='verdict no';}else if(allGood){v.textContent='✓ correct';v.className='verdict ok';}else{v.textContent='✗ check again';v.className='verdict no';}}
+  function checkChoice(id,expected,verdictId){const el=document.getElementById(id),v=document.getElementById(verdictId);el.classList.remove('ok','no');if(!el.value){v.textContent='choose an outcome';v.className='verdict no';return;}const good=el.value===expected;el.classList.add(good?'ok':'no');v.textContent=good?'✓ correct':'✗ check again';v.className='verdict '+(good?'ok':'no');}
   load();
-  function getPartInputs(el){const part=el.closest('.part');if(!part)return[];return Array.from(part.querySelectorAll('input[type=text], textarea'));}
+  function getPartInputs(el){const part=el.closest('.part');if(!part)return[];return Array.from(part.querySelectorAll('input[type=text], textarea, select'));}
   function isPartAttempted(det){const inputs=getPartInputs(det);if(inputs.length===0)return true;return inputs.every(i=>i.value.trim().length>0);}
   function updateLocks(){document.querySelectorAll('details').forEach(det=>{const summary=det.querySelector('summary');if(!summary)return;if(isPartAttempted(det)){det.classList.remove('locked');}else{det.classList.add('locked');if(det.open)det.open=false;}});}
   document.querySelectorAll('details').forEach(det=>{const summary=det.querySelector('summary');if(!summary)return;if(!summary.dataset.orig)summary.dataset.orig=summary.textContent;summary.addEventListener('click',function(e){if(det.classList.contains('locked')){e.preventDefault();summary.textContent='Attempt the problem first!';summary.classList.add('lock-flash');clearTimeout(summary._lockTimer);summary._lockTimer=setTimeout(()=>{summary.textContent=summary.dataset.orig;summary.classList.remove('lock-flash');},1500);}});});
