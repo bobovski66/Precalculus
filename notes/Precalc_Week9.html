@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 9 — Systems of Linear Equations | Precalculus I</title>
+<link rel="stylesheet" href="../assets/week8.css">
+<link rel="stylesheet" href="../assets/activity-theme.css">
+<script src="../assets/activity-common.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+.sys-figure{overflow-x:auto;margin:18px 0}.sys-figure svg{display:block;width:100%;max-width:900px;margin:auto}
+.sys-figure figcaption{text-align:center;color:var(--muted,#637086);font-size:.91rem;margin-top:5px}
+.lesson p{line-height:1.7}.lesson .example p{line-height:1.65}
+.lesson ol li{margin-bottom:9px}.reading-footer{margin:30px 0 60px}
+@media print{.sys-figure svg{max-height:160px}}
+</style>
+</head>
+<body data-page="reading">
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 9 · Reading</div>
+<h1>Systems of Linear Equations</h1>
+<p>Sometimes one equation does not give us enough information. This week we will learn to combine several equations, find values that satisfy all of them, and understand what the answer looks like on a graph.</p>
+</div></header>
+<div class="toolbar no-print"><div class="wrap"><div class="toolbar-links"><a href="../index.html">← Course LMS</a></div><div class="toolbar-actions"><button type="button" data-theme-toggle>☾ Dark</button><button type="button" onclick="window.print()">Print / Save PDF</button></div></div></div>
+<main class="wrap">
+<nav class="card" aria-label="Reading sections"><ol class="toc">
+<li><a href="#two-equations">When two conditions must both hold</a></li>
+<li><a href="#substitution">Solving by substitution</a></li>
+<li><a href="#three-variables">Adding a third variable</a></li>
+<li><a href="#triangular">Working backward through a system</a></li>
+<li><a href="#elimination">Making a system easier to solve</a></li>
+<li><a href="#application">An application: mixing solutions</a></li>
+<li><a href="#exercises">Exercises</a></li>
+</ol></nav>
+
+<section class="lesson" id="two-equations"><h2>1. When two conditions must both hold</h2>
+<p>A school club sells notebooks for $3 each and pens for $1 each. Someone buys ten items and pays $22. How many notebooks and pens did they buy?</p>
+<p>Let \(x\) be the number of notebooks and \(y\) the number of pens. We know two things: there were ten items, and the total cost was $22. We can write each fact as an equation:</p>
+<div class="equation">\[\begin{aligned}x+y&=10 &&\text{(number of items)},\\3x+y&=22 &&\text{(total cost in dollars)}.\end{aligned}\]</div>
+<p>Either equation alone allows many different answers. For example, \(x=5\), \(y=5\) satisfies the first equation, but those items would cost only $20. We need a pair of numbers that satisfies <em>both</em> equations.</p>
+<p>From the first equation, \(y=10-x\). Replace \(y\) with \(10-x\) in the second:</p>
+\[\begin{aligned}3x+(10-x)&=22,\\2x+10&=22,\\x&=6.\end{aligned}\]
+<p>Now \(y=10-6=4\). Six notebooks and four pens make ten items and cost \(6(3)+4(1)=22\) dollars. That pair is the <strong>solution of the system</strong>.</p>
+<p>We can also see what happened on a graph. Each linear equation describes a line. A point on the first line satisfies the first equation; a point on the second satisfies the second. A point that lies on both lines is a solution of the system.</p>
+<div class="example"><h3>What can two lines do?</h3>
+<p>Imagine drawing two straight lines on the same piece of graph paper. There are three possibilities.</p>
+<figure class="sys-figure"><svg viewBox="0 0 900 195" role="img" aria-label="Three diagrams: intersecting lines have one solution; distinct parallel lines have none; identical lines have infinitely many">
+<g stroke="currentColor" stroke-opacity=".22" stroke-width="1.5" fill="none">
+<path d="M36 24V147H253 M337 24V147H554 M638 24V147H855"/>
+</g>
+<g stroke="#24699b" stroke-width="4" stroke-linecap="round"><path d="M48 137L239 30"/><path d="M349 129L542 44"/><path d="M650 140L843 35"/></g>
+<g stroke="#c35a52" stroke-width="4" stroke-linecap="round"><path d="M48 41L239 133"/><path d="M349 160L542 75"/><path stroke-dasharray="10 7" d="M650 140L843 35"/></g>
+<circle cx="145" cy="91" r="5" fill="#242a36"/>
+<g fill="currentColor" font-size="17" text-anchor="middle" font-family="system-ui,sans-serif"><text x="145" y="182">One solution</text><text x="445" y="182">No solution</text><text x="748" y="182">Infinitely many</text></g>
+</svg><figcaption>Crossing lines meet once. Parallel lines never meet. Two equations describing the same line share every point on it.</figcaption></figure>
+<p>These are the only possibilities for two genuine line equations. In particular, two straight lines cannot cross at exactly two different points.</p></div>
+<div class="practice"><strong>Try it.</strong> Without solving, decide whether \(y=2x+1\) and \(y=2x-3\) have one solution, none, or infinitely many. What feature of the equations tells you?<details><summary>Check your reasoning</summary><p>The slopes are equal but the vertical intercepts are different, so the lines are parallel and distinct. There is no solution.</p></details></div>
+</section>
+
+<section class="lesson" id="substitution"><h2>2. Solving by substitution</h2>
+<p>We have already used substitution once. The idea is simple: if one equation tells you that \(y\) equals some expression, you can put that expression wherever \(y\) appears in another equation. You have one fewer unknown to work with.</p>
+<p>The usual steps are to isolate a variable, substitute it into the other equation, solve the new equation, and then return to find the missing value. Always check the pair in the original equations.</p>
+<div class="example"><h3>Example: two lines that meet</h3>
+<p>Solve the system</p>
+\[\begin{aligned}2x+y&=7,\\3x-2y&=0.\end{aligned}\]
+<p>The first equation gives \(y=7-2x\). Use that in the second equation:</p>
+\[\begin{aligned}3x-2(7-2x)&=0,\\3x-14+4x&=0,\\7x&=14,\\x&=2.\end{aligned}\]
+<p>Return to \(y=7-2x\): \(y=7-2(2)=3\). The solution is \((2,3)\). Checking: \(2(2)+3=7\) and \(3(2)-2(3)=0\).</p></div>
+<div class="example"><h3>Example: when substitution gives a contradiction</h3>
+<p>Suppose the equations are \(x-y=1\) and \(x-y=4\). From the first we get \(x=y+1\). Substituting into the second leaves</p>
+\[(y+1)-y=4\quad\Longrightarrow\quad 1=4.\]
+<p>Something impossible has appeared. No pair \((x,y)\) could make the same expression equal 1 and 4 at once. The system has <strong>no solution</strong>. On the graph, the lines are parallel.</p></div>
+<div class="example"><h3>Example: when both equations say the same thing</h3>
+<p>Now consider \(x+2y=3\) and \(2x+4y=6\). The second equation is just the first multiplied by 2. Substituting \(x=3-2y\) into it gives \(6=6\), a statement that is always true.</p>
+<p>We haven't found a particular value of \(y\), because there isn't just one. Every point on \(x+2y=3\) works. For example, letting \(y=t\) gives the solutions \((3-2t,t)\) for any real number \(t\). The variable \(t\) is simply a way to name all those possibilities.</p></div>
+<div class="warning">If your substitution produces an impossible equation, the system has no solution. If it produces an equation that is always true, return to the original system: the equations may describe the same line, giving infinitely many solutions.</div>
+<div class="practice"><strong>Try it.</strong> Solve \(x+y=5\) and \(2x-y=1\). Check the pair in both equations.<details><summary>Check your answer</summary><p>From \(y=5-x\), we get \(2x-(5-x)=1\), so \(3x=6\) and \(x=2\). Then \(y=3\). The solution is \((2,3)\).</p></details></div>
+</section>
+
+<section class="lesson" id="three-variables"><h2>3. Adding a third variable</h2>
+<p>What changes when a problem involves three unknown quantities instead of two? We now need three numbers, such as \((x,y,z)\), to describe an answer. A linear equation like \(x+y+z=6\) still allows many possibilities.</p>
+<p>There is a geometric difference. In two variables a linear equation usually draws a line. In three variables a linear equation of the form \(ax+by+cz=d\) (with at least one nonzero coefficient) draws a <strong>plane</strong> in three-dimensional space.</p>
+<p>Think about a room: the floor and two walls meet at one corner. Three planes may also meet at a single point. But three planes can be arranged so that they have no common point, or so that they share an entire line or plane.</p>
+<div class="example"><h3>Recognizing the three outcomes</h3><p>If three planes share just one point, the system has one solution. If there is no point on all three planes, it has no solution. If every point on a shared line works, it has infinitely many solutions.</p><p>You do not need to draw these surfaces perfectly. The important question remains: is there a set of values that satisfies all the equations at once?</p></div>
+</section>
+
+<section class="lesson" id="triangular"><h2>4. Working backward through a system</h2>
+<p>Three equations can look intimidating when each contains \(x\), \(y\), and \(z\). But look at this arrangement:</p>
+\[\begin{aligned}x+2y-z&=3,\\y+2z&=4,\\3z&=9.\end{aligned}\]
+<p>The bottom equation has just one unknown. That makes it the best place to start. We find \(z=3\), substitute upward to get \(y+2(3)=4\), and therefore \(y=-2\). Finally, the top equation becomes \(x+2(-2)-3=3\), so \(x=10\).</p>
+<p>The solution is \((10,-2,3)\). Notice that we never had to solve three unknowns at once. We solved one, then another, then the last.</p>
+<p>When the equations are arranged this way, we say the system is in <strong>triangular form</strong>. Solving from the bottom upward is called <strong>back-substitution</strong>.</p>
+<div class="practice"><strong>Try it.</strong> Use back-substitution to solve \(x-y+2z=5\), \(y-z=1\), and \(4z=8\). Start with the last equation.<details><summary>Check your work</summary><p>The last equation gives \(z=2\), then \(y=3\), then \(x-3+4=5\), so \(x=4\). The solution is \((4,3,2)\).</p></details></div>
+</section>
+
+<section class="lesson" id="elimination"><h2>5. Making a system easier to solve</h2>
+<p>Most systems do not arrive neatly arranged like the previous example. We can make them easier by eliminating a variable from one equation at a time. The goal is to reach triangular form.</p>
+<p>Here is the key observation: if two equations are both true, we can add them, subtract them, or add a multiple of one to the other. We can also multiply an equation by any nonzero number. Used carefully, these steps give a new system with the same answers.</p>
+<div class="example"><h3>Example: eliminate, then work backward</h3>
+<p>Solve</p>
+\[\begin{aligned}x+y+z&=6 &&(1),\\2x-y+z&=3 &&(2),\\x+2y-z&=2 &&(3).\end{aligned}\]
+<p>First we want to remove \(x\) from equations (2) and (3). Subtract twice equation (1) from equation (2), and subtract equation (1) from equation (3). We obtain</p>
+\[\begin{aligned}x+y+z&=6,\\-3y-z&=-9,\\y-2z&=-4.\end{aligned}\]
+<p>Now the last two equations have only \(y\) and \(z\). Multiply the last by 3 and add it to the middle one. The \(y\)'s cancel:</p>
+\[(-3y-z)+(3y-6z)=-9-12,\qquad -7z=-21.\]
+<p>Thus \(z=3\). Work back through the equations: \(y-2(3)=-4\) gives \(y=2\), and \(x+2+3=6\) gives \(x=1\). So the solution is \((1,2,3)\).</p>
+<p>Check the three original equations: \(1+2+3=6\), \(2(1)-2+3=3\), and \(1+2(2)-3=2\). All three work.</p></div>
+<div class="warning">Multiplying an equation by zero is not a valid way to simplify a system: it throws away the information that equation contained. Multiplying by a nonzero number, exchanging equations, and adding a multiple of one equation to another do preserve the solutions.</div>
+<p>The <a href="../demos/systems_geometry.html">Systems Geometry Explorer</a> is useful for seeing why a system has one, no, or infinitely many solutions. Later, matrices will give us a compact way to organize the same elimination steps.</p>
+</section>
+
+<section class="lesson" id="application"><h2>6. An application: mixing solutions</h2>
+<p>A system becomes especially useful when several facts must be satisfied together. Imagine combining three liquid solutions to make a mixture of a particular strength. We need to choose how much of each liquid to use, and all the amounts must work together.</p>
+<div class="example"><h3>Example: making one liter of a 22% mixture</h3>
+<p>A chemist has solutions with concentrations of 10%, 20%, and 50%. They want one liter of a 22% solution, using twice as much of the 10% solution as of the 50% solution.</p>
+<p>Let \(x\), \(y\), and \(z\) be the amounts in liters of the 10%, 20%, and 50% solutions. Each sentence in the problem gives us an equation:</p>
+\[\begin{aligned}x+y+z&=1 &&\text{(one liter in all)},\\0.10x+0.20y+0.50z&=0.22 &&\text{(amount of dissolved material)},\\x&=2z &&\text{(twice as much 10% as 50%)}.\end{aligned}\]
+<p>Start with the easy relationship \(x=2z\). The first equation now gives \(y=1-3z\). Put both expressions into the concentration equation:</p>
+\[0.10(2z)+0.20(1-3z)+0.50z=0.22.\]
+<p>Combining terms gives \(0.10z+0.20=0.22\), so \(z=0.20\). Then \(x=0.40\) and \(y=0.40\).</p>
+<p>The recipe is 0.4 liters of 10% solution, 0.4 liters of 20% solution, and 0.2 liters of 50% solution. Together they make one liter, contain 0.22 liters of dissolved material, and use twice as much of the first solution as the third.</p></div>
+<p>When working on an application, begin by naming the unknowns and their units. Make an equation for each piece of information before trying to solve. At the end, check whether your answers make sense in the original situation.</p>
+<p>In the <a href="../applications/break_even_systems.html">Break-Even Systems Lab</a>, you will use the same idea to compare two pricing plans. The solution tells you when their costs are the same.</p>
+</section>
+
+<section class="lesson" id="exercises"><h2>Exercises</h2>
+<p>Work through the problems in order. Write enough of your calculation that someone else could follow it. When a question asks for an explanation, refer to the equations or to the graph.</p>
+<ol>
+<li>Describe the geometry and the number of solutions for each: (a) two lines with different slopes; (b) two distinct lines with equal slope; (c) one line written two equivalent ways.</li>
+<li>Solve by substitution: \(\begin{aligned}x+y&=5\\2x-y&=1\end{aligned}\) and check both equations.</li>
+<li>Solve by substitution and identify the outcome: \(\begin{aligned}3x-y&=2\\6x-2y&=10\end{aligned}\).</li>
+<li>Solve and identify the outcome: \(\begin{aligned}x-2y&=4\\-2x+4y&=-8\end{aligned}\), writing the solution set with a free parameter if appropriate.</li>
+<li>Explain why a linear system cannot have exactly two solutions, using the geometry of lines or planes.</li>
+<li>Describe two distinct geometric arrangements of three planes that each yield no solution.</li>
+<li>Solve the triangular system by back-substitution: \(\begin{aligned}x-y+2z&=5\\y-z&=1\\4z&=8\end{aligned}\).</li>
+<li>Reduce to triangular form and solve: \(\begin{aligned}x+y+z&=4\\2x+y-z&=3\\x-2y+3z&=11\end{aligned}\), and check your solution.</li>
+<li>Solve and classify: \(\begin{aligned}x+y+z&=2\\2x+2y+2z&=4\\x-y+z&=0\end{aligned}\), describing the solution set geometrically.</li>
+<li>A theater sells adult tickets at $12 and child tickets at $8. One evening 200 tickets bring in $2000. Set up and solve a system for the numbers of each kind.</li>
+<li>A shop blends coffee at $8, $10, and $14 per pound into 10 pounds selling at $11 per pound, using equal amounts of the two cheaper beans. Write and solve the system for the three weights.</li>
+<li>Explain why adding a multiple of one equation to another leaves the solution set unchanged, and why scaling an equation by zero is forbidden.</li>
+</ol>
+</section>
+<div class="reading-footer"><p>When you are ready, try the <a href="../labs/Precalc_Week9_Lab_Student.html">Week 9 guided lab</a> and use the <a href="../demos/systems_geometry.html">geometry explorer</a> to check your intuition about how two lines meet.</p></div>
+</main>
+</body></html>
