@@ -5,24 +5,32 @@
 
 \chapter{Matrices and Gaussian Elimination}
 
-Last week, we solved systems by writing and rewriting equations. That method is
-honest, but the variable names $x,y,z$ do not really change while we work. What moves
-are the coefficients. A matrix keeps exactly the information that changes and places
-it in a grid where the bookkeeping is easier to control.
+Last week we solved systems by adding and subtracting equations until
+variables disappeared. For example,
+\[
+\begin{aligned}x+y&=5,\\2x-y&=1.\end{aligned}
+\]
+Adding the equations removes $y$: $3x=6$, so $x=2$ and $y=3$.
+Look at what we combined: the coefficients of the variables and
+the constants. We can record those numbers in a little table:
+\[
+\left[\begin{array}{cc|c}1&1&5\\2&-1&1\end{array}\right].
+\]
+This is an \emph{augmented matrix}. The first column belongs to
+$x$, the second to $y$, and the column after the bar contains
+the constants. Each row stands for an entire equation.
 
-Solving a system by elimination, the variable names $x,y,z$ are carried along
-unchanged through every step; only the coefficients move. A matrix strips away the
-names and keeps the numbers in a grid, so the bookkeeping is done on coefficients
-alone. The elimination procedure then becomes a fixed sequence of row operations on
-that grid, and the method, applied systematically, is Gaussian elimination.
+Matrices let us organize the elimination we already know.
+Instead of rewriting the variable names at every step, we can
+work directly with the rows of numbers.
 
 \section{The Augmented Matrix}
 
-A linear system is summarized by its coefficients and right-hand sides, arranged in a
-rectangular array. Each row is an equation; each column before the bar is a variable;
-the column after the bar holds the constants. The vertical bar is not a new operation;
-it is only a reminder that the right-hand side has been placed next to the
-coefficients.
+To turn equations into a matrix, choose a fixed order for the
+variables. Write the coefficient of each variable in its column,
+followed by the constant after the bar. If an equation does not
+contain one of the variables, write zero in its place so that
+the remaining columns stay lined up.
 
 \begin{definition}{Augmented matrix}
 The \emph{augmented matrix} of a linear system records each equation's coefficients
@@ -40,10 +48,8 @@ vertical bar. The system
 \end{definition}
 
 \begin{keyidea}
-The augmented matrix is pure bookkeeping: the same system with the variable names
-removed. Every operation legal on equations corresponds to an operation on rows, and
-nothing is lost, because the column positions remember which variable each number
-belongs to.
+An augmented matrix records the equations in a smaller form.
+The column positions tell us which variable each number belongs to.
 \end{keyidea}
 
 For example, the first column above belongs to $x$, the second to $y$, and the third
@@ -52,9 +58,15 @@ otherwise the alignment of the variables would be lost.
 
 \section{Row Operations}
 
-The three reversible moves on equations, from the previous chapter, become the three
-elementary row operations. Each leaves the solution set unchanged. The guiding rule is
-simple: a row is an equation, so a legal row move must be a legal equation move.
+What changes are we allowed to make to a matrix? Since each row
+represents an equation, we can make the same changes we made
+to equations last week. We can exchange two equations, multiply
+an equation by a nonzero number, or add a multiple of one
+equation to another.
+
+These operations preserve the solutions. In matrix form, each
+operation applies to every entry of the affected row, including
+the constant after the bar.
 
 \begin{keyidea}
 \textbf{Elementary row operations.}
@@ -66,16 +78,16 @@ simple: a row is an equation, so a legal row move must be a legal equation move.
 \end{enumerate}
 \end{keyidea}
 
-The goal of these operations is \emph{row echelon form}: a staircase pattern in which
-each row's first nonzero entry (its leading entry) sits to the right of the one
-above, and entries below each leading position are zero. A matrix in this form is the
-matrix version of a triangular system, ready for back-substitution.
+The goal is to make a staircase of zeros. In \emph{row echelon form},
+each nonzero row begins farther to the right than the row above,
+and entries below a leading position are zero. Any zero rows
+are at the bottom. The corresponding equations are ready
+for back-substitution.
 
 \begin{visual}
-Row echelon form is a staircase of zeros below the diagonal. The leading entry of
-each row steps rightward as you move down, and everything beneath a leading entry is
-cleared to zero. Reading the bottom row gives one variable; reading upward recovers
-the rest.
+Row echelon form is the matrix version of a triangular system.
+When every variable has a leading entry, the bottom equation
+determines a value and we can work upward.
 \end{visual}
 
 This is the same triangular shape as before, but compressed into a table of numbers.
@@ -84,15 +96,15 @@ become more efficient.
 
 \section{Gaussian Elimination}
 
-Gaussian elimination is the disciplined use of row operations to reach echelon form,
-working one column at a time from left to right: use the leading entry of a row to
-clear all entries below it, then move to the next column. Once the staircase is
-complete, back-substitution finishes the solve.
+A triangular system is easy to solve: start with the bottom
+equation and work upward. Our goal is to reach that same
+arrangement by making zeros beneath the leading entries.
 
-The method is deliberately mechanical. At each stage, choose a leading entry, use it
-to create zeros below it, and then move down and to the right. This regularity is what
-makes the method reliable, especially when a system is too large to solve comfortably
-by informal substitution.
+Begin in the first column, choose a nonzero leading entry,
+and use multiples of its row to clear the entries below.
+Then move down and to the right. A leading entry used this
+way is called a \emph{pivot}. This organized process is
+called \emph{Gaussian elimination}.
 
 \begin{example}[a full elimination]
 Solve
@@ -124,9 +136,9 @@ row reads $y-2z=-4$, so $y=2$. The top row reads $x+y+z=6$, so $x=1$. The soluti
 $(1,2,3)$, matching the same system solved by hand in the previous chapter.
 \end{example}
 
-The row operations did not solve the system all at once. They prepared the system so
-that the solution could be read from the bottom upward. This is why echelon form is
-the real target of the method.
+We did not guess the values of $x$, $y$, and $z$.
+First we made the matrix easier to read. The bottom row
+gave $z$, the middle row gave $y$, and the top row gave $x$.
 
 \begin{keyidea}
 Gaussian elimination reaches echelon form column by column: pick a leading entry,
@@ -137,12 +149,17 @@ manage.
 
 \section{Reading the Outcome from the Matrix}
 
-The three outcomes appear in the echelon form as clearly as they did in the geometry.
-A full staircase with a leading entry in every variable column gives a unique
-solution. A row of zeros in the coefficients with a nonzero constant, the pattern
-$[\,0\ 0\ 0\mid c\,]$ with $c\neq0$, reads $0=c$, a contradiction, so no solution. A
-row of all zeros, $[\,0\ 0\ 0\mid 0\,]$, reads $0=0$, carrying no information and
-leaving a free variable, so infinitely many.
+Recall the three possible outcomes from Week 9: one solution,
+no solution, or infinitely many. Reading the final matrix as
+equations will help us tell them apart.
+
+For example, $[\,0\ 0\mid3\,]$ says $0x+0y=3$, or $0=3$.
+That is impossible, so the system has no solution.
+
+An all-zero row instead says $0=0$, which adds no new condition.
+We must still inspect the other rows. If there is no
+contradiction and fewer leading entries than variable
+columns, some variables can be chosen freely.
 
 \begin{keyidea}
 \textbf{Reading echelon form.}
@@ -150,13 +167,13 @@ leaving a free variable, so infinitely many.
   \item A leading entry in every variable column: \emph{unique solution}.
   \item A row $[\,0\ \cdots\ 0\mid c\,]$ with $c\neq0$: \emph{no solution}
         (the false statement $0=c$).
-  \item A row of all zeros and a column without a leading entry: \emph{infinitely
-        many}, with a free variable.
+  \item No contradictory row and a variable column without a leading
+        entry: \emph{infinitely many}, with a free variable.
 \end{itemize}
 \end{keyidea}
 
-The bottom row is often the most revealing row. It either gives the last variable,
-exposes a contradiction, or disappears into the identity $0=0$.
+Read the last rows as equations. They may determine a variable,
+reveal a contradiction, or show that some information is missing.
 
 \begin{example}[a system with no solution]
 Eliminating
@@ -188,9 +205,12 @@ top row gives $x=3-2t$. The solution set is $(3-2t,\,t)$, the whole line, as bef
 
 \section{Applications}
 
-The applications below use the same method, not a new one. The only new step is the
-translation: choose variables, write one linear equation for each constraint, then use
-the matrix method to solve or describe the resulting system.
+The same matrix method can help whenever several conditions
+must hold at once. In an electric circuit, currents obey
+conservation laws. In a chemical reaction, atom counts are
+preserved. At road intersections, traffic entering and leaving
+must balance. Different situations lead to the same kind
+of equations.
 
 \subsection{Currents in a circuit}
 
@@ -280,14 +300,18 @@ come from $t=1$: $a=1$, $b=5$, $c=3$, $d=4$, yielding
 \[
 \mathrm{C_3H_8}+5\,\mathrm{O_2}\to3\,\mathrm{CO_2}+4\,\mathrm{H_2O}.
 \]
-The free parameter is exactly the freedom to scale a balanced equation up or down.
+The parameter is the freedom to scale every coefficient
+by the same amount. We report the smallest positive
+whole-number coefficients.
 \end{example}
 
 \subsection{Flow through a road network}
 
-Network-flow problems have the same conservation structure. At each intersection,
-flow in equals flow out. If the data does not determine every road segment uniquely,
-the matrix will reveal that with a free parameter.
+If traffic is not building up at an intersection, the number
+of cars entering in an hour equals the number leaving.
+These conditions produce linear equations, but sometimes
+there is not enough information to determine every
+road flow separately.
 
 \begin{example}[a one-way traffic grid]
 Four one-way streets meet at four intersections $A,B,C,D$, with the unknown segment
@@ -308,9 +332,10 @@ $x_4=t$, back-substitution gives
 \[
 x_1=t,\qquad x_2=800-t,\qquad x_3=600-t,\qquad x_4=t.
 \]
-The flows are not uniquely fixed; the network admits a family of balanced states. The
-physical requirement that each flow be nonnegative forces $0\le t\le600$, the range of
-admissible traffic patterns. A measurement of any one segment pins down all four.
+Different values of $t$ describe different patterns of
+balanced traffic, but no flow can be negative. Since
+$x_4=t$ and $x_3=600-t$, we need $0\le t\le600$.
+An additional road measurement would determine the others.
 \end{example}
 
 \section{Exercises}
