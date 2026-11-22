@@ -35,6 +35,14 @@
   .answer-row label{font-family:var(--mono);font-size:14px;color:#444;}
   .answer-row input[type=text]{font-family:var(--mono);font-size:15px;border:1px solid var(--rule);border-radius:5px;padding:5px 8px;width:90px;background:#fff;}
   .answer-row input.wide{width:150px;}
+  .answer-row select{font-family:var(--mono);font-size:14px;border:1px solid var(--rule);border-radius:5px;padding:7px 8px;background:#fff;max-width:100%;color:var(--ink);}
+  .answer-row select.ok{border-color:var(--green);background:var(--green-bg);}
+  .answer-row select.no{border-color:var(--red);background:#f8eded;}
+  .step-note{margin:5px 0 5px 26px;font-size:16px;color:#555;}
+  .demo-link{border:1px solid var(--blue-rule);background:var(--blue-bg);border-radius:8px;padding:11px 14px;margin:14px 0;}
+  .demo-link a{color:var(--blue);font-weight:600;}
+  @media(max-width:720px){.step-note{margin-left:0}}
+
   .answer-row input.ok{border-color:var(--green);background:var(--green-bg);}
   .answer-row input.no{border-color:var(--red);background:#f8eded;}
   .check-btn{font-family:var(--mono);font-size:13px;cursor:pointer;background:var(--blue);color:#fff;border:none;border-radius:5px;padding:6px 12px;}
@@ -76,9 +84,9 @@
   <h2>Objectives</h2>
   <ul>
     <li>Solve a two-variable system by substitution.</li>
-    <li>Recognize the no-solution and infinitely-many cases from the algebra.</li>
+    <li>Explain what the solution of a system means on a graph.</li>
     <li>Solve a three-variable triangular system by back-substitution.</li>
-    <li>Set up and solve a system from a word problem.</li>
+    <li>Write equations from a word problem, solve them, and check the result.</li>
   </ul>
 </div>
 
@@ -89,47 +97,96 @@
 
 <!-- PROBLEM 1 -->
 <div class="problem" id="p1">
-  <h2>Problem 1 — Substitution and the three outcomes</h2>
-  <div class="scenario">Two equations can give one pair of values, no possible pair, or many pairs.
-  Here you will see how those answers appear when you use substitution.</div>
+  <h2>Problem 1 — When two lines meet</h2>
+  <div class="scenario">
+    Two equations can describe two conditions that must hold at the same time.
+    Sometimes there is one pair of numbers that works, sometimes none, and sometimes
+    many. Start with the algebra, then look at the graphs.
+  </div>
 
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Solve \(\begin{aligned}2x+y&=7\\ 3x-2y&=0\end{aligned}\). Enter
-      \(x\) and \(y\).</span></div>
-    <div class="answer-row"><label>\(x\)</label><input type="text" id="q1a_x" data-ans="2">
-      <label>\(y\)</label><input type="text" id="q1a_y" data-ans="3">
-      <button class="check-btn" onclick="checkNum(['q1a_x','q1a_y'],'q1a_v')">Check</button><span class="verdict" id="q1a_v"></span></div>
+      <span class="part-text">Solve the familiar system by substitution:
+      \(\begin{aligned}2x+y&=7\\3x-2y&=0.\end{aligned}\)
+      Enter the two values, then check them in both equations.</span></div>
+    <div class="answer-row"><label for="q1a_x">\(x\)</label><input type="text" id="q1a_x" data-ans="2">
+      <label for="q1a_y">\(y\)</label><input type="text" id="q1a_y" data-ans="3">
+      <button class="check-btn" onclick="checkNum(['q1a_x','q1a_y'],'q1a_v')">Check</button><span class="verdict" id="q1a_v" aria-live="polite"></span></div>
     <details><summary>Show solution</summary><div class="solution">
       <p><span class="ans">\((x,y)=(2,3)\).</span></p>
-      <p>From the first, \(y=7-2x\). Substitute: \(3x-2(7-2x)=0\Rightarrow7x=14\Rightarrow
-      x=2\), then \(y=3\).</p>
+      <p>Rearrange the first equation: \(y=7-2x\). Substitute into the other:
+      \(3x-2(7-2x)=0\), so \(7x=14\) and \(x=2\). Then \(y=3\).
+      Checking gives \(2(2)+3=7\) and \(3(2)-2(3)=0\).</p>
     </div></details>
   </div>
 
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Solve \(\begin{aligned}x-y&=1\\ x-y&=4\end{aligned}\). Enter
-      \(1\) unique, \(0\) none, or \(2\) infinitely many.</span></div>
-    <div class="answer-row"><label>outcome code</label><input type="text" id="q1b" data-ans="0">
-      <button class="check-btn" onclick="checkNum(['q1b'],'q1b_v')">Check</button><span class="verdict" id="q1b_v"></span></div>
+      <span class="part-text">Now try
+      \(\begin{aligned}x-y&=1\\x-y&=4.\end{aligned}\)
+      Substitute as before. How many solutions are possible?</span></div>
+    <div class="answer-row">
+      <label for="q1b_class">Number of solutions</label>
+      <select id="q1b_class">
+        <option value="">Choose an outcome</option>
+        <option value="one">One solution</option>
+        <option value="none">No solution</option>
+        <option value="many">Infinitely many solutions</option>
+      </select>
+      <button class="check-btn" onclick="checkChoice('q1b_class','none','q1b_v')">Check</button>
+      <span class="verdict" id="q1b_v" aria-live="polite"></span>
+    </div>
+    <div class="text-answer"><label for="q1b_why">What happened in your substitution that explains this outcome?</label>
+      <textarea id="q1b_why" placeholder="Write the equation you reached and explain what it means."></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">No solution (code \(0\)).</span></p>
-      <p>Substituting \(x=y+1\) into the second gives \(1=4\), a contradiction. The lines
-      are parallel and distinct.</p>
+      <p><span class="ans">No solution.</span> The first equation gives \(x=y+1\).
+      Substituting into the second gives \(1=4\), which cannot be true.
+      Graphically, the lines are parallel and distinct.</p>
     </div></details>
   </div>
 
   <div class="part">
     <div class="part-stem"><span class="part-label">(c)</span>
-      <span class="part-text">Explain why a linear system can never have exactly two
-      solutions.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q1c_txt" placeholder="Think about how flat objects (lines, planes) intersect."></textarea></div>
+      <span class="part-text">Consider
+      \(\begin{aligned}x+2y&=3\\2x+4y&=6.\end{aligned}\)
+      Before doing much algebra, compare the equations. How many solutions do they have?</span></div>
+    <div class="answer-row">
+      <label for="q1c_class">Number of solutions</label>
+      <select id="q1c_class">
+        <option value="">Choose an outcome</option>
+        <option value="one">One solution</option>
+        <option value="none">No solution</option>
+        <option value="many">Infinitely many solutions</option>
+      </select>
+      <button class="check-btn" onclick="checkChoice('q1c_class','many','q1c_v')">Check</button>
+      <span class="verdict" id="q1c_v" aria-live="polite"></span>
+    </div>
+    <div class="text-answer"><label for="q1c_why">Why does this system have that many solutions?</label>
+      <textarea id="q1c_why" placeholder="Explain what you notice about the two equations."></textarea></div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">Flat objects intersect in a flat object: a point, the empty set, or a whole line or plane.</span></p>
-      <p>Two lines either cross once, never meet, or coincide entirely. "Exactly two points"
-      is not a possible intersection of flat objects, so it cannot occur.</p>
+      <p><span class="ans">Infinitely many solutions.</span> Doubling the first equation
+      gives the second. They describe the same line, so every point on that line works
+      in both equations.</p>
+    </div></details>
+  </div>
+
+  <div class="demo-link">
+    <strong>Explore the pictures:</strong>
+    Open the <a href="../demos/systems_geometry.html" target="_blank" rel="noopener">Systems Geometry Explorer</a>
+    in another tab. Try the three presets. Then change one slider at a time to see
+    how two crossing lines can become parallel or identical.
+  </div>
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(d)</span>
+      <span class="part-text">Based on what you saw, explain why two straight lines
+      cannot have exactly two intersection points. Refer to the pictures or to
+      the equations in your answer.</span></div>
+    <div class="text-answer"><label for="q1d_txt">Your explanation</label>
+      <textarea id="q1d_txt" placeholder="What are the three ways two straight lines can be arranged?"></textarea></div>
+    <details><summary>Show discussion</summary><div class="solution">
+      <p>Two distinct lines either cross at one point or stay parallel and never cross.
+      If they share two points, they must be the same straight line, and then all of
+      their points are shared. Two intersections alone are impossible.</p>
     </div></details>
   </div>
 </div>
@@ -178,22 +235,77 @@
 
 <!-- PROBLEM 3 -->
 <div class="problem" id="p3">
-  <h2>Problem 3 — Making triangular form</h2>
-  <div class="scenario">Solve \(\begin{aligned}x+y+z&=6\\ 2x-y+z&=3\\ x+2y-z&=2\end{aligned}\).</div>
+  <h2>Problem 3 — Make triangular form</h2>
+  <div class="scenario">
+    This system is similar to one from the reading, but the equations are different.
+    You will do the elimination in stages. Keep the first equation, remove \(x\) from
+    the next two, and then remove \(y\) to get an equation in \(z\).
+    \[
+      \begin{aligned}
+      x+y+z&=7 &&(1),\\
+      2x-y+z&=7 &&(2),\\
+      x+3y-z&=1 &&(3).
+      \end{aligned}
+    \]
+  </div>
 
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Eliminate one variable at a time, then back-substitute. Enter \(x\),
-      \(y\), \(z\).</span></div>
-    <div class="answer-row"><label>\(x\)</label><input type="text" id="q3a_x" data-ans="1">
-      <label>\(y\)</label><input type="text" id="q3a_y" data-ans="2">
-      <label>\(z\)</label><input type="text" id="q3a_z" data-ans="3">
-      <button class="check-btn" onclick="checkNum(['q3a_x','q3a_y','q3a_z'],'q3a_v')">Check</button><span class="verdict" id="q3a_v"></span></div>
+      <span class="part-text">Subtract twice equation (1) from equation (2).
+      Then subtract equation (1) from equation (3). Write the two new equations
+      below. Neither should contain \(x\).</span></div>
+    <div class="text-answer"><label for="q3a_eq2">Equation (2) − 2 × equation (1)</label>
+      <textarea id="q3a_eq2" placeholder="Write an equation involving y and z."></textarea></div>
+    <div class="text-answer"><label for="q3a_eq3">Equation (3) − equation (1)</label>
+      <textarea id="q3a_eq3" placeholder="Write the second equation involving y and z."></textarea></div>
+    <details><summary>Check these two equations</summary><div class="solution">
+      <p>The equations become \(-3y-z=-7\) and \(2y-2z=-6\).
+      The original first equation \(x+y+z=7\) stays unchanged.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(b)</span>
+      <span class="part-text">Now use your two equations in \(y\) and \(z\).
+      Eliminate \(y\) so that only \(z\) is left. Write the equation you obtain
+      before solving it.</span></div>
+    <div class="text-answer"><label for="q3b_z_eq">Your equation in \(z\)</label>
+      <textarea id="q3b_z_eq" placeholder="For example: a number times z = another number."></textarea></div>
+    <details><summary>Check the elimination</summary><div class="solution">
+      <p>Divide \(2y-2z=-6\) by 2 to get \(y-z=-3\).
+      Multiply by 3: \(3y-3z=-9\). Add \(-3y-z=-7\).
+      The \(y\)'s cancel, leaving <span class="ans">\(-4z=-16\).</span>
+      Equivalent equations, such as \(-8z=-32\), also work.</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Solve for \(z\), then work backward to find \(y\)
+      and \(x\). Enter the three values.</span></div>
+    <div class="answer-row">
+      <label for="q3c_z">\(z\)</label><input type="text" id="q3c_z" data-ans="4">
+      <label for="q3c_y">\(y\)</label><input type="text" id="q3c_y" data-ans="1">
+      <label for="q3c_x">\(x\)</label><input type="text" id="q3c_x" data-ans="2">
+      <button class="check-btn" onclick="checkNum(['q3c_z','q3c_y','q3c_x'],'q3c_v')">Check</button>
+      <span class="verdict" id="q3c_v" aria-live="polite"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\((x,y,z)=(1,2,3)\).</span></p>
-      <p>Row 2 minus twice row 1: \(-3y-z=-9\). Row 3 minus row 1: \(y-2z=-4\). Eliminating
-      \(y\) gives \(-7z=-21\), so \(z=3\), then \(y=2\), then \(x=1\). Check:
-      \(1+2+3=6\). ✓</p>
+      <p><span class="ans">\((x,y,z)=(2,1,4)\).</span>
+      From \(-4z=-16\), \(z=4\). Then \(y-4=-3\) gives \(y=1\),
+      and \(x+1+4=7\) gives \(x=2\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(d)</span>
+      <span class="part-text">Check the values in all three <em>original</em>
+      equations. Show your substitutions, not just the word “yes.”</span></div>
+    <div class="text-answer"><label for="q3d_check">Your three checks</label>
+      <textarea id="q3d_check" placeholder="Substitute x, y, z into equations (1), (2), and (3)."></textarea></div>
+    <details><summary>Check your work</summary><div class="solution">
+      <p>\(2+1+4=7\), \(2(2)-1+4=7\), and \(2+3(1)-4=1\).
+      The answer satisfies all three equations.</p>
     </div></details>
   </div>
 </div>
@@ -201,34 +313,57 @@
 <!-- PROBLEM 4 -->
 <div class="problem" id="p4">
   <h2>Problem 4 — Ticket sales</h2>
-  <div class="scenario">A theater sells adult tickets at \$12 and child tickets at \$8. One
-  evening \(200\) tickets bring in \$2000.</div>
+  <div class="scenario">
+    A theater sells adult tickets for \(\$12\) each and child tickets for
+    \(\$8\) each. One evening, it sells \(200\) tickets and collects
+    \(\$2000\). How many tickets of each kind were sold?
+  </div>
 
   <div class="part">
     <div class="part-stem"><span class="part-label">(a)</span>
-      <span class="part-text">Let \(a\) be adult tickets and \(c\) child tickets. Enter the
-      number of each.</span></div>
-    <div class="answer-row"><label>\(a\)</label><input type="text" id="q4a_a" data-ans="100">
-      <label>\(c\)</label><input type="text" id="q4a_c" data-ans="100">
-      <button class="check-btn" onclick="checkNum(['q4a_a','q4a_c'],'q4a_v')">Check</button><span class="verdict" id="q4a_v"></span></div>
-    <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(a=100\), \(c=100\).</span></p>
-      <p>System: \(a+c=200\) and \(12a+8c=2000\). From the first, \(c=200-a\); substitute:
-      \(12a+8(200-a)=2000\Rightarrow4a+1600=2000\Rightarrow a=100\), so \(c=100\).</p>
+      <span class="part-text">Let \(a\) stand for the number of adult tickets
+      and \(c\) for the number of child tickets. Before solving, write
+      one equation for the total number of tickets and one for the money collected.</span></div>
+    <div class="text-answer"><label for="q4a_count">Equation for the 200 tickets</label>
+      <textarea id="q4a_count" placeholder="How do a and c add up to the total ticket count?"></textarea></div>
+    <div class="text-answer"><label for="q4a_revenue">Equation for the $2000 collected</label>
+      <textarea id="q4a_revenue" placeholder="Multiply each ticket count by its price."></textarea></div>
+    <details><summary>Check your equations</summary><div class="solution">
+      <p><span class="ans">\(a+c=200\)</span> counts all tickets.
+      <span class="ans">\(12a+8c=2000\)</span> counts the dollars brought in
+      by adult and child ticket sales.</p>
     </div></details>
   </div>
 
   <div class="part">
     <div class="part-stem"><span class="part-label">(b)</span>
-      <span class="part-text">Write the two equations you used, and say in words what each
-      represents.</span></div>
-    <div class="text-answer"><label>Your answer</label>
-      <textarea id="q4b_txt" placeholder="One equation counts tickets; the other counts dollars."></textarea></div>
+      <span class="part-text">Use substitution or elimination to solve your
+      two equations. Enter the number of each kind of ticket.</span></div>
+    <div class="answer-row">
+      <label for="q4b_a">Adult tickets \(a\)</label><input type="text" id="q4b_a" data-ans="100">
+      <label for="q4b_c">Child tickets \(c\)</label><input type="text" id="q4b_c" data-ans="100">
+      <button class="check-btn" onclick="checkNum(['q4b_a','q4b_c'],'q4b_v')">Check</button>
+      <span class="verdict" id="q4b_v" aria-live="polite"></span>
+    </div>
     <details><summary>Show solution</summary><div class="solution">
-      <p><span class="ans">\(a+c=200\) (total tickets) and \(12a+8c=2000\) (total revenue).</span></p>
-      <p>The first counts how many tickets were sold; the second adds up the money, weighting
-      each ticket by its price. Their common solution is the only count meeting both
-      conditions.</p>
+      <p><span class="ans">100 adult tickets and 100 child tickets.</span>
+      From \(a+c=200\), we have \(c=200-a\).
+      Substituting into the revenue equation gives
+      \(12a+8(200-a)=2000\), so \(4a=400\) and \(a=100\). Then \(c=100\).</p>
+    </div></details>
+  </div>
+
+  <div class="part">
+    <div class="part-stem"><span class="part-label">(c)</span>
+      <span class="part-text">Show that your answer gives both 200 tickets
+      and $2000 in revenue. In a sentence, explain what the answer means
+      for the theater.</span></div>
+    <div class="text-answer"><label for="q4c_check">Your calculation and interpretation</label>
+      <textarea id="q4c_check" placeholder="Check the ticket count and the total dollars."></textarea></div>
+    <details><summary>Check your work</summary><div class="solution">
+      <p>The theater sold \(100+100=200\) tickets and collected
+      \(12(100)+8(100)=2000\) dollars. Both facts from the problem
+      are satisfied.</p>
     </div></details>
   </div>
 </div>
@@ -238,15 +373,17 @@
 
 <script>
   const STORE_KEY='precalc_w9_lab';
-  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea'));}
+  function allInputs(){return Array.from(document.querySelectorAll('input[type=text], textarea, select'));}
   function save(){const d={};allInputs().forEach(i=>{if(i.id)d[i.id]=i.value;});try{localStorage.setItem(STORE_KEY,JSON.stringify(d));}catch(e){}}
   function load(){let d={};try{d=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');}catch(e){}allInputs().forEach(i=>{if(i.id&&d[i.id]!=null)i.value=d[i.id];});}
   function clearData(){try{localStorage.removeItem(STORE_KEY);}catch(e){}allInputs().forEach(i=>{i.value='';i.classList.remove('ok','no');});document.querySelectorAll('.verdict').forEach(v=>{v.textContent='';v.className='verdict';});}
-  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea'))save();});
+  document.addEventListener('input',e=>{if(e.target.matches('input[type=text], textarea, select'))save();});
+  document.addEventListener('change',e=>{if(e.target.matches('select')){save();updateLocks();}});
   function parseNum(s){if(s==null)return NaN;s=s.trim().replace(/\s+/g,'').replace(/^\$/,'').replace(/,/g,'');if(s==='')return NaN;if(/^[-+]?\d+\/\d+$/.test(s)){const[a,b]=s.split('/').map(Number);return a/b;}return Number(s);}
   function checkNum(ids,verdictId,tol){const T=(tol==null?1e-9:tol);let allGood=true,anyBlank=false;ids.forEach(id=>{const el=document.getElementById(id);const target=parseNum(el.dataset.ans);const val=parseNum(el.value);el.classList.remove('ok','no');if(isNaN(val)){anyBlank=true;allGood=false;return;}if(Math.abs(val-target)<=T){el.classList.add('ok');}else{el.classList.add('no');allGood=false;}});const v=document.getElementById(verdictId);if(anyBlank){v.textContent='fill in every box';v.className='verdict no';}else if(allGood){v.textContent='✓ correct';v.className='verdict ok';}else{v.textContent='✗ check again';v.className='verdict no';}}
+  function checkChoice(id,expected,verdictId){const el=document.getElementById(id);const verdict=document.getElementById(verdictId);el.classList.remove('ok','no');if(!el.value){verdict.textContent='choose an outcome';verdict.className='verdict no';return;}const good=el.value===expected;el.classList.add(good?'ok':'no');verdict.textContent=good?'✓ correct':'✗ check again';verdict.className='verdict '+(good?'ok':'no');}
   load();
-  function getPartInputs(el){const part=el.closest('.part');if(!part)return[];return Array.from(part.querySelectorAll('input[type=text], textarea'));}
+  function getPartInputs(el){const part=el.closest('.part');if(!part)return[];return Array.from(part.querySelectorAll('input[type=text], textarea, select'));}
   function isPartAttempted(det){const inputs=getPartInputs(det);if(inputs.length===0)return true;return inputs.every(i=>i.value.trim().length>0);}
   function updateLocks(){document.querySelectorAll('details').forEach(det=>{const summary=det.querySelector('summary');if(!summary)return;if(isPartAttempted(det)){det.classList.remove('locked');}else{det.classList.add('locked');if(det.open)det.open=false;}});}
   document.querySelectorAll('details').forEach(det=>{const summary=det.querySelector('summary');if(!summary)return;if(!summary.dataset.orig)summary.dataset.orig=summary.textContent;summary.addEventListener('click',function(e){if(det.classList.contains('locked')){e.preventDefault();summary.textContent='Attempt the problem first!';summary.classList.add('lock-flash');clearTimeout(summary._lockTimer);summary._lockTimer=setTimeout(()=>{summary.textContent=summary.dataset.orig;summary.classList.remove('lock-flash');},1500);}});});
