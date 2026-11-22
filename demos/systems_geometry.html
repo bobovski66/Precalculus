@@ -105,13 +105,13 @@ window.typesetMath = function(nodes){
 <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </head><body>
-<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 9 · Interactive Demo</div><h1>Systems Geometry Explorer</h1><p>A system of equations is a question about where geometric objects meet.</p></div></header>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 9 · Interactive Demo</div><h1>Systems Geometry Explorer</h1><p>Each line shows the pairs of numbers that satisfy one equation. What happens when we put two lines on the same graph?</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
-<section class="card"><h2>Solutions are intersections</h2>
-<div class="goal"><strong>Goal:</strong> Connect the algebra of a two-equation system with the geometry of two lines: one solution, no solution, or infinitely many solutions.</div>
-<p>Adjust the slopes and intercepts. The classification and intersection update automatically.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change slopes and intercepts for two lines.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Watch the equations move among intersecting, parallel, and identical configurations.</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Translate the geometry into the algebraic language of one, none, or infinitely many solutions.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
-<section class="card"><h2>Systems geometry explorer</h2>
+<section class="card"><h2>Where do the lines meet?</h2>
+<div class="goal"><strong>Goal:</strong> See how the position of two lines tells you whether their equations have one solution, no solution, or infinitely many solutions.</div>
+<p>Start with the two lines shown. Change one slope or intercept, and watch what happens to their meeting point.</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Try it</strong><p>Move a slider to tilt a line or slide it up and down.</p></div><div class="activity-step"><strong>2. Notice</strong><p>Two lines can cross, stay parallel, or lie directly on top of each other.</p></div><div class="activity-step"><strong>3. Explain</strong><p>For each arrangement, how many points lie on both lines?</p></div></div><div class="activity-question"><strong>Think about it: </strong>Can you make the lines parallel without making them identical? What would that mean for the equations?</div></section>
+<section class="card"><h2>Move the two lines</h2>
 <div class="controls">
 <div class="control"><label>Line 1 slope \(m_1\)</label><input id="m1" max="3" min="-3" step=".25" type="range" value="1"/><div class="value" id="m1v"></div></div>
 <div class="control"><label>Line 1 intercept \(b_1\)</label><input id="b1" max="5" min="-5" step=".25" type="range" value="1"/><div class="value" id="b1v"></div></div>
@@ -125,7 +125,7 @@ window.typesetMath = function(nodes){
 </div>
 </section>
 <section class="card"><h2>Check the intersection</h2>
-<p>When the system has one solution, enter its x-coordinate.</p><div class="grid2"><input id="xAns" step="any" type="number"/><div><button class="primary" onclick="checkX()">Check</button><div class="feedback" id="xAnsFb"></div></div></div>
+<p>Choose the one-solution preset, find where the lines meet, and enter the x-coordinate of that point.</p><div class="grid2"><input id="xAns" step="any" type="number"/><div><button class="primary" onclick="checkX()">Check</button><div class="feedback" id="xAnsFb"></div></div></div>
 </section>
 <p class="footer">MATH&amp; 141 · Precalculus I</p></main>
 <script>
