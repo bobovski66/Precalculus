@@ -105,12 +105,12 @@ window.typesetMath = function(nodes){
 <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </head><body>
-<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 10 · Application</div><h1>Quadratic Fit by Matrix</h1><p>Use Gaussian elimination to recover a quadratic model from three observed points.</p></div></header>
+<header><div class="wrap"><div class="eyebrow">Centralia College · MATH&amp; 141 · Week 10 · Application</div><h1>Quadratic Fit by Matrix</h1><p>You have three points on a parabola. Can you find an equation for the entire curve?</p></div></header>
 <div class="toolbar no-print"><div class="wrap"><a href="../index.html">← Course LMS</a><div><button data-theme-toggle="" type="button">☾ Dark</button> <button onclick="window.print()">Print / Save PDF</button></div></div></div>
 <main class="wrap">
-<section class="card"><h2>Capstone application: fit a quadratic through three data points</h2>
-<div class="goal"><strong>Goal:</strong> Use a matrix to solve the same “three points determine a parabola” problem from Week 2. Gaussian elimination becomes a function-fitting tool.</div>
-<p>For \(y=ax^2+bx+c\), each data point contributes one linear equation in the unknown coefficients \(a\), \(b\), and \(c\).</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Manipulate</strong><p>Change the three data points, then solve the resulting 3×3 system for a, b, and c.</p></div><div class="activity-step"><strong>2. Observe</strong><p>Each point contributes one linear constraint on the coefficients of \(y=ax^2+bx+c\).</p></div><div class="activity-step"><strong>3. Interpret</strong><p>Interpret row reduction as a method for recovering a function from data, not merely reducing a matrix.</p></div></div><div class="activity-question"><strong>Meaning check: </strong>Before leaving the activity, be able to say what the changing graph or calculation tells you in the context of this week’s mathematics.</div></section>
+<section class="card"><h2>Find the parabola through three points</h2>
+<div class="goal"><strong>Goal:</strong> Use the three points to build equations for the unknown coefficients of a quadratic, then solve those equations.</div>
+<p>You know the familiar formula \(y=ax^2+bx+c\). This time you know some \(x\)- and \(y\)-values, but not the coefficients. Substituting each point gives one equation involving \(a\), \(b\), and \(c\).</p><div aria-label="How to use this activity" class="activity-guide"><div class="activity-step"><strong>1. Try it</strong><p>Start with the three displayed points. Write their equations, then use the New data set button to try different points.</p></div><div class="activity-step"><strong>2. Notice</strong><p>Every point you substitute produces one equation. Together, the three equations determine the coefficients when the x-values are distinct.</p></div><div class="activity-step"><strong>3. Explain</strong><p>After finding a, b, and c, put each original x-value into your quadratic. Do the y-values match?</p></div></div><div class="activity-question"><strong>Think about it:</strong> In this system, a, b, and c are the unknowns. What changes if you choose a different set of points?</div></section>
 <section class="card"><h2>Current data</h2>
 <div class="pills"><button onclick="newData()">New data set</button></div>
 <div class="grid2">
@@ -118,8 +118,8 @@ window.typesetMath = function(nodes){
 <div class="canvas-wrap"><canvas id="plot"></canvas></div>
 </div>
 </section>
-<section class="card"><h2>Recover the model</h2>
-<p>Use elimination on the augmented matrix (on paper or in the Week 10 workbench) and enter the coefficients.</p>
+<section class="card"><h2>Find the coefficients</h2>
+<p>Build the three equations from the points, solve for a, b, and c, and enter your coefficients below. Then check whether your formula passes through the points.</p>
 <div class="grid3">
 <div><label>a</label><input id="aa" step="any" type="number"/></div>
 <div><label>b</label><input id="bb" step="any" type="number"/></div>
