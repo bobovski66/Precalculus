@@ -86,7 +86,7 @@ body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-seri
     let copyId=document.body.dataset.copyId||'working';
     const key=()=>BASE+'_'+copyId;
     const fields=()=>[...document.querySelectorAll('input,textarea,select')].filter(e=>!e.closest('.solution'));
-    const answers=()=>fields().filter(e=>e.id!=='studentName' && (e.matches('textarea')||e.matches('select')||e.matches('input[type=text],input[type=number]')));
+    const answers=()=>fields().filter(e=>e.id!=='studentName' && !e.hasAttribute('data-optional') && (e.matches('textarea')||e.matches('select')||e.matches('input[type=text],input[type=number]')));
     function embeddedHasValue(e){if(e.type==='checkbox'||e.type==='radio')return e.checked;return String(e.value||'').trim()!=='';}
     function updateThemeButton(){const b=document.getElementById('themeToggle');if(b)b.textContent=document.body.dataset.theme==='dark'?'☀ Light':'☾ Dark';}
     window.toggleStudentTheme=function(){const next=document.body.dataset.theme==='dark'?'light':'dark';document.body.dataset.theme=next;try{localStorage.setItem('precalc_lab_theme',next)}catch(e){}updateThemeButton();};
