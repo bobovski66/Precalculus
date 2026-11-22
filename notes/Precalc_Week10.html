@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 10 — Matrices and Gaussian Elimination | Precalculus I</title>
+<link rel="stylesheet" href="../assets/week8.css">
+<link rel="stylesheet" href="../assets/activity-theme.css">
+<script src="../assets/activity-common.js"></script>
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+.lesson p,.lesson li{line-height:1.72}
+.lesson ol li{margin-bottom:11px}
+.matrix-step{margin:14px 0 21px;padding:12px 18px;border-left:3px solid #477eac;background:var(--card,#fff);border-radius:6px}
+.matrix-step p{margin:4px 0}
+.figure-line{max-width:760px;margin:16px auto;text-align:center}
+.figure-line svg{max-width:100%;display:block;margin:auto}
+.figure-line figcaption{font-size:.91rem;color:var(--muted,#637086);margin-top:6px}
+.reading-end{margin:26px 0 70px}
+</style>
+</head>
+<body data-page="reading">
+<header><div class="wrap">
+<div class="eyebrow">Centralia College · MATH&amp; 141 · Week 10 · Reading</div>
+<h1>Matrices and Gaussian Elimination</h1>
+<p>Last week you simplified systems of equations by eliminating variables. This week we will learn a way to organize those same calculations, recognize what the resulting rows tell us, and use the method to solve problems in several different settings.</p>
+</div></header>
+<div class="toolbar no-print"><div class="wrap"><div class="toolbar-links"><a href="../index.html">← Course LMS</a></div><div class="toolbar-actions"><button type="button" data-theme-toggle>☾ Dark</button><button type="button" onclick="window.print()">Print / Save PDF</button></div></div></div>
+<main class="wrap">
+
+<nav class="card" aria-label="Reading sections"><ol class="toc">
+<li><a href="#organize">Keeping the numbers organized</a></li>
+<li><a href="#operations">What can we do to a row?</a></li>
+<li><a href="#elimination">Making a staircase of zeros</a></li>
+<li><a href="#outcomes">Reading the answer from the rows</a></li>
+<li><a href="#circuits">Application: electric currents</a></li>
+<li><a href="#chemistry">Application: balancing a chemical reaction</a></li>
+<li><a href="#traffic">Application: traffic through a network</a></li>
+<li><a href="#quadratic">Returning to functions: fitting a quadratic</a></li>
+<li><a href="#exercises">Exercises</a></li>
+</ol></nav>
+
+<section class="lesson" id="organize"><h2>1. Keeping the numbers organized</h2>
+<p>Consider the system \(x+y=5\) and \(2x-y=1\). You probably remember how to solve it: adding the equations removes \(y\), leaving \(3x=6\). Then \(x=2\) and \(y=3\).</p>
+<p>Look more closely at the addition. We combined the coefficients of \(x\), the coefficients of \(y\), and the numbers on the right of the equals signs. The letters themselves did not change.</p>
+<p>We can arrange those numbers in a small table, with one row for each equation:</p>
+<div class="equation">\[
+\begin{aligned}
+x+y&=5\\
+2x-y&=1
+\end{aligned}
+\qquad\longleftrightarrow\qquad
+\left[\begin{array}{cc|c}1&1&5\\2&-1&1\end{array}\right].
+\]</div>
+<p>This table of numbers is called an <strong>augmented matrix</strong>. The first column holds the coefficients of \(x\), the second holds the coefficients of \(y\), and the column after the bar holds the numbers on the right. The bar is there to help us keep the two sides of each equation straight.</p>
+<p>Let's take the second row and subtract twice the first:</p>
+\[
+[\,2\quad -1\mid1\,]-2[\,1\quad1\mid5\,]
+=[\,0\quad-3\mid-9\,].
+\]
+<p>In equation form, that new row says \(-3y=-9\), so \(y=3\). We performed exactly the kind of elimination we already know, but without repeatedly writing the variables.</p>
+<div class="example"><h3>A matrix with three variables</h3>
+<p>The system</p>
+\[\begin{aligned}2x+y-z&=1,\\x-y+2z&=3,\\3x+2y+z&=10\end{aligned}\]
+<p>is written as</p>
+\[
+\left[\begin{array}{ccc|c}
+2&1&-1&1\\
+1&-1&2&3\\
+3&2&1&10
+\end{array}\right].
+\]
+<p>Each row still represents an equation. In the second row, \(1,-1,2\) belong to \(x,y,z\), respectively, and the \(3\) after the bar is the constant.</p>
+<p>If an equation is missing a variable, that variable has coefficient zero. For example, \(x+3z=7\) would be written as \([\,1\quad0\quad3\mid7\,]\). The zero keeps the columns lined up.</p></div>
+<div class="practice"><strong>Try it.</strong> Write the augmented matrix of \(3x-y=7\) and \(2y=4\), keeping the variable columns in the order \(x,y\).<details><summary>Check the matrix</summary><p>\(\left[\begin{array}{cc|c}3&-1&7\\0&2&4\end{array}\right]\). The second equation has no \(x\) term, so its first entry is zero.</p></details></div>
+</section>
+
+<section class="lesson" id="operations"><h2>2. What can we do to a row?</h2>
+<p>We are going to replace the original matrix with matrices that are easier to solve. But we cannot just change its entries however we like. A row represents an equation, so each change must preserve the solutions of the system.</p>
+<p>There are three moves we are allowed to make:</p>
+<ol>
+<li><strong>Swap two rows.</strong> This only changes the order in which the equations are written.</li>
+<li><strong>Multiply a row by a nonzero number.</strong> This is the same as multiplying both sides of an equation by that number.</li>
+<li><strong>Add a multiple of one row to another row.</strong> This is how we remove a variable from an equation.</li>
+</ol>
+<p>All three moves are reversible. That is why they keep the same solutions. We must carry out an operation across the <em>whole</em> row, including the constant after the bar.</p>
+<div class="example"><h3>Removing an entry</h3>
+<p>Start with</p>
+\[\left[\begin{array}{cc|c}1&3&5\\2&1&4\end{array}\right].\]
+<p>We want a zero in the lower-left corner. Subtract twice the first row from the second:</p>
+\[
+R_2\leftarrow R_2-2R_1,\qquad
+\left[\begin{array}{cc|c}1&3&5\\0&-5&-6\end{array}\right].
+\]
+<p>The arrow means that we replace row 2 with the result. The top row stays exactly as it was. The new second row tells us \(-5y=-6\), so \(y=6/5\). The first row then determines \(x\).</p></div>
+<div class="warning">Multiplying a row by zero is not allowed. It would erase an equation, so the new system could have solutions that did not satisfy the original equations.</div>
+<div class="practice"><strong>Try it.</strong> Starting with \(\left[\begin{array}{cc|c}1&2&5\\3&-1&4\end{array}\right]\), apply \(R_2\leftarrow R_2-3R_1\). What is the new second row?<details><summary>Check the row</summary><p>\([\,0\quad-7\mid-11\,]\). Subtract three times each entry of row 1 from the corresponding entry of row 2.</p></details></div>
+</section>
+
+<section class="lesson" id="elimination"><h2>3. Making a staircase of zeros</h2>
+<p>Last week we learned that a triangular system is easy to solve: we find the bottom variable first and work upward. We want to create that same arrangement in a matrix.</p>
+<p>Our goal is a staircase of leading entries. Below each leading entry, we make zeros. This arrangement is called <strong>row echelon form</strong>. A leading entry used to clear other entries is called a <strong>pivot</strong>.</p>
+<p>The systematic process of making this staircase is called <strong>Gaussian elimination</strong>.</p>
+<div class="example"><h3>Example: solve a three-variable system</h3>
+<p>Start with the matrix</p>
+\[
+\left[\begin{array}{ccc|c}
+1&1&1&6\\
+2&-1&1&3\\
+1&2&-1&2
+\end{array}\right].
+\]
+<p>Its rows stand for the equations \(x+y+z=6\), \(2x-y+z=3\), and \(x+2y-z=2\).</p>
+<div class="matrix-step"><p><strong>First, clear the entries below the top-left 1.</strong> Replace row 2 by row 2 minus twice row 1, and row 3 by row 3 minus row 1.</p>
+\[
+\left[\begin{array}{ccc|c}
+1&1&1&6\\
+0&-3&-1&-9\\
+0&1&-2&-4
+\end{array}\right].
+\]
+<p>There are now two zeros under the first pivot.</p></div>
+<div class="matrix-step"><p><strong>Next, work on the second column.</strong> Swap rows 2 and 3, so the second row begins with a convenient 1.</p>
+\[
+\left[\begin{array}{ccc|c}
+1&1&1&6\\
+0&1&-2&-4\\
+0&-3&-1&-9
+\end{array}\right].
+\]
+<p>Now add three times row 2 to row 3 to remove its \(y\)-entry:</p>
+\[
+\left[\begin{array}{ccc|c}
+1&1&1&6\\
+0&1&-2&-4\\
+0&0&-7&-21
+\end{array}\right].
+\]
+</div>
+<p>The matrix is in echelon form. Put the variables back in and read from the bottom:</p>
+\[
+\begin{aligned}
+-7z&=-21 &&\Rightarrow z=3,\\
+y-2z&=-4 &&\Rightarrow y=2,\\
+x+y+z&=6 &&\Rightarrow x=1.
+\end{aligned}
+\]
+<p>The solution is \((1,2,3)\). Check it in the three original equations: \(1+2+3=6\), \(2-2+3=3\), and \(1+4-3=2\).</p>
+<p>Notice that Gaussian elimination did not require a new algebraic trick. It organized the familiar work of eliminating variables. The important thing was to make the equations easier <em>before</em> solving for all the variables.</p></div>
+<p>The <a href="../demos/gaussian_elimination.html">Gaussian Elimination Workbench</a> lets you try these steps yourself. Begin with a unique-solution preset, make zeros below the pivots, and then use the displayed matrix to solve.</p>
+<div class="practice"><strong>Try it.</strong> The matrix \(\left[\begin{array}{ccc|c}1&2&-1&4\\0&1&3&5\\0&0&2&6\end{array}\right]\) is already in echelon form. Find \(z\), then \(y\), then \(x\).<details><summary>Check your work</summary><p>\(2z=6\) gives \(z=3\). Then \(y+9=5\), so \(y=-4\). Finally \(x+2(-4)-3=4\), so \(x=15\).</p></details></div>
+</section>
+
+<section class="lesson" id="outcomes"><h2>4. Reading the answer from the rows</h2>
+<p>Remember the three possibilities from Week 9: one solution, no solution, and infinitely many solutions. We can recognize them in the final matrix, even before calculating every variable.</p>
+<div class="example"><h3>A row that cannot be true</h3>
+<p>Consider this elimination:</p>
+\[
+\left[\begin{array}{cc|c}1&-1&2\\2&-2&7\end{array}\right]
+\longrightarrow
+\left[\begin{array}{cc|c}1&-1&2\\0&0&3\end{array}\right].
+\]
+<p>The bottom row says \(0x+0y=3\), or \(0=3\). That is impossible. No numbers satisfy both original equations, so there is <strong>no solution</strong>.</p></div>
+<div class="example"><h3>A row that adds no new information</h3>
+<p>Now suppose we begin with</p>
+\[
+\left[\begin{array}{cc|c}1&2&3\\2&4&6\end{array}\right].
+\]
+<p>Subtract twice the first row from the second. We get an all-zero row, which says \(0=0\). It is always true and does not determine another variable. The remaining equation is \(x+2y=3\), so we can choose \(y=t\) and then \(x=3-2t\). There are <strong>infinitely many solutions</strong>, written \((3-2t,t)\).</p></div>
+<p>Here's the pattern to remember:</p>
+<div class="example"><h3>Three outcomes in echelon form</h3>
+<ol>
+<li><strong>One solution:</strong> no contradiction, and every variable column has a leading entry.</li>
+<li><strong>No solution:</strong> a row has zeros in all variable columns but a nonzero constant, such as \([\,0\ 0\mid3\,]\).</li>
+<li><strong>Infinitely many solutions:</strong> there is no contradiction and at least one variable column has no leading entry. That variable can be chosen freely.</li>
+</ol>
+<p>An all-zero row by itself does not guarantee infinitely many solutions in every rectangular system. What matters is whether any variables remain free once all the nonzero equations have been considered.</p></div>
+<div class="practice"><strong>Try it.</strong> A system ends with the row \([\,0\quad0\quad0\mid5\,]\). What does this say about its solutions? What if the last entry were also zero?<details><summary>Check your reasoning</summary><p>The first row says \(0=5\), so there is no solution. If every entry is zero, the row contributes no new condition; you then need to inspect the remaining rows to see whether any variables are free.</p></details></div>
+</section>
+
+<section class="lesson" id="circuits"><h2>5. Application: electric currents</h2>
+<p>What does a system of equations have to do with electricity? In a circuit, electric charge flows along wires. At a junction, the amount of charge entering each second must equal the amount leaving. That gives us an equation.</p>
+<figure class="figure-line">
+<svg viewBox="0 0 680 180" role="img" aria-label="Current I1 enters a junction from the left, splitting into outgoing currents I2 and I3 toward the upper and lower right.">
+<g fill="none" stroke="#3978a9" stroke-width="5" stroke-linecap="round"><path d="M65 90H310"/><path d="M310 90L530 22"/><path d="M310 90L530 158"/></g>
+<circle cx="310" cy="90" r="8" fill="#c35449"/>
+<g fill="#3978a9"><path d="M260 82l18 8-18 8z"/><path d="M480 31l18-16-3 21z"/><path d="M484 147l16 18-3-22z"/></g>
+<g fill="currentColor" font-family="system-ui,sans-serif" font-size="18"><text x="130" y="68">I₁ entering</text><text x="530" y="26">I₂ leaving</text><text x="530" y="165">I₃ leaving</text></g>
+</svg>
+<figcaption>At a junction, current entering equals the sum of currents leaving: \(I_1=I_2+I_3\).</figcaption>
+</figure>
+<p>There are also conditions about voltage around loops of a circuit. The voltage supplied by a battery is accounted for by drops across components; for a resistor, the drop is resistance times current, \(V=IR\). Together these statements give simultaneous linear equations.</p>
+<div class="example"><h3>A two-loop circuit</h3>
+<p>Suppose a circuit has three branch currents \(I_1,I_2,I_3\), measured in amperes. A junction and two loop calculations give us these three conditions:</p>
+\[\begin{aligned}
+I_1-I_2-I_3&=0 &&\text{(currents at the junction)},\\
+2I_1+3I_2&=12 &&\text{(left loop)},\\
+3I_2+4I_3&=10 &&\text{(right loop)}.
+\end{aligned}\]
+<p>We will use these equations as the description of the circuit; no previous electronics course is needed. Their augmented matrix is</p>
+\[
+\left[\begin{array}{ccc|c}
+1&-1&-1&0\\
+2&3&0&12\\
+0&3&4&10
+\end{array}\right].
+\]
+<p>Replace row 2 by \(R_2-2R_1\). This removes \(I_1\) from the second row:</p>
+\[
+\left[\begin{array}{ccc|c}
+1&-1&-1&0\\
+0&5&2&12\\
+0&3&4&10
+\end{array}\right].
+\]
+<p>Next, take five times row 3 minus three times row 2. The result is a row that says \(14I_3=14\). Hence \(I_3=1\). Then \(5I_2+2=12\) gives \(I_2=2\), and the first row gives \(I_1=3\).</p>
+<p>As a check, the current entering the junction is \(3\) amperes and the total leaving is \(2+1=3\). The numbers satisfy the physical requirement.</p></div>
+<p>Notice the connection: a law about physical conservation became an equation, and the equations became a matrix. The matrix helped us find numbers consistent with all the conditions.</p>
+</section>
+
+<section class="lesson" id="chemistry"><h2>6. Application: balancing a chemical reaction</h2>
+<p>When a chemical reaction occurs, the atoms are rearranged, but the number of atoms of each element is conserved. We can use a system of equations to find the coefficients needed to balance a reaction.</p>
+<div class="example"><h3>Burning propane</h3>
+<p>Propane has chemical formula \(\mathrm{C_3H_8}\). It reacts with oxygen to produce carbon dioxide and water. We want to balance</p>
+\[
+a\,\mathrm{C_3H_8}+b\,\mathrm{O_2}
+\longrightarrow c\,\mathrm{CO_2}+d\,\mathrm{H_2O}.
+\]
+<p>The unknowns \(a,b,c,d\) tell us how many units of each substance take part. Count the atoms of carbon, hydrogen, and oxygen on each side:</p>
+\[
+\begin{aligned}
+3a&=c &&\text{(carbon)},\\
+8a&=2d &&\text{(hydrogen)},\\
+2b&=2c+d &&\text{(oxygen)}.
+\end{aligned}
+\]
+<p>There are four unknown coefficients but only three conditions. This makes sense: if a reaction is balanced, doubling all its coefficients keeps it balanced. So we choose one of the coefficients and express the others in terms of it.</p>
+<p>Let \(a=t\). The first equation gives \(c=3t\), and the second gives \(d=4t\). The oxygen equation then becomes \(2b=2(3t)+4t=10t\), so \(b=5t\).</p>
+<p>Choosing \(t=1\) gives the smallest positive whole-number coefficients:</p>
+\[
+\mathrm{C_3H_8}+5\,\mathrm{O_2}
+\longrightarrow3\,\mathrm{CO_2}+4\,\mathrm{H_2O}.
+\]
+<p>This is an example of a system with a free parameter. The parameter tells us how many times to scale the entire reaction.</p></div>
+<div class="practice"><strong>Try it.</strong> To balance \(a\,\mathrm{Fe}+b\,\mathrm{O_2}\to c\,\mathrm{Fe_2O_3}\), start by writing the equations for iron atoms and oxygen atoms. Can you find the smallest positive integer values for \(a,b,c\)?<details><summary>Check your balance</summary><p>The equations are \(a=2c\) and \(2b=3c\). Choosing \(c=2\) gives \(a=4\) and \(b=3\), so \(4\,\mathrm{Fe}+3\,\mathrm{O_2}\to2\,\mathrm{Fe_2O_3}\).</p></details></div>
+</section>
+
+<section class="lesson" id="traffic"><h2>7. Application: traffic through a network</h2>
+<p>The same conservation idea appears in road systems. Suppose we count the cars entering and leaving several intersections during an hour. If traffic is not building up at an intersection, then the number entering must equal the number leaving.</p>
+<div class="example"><h3>Four connected road segments</h3>
+<p>Suppose a small network has four unknown one-way flows \(x_1,x_2,x_3,x_4\), in cars per hour. The counts entering and leaving its intersections give</p>
+\[
+\begin{aligned}
+x_1+x_2&=800,\\
+x_2&=x_3+200,\\
+x_3+x_4&=600,\\
+x_1&=x_4.
+\end{aligned}
+\]
+<p>The last equation tells us immediately that \(x_1=x_4\). Let \(x_4=t\), and use the other equations to find the remaining flows:</p>
+\[
+x_1=t,\quad x_2=800-t,\quad x_3=600-t,\quad x_4=t.
+\]
+<p>What about the second equation? Substitution gives \(800-t=(600-t)+200\), which is always true. We have not missed an equation; it simply repeats information already contained in the others.</p>
+<p>The system does not determine one single pattern of traffic. Different values of \(t\) are possible. But cars per hour cannot be negative. Since \(x_4=t\) and \(x_3=600-t\), we need</p>
+\[
+0\leq t\leq600.
+\]
+<p>The equations give us a family of possible traffic patterns. An extra measurement of one segment would determine which pattern is actually occurring.</p></div>
+<p>Here, a free variable tells us something practical: we do not yet have enough information to know every traffic flow. Sometimes discovering what we <em>cannot</em> determine is as useful as finding a single answer.</p>
+</section>
+
+<section class="lesson" id="quadratic"><h2>8. Returning to functions: fitting a quadratic</h2>
+<p>One more connection brings us back to the beginning of our course. Earlier we worked with quadratic functions of the form \(y=ax^2+bx+c\). Usually we were given the coefficients and asked to study the graph. Now we can reverse the question: if we know three points on a parabola, can we find its equation?</p>
+<div class="example"><h3>A parabola through three points</h3>
+<p>Suppose the graph passes through \((0,2)\), \((1,5)\), and \((3,23)\). Put each point into \(y=ax^2+bx+c\):</p>
+\[
+\begin{aligned}
+c&=2,\\
+a+b+c&=5,\\
+9a+3b+c&=23.
+\end{aligned}
+\]
+<p>These are linear equations in the unknown coefficients \(a,b,c\). We can arrange them as a matrix:</p>
+\[
+\left[\begin{array}{ccc|c}
+0&0&1&2\\
+1&1&1&5\\
+9&3&1&23
+\end{array}\right].
+\]
+<p>The first row gives \(c=2\). Using that in the other two equations leaves \(a+b=3\) and \(3a+b=7\). Subtract the first from the second: \(2a=4\), so \(a=2\). Then \(b=1\).</p>
+<p>Our quadratic is \(y=2x^2+x+2\). Check: at \(x=0\), the output is 2; at \(x=1\), it is 5; and at \(x=3\), it is 23.</p></div>
+<p>Try the <a href="../applications/quadratic_fit_matrix.html">Quadratic Fit by Matrix</a> activity to repeat this process with other points. When three points have distinct \(x\)-values, exactly one quadratic polynomial of degree at most two passes through them (it may turn out to have \(a=0\), giving a line). That result is a beautiful meeting point between systems of equations and functions.</p>
+<p>We began this course asking how functions describe data and relationships. Matrices give us one more tool for moving in the other direction: using data to determine the function.</p>
+</section>
+
+<section class="lesson" id="exercises"><h2>Exercises</h2>
+<p>Write down intermediate rows when you perform elimination. When an answer comes from a model, check it in the original equations and explain what the numbers represent.</p>
+<ol>
+<li>Write the augmented matrix of \(\begin{aligned}3x-y+2z&=5\\x+4y-z&=0\\2x+y+z&=7\end{aligned}\), labeling which column belongs to which variable.</li>
+<li>State the three elementary row operations and the equation operation each represents.</li>
+<li>Apply one row operation to clear the first column below the top entry of \(\left[\begin{array}{cc|c}1&3&5\\2&1&4\end{array}\right]\), and write the result.</li>
+<li>Solve by Gaussian elimination: \(\left[\begin{array}{cc|c}1&2&5\\3&1&5\end{array}\right]\), and state the solution as a point.</li>
+<li>Carry \(\left[\begin{array}{ccc|c}1&1&1&4\\2&1&-1&3\\1&-2&3&11\end{array}\right]\) to echelon form and solve by back-substitution; check your answer.</li>
+<li>Eliminate \(\left[\begin{array}{cc|c}1&-2&3\\-3&6&5\end{array}\right]\) and state the outcome, identifying the row that reveals it.</li>
+<li>Eliminate \(\left[\begin{array}{cc|c}2&4&6\\3&6&9\end{array}\right]\), identify the free variable, and write the solution set with a parameter.</li>
+<li>Explain how each of the three outcomes, unique, none, and infinitely many, appears in echelon form.</li>
+<li>A system's echelon form has a bottom row \([\,0\ 0\ 0\mid5\,]\). State the outcome and explain the reasoning in one sentence.</li>
+<li>Balance \(a\,\mathrm{Fe}+b\,\mathrm{O_2}\to c\,\mathrm{Fe_2O_3}\) by writing the atom-count equations as a linear system and choosing the smallest whole-number solution.</li>
+<li>A two-loop circuit gives the system \(\begin{aligned}I_1-I_2-I_3&=0\\I_1+2I_2&=10\\2I_2+3I_3&=9\end{aligned}\) for its branch currents. Solve by Gaussian elimination, and verify the junction law \(I_1=I_2+I_3\).</li>
+<li>Explain why Gaussian elimination on a matrix and elimination on the original equations produce the same solution, and why the matrix form is useful for larger systems.</li>
+</ol>
+</section>
+<div class="reading-end"><p>Next, use the <a href="../labs/Precalc_Week10_Lab_Student.html">Week 10 guided lab</a> to practice the steps. In the <a href="../demos/gaussian_elimination.html">Gaussian Elimination Workbench</a>, you can experiment with the rows and check what each operation does.</p></div>
+</main>
+</body></html>
