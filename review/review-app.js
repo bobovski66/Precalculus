@@ -4,16 +4,21 @@
   var modules=window.PRECALC_REVIEW_MODULES;
   var bank=window.PRECALC_PROBLEM_BANK;
   if(!modules || !bank){document.body.insertAdjacentHTML("afterbegin","<p>Review resources could not be loaded. Please reload this page.</p>");return;}
+  var moduleIds=modules.map(function(m){return m.id;});
   var $=function(id){return document.getElementById(id);};
   var STORAGE="precalc141_review_practice_1to5_v1";
   var reviewModule=1,activeMode="review",current=null,lastGenerator="",stats=loadStats();
   var params=new URLSearchParams(location.search);
   var initialModule=Number(params.get("module"));
-  if(Number.isInteger(initialModule)&&initialModule>=1&&initialModule<=5)reviewModule=initialModule;
+  if(moduleIds.includes(initialModule))reviewModule=initialModule;
+
+  $("practiceModule").innerHTML='<option value="all">Mixed · Entire course (Modules 1–'+modules.length+')</option>'+modules.map(function(m){
+    return '<option value="'+m.id+'">Module '+m.id+' · '+m.short+'</option>';
+  }).join('');
 
   function loadStats(){
     var basic={};
-    for(var n=1;n<=5;n++)basic[n]={attempted:0,solved:0,first:0};
+    modules.forEach(function(m){basic[m.id]={attempted:0,solved:0,first:0};});
     try{
       var saved=JSON.parse(localStorage.getItem(STORAGE));
       if(saved && typeof saved==="object"){
@@ -82,12 +87,12 @@
         '</div><details'+(i===0?" open":"")+'><summary>View the step-by-step solution</summary><ol>'+li+'</ol><div class="answer"><strong>Conclusion:</strong> '+e.answer+'</div></details></article>';
     }).join("");
     $("reviewContent").innerHTML='<div class="review-layout"><div class="stack">'+
-      '<section class="panel"><div class="eyebrow">Module '+m.id+' of 5</div><h2>'+m.title+'</h2><p class="lede">'+m.summary+
+      '<section class="panel"><div class="eyebrow">Module '+m.id+' of '+modules.length+'</div><h2>'+m.title+'</h2><p class="lede">'+m.summary+
       '</p><h3>By the end of this review, you should be able to:</h3><ul>'+objectiveHtml+'</ul>'+
-      '<div class="review-note"><strong>Read more:</strong> <a href="'+m.note+'" target="_blank" rel="noopener">Module '+m.id+' PDF reading ↗</a>. The worked examples and practice follow the topics and methods developed in the reading.</div></section>'+
+      '<div class="review-note"><strong>Read more:</strong> <a href="'+m.note+'" target="_blank" rel="noopener">Module '+m.id+' reading</a>. The worked examples and practice follow the topics and methods developed in the reading.</div></section>'+
       '<section class="panel"><h2>Work through these examples</h2><p class="lede">Try each question before opening the solution. Read the steps carefully; the reasoning matters as much as the answer.</p>'+ex+'</section>'+
-      '<section class="panel"><h2>Ready for more?</h2><p>Practice the same mathematical ideas with new numbers and instant checking. Worked solutions become available after an attempt.</p>'+
-      '<div class="review-bottom"><button id="reviewToPractice" class="btn" type="button">Practice Module '+m.id+' →</button><small>Unlimited randomized questions</small></div></section></div>'+
+      '<section class="panel"><h2>Keep practicing</h2><p>'+(m.exercises||'Return to the exercises at the end of the reading. Include sketches, explanations, and complete calculations as requested; use the examples here to check your method.')+'</p><p>For additional practice, generate new questions on the same ideas. Worked solutions become available after an attempt.</p>'+
+      '<div class="review-bottom"><button id="reviewToPractice" class="btn" type="button">Practice Module '+m.id+'</button><small>Unlimited randomized questions</small></div></section></div>'+
       '<aside class="sticky-side"><section class="panel"><h3>Essential mathematical ideas</h3>'+ideaHtml+'</section>'+
       '<section class="panel pitfalls"><h3>Common errors to watch for</h3><ul>'+pitfalls+'</ul></section></aside></div>';
     $("reviewToPractice").addEventListener("click",function(){
@@ -109,7 +114,7 @@
   }
   function eligible(){
     var chosen=$("practiceModule").value,topic=$("practiceTopic").value,items=[];
-    var ids=chosen==="all"?[1,2,3,4,5]:[Number(chosen)];
+    var ids=chosen==="all"?moduleIds:[Number(chosen)];
     ids.forEach(function(id){
       bank[id].forEach(function(gen,i){
         if(topic==="all"||topic===gen.topic)items.push({module:id,topic:gen.topic,make:gen.make,key:id+"-"+i});
@@ -136,7 +141,7 @@
         q.options.map(function(o,i){return '<label class="choice-label"><input type="radio" name="responseChoice" value="'+i+'"><span>'+o+'</span></label>';}).join("")+"</div>";
     }else{
       $("answerArea").innerHTML='<label class="answer-label" for="responseInput">Your answer</label>'+
-        '<input class="answer-input" id="responseInput" type="text" autocomplete="off" spellcheck="false" placeholder="'+(q.kind==="pair"?"(x, y)":q.kind==="set"?"x₁, x₂":"Enter a number")+'">';
+        '<input class="answer-input" id="responseInput" type="text" autocomplete="off" spellcheck="false" placeholder="'+(q.kind==="tuple"?"(x, y, z)":q.kind==="pair"?"(x, y)":q.kind==="set"?"x₁, x₂":"Enter a number")+'">';
       $("responseInput").addEventListener("keydown",function(event){if(event.key==="Enter"){event.preventDefault();checkAnswer();}});
     }
     $("checkBtn").disabled=false;
@@ -181,10 +186,10 @@
   function correctness(response){
     var q=current.question;
     if(q.kind==="choice")return response===q.answer;
-    if(q.kind==="number")return near(numeric(response),q.answer);
+    if(q.kind==="number")return q.tolerance?Number.isFinite(numeric(response))&&Math.abs(numeric(response)-q.answer)<=q.tolerance:near(numeric(response),q.answer);
     var nums=numbersFromText(response);
     if(nums.length!==q.answer.length || nums.some(function(n){return !Number.isFinite(n);})){return false;}
-    if(q.kind==="pair")return nums.every(function(n,i){return near(n,q.answer[i]);});
+    if(q.kind==="pair"||q.kind==="tuple")return nums.every(function(n,i){return near(n,q.answer[i]);});
     if(q.kind==="set"){
       var a=nums.slice().sort(function(x,y){return x-y;});
       var b=q.answer.slice().sort(function(x,y){return x-y;});
@@ -195,13 +200,13 @@
   function answerLabel(q){
     if(q.kind==="number")return String(Math.round(q.answer*100000000)/100000000);
     if(q.kind==="choice")return q.answer;
-    if(q.kind==="pair")return "("+q.answer.join(", ")+")";
+    if(q.kind==="pair"||q.kind==="tuple")return "("+q.answer.join(", ")+")";
     if(q.kind==="set")return q.answer.slice().sort(function(a,b){return a-b;}).join(", ");
     return "";
   }
   function updateStats(){
     var selected=$("practiceModule").value;
-    var ids=selected==="all"?[1,2,3,4,5]:[Number(selected)];
+    var ids=selected==="all"?moduleIds:[Number(selected)];
     var result={attempted:0,solved:0,first:0};
     ids.forEach(function(id){
       Object.keys(result).forEach(function(key){result[key]+=stats[id][key];});
@@ -283,14 +288,14 @@
   $("solutionBtn").addEventListener("click",toggleSolution);
   $("copyPracticeLink").addEventListener("click",copyPracticeLink);
   $("resetStats").addEventListener("click",function(){
-    if(!confirm("Reset your saved practice counts for all five modules?"))return;
+    if(!confirm("Reset your saved practice counts for all "+modules.length+" modules?"))return;
     Object.keys(stats).forEach(function(id){stats[id]={attempted:0,solved:0,first:0};});
     saveStats();updateStats();
   });
   renderReviewTabs();
   renderReview();
   if(params.get("module")==="all")$("practiceModule").value="all";
-  else if(Number.isInteger(initialModule)&&initialModule>=1&&initialModule<=5)$("practiceModule").value=String(initialModule);
+  else if(moduleIds.includes(initialModule))$("practiceModule").value=String(initialModule);
   fillTopics(params.get("topic")||"all");
   newProblem();
   switchMode(params.get("mode")==="practice"?"practice":"review",false);

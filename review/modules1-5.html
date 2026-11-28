@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Precalculus I Modules 1–5: a guided review and unlimited randomized, checked practice with worked solutions.">
-<title>Modules 1–5 Review & Practice | MATH& 141</title>
+<meta name="description" content="Precalculus I Modules 1–10: a guided review and unlimited randomized, checked practice with worked solutions.">
+<title>Modules 1–10 Review & Practice | MATH& 141</title>
 <style>
 :root{color-scheme:light;--navy:#19364a;--navy2:#284d62;--aqua:#18677a;--aqua-soft:#e3f2f4;--paper:#f6f7f4;--card:#fff;--ink:#1d303b;--sub:#526675;--border:#d5e0e1;--good:#246c49;--good-bg:#e4f4e9;--bad:#a13c35;--bad-bg:#faecea;--gold:#f8e8be;--shadow:0 10px 26px #1733450d}
 *{box-sizing:border-box}
@@ -107,9 +107,9 @@ mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
 window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:true},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]},startup:{typeset:true}};
 </script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script defer src="review-data.js"></script>
-<script defer src="practice-bank.js"></script>
-<script defer src="review-app.js"></script>
+<script defer src="review-data.js?v=20261128"></script>
+<script defer src="practice-bank.js?v=20261128"></script>
+<script defer src="review-app.js?v=20261128"></script>
 </head>
 <body>
 <header class="site-header">
@@ -124,9 +124,9 @@ window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$
 </header>
 <main>
   <section class="hero" aria-labelledby="pageTitle">
-    <div class="eyebrow">First-half course review · Modules 1–5</div>
+    <div class="eyebrow">Full course review · Modules 1–10</div>
     <h1 id="pageTitle">Review the mathematics. Then test yourself.</h1>
-    <p>Five focused reviews based on the course readings, with complete worked examples and explanations. Then generate as many new practice questions as you need. Check each response; a full solution becomes available after an attempt.</p>
+    <p>Ten focused reviews based on the course readings, with complete worked examples and explanations. Then generate as many new practice questions as you need. Check each response; a full solution becomes available after an attempt.</p>
   </section>
 
   <section id="reviewView" class="section active" aria-label="Guided module review">
@@ -137,16 +137,11 @@ window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$
   <section id="practiceView" class="section" aria-label="Randomized practice">
     <div class="panel">
       <h2>Randomized practice</h2>
-      <p class="lede">Choose a module or mix all five together. You can also concentrate on one topic at a time. Each new question uses fresh numbers or conditions, so you can return to the same idea repeatedly.</p>
+      <p class="lede">Choose a module or mix all ten together. You can also concentrate on one topic at a time. Each new question uses fresh numbers or conditions, so you can return to the same idea repeatedly.</p>
       <div class="practice-toolbar">
         <div class="field"><label for="practiceModule">Practice from</label>
           <select id="practiceModule">
-            <option value="all">Mixed · Modules 1–5</option>
-            <option value="1">Module 1 · Functions</option>
-            <option value="2">Module 2 · Lines &amp; parabolas</option>
-            <option value="3">Module 3 · Polynomials</option>
-            <option value="4">Module 4 · Rational functions</option>
-            <option value="5">Module 5 · Inverses &amp; radicals</option>
+            <option value="all">Mixed · Entire course</option>
           </select>
         </div>
         <div class="field"><label for="practiceTopic">Question topic</label>
@@ -167,7 +162,7 @@ window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$
           <p class="footnote" id="answerInstructions"></p>
           <div class="actions">
             <button class="btn" type="button" id="checkBtn">Check my answer</button>
-            <button class="btn secondary" type="button" id="newBtn">New random question →</button>
+            <button class="btn secondary" type="button" id="newBtn">New random question</button>
             <button class="btn muted" type="button" id="solutionBtn" hidden aria-expanded="false">Show worked solution</button>
           </div>
           <div id="feedback" role="status" aria-live="polite" hidden></div>
@@ -197,13 +192,13 @@ window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$
           <p><strong>3.</strong> After your first attempt, you may open the complete worked solution.</p>
           <p><strong>4.</strong> Choose <em>New random question</em> for another problem.</p>
           <hr class="divider">
-          <p>Numeric answers may be whole numbers, decimals, or simple fractions. For pairs, use <em>(x, y)</em>; for root sets, separate values with commas.</p>
+          <p>Numeric answers may be whole numbers, decimals, or simple fractions. For ordered pairs, use <em>(x, y)</em>; for triples, use <em>(x, y, z)</em>. For solution sets, separate values with commas. Follow any rounding instructions given with the question.</p>
           <p class="footnote">This page is for independent practice. It does not submit scores to Canvas or the instructor.</p>
         </div>
       </aside>
     </div>
   </section>
-  <footer class="footer">MATH&amp; 141 · Precalculus I · Modules 1–5 Review &amp; Practice</footer>
+  <footer class="footer">MATH&amp; 141 · Precalculus I · Modules 1–10 Review &amp; Practice</footer>
 </main>
 </body>
 </html>
